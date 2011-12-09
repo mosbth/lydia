@@ -18,9 +18,22 @@ function __autoload($aClassName) {
 	}
 }
 
+
 /**
  * Interface for classes implementing the singleton pattern.
  */
 interface ISingleton {
 	public static function GetInstance();
 }
+
+
+/**
+ * Interface for Controllers which all need to implement an Index-method. 
+ */
+interface IController {
+	/**
+ 	 * Implementing interface IController. All controllers must have an index action.
+ 	 */
+	public function Index();
+}
+
