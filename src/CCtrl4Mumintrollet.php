@@ -10,10 +10,8 @@ class CCtrl4Mumintrollet implements IController {
  	 * Implementing interface IController. All controllers must have an index action.
 	 */
 	public function Index() {	
-		global $ly;
-
-    echo "<hr><h2>The controller of Mumintrollet says hi!</h2>";
-
+    global $ly;
+    $ly->template->main = "<hr><h2>The controller of Mumintrollet says hi!</h2>";
 	}
 
 
@@ -22,15 +20,21 @@ class CCtrl4Mumintrollet implements IController {
 	 */
 	public function Baka($val1=null, $val2=null, $val3=null, $val4=null) {	
 		global $ly;
-
-    echo "<hr><h2>Baka, baka , baka</h2>";
-    echo "<p>The ingridience are:<p>";
-    var_dump($val1);
-    var_dump($val2);
-    var_dump($val3);
-    var_dump($val4);
-    echo "<p>And the result is FIKA :D</p>";
-	}
+    $arg1 = $val1 ? htmlentities($val1) : 'null';
+    $arg2 = $val2 ? htmlentities($val2) : 'null';
+    $arg3 = $val3 ? htmlentities($val3) : 'null';
+    $arg4 = $val4 ? htmlentities($val4) : 'null';
+    
+    $ly->template->main = <<<EOD
+<hr><h2>Baka, baka , baka</h2>
+<p>The ingridience are:<p>
+<p>\$arg1 = $arg1<br/>
+\$arg2 = $arg2<br/>
+\$arg3 = $arg3<br/>
+\$arg4 = $arg4</p>
+<p>And the result is FIKA :D</p>
+EOD;
+  }
 
 
 } // End of class

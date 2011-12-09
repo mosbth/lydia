@@ -31,7 +31,7 @@ $ly->cfg['character_encoding'] = 'UTF-8';
  * The array-key is matched against the url, for example: 
  * the url 'user/login' would instantiate the controller with the key "user", that is CCtrl4User
  * and call the method "login" in that class. This process is managed in:
- * $pp->FrontControllerRoute();
+ * $ly->FrontControllerRoute();
  * and this method is called in the frontcontroller phase from index.php.
  */
 $ly->cfg['controllers'] = array(
