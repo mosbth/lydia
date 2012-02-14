@@ -1,41 +1,69 @@
 <?php
 /**
- * Site configuration, this file is change by user per site.
+ * Site configuration, this file is changed by user per site.
  *
  */
 
-/*
+/**
  * Set level of error reporting
  */
-error_reporting(-1); 
+error_reporting(-1);
+ini_set('display_errors', 1);
 
-/*
+/**
+ * What type of urls should be used?
+ * 
+ * default            = index.php/controller/method/arg1/arg2/arg3
+ * clean_url          = controller/method/arg1/arg2/arg3
+ * querystring_url    = index.php?q=controller/method/arg1/arg2/arg3
+ */
+$ly->config['clean_url']        = false;
+$ly->config['querystring_url']  = false;
+
+/**
+ * Set a base_url to use another than the default calculated
+ */
+$ly->config['base_url'] = null;
+
+/**
  * Define session name
  */
-$ly->cfg['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
 
-/*
+/**
  * Define server timezone
  */
-$ly->cfg['timezone'] = 'Europe/Stockholm';
+$ly->config['timezone'] = 'Europe/Stockholm';
 
-/*
- * Define internal character encoding to UTF-8
+/**
+ * Define internal character encoding
  */
-$ly->cfg['character_encoding'] = 'UTF-8';
+$ly->config['character_encoding'] = 'UTF-8';
+
+/**
+ * Define language
+ */
+$ly->config['language'] = 'en';
 
 
 /**
  * Define the controllers, their classname and enable/disable them.
  *
  * The array-key is matched against the url, for example: 
- * the url 'user/login' would instantiate the controller with the key "user", that is CCtrl4User
- * and call the method "login" in that class. This process is managed in:
+ * the url 'developer/dump' would instantiate the controller with the key "developer", that is 
+ * CCDeveloper and call the method "dump" in that class. This process is managed in:
  * $ly->FrontControllerRoute();
- * and this method is called in the frontcontroller phase from index.php.
+ * which is called in the frontcontroller phase from index.php.
  */
-$ly->cfg['controllers'] = array(
-  'index'         => array('enabled' => true,'class' => 'CCtrl4Index'),
-  'mumintrollet'  => array('enabled' => true,'class' => 'CCtrl4Mumintrollet'),
+$ly->config['controllers'] = array(
+  'index'     => array('enabled' => true,'class' => 'CCIndex'),
+  'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
 );
 
+/**
+ * Settings for the theme.
+ */
+$ly->config['theme'] = array(
+  // The name of the theme in the theme directory
+  'name'    => 'core', 
+);

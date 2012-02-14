@@ -8,32 +8,15 @@
 /**
  * Enable auto-load of class declarations.
  */
-function __autoload($aClassName) {
-	$file1 = LYDIA_INSTALL_PATH . "/src/{$aClassName}.php";
-	$file2 = LYDIA_INSTALL_PATH . "/site/src/{$aClassName}.php";
+function autoload($aClassName) {
+  $classFile = "/src/{$aClassName}/{$aClassName}.php";
+	$file1 = LYDIA_SITE_PATH . $classFile;
+	$file2 = LYDIA_INSTALL_PATH . $classFile;
 	if(is_file($file1)) {
 		require_once($file1);
 	} elseif(is_file($file2)) {
 		require_once($file2);
 	}
 }
-
-
-/**
- * Interface for classes implementing the singleton pattern.
- */
-interface ISingleton {
-	public static function GetInstance();
-}
-
-
-/**
- * Interface for Controllers which all need to implement an Index-method. 
- */
-interface IController {
-	/**
- 	 * Implementing interface IController. All controllers must have an index action.
- 	 */
-	public function Index();
-}
+spl_autoload_register('autoload');
 

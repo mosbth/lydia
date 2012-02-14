@@ -1,12 +1,21 @@
 <?php
+//
 // PHASE: BOOTSTRAP
+//
 define('LYDIA_INSTALL_PATH', dirname(__FILE__));
-require(LYDIA_INSTALL_PATH.'/src/bootstrap.php');
-$ly = CLydia::GetInstance();
+define('LYDIA_SITE_PATH', LYDIA_INSTALL_PATH . '/site');
 
+require(LYDIA_INSTALL_PATH.'/src/CLydia/bootstrap.php');
+
+$ly = CLydia::Instance();
+
+//
 // PHASE: FRONTCONTROLLER ROUTE
+//
 $ly->FrontControllerRoute();
 
 
-// PHASE: TEMPLATE ENGINGE RENDER
-$ly->TemplateEngineRender();
+//
+// PHASE: THEME ENGINE RENDER
+//
+$ly->ThemeEngineRender();
