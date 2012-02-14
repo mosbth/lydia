@@ -16,7 +16,7 @@ Todo.
 * Yes, a lot of things to do.
 
 
-v1.0.0 (2012-02-14) 
+v0.1.0 (2012-02-14) 
 
 * All requests handled by `index.php` and using mod_rewrite in `.htaccess`. 
 * A base structure with `bootstrap.php`, frontcontroller and theme engine.
@@ -24,6 +24,9 @@ v1.0.0 (2012-02-14)
 * A basic theme controller, `CLydia::ThemeEngineRender()`, with `functions.php`, `style.css` and template files.
 * Managing base_url and introducing theme helper functions.
 * 'CRequest' manages creation of internal links.
+
+v0.01 - v0.03 (2011 december)
+* This was the first release used in a course called dbwebb2.
 
  .   
 ..:  Copyright 2011 by Mikael Roos (me@mikaelroos.se)
