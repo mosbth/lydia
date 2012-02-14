@@ -13,12 +13,11 @@ ini_set('display_errors', 1);
 /**
  * What type of urls should be used?
  * 
- * default            = index.php/controller/method/arg1/arg2/arg3
- * clean_url          = controller/method/arg1/arg2/arg3
- * querystring_url    = index.php?q=controller/method/arg1/arg2/arg3
+ * default      = 0      => index.php/controller/method/arg1/arg2/arg3
+ * clean        = 1      => controller/method/arg1/arg2/arg3
+ * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
  */
-$ly->config['clean_url']        = false;
-$ly->config['querystring_url']  = false;
+$ly->config['url_type'] = 1;
 
 /**
  * Set a base_url to use another than the default calculated

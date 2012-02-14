@@ -35,7 +35,7 @@ class CLydia implements ISingleton {
 	 */
   public function FrontControllerRoute() {
     // Take current url and divide it in controller, method and parameters
-    $this->request = new CRequest($this->config['clean_url'], $this->config['querystring_url']);
+    $this->request = new CRequest($this->config['url_type']);
     $this->request->Init($this->config['base_url']);
     $controller = $this->request->controller;
     $method     = $this->request->method;
