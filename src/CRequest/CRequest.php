@@ -52,7 +52,6 @@ class CRequest {
 		$requestUri = $_SERVER['REQUEST_URI'];
 		$scriptPart = $scriptName = $_SERVER['SCRIPT_NAME'];    
 
-    echo $requestUri, $scriptName;
 		// Check if url is in format controller/method/arg1/arg2/arg3
 		if(substr_compare($requestUri, $scriptName, 0)) {
 	    $scriptPart = dirname($scriptName);
