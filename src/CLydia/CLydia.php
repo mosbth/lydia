@@ -57,9 +57,10 @@ class CLydia implements ISingleton {
     if($controllerExists && $controllerEnabled && $classExists) {
       $rc = new ReflectionClass($className);
       if($rc->implementsInterface('IController')) {
-        if($rc->hasMethod($method)) {
+         $formattedMethod = str_replace(array('_', '-'), '', $method);
+        if($rc->hasMethod($formattedMethod)) {
           $controllerObj = $rc->newInstance();
-          $methodObj = $rc->getMethod($method);
+          $methodObj = $rc->getMethod($formattedMethod);
           if($methodObj->isPublic()) {
             $methodObj->invokeArgs($controllerObj, $arguments);
           } else {

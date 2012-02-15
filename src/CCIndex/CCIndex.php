@@ -19,7 +19,7 @@ class CCIndex implements IController {
 	 */
 	private function Menu() {	
 		$ly = CLydia::Instance();
-		$menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links');
+		$menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links', 'developer/display-object');
 		
 		$html = null;
 		foreach($menu as $val) {

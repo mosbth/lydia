@@ -1,8 +1,10 @@
-Lydia, a PHP-based, MVC-inspired Content Management Framework
-=============================================================
+Lydia, a PHP-based, MVC-inspired CMF
+====================================
 
 This project is used while teaching advanced PHP-programming with Model View Controller (MVC)
-frameworks. Material below mainly in swedish.
+frameworks with a taste of Content Management Framework (CMF). 
+
+Material below is mainly in swedish.
 
 * http://dbwebb.se/lydia (try out the code)
 * http://dbwebb.se/f/123 (forum with some tutorials on how the code was built, only in swedish)
@@ -15,6 +17,13 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.1.2 (2012-02-15) 
+
+* One common baseclass for controllers and modules, CObject, holds access to CLydia through $this->
+* Output from theme helper get_debug() is configurable in site/config.php.
+* Wrapper for htmlent() for htmlentities() to support character encoding from site/config.php.
+* Remove all - and _ from the url before checking if method exists. Enables developer/display-object 
+and developer/display_object to point to developer/displayobject.
 
 v0.1.0 (2012-02-14) 
 
