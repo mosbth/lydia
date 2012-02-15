@@ -17,10 +17,11 @@ Todo.
 
 * Yes, a lot of things to do.
 
-v0.1.x (2012-02-xx) 
+v0.1.3.0 (2012-02-15) 
 
 * Added some style and an icon the the core theme.
-* Added a guestbook applicatino as an example of a controller using database and forms.
+* Added a guestbook application as an example of a controller using database and forms.
+* The guestbook is fully working and stores entries in the session.
 * Cope with querystring sent to controller and methods.
 * Added theme helper theme_url($url) which prepends $url with the url to the theme directory.
 * Added session_start() in CLydia.
