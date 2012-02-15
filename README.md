@@ -17,6 +17,16 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.1.x (2012-02-xx) 
+
+* Added some style and an icon the the core theme.
+* Added a guestbook applicatino as an example of a controller using database and forms.
+* Cope with querystring sent to controller and methods.
+* Added theme helper theme_url($url) which prepends $url with the url to the theme directory.
+* Added session_start() in CLydia.
+* Use default timezone as defined in site/config.php, set in CLydia::__construct()
+
+
 v0.1.2 (2012-02-15) 
 
 * One common baseclass for controllers and modules, CObject, holds access to CLydia through $this->
@@ -38,6 +48,7 @@ v0.1.0 (2012-02-14)
 
 v0.01 - v0.03 (2011 december)
 * This was the first release used in a course called dbwebb2.
+
 
  .   
 ..:  Copyright 2011 by Mikael Roos (me@mikaelroos.se)

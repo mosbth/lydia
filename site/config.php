@@ -14,7 +14,7 @@ ini_set('display_errors', 1);
 /**
  * Set what to show as debug or developer information in the get_debug() theme helper.
  */
-$ly->config['debug']['display-lydia'] = true;
+$ly->config['debug']['display-lydia'] = false;
 
 
 /**
@@ -64,6 +64,7 @@ $ly->config['language'] = 'en';
 $ly->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
+  'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
 );
 
 /**

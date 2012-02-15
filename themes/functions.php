@@ -11,7 +11,7 @@
 function get_debug() {
   $ly = CLydia::Instance();  
   $html = null;
-  if(isset($ly->config['debug']['display-lydia'])) {
+  if(isset($ly->config['debug']['display-lydia']) && $ly->config['debug']['display-lydia']) {
     $html = "<hr><h3>Debuginformation</h3><p>The content of CLydia:</p><pre>" . htmlent(print_r($ly, true)) . "</pre>";
   }    
   return $html;
@@ -27,10 +27,17 @@ function base_url($url) {
 
 
 /**
+ * Prepend the theme_url, which is the url to the current theme directory.
+ */
+function theme_url($url) {
+  $ly = CLydia::Instance();
+  return "{$ly->request->base_url}themes/{$ly->config['theme']['name']}/{$url}";
+}
+
+
+/**
  * Return the current url.
  */
 function current_url() {
   return CLydia::Instance()->request->current_url;
 }
-
-
