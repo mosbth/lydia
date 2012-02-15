@@ -17,7 +17,7 @@ Todo.
 
 * Yes, a lot of things to do.
 
-v0.1.3.0 (2012-02-15) 
+v0.1.3 (2012-02-15) 
 
 * Added some style and an icon the the core theme.
 * Added a guestbook application as an example of a controller using database and forms.
