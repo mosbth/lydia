@@ -25,6 +25,8 @@ v0.1.2 (2012-02-15)
 * Remove all - and _ from the url before checking if method exists. Enables developer/display-object 
 and developer/display_object to point to developer/displayobject.
 
+
+v0.1.1 (2012-02-14) 
 v0.1.0 (2012-02-14) 
 
 * All requests handled by `index.php` and using mod_rewrite in `.htaccess`. 
