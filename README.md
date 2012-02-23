@@ -17,6 +17,13 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.1.4 (2012-02-23) 
+
+* Improved guestbook example to store messages in database using PHP PDO and SQLite.
+* Added konfigurationsitem fpr database in site/config.php.
+* Added site/data directory which should be writable bu the webserver.
+
+
 v0.1.3 (2012-02-15) 
 
 * Added some style and an icon the the core theme.
