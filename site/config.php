@@ -12,6 +12,12 @@ ini_set('display_errors', 1);
 
 
 /**
+ * Set database(s).
+ */
+$ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.ht.sqlite';
+
+
+/**
  * Set what to show as debug or developer information in the get_debug() theme helper.
  */
 $ly->config['debug']['display-lydia'] = false;
@@ -26,25 +32,30 @@ $ly->config['debug']['display-lydia'] = false;
  */
 $ly->config['url_type'] = 1;
 
+
 /**
  * Set a base_url to use another than the default calculated
  */
 $ly->config['base_url'] = null;
+
 
 /**
  * Define session name
  */
 $ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
 
+
 /**
  * Define server timezone
  */
 $ly->config['timezone'] = 'Europe/Stockholm';
 
+
 /**
  * Define internal character encoding
  */
 $ly->config['character_encoding'] = 'UTF-8';
+
 
 /**
  * Define language
