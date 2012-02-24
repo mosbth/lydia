@@ -33,6 +33,14 @@ function base_url($url=null) {
 
 
 /**
+ * Create a url to an internal resource.
+ */
+function create_url($url=null) {
+  return CLydia::Instance()->request->CreateUrl($url);
+}
+
+
+/**
  * Prepend the theme_url, which is the url to the current theme directory.
  */
 function theme_url($url) {
