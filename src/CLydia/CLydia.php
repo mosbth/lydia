@@ -103,6 +103,11 @@ class CLydia implements ISingleton {
 	 * ThemeEngineRender, renders the reply of the request to HTML or whatever.
 	 */
   public function ThemeEngineRender() {
+    // Is theme enabled?
+    if(!isset($this->config['theme'])) {
+      return;
+    }
+    
     // Get the paths and settings for the theme
     $themeName 	= $this->config['theme']['name'];
     $themePath 	= LYDIA_INSTALL_PATH . "/themes/{$themeName}";
