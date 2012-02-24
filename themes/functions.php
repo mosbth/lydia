@@ -55,3 +55,11 @@ function theme_url($url) {
 function current_url() {
   return CLydia::Instance()->request->current_url;
 }
+
+
+/**
+ * Render all views.
+ */
+function render_views() {
+  return CLydia::Instance()->views->Render();
+}

@@ -13,6 +13,7 @@ class CObject {
 	public $request;
 	public $data;
 	public $db;
+	public $views;
 	
 
 	/**
@@ -24,6 +25,7 @@ class CObject {
     $this->request  = &$ly->request;
     $this->data     = &$ly->data;
     $this->db       = &$ly->db;
+    $this->views    = &$ly->views;
   }
 
 }

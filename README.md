@@ -18,6 +18,13 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.1.7 (2012-02-24) 
+
+* Added a container for the views `CViewContainer`.
+* Integrated `CViewContainer` in `CCGuestbook`, `CLydia`, `CObject`, and the theme handling.
+* This makes `$ly->data` obsolete and to be removed in coming releases.
+
+
 v0.1.6 (2012-02-24) 
 
 * Added interface to those classes that uses SQL, `IUseSQL`.
