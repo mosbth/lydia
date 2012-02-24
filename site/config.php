@@ -12,15 +12,17 @@ ini_set('display_errors', 1);
 
 
 /**
- * Set database(s).
+ * Set what to show as debug or developer information in the get_debug() theme helper.
  */
-$ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.ht.sqlite';
+$ly->config['debug']['lydia'] = false;
+$ly->config['debug']['db-num-queries'] = true;
+$ly->config['debug']['db-queries'] = true;
 
 
 /**
- * Set what to show as debug or developer information in the get_debug() theme helper.
+ * Set database(s).
  */
-$ly->config['debug']['display-lydia'] = false;
+$ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.ht.sqlite';
 
 
 /**

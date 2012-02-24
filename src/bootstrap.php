@@ -22,6 +22,15 @@ spl_autoload_register('autoload');
 
 
 /**
+ * Set a default exception handler and enable logging in it.
+ */
+function exception_handler($e) {
+  echo "Lydia: Uncaught exception: <p>" . $e->getMessage() . "</p><pre>" . $e->getTraceAsString(), "</pre>";
+}
+set_exception_handler('exception_handler');
+
+
+/**
  * Helper, wrap html_entites with correct character encoding
  */
 function htmlent($str, $flags = ENT_COMPAT) {

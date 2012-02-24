@@ -6,7 +6,7 @@ frameworks with a taste of Content Management Framework (CMF).
 
 Material below is mainly in swedish.
 
-* http://dbwebb.se/lydia (try out the code)
+* http://dbwebb.se/lydia/current (try out the code)
 * http://dbwebb.se/f/123 (forum with some tutorials on how the code was built, only in swedish)
 
 
@@ -16,6 +16,17 @@ History
 Todo.
 
 * Yes, a lot of things to do.
+
+v0.1.5 (2012-02-24) 
+
+* Introduced the database layer as `CMDatabase`.
+* Showed how to use it in the `CCGuestbook` controller example.
+* Enabled debug output from the database operations using settings in config-file and theme-helper 
+`get_debug()`.
+* Created a default exception handler in `bootstrap.php`.
+* `CLydia` creates and owns the databaseobject as `$ly->db`.
+* `CObject` makes the database object available for subclasses through `$this->db`.
+
 
 v0.1.4 (2012-02-23) 
 
@@ -39,7 +50,7 @@ v0.1.2 (2012-02-15)
 
 * One common baseclass for controllers and modules, CObject, holds access to CLydia through $this->
 * Output from theme helper get_debug() is configurable in site/config.php.
-* Wrapper for htmlent() for htmlentities() to support character encoding from site/config.php.
+* Wrapper htmlent() for htmlentities() to support character encoding from site/config.php.
 * Remove all - and _ from the url before checking if method exists. Enables developer/display-object 
 and developer/display_object to point to developer/displayobject.
 

@@ -6,7 +6,15 @@
  */
 class CLydia implements ISingleton {
 
+	/**
+	 * Members
+	 */
 	private static $instance = null;
+	public $config = null;
+	public $request = null;
+	public $data = null;
+	public $db = null;
+	
 
 	/**
 	 * Constructor
@@ -22,6 +30,11 @@ class CLydia implements ISingleton {
 		
 		// Set default date/time-zone
 		date_default_timezone_set($this->config['timezone']);
+		
+		// Create a database object.
+		if(isset($this->config['database'][0]['dsn'])) {
+  		$this->db = new CMDatabase($this->config['database'][0]['dsn']);
+  	}
   }
   
   

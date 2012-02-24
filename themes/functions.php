@@ -11,8 +11,14 @@
 function get_debug() {
   $ly = CLydia::Instance();  
   $html = null;
-  if(isset($ly->config['debug']['display-lydia']) && $ly->config['debug']['display-lydia']) {
-    $html = "<hr><h3>Debuginformation</h3><p>The content of CLydia:</p><pre>" . htmlent(print_r($ly, true)) . "</pre>";
+  if(isset($ly->config['debug']['db-num-queries']) && $ly->config['debug']['db-num-queries'] && isset($ly->db)) {
+    $html .= "<p>Database made " . $ly->db->GetNumQueries() . " queries.</p>";
+  }    
+  if(isset($ly->config['debug']['db-queries']) && $ly->config['debug']['db-queries'] && isset($ly->db)) {
+    $html .= "<p>Database made the following queries.</p><pre>" . implode('<br/><br/>', $ly->db->GetQueries()) . "</pre>";
+  }    
+  if(isset($ly->config['debug']['lydia']) && $ly->config['debug']['lydia']) {
+    $html .= "<hr><h3>Debuginformation</h3><p>The content of CLydia:</p><pre>" . htmlent(print_r($ly, true)) . "</pre>";
   }    
   return $html;
 }
