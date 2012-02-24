@@ -17,6 +17,13 @@ Todo.
 
 * Yes, a lot of things to do.
 
+
+v0.1.6 (2012-02-24) 
+
+* Added interface to those classes that uses SQL, `IUseSQL`.
+* Updated `CCGuestbook` to use `IUseSQL`.
+
+
 v0.1.5 (2012-02-24) 
 
 * Introduced the database layer as `CMDatabase`.
