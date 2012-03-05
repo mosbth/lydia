@@ -18,6 +18,14 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.1.8 (2012-03-05) 
+
+* Added `CSession` as a wrapper to `$_SESSION`.
+* Enabled flashmemory in `CSession` for as a memory to live through pagerequests, useful to send 
+feedback to users and showing debuginfo to the developer.
+* Updated `Guestbook` to make use of the new features.
+
+
 v0.1.7 (2012-02-24) 
 
 * Added a container for the views `CViewContainer`.

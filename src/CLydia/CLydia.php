@@ -10,16 +10,22 @@ class CLydia implements ISingleton {
 	 * Members
 	 */
 	private static $instance = null;
-	public $config = null;
-	public $request = null;
-	public $data = null;
-	public $db = null;
+	public $config = array();
+	public $request;
+	public $data;
+	public $db;
+	public $views;
+	public $session;
+	public $timer = array();
 	
-
+	
 	/**
 	 * Constructor
 	 */
 	protected function __construct() {
+		// time page generation
+		$this->timer['first'] = microtime(true); 
+
 		// include the site specific config.php and create a ref to $ly to be used by config.php
 		$ly = &$this;
     require(LYDIA_SITE_PATH.'/config.php');
@@ -27,6 +33,8 @@ class CLydia implements ISingleton {
 		// Start a named session
 		session_name($this->config['session_name']);
 		session_start();
+		$this->session = new CSession($this->config['session_key']);
+		$this->session->PopulateFromSession();
 		
 		// Set default date/time-zone
 		date_default_timezone_set($this->config['timezone']);
@@ -106,6 +114,9 @@ class CLydia implements ISingleton {
 	 * ThemeEngineRender, renders the reply of the request to HTML or whatever.
 	 */
   public function ThemeEngineRender() {
+    // Save to session before output anything
+    $this->session->StoreInSession();
+  
     // Is theme enabled?
     if(!isset($this->config['theme'])) {
       return;
