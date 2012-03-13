@@ -18,6 +18,12 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.1.9 (2012-03-13) 
+
+* Added `CMGuestbook` as a model for the sample guestbook application.
+* Rewrote code and separated between guestbook controller and model.
+
+
 v0.1.8 (2012-03-05) 
 
 * Added `CSession` as a wrapper to `$_SESSION`.
