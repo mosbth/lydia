@@ -1,7 +1,7 @@
 <h1>Guestbook Example</h1>
 <p>Showing off how to implement a guestbook in Lydia. Now saving to database.</p>
 
-<form action="<?=$formAction?>" method='post'>
+<form action="<?=$form_action?>" method='post'>
   <p>
     <label>Message: <br/>
     <textarea name='newEntry'></textarea></label>
