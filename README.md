@@ -18,6 +18,12 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.0 (2012-03-15) 
+
+* Added `CMUser` and `CCUser` to handle users. Created code for testing login and logout of user.
+* Added inteface convenience methods `RedirectToController` and `RedirectToControllerMethod` in `CObject`.
+
+
 v0.1.9 (2012-03-13) 
 
 * Added `CMGuestbook` as a model for the sample guestbook application.

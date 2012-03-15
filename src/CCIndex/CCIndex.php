@@ -28,7 +28,7 @@ class CCIndex extends CObject implements IController {
 	private function Menu() {	
 		$menu = array(
 		  'index', 'index/index', 'developer', 'developer/index', 'developer/links', 
-		  'developer/display-object', 'guestbook',
+		  'developer/display-object', 'guestbook', 'user',
 		);
 		
 		$html = null;

@@ -71,9 +71,13 @@ function base_url($url=null) {
 
 /**
  * Create a url to an internal resource.
+ *
+ * @param string the whole url or the controller. Leave empty for current controller.
+ * @param string the method when specifying controller as first argument, else leave empty.
+ * @param string the extra arguments to the method, leave empty if not using method.
  */
-function create_url($url=null) {
-  return CLydia::Instance()->request->CreateUrl($url);
+function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return CLydia::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
 }
 
 
