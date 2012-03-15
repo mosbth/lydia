@@ -40,7 +40,7 @@ class CCUser extends CObject implements IController {
   
 
   /**
-   * Authenticate and login a user.
+   * Logout a user.
    */
   public function Logout() {
     $this->userModel->Logout();

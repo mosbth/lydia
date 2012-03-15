@@ -18,7 +18,12 @@ Todo.
 * Yes, a lot of things to do.
 
 
-v0.2.0 (2012-03-15) 
+v0.2.02 (2012-03-15) 
+
+* Uppgraded `CMUser` with groups and group-membership for each user.
+
+
+v0.2.01 (2012-03-15) 
 
 * Added `CMUser` and `CCUser` to handle users. Created code for testing login and logout of user.
 * Added inteface convenience methods `RedirectToController` and `RedirectToControllerMethod` in `CObject`.
