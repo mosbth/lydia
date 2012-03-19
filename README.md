@@ -18,6 +18,11 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.04 (2012-03-19) 
+
+* used Reflection API to show the available controllers and methods using the index controller.
+
+
 v0.2.03 (2012-03-19) 
 
 * Made `CMUser` a part of `CLydia` and `CObject`.

@@ -47,6 +47,9 @@ body{margin:0;padding:0;color:#333;background-color:#fff;
 .site-title  {font-size:4em;font-weight:bold;}
 .site-slogan {font-size:1.5em;}
 
+.site-title a {text-decoration:none;color:inherit;}
+.site-title a:hover {text-decoration:none;color:inherit;}
+
 
 /**
  * Links
