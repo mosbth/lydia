@@ -26,6 +26,12 @@ body{margin:0;padding:0;color:#333;background-color:#fff;
 
 
 /**
+ * Login menu
+ */
+#login-menu{float:right;font-size:smaller;}
+
+
+/**
  * Banner
  */
 #banner {display:table;margin-bottom:10px;}

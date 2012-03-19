@@ -62,6 +62,24 @@ function get_messages_from_session() {
 
 
 /**
+ * Login menu. Creates a menu which reflects if user is logged in or not.
+ */
+function login_menu() {
+  $ly = CLydia::Instance();
+  if($ly->user->IsAuthenticated()) {
+    $items = "<a href='" . create_url('user/profile') . "'>" . $ly->user->GetAcronym() . "</a> ";
+    if($ly->user->IsAdministrator()) {
+      $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
+    }
+    $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
+  } else {
+    $items = "<a href='" . create_url('user/login') . "'>login</a> ";
+  }
+  return "<nav>$items</nav>";
+}
+
+
+/**
  * Prepend the base_url.
  */
 function base_url($url=null) {

@@ -16,6 +16,7 @@ class CLydia implements ISingleton {
 	public $db;
 	public $views;
 	public $session;
+	public $user;
 	public $timer = array();
 	
 	
@@ -46,6 +47,9 @@ class CLydia implements ISingleton {
   	
   	// Create a container for all views and theme data
   	$this->views = new CViewContainer();
+
+  	// Create a object for the user
+  	$this->user = new CMUser($this);
   }
   
   

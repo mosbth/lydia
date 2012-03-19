@@ -46,7 +46,7 @@ $ly->config['base_url'] = null;
 /**
  * Define session name
  */
-$ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
 $ly->config['session_key']  = 'lydia';
 
 
@@ -82,6 +82,7 @@ $ly->config['controllers'] = array(
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
   'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
   'user'      => array('enabled' => true,'class' => 'CCUser'),
+  'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
 );
 
 /**

@@ -18,6 +18,13 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.03 (2012-03-19) 
+
+* Made `CMUser` a part of `CLydia` and `CObject`.
+* Created theme function `login_menu()`.
+* Created controller `CCUserControlPanel`.
+
+
 v0.2.02 (2012-03-15) 
 
 * Uppgraded `CMUser` with groups and group-membership for each user.
