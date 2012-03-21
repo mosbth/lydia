@@ -70,6 +70,12 @@ h2{border-bottom:1px solid #ccc;padding-bottom:4px;}
 
 
 /**
+ * Forms
+ */
+input{font:inherit;}
+
+
+/**
  * User feedback message wrappers.
  */
 .error, .alert, .warning, .notice, .success, .info { 

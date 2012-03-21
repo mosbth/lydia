@@ -18,9 +18,16 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.05 (2012-03-21) 
+
+* Corrected: Handling of incoming urls based on ?q=controller/metod and index.php/controller/metod.
+* Added utility class CForm for form handling.
+* Added login-form on user/login.
+
+
 v0.2.04 (2012-03-19) 
 
-* used Reflection API to show the available controllers and methods using the index controller.
+* Used Reflection API to show the available controllers and methods using the index controller.
 
 
 v0.2.03 (2012-03-19) 
