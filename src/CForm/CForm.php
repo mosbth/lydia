@@ -4,7 +4,127 @@
  * 
  * @package LydiaCore
  */
-class CForm {
+class CFormElement implements ArrayAccess{
+
+  /**
+   * Properties
+   */
+  public $attributes;
+  
+
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    $this->attributes = $attributes;    
+    $this['name'] = $name;
+  }
+  
+  
+  /**
+   * Implementing ArrayAccess for this->attributes
+   */
+  public function offsetSet($offset, $value) { if (is_null($offset)) { $this->attributes[] = $value; } else { $this->attributes[$offset] = $value; }}
+  public function offsetExists($offset) { return isset($this->attributes[$offset]); }
+  public function offsetUnset($offset) { unset($this->attributes[$offset]); }
+  public function offsetGet($offset) { return isset($this->attributes[$offset]) ? $this->attributes[$offset] : null; }
+
+
+  /**
+   * Get HTML code for a element. 
+   *
+   * @returns HTML code for the element.
+   */
+  public function GetHTML() {
+    $id = isset($this['id']) ? $this['id'] : 'form-element-' . $this['name'];
+    $class = isset($this['class']) ? " class='{$this['class']}'" : null;
+    $name = " name='{$this['name']}'";
+    $label = isset($this['label']) ? ($this['label'] . (isset($this['required']) && $this['required'] ? "<span class='form-element-required'>*</span>" : null)) : null;
+    $autofocus = isset($this['autofocus']) && $this['autofocus'] ? " autofocus='autofocus'" : null;    
+    $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;    
+    $type 	= isset($this['type']) ? " type='{$this['type']}'" : null;
+    $value 	= isset($this['value']) ? " value='{$this['value']}'" : null;
+    
+    if($type && $this['type'] == 'submit') {
+      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";	
+    } else {
+      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";			  
+    }
+  }
+
+
+  /**
+   * Use the element name as label if label is not set.
+   */
+  public function UseNameAsDefaultLabel() {
+    if(!isset($this['label'])) {
+      $this['label'] = ucfirst(strtolower(str_replace(array('-','_'), ' ', $this['name']))).':';
+    }
+  }
+
+
+  /**
+   * Use the element name as value if value is not set.
+   */
+  public function UseNameAsDefaultValue() {
+    if(!isset($this['value'])) {
+      $this['value'] = ucfirst(strtolower(str_replace(array('-','_'), ' ', $this['name'])));
+    }
+  }
+
+
+}
+
+
+class CFormElementText extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'text';
+    $this->UseNameAsDefaultLabel();
+  }
+}
+
+
+class CFormElementPassword extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'password';
+    $this->UseNameAsDefaultLabel();
+  }
+}
+
+
+class CFormElementSubmit extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'submit';
+    $this->UseNameAsDefaultValue();
+  }
+}
+
+
+class CForm implements ArrayAccess {
 
   /**
    * Properties
@@ -23,11 +143,20 @@ class CForm {
 
 
   /**
+   * Implementing ArrayAccess for this->elements
+   */
+  public function offsetSet($offset, $value) { if (is_null($offset)) { $this->elements[] = $value; } else { $this->elements[$offset] = $value; }}
+  public function offsetExists($offset) { return isset($this->elements[$offset]); }
+  public function offsetUnset($offset) { unset($this->elements[$offset]); }
+  public function offsetGet($offset) { return isset($this->elements[$offset]) ? $this->elements[$offset] : null; }
+
+
+  /**
    * Add a form element
    */
-  public function AddElement($key, $element) {
-    $this->elements[$key] = $element;
-    $this->elements[$key]['name'] = $key;
+  public function AddElement($element) {
+    $this[$element['name']] = $element;
+    return $this;
   }
   
 
@@ -57,18 +186,8 @@ EOD;
    */
   public function GetHTMLForElements() {
     $html = null;
-    $i = 0;
-    foreach($this->elements as $key => $val) {
-      $defaultId = "form-input-" . $i++;
-      $id = isset($val['id']) ? $val['id'] : $defaultId;
-      $class = isset($val['class']) ? " class='{$val['class']}'" : null;
-      $name = " name='" . (isset($val['name']) ? $val['name'] : $key) . "'";
-      $label = isset($val['label']) ? ($val['label'] . (isset($val['mandatory']) && $val['mandatory'] ? "<span class='form-element-mandatory'> *</span>" : null)) : null;
-      $autofocus = isset($val['autofocus']) && $val['autofocus'] ? " autofocus='autofocus'" : null;
-      
-      $type 	= isset($val['type']) ? " type='{$val['type']}'" : null;
-      $value 	= isset($val['value']) ? " value='{$val['value']}'" : null;
-      $html .= "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus} /></p>\n";			
+    foreach($this->elements as $element) {
+      $html .= $element->GetHTML();
     }
     return $html;
   }
@@ -79,23 +198,18 @@ EOD;
    */
   public function CheckIfSubmitted() {
     $submitted = false;
-    if(!empty($_POST)) {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $submitted = true;
-      foreach($this->elements as $key => $val) {
-        if(isset($_POST[$key]) && isset($val['callback'])) {
-          call_user_func($val['callback'], $this);
+      foreach($this->elements as $element) {
+        if(isset($_POST[$element['name']])) {
+          $element['value'] = $_POST[$element['name']];
+          if(isset($element['callback'])) {
+            call_user_func($element['callback'], $this);
+          }
         }
       }
     }
     return $submitted;
-  }
-  
-  
-  /**
-   * Get the value of a element
-   */
-  public function GetValue($key) {
-    return (isset($_POST[$key])) ? $_POST[$key] : null;
   }
   
   

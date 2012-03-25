@@ -66,9 +66,9 @@ function get_messages_from_session() {
  */
 function login_menu() {
   $ly = CLydia::Instance();
-  if($ly->user->IsAuthenticated()) {
-    $items = "<a href='" . create_url('user/profile') . "'>" . $ly->user->GetAcronym() . "</a> ";
-    if($ly->user->IsAdministrator()) {
+  if($ly->user['isAuthenticated']) {
+    $items = "<a href='" . create_url('user/profile') . "'>" . $ly->user['acronym'] . "</a> ";
+    if($ly->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
     $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";

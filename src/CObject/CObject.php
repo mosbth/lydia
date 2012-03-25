@@ -82,8 +82,15 @@ class CObject {
 	 *
    * @param $type string the type of message, for example: notice, info, success, warning, error.
    * @param $message string the message.
+   * @param $alternative string the message if the $type is set to false, defaults to null.
    */
-  protected function AddMessage($type, $message) {
+  protected function AddMessage($type, $message, $alternative=null) {
+    if($type === false) {
+      $type = 'error';
+      $message = $alternative;
+    } else if($type === true) {
+      $type = 'success';
+    }
     $this->session->AddMessage($type, $message);
   }
 

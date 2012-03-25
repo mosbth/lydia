@@ -18,6 +18,14 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.06 (2012-03-25) 
+
+* Added classes for CForm, `CFormElement`, `CFormElementText`, `CFormElementPassword`, `CFormElementSubmit`
+* Made `CForm` use `CFormElement` and both implements ArrayAccess.
+* User can save profile on user/profile.
+* `CMUser` uses implements ArrayAccess.
+
+
 v0.2.05 (2012-03-21) 
 
 * Corrected: Handling of incoming urls based on ?q=controller/metod and index.php/controller/metod.
