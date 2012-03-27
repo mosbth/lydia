@@ -18,6 +18,11 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.07 (2012-03-27) 
+
+* Integrated with gravatar.com and created theme function to get the gravatar link.
+
+
 v0.2.06 (2012-03-25) 
 
 * Added classes for CForm, `CFormElement`, `CFormElementText`, `CFormElementPassword`, `CFormElementSubmit`

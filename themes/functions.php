@@ -67,7 +67,7 @@ function get_messages_from_session() {
 function login_menu() {
   $ly = CLydia::Instance();
   if($ly->user['isAuthenticated']) {
-    $items = "<a href='" . create_url('user/profile') . "'>" . $ly->user['acronym'] . "</a> ";
+    $items = "<a href='" . create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
     if($ly->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
@@ -75,7 +75,15 @@ function login_menu() {
   } else {
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
   }
-  return "<nav>$items</nav>";
+  return "<nav id='login-menu'>$items</nav>";
+}
+
+
+/**
+ * Get a gravatar based on the user's email.
+ */
+function get_gravatar($size=null) {
+  return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(CLydia::Instance()->user['email']))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
 }
 
 
