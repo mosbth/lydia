@@ -18,6 +18,13 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.08 (2012-03-28) 
+
+* Changed name of database class from `CMDatabase` to `CDatabase`.
+* Added hashing techniques for storing password. plain, md5, sha1, md5salt, sha1salt.
+* Made sha1salt the default algorithm when storing passwords.
+
+
 v0.2.07 (2012-03-27) 
 
 * Integrated with gravatar.com and created theme function to get the gravatar link.
