@@ -44,6 +44,12 @@ $ly->config['base_url'] = null;
 
 
 /**
+ * How to hash password of new users, choose from: plain, md5salt, md5, sha1salt, sha1.
+ */
+$ly->config['hashing_algorithm'] = 'sha1salt';
+
+
+/**
  * Define session name
  */
 $ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);

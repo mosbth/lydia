@@ -4,7 +4,7 @@
  *
  * @package LydiaCore
  */
-class CMDatabase {
+class CDatabase {
 
 	/**
 	 * Members
