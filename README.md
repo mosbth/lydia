@@ -18,6 +18,11 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.09 (2012-03-28) 
+
+* Added server-side form validation to `CForm`.
+
+
 v0.2.08 (2012-03-28) 
 
 * Changed name of database class from `CMDatabase` to `CDatabase`.

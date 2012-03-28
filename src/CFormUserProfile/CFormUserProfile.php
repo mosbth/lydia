@@ -18,6 +18,9 @@ class CFormUserProfile extends CForm {
          ->AddElement(new CFormElementText('name', array('value'=>$user['name'], 'required'=>true)))
          ->AddElement(new CFormElementText('email', array('value'=>$user['email'], 'required'=>true)))
          ->AddElement(new CFormElementSubmit('save', array('callback'=>array($object, 'DoProfileSave'))));
+         
+    $this->SetValidation('name', array('not_empty'))
+         ->SetValidation('email', array('not_empty'));
   }
   
 }
