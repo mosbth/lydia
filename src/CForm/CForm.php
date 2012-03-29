@@ -225,14 +225,22 @@ class CForm implements ArrayAccess {
   
 
   /**
-   * Return HTML for the form
+   * Return HTML for the form or the formdefinition.
+   *
+   * @param $type string what part of the form to return.
+   * @returns string with HTML for the form.
    */
-  public function GetHTML() {
+  public function GetHTML($type=null) {
     $id 	  = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
     $class 	= isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
     $name 	= isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
     $action = isset($this->form['action'])  ? " action='{$this->form['action']}'" : null;
     $method = " method='post'";
+
+    if($type == 'form') {
+      return "<form{$id}{$class}{$name}{$action}{$method}>";
+    }
+    
     $elements = $this->GetHTMLForElements();
     $html = <<< EOD
 \n<form{$id}{$class}{$name}{$action}{$method}>

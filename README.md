@@ -18,6 +18,12 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.10 (2012-03-29) 
+
+* Created a sequence to create a new user `user/create` using the web as userinterface.
+* Corrected: CreateUrl in CCobject did not return its result.
+
+
 v0.2.09 (2012-03-28) 
 
 * Added server-side form validation to `CForm`.

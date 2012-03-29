@@ -50,6 +50,12 @@ $ly->config['hashing_algorithm'] = 'sha1salt';
 
 
 /**
+ * Allow or disallow creation of new user accounts.
+ */
+$ly->config['create_new_users'] = true;
+
+
+/**
  * Define session name
  */
 $ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
