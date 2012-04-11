@@ -1,6 +1,6 @@
 <h1>Login</h1>
 <p>Login using your acronym or email.</p>
-<?=$login_form->GetHTML('form')?>
+<?=$login_form->GetHTML(array('start'=>true))?>
   <fieldset>
     <?=$login_form['acronym']->GetHTML()?>
     <?=$login_form['password']->GetHTML()?>  
