@@ -18,6 +18,11 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.11 (2012-04-11) 
+
+* Added handling for content with `CMContent` and `CCContent`.
+
+
 v0.2.10 (2012-03-29) 
 
 * Created a sequence to create a new user `user/create` using the web as userinterface.
