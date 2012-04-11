@@ -88,6 +88,14 @@ function get_gravatar($size=null) {
 
 
 /**
+ * Escape data to make it safe to write in the browser.
+ */
+function esc($str) {
+  return htmlEnt($str);
+}
+
+
+/**
  * Prepend the base_url.
  */
 function base_url($url=null) {
