@@ -18,6 +18,14 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.12 (2012-04-13) 
+
+* Added `CCBlog` to display all content of type 'post' in a blog-like list.
+* Added `CCPage` to display content of type 'page' in a singel-page view.
+* Added formatting of DateTime since using function `formatDateTimeDiff()` and theme helper `time_diff()`.
+* Lydia always set timezone to UTC. All time values stored in database is in UTC. 
+
+
 v0.2.11 (2012-04-11) 
 
 * Added handling for content with `CMContent` and `CCContent`.
