@@ -53,6 +53,20 @@ function htmlent($str, $flags = ENT_COMPAT) {
 
 
 /**
+ * Helpet, make clickable links from URLs in text.
+ */
+function makeClickable($text) {
+  return preg_replace_callback(
+    '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
+    create_function(
+      '$matches',
+      'return "<a href=\'{$matches[0]}\'>{$matches[0]}</a>";'
+    ),
+    $text
+  );
+
+
+/**
  * Helper, interval formatting of times. Needs PHP5.3. 
  *
  * All times in database is UTC so this function assumes the starttime to be in UTC, if not otherwise
