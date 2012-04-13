@@ -18,7 +18,13 @@ Todo.
 * Yes, a lot of things to do.
 
 
-v0.2.12 (2012-04-13) 
+v0.2.13 (2012-04-13)
+
+* Added filter to format MCContet as 'plain', 'html' and 'php'. 'html' and 'php' is disabled in `CMContent` as default. 
+* Added function `makeClickable()` in `src/bootstrap.php` which formats links in text to <a>.
+
+
+v0.2.12 (2012-04-13)
 
 * Added `CCBlog` to display all content of type 'post' in a blog-like list.
 * Added `CCPage` to display content of type 'page' in a singel-page view.

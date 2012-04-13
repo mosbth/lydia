@@ -46,13 +46,13 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess {
     $order_by     = isset($args['order-by'])    ? $args['order-by'] : 'id';    
     $queries = array(
       'drop table content'      => "DROP TABLE IF EXISTS Content;",
-      'create table content'    => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, title TEXT, data TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id));",
-      'insert content'          => 'INSERT INTO Content (key,type,title,data,idUser) VALUES (?,?,?,?,?);',
+      'create table content'    => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, title TEXT, data TEXT, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id));",
+      'insert content'          => 'INSERT INTO Content (key,type,title,data,filter,idUser) VALUES (?,?,?,?,?,?);',
       'select * by id'          => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.id=?;',
       'select * by key'         => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.key=?;',
       'select * by type'        => "SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE type=? ORDER BY {$order_by} {$order_order};",
       'select *'                => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id;',
-      'update content'          => "UPDATE Content SET key=?, type=?, title=?, data=?, updated=datetime('now') WHERE id=?;",
+      'update content'          => "UPDATE Content SET key=?, type=?, title=?, data=?, filter=?, updated=datetime('now') WHERE id=?;",
      );
     if(!isset($queries[$key])) {
       throw new Exception("No such SQL query, key '$key' was not found.");
@@ -68,12 +68,12 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess {
     try {
       $this->db->ExecuteQuery(self::SQL('drop table content'));
       $this->db->ExecuteQuery(self::SQL('create table content'));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world', 'post', 'Hello World', 'This is a demo post.', $this->user['id']));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world-again', 'post', 'Hello World Again', 'This is another demo post.', $this->user['id']));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world-once-more', 'post', 'Hello World Once More', 'This is one more demo post.', $this->user['id']));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array('home', 'page', 'Home page', 'This is a demo page, this could be your personal home-page.', $this->user['id']));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array('about', 'page', 'About page', 'This is a demo page, this could be your personal about-page.', $this->user['id']));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array('download', 'page', 'Download page', 'This is a demo page, this could be your personal download-page.', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world', 'post', 'Hello World', "This is a demo post.\n\nThis is another row in this demo post.", 'plain', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world-again', 'post', 'Hello World Again', "This is another demo post.\n\nThis is another row in this demo post.", 'plain', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world-once-more', 'post', 'Hello World Once More', "This is one more demo post.\n\nThis is another row in this demo post.", 'plain', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('home', 'page', 'Home page', "This is a demo page, this could be your personal home-page.\n\nLydia is a PHP-based MVC-inspired Content management Framework, watch the making of Lydia at: http://dbwebb.se/lydia/tutorial.", 'plain', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('about', 'page', 'About page', "This is a demo page, this could be your personal about-page.\n\nLydia is used as a tool to educate in MVC frameworks.", 'plain', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('download', 'page', 'Download page', "This is a demo page, this could be your personal download-page.\n\nYou can download your own copy of lydia from https://github.com/mosbth/lydia.", 'plain', $this->user['id']));
       $this->AddMessage('success', 'Successfully created the database tables and created a default "Hello World" blog post, owned by you.');
     } catch(Exception$e) {
       die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
@@ -89,10 +89,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess {
   public function Save() {
     $msg = null;
     if($this['id']) {
-      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['filter'], $this['id']));
       $msg = 'update';
     } else {
-      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['filter'], $this->user['id']));
       $this['id'] = $this->db->LastInsertId();
       $msg = 'created';
     }
@@ -141,6 +141,33 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess {
       echo $e;
       return null;
     }
+  }
+  
+  
+  /**
+   * Filter content according to a filter.
+   *
+   * @param $data string of text to filter and format according its filter settings.
+   * @returns string with the filtered data.
+   */
+  public static function Filter($data, $filter) {
+    switch($filter) {
+      case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
+      case 'html': $data = nl2br(makeClickable($data)); break;
+      case 'plain': 
+      default: $data = nl2br(makeClickable(htmlEnt($data))); break;
+    }
+    return $data;
+  }
+  
+  
+  /**
+   * Get the filtered content.
+   *
+   * @returns string with the filtered data.
+   */
+  public function GetFilteredData() {
+    return $this->Filter($this['data'], $this['filter']);
   }
   
   

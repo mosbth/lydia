@@ -53,7 +53,7 @@ function htmlent($str, $flags = ENT_COMPAT) {
 
 
 /**
- * Helpet, make clickable links from URLs in text.
+ * Helper, make clickable links from URLs in text.
  */
 function makeClickable($text) {
   return preg_replace_callback(
