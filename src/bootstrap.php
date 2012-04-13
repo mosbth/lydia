@@ -64,6 +64,7 @@ function makeClickable($text) {
     ),
     $text
   );
+}
 
 
 /**
