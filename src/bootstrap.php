@@ -53,21 +53,6 @@ function htmlent($str, $flags = ENT_COMPAT) {
 
 
 /**
- * Helper, make clickable links from URLs in text.
- */
-function makeClickable($text) {
-  return preg_replace_callback(
-    '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
-    create_function(
-      '$matches',
-      'return "<a href=\'{$matches[0]}\'>{$matches[0]}</a>";'
-    ),
-    $text
-  );
-}
-
-
-/**
  * Helper, interval formatting of times. Needs PHP5.3. 
  *
  * All times in database is UTC so this function assumes the starttime to be in UTC, if not otherwise
@@ -156,3 +141,59 @@ function formatDateTimeDiff($start, $startTimeZone=null, $end=null, $endTimeZone
   // Prepend 'since ' or whatever you like
   return $interval->format($format);
 }
+
+
+
+/**
+ * Helper, make clickable links from URLs in text.
+ */
+function makeClickable($text) {
+  return preg_replace_callback(
+    '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
+    create_function(
+      '$matches',
+      'return "<a href=\'{$matches[0]}\'>{$matches[0]}</a>";'
+    ),
+    $text
+  );
+}
+
+
+/**
+ * Helper, BBCode formatting converting to HTML.
+ *
+ * @param string text The text to be converted.
+ * @returns string the formatted text.
+ */
+function bbcode2html($text) {
+  function code($text) {
+    return "<blockquote class='code'>".nl2br(sanitizeHTML(trim($text)), true).'</blockquote>';
+  };
+  return preg_replace(
+    array(
+      '/\\[url[\\:\\=]((\\"([\\W]*javascript\:[^\\"]*)?([^\\"]*)\\")|'.
+          '(([\\W]*javascript\:[^\\]]*)?([^\\]]*)))\\]/ie', '/\\[\\/url\\]/i',
+      '/\\[b\\]/i', '/\\[\/b\\]/i',
+      '/\\[i\\]/i', '/\\[\/i\\]/i',
+      '/\\[quote\\]/i', '/\\[\/quote\\]/i',
+      '/\[code\](.*?)\[\/code\]/ies',
+      '/\[youtube\](.*?)\[\/youtube\]/is',
+    ),
+    array(
+      '\'<a href="\'.(\'$4\'?\'$4\':\'$7\').\'">\'', '</a>',
+      '<b>', '</b>',
+      '<i>', '</i>',
+      "<blockquote class='quote'>", '</blockquote>',
+      'code("\\1")',
+      '<object width="425" height="350">
+       <param name="movie" value="http://www.youtube.com/v/$1"></param>
+       <param name="wmode" value="transparent"></param>
+       <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed>
+       </object>
+      ',
+    ),
+    $text
+  );
+}
+
+

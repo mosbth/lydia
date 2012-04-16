@@ -18,6 +18,12 @@ Todo.
 * Yes, a lot of things to do.
 
 
+v0.2.14 (2012-04-16)
+
+* Added filter to format MCContet as 'bbcode'.
+* Added function `mbbcode2html()` in `src/bootstrap.php`.
+
+
 v0.2.13 (2012-04-13)
 
 * Added filter to format MCContet as 'plain', 'html' and 'php'. 'html' and 'php' is disabled in `CMContent` as default. 

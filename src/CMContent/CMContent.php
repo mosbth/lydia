@@ -74,6 +74,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess {
       $this->db->ExecuteQuery(self::SQL('insert content'), array('home', 'page', 'Home page', "This is a demo page, this could be your personal home-page.\n\nLydia is a PHP-based MVC-inspired Content management Framework, watch the making of Lydia at: http://dbwebb.se/lydia/tutorial.", 'plain', $this->user['id']));
       $this->db->ExecuteQuery(self::SQL('insert content'), array('about', 'page', 'About page', "This is a demo page, this could be your personal about-page.\n\nLydia is used as a tool to educate in MVC frameworks.", 'plain', $this->user['id']));
       $this->db->ExecuteQuery(self::SQL('insert content'), array('download', 'page', 'Download page', "This is a demo page, this could be your personal download-page.\n\nYou can download your own copy of lydia from https://github.com/mosbth/lydia.", 'plain', $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array('bbcode', 'page', 'Page with BBCode', "This is a demo page with some BBCode-formatting.\n\n[b]Text in bold[/b] and [i]text in italic[/i] and [url=http://dbwebb.se]a link to dbwebb.se[/url]", 'bbcode', $this->user['id']));
       $this->AddMessage('success', 'Successfully created the database tables and created a default "Hello World" blog post, owned by you.');
     } catch(Exception$e) {
       die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
@@ -154,6 +155,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess {
     switch($filter) {
       /*case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
       case 'html': $data = nl2br(makeClickable($data)); break;*/
+      case 'bbcode': $data = nl2br(makeClickable(bbcode2html($data))); break;
       case 'plain': 
       default: $data = nl2br(makeClickable(htmlEnt($data))); break;
     }
