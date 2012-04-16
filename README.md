@@ -4,10 +4,11 @@ Lydia, a PHP-based, MVC-inspired CMF
 This project is used while teaching advanced PHP-programming with Model View Controller (MVC)
 frameworks with a taste of Content Management Framework (CMF). 
 
-Material below is mainly in swedish.
+Material in below links are mainly in swedish.
 
 * http://dbwebb.se/lydia/current (try out the code)
 * http://dbwebb.se/f/123 (forum with some tutorials on how the code was built, only in swedish)
+
 
 
 History
@@ -20,13 +21,13 @@ Todo.
 
 v0.2.14 (2012-04-16)
 
-* Added filter to format MCContet as 'bbcode'.
-* Added function `mbbcode2html()` in `src/bootstrap.php`.
+* Added filter to format `MCContent` as 'bbcode'.
+* Added function `bbcode2html()` in `src/bootstrap.php`.
 
 
 v0.2.13 (2012-04-13)
 
-* Added filter to format MCContet as 'plain', 'html' and 'php'. 'html' and 'php' is disabled in `CMContent` as default. 
+* Added filter to format `CMContet` as 'plain', 'html' and 'php'. 'html' and 'php' is disabled in `CMContent` as default. 
 * Added function `makeClickable()` in `src/bootstrap.php` which formats links in text to <a>.
 
 

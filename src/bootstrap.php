@@ -47,7 +47,7 @@ function getIncludeContents($filename, $vars=array()) {
 /**
  * Helper, wrap html_entites with correct character encoding
  */
-function htmlent($str, $flags = ENT_COMPAT) {
+function htmlEnt($str, $flags = ENT_COMPAT) {
   return htmlentities($str, $flags, CLydia::Instance()->config['character_encoding']);
 }
 
@@ -166,34 +166,22 @@ function makeClickable($text) {
  * @returns string the formatted text.
  */
 function bbcode2html($text) {
-  function code($text) {
-    return "<blockquote class='code'>".nl2br(sanitizeHTML(trim($text)), true).'</blockquote>';
-  };
-  return preg_replace(
-    array(
-      '/\\[url[\\:\\=]((\\"([\\W]*javascript\:[^\\"]*)?([^\\"]*)\\")|'.
-          '(([\\W]*javascript\:[^\\]]*)?([^\\]]*)))\\]/ie', '/\\[\\/url\\]/i',
-      '/\\[b\\]/i', '/\\[\/b\\]/i',
-      '/\\[i\\]/i', '/\\[\/i\\]/i',
-      '/\\[quote\\]/i', '/\\[\/quote\\]/i',
-      '/\[code\](.*?)\[\/code\]/ies',
-      '/\[youtube\](.*?)\[\/youtube\]/is',
-    ),
-    array(
-      '\'<a href="\'.(\'$4\'?\'$4\':\'$7\').\'">\'', '</a>',
-      '<b>', '</b>',
-      '<i>', '</i>',
-      "<blockquote class='quote'>", '</blockquote>',
-      'code("\\1")',
-      '<object width="425" height="350">
-       <param name="movie" value="http://www.youtube.com/v/$1"></param>
-       <param name="wmode" value="transparent"></param>
-       <embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed>
-       </object>
-      ',
-    ),
-    $text
-  );
+  $search = array( 
+    '/\[b\](.*?)\[\/b\]/is', 
+    '/\[i\](.*?)\[\/i\]/is', 
+    '/\[u\](.*?)\[\/u\]/is', 
+    '/\[img\](https?.*?)\[\/img\]/is', 
+    '/\[url\](https?.*?)\[\/url\]/is', 
+    '/\[url=(https?.*?)\](.*?)\[\/url\]/is' 
+    );   
+  $replace = array( 
+    '<strong>$1</strong>', 
+    '<em>$1</em>', 
+    '<u>$1</u>', 
+    '<img src="$1" />', 
+    '<a href="$1">$1</a>', 
+    '<a href="$1">$2</a>' 
+    );     
+  return preg_replace($search, $replace, $text);
 }
-
 
