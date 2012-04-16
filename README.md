@@ -10,12 +10,41 @@ Material in below links are mainly in swedish.
 * http://dbwebb.se/f/123 (forum with some tutorials on how the code was built, only in swedish)
 
 
+License
+-------
+
+Lydia is licenses according to MIT-license. 
+Any included external modules are subject to their own licensing.
+
+
+Use of external libraries
+-----------------------------------
+
+Lydia uses external libraries for state of the art samples. Any external module can be replaced or
+removed for less features but without disturbing the Lydia core functionality.
+
+The following external modules exists.
+
+HTMLPurifier by Edward Z. Yang to filter & format HTML.
+Website: http://htmlpurifier.org/ 
+License: LGPL
+Lydia path: `src/CHTMLPurifier`
+Used by: `CMContent`
+
+
 History
 -------
 
 Todo.
 
 * Yes, a lot of things to do.
+
+
+v0.2.15 (2012-04-16)
+
+* Added filter to format `CMContent` as 'htmlpurify' using http://htmlpurifier.org/.
+* Added external library `htmlpurifier-4.4.0-standalone` in wrapper `CHTMLPurifier`.
+* Added LICENSE.txt as MIT-license.
 
 
 v0.2.14 (2012-04-16)
