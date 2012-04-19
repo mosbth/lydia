@@ -1,0 +1,110 @@
+/** 
+ * Description: Core theme for Lydia
+ */
+
+/**
+ * Structure
+ */
+html{background-color:#eee;}
+body{margin:0;padding:0;color:#333;background-color:#fff;
+  font: 1em Verdana, Arial, Helvetica, sans-serif;}
+
+#wrap-header {}
+#wrap-main {}
+#wrap-footer {border-top:1px solid #ccc;background-color:#eee;}
+
+#header,
+#main,
+#footer {margin:0 auto;width:970px;padding:8px;}
+#main,
+#footer {margin-bottom:16px;}
+
+#header,
+#main {background-color:#fff;}
+#main {min-height:300px;}
+#footer {font-size:0.80em;color:#666;background-color:#eee;}
+
+
+/**
+ * Login menu
+ */
+#login-menu{float:right;font-size:smaller;}
+#login-menu img.gravatar{vertical-align:middle;}
+#login-menu a{text-decoration:none;}
+#login-menu a:hover{text-decoration:underline;}
+
+
+
+/**
+ * Banner
+ */
+#banner {display:table;margin-bottom:10px;}
+
+.site-logo,
+.site-title,
+.site-slogan {display:table-cell;width:inherit;vertical-align:middle;text-align:left;}
+
+.site-logo {}
+.site-title,
+.site-slogan {font-family:monospace;line-height:0;padding-left:20px;color:#333;
+  text-shadow:#ccc 2px -2px 2px;}
+.site-title  {font-size:4em;font-weight:bold;}
+.site-slogan {font-size:1.5em;}
+
+.site-title a {text-decoration:none;color:inherit;}
+.site-title a:hover {text-decoration:none;color:inherit;}
+
+
+/**
+ * Links
+ */
+a         {color:inherit;}
+a:link    {}
+a:visited {}
+a:hover,
+a:focus   {text-decoration:none;color:#5C0A0A;}
+a:active  {}
+
+
+/**
+ * Headings
+ */
+h1{border-bottom:3px double #ccc;padding-bottom:4px;}
+h2{border-bottom:1px solid #ccc;padding-bottom:4px;}
+
+
+/**
+ * Forms
+ */
+input,textarea{font:inherit;}
+input[readonly]{color:#666;}
+label{font-size:smaller;}
+.validation-failed{border:2px solid red;}
+.validation-message{color:red;font-size:smaller;}
+.form-action-link{font-size:smaller;}
+
+.content-edit input[type=text]{width:30em;}
+.content-edit textarea{width:40em;height:15em;}
+
+
+/**
+ * User feedback message wrappers.
+ */
+.error, .alert, .warning, .notice, .success, .info { 
+padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
+
+.error, .alert { background: #fbe3e4; color: #8a1f11; border-color: #fbc2c4; }
+.notice, .warning { background: #fff6bf; color: #514721; border-color: #ffd324; }
+.success       { background: #e6efc2; color: #264409; border-color: #c6d880; }
+.info          { background: #d5edf8; color: #205791; border-color: #92cae4; }
+.error a, .alert a { color: #8a1f11; }
+.notice a, .warning a { color: #514721; }
+.success a         { color: #264409; }
+.info a            { color: #205791; }
+
+
+/**
+ * Misc
+ */
+.smaller-text{font-size:smaller;}
+.silent{color:#999;}

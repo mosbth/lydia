@@ -23,13 +23,24 @@ Use of external libraries
 Lydia uses external libraries for state of the art samples. Any external module can be replaced or
 removed for less features but without disturbing the Lydia core functionality.
 
-The following external modules exists.
+The following external modules are included in Lydia.
 
+### HTMLPurifier
 HTMLPurifier by Edward Z. Yang to filter & format HTML.
 Website: http://htmlpurifier.org/ 
+Version: 4.4.0 (2012-01-18)
 License: LGPL
 Lydia path: `src/CHTMLPurifier`
 Used by: `CMContent`
+
+
+### lessphp
+lessphp by leaf to compile LESS.
+Website: http://leafo.net/lessphp
+Version: 0.3.4-2 (2012-04-17)
+License: Dual license, MIT LICENSE and GPL VERSION 3
+Lydia path: `themes/grid/lessphp`
+Used by: `themes/grid/style.php`
 
 
 History

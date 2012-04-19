@@ -92,6 +92,7 @@ $ly->config['language'] = 'en';
 $ly->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
+  'theme'     => array('enabled' => true,'class' => 'CCTheme'),
   'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
   'content'   => array('enabled' => true,'class' => 'CCContent'),
   'blog'      => array('enabled' => true,'class' => 'CCBlog'),
@@ -100,10 +101,11 @@ $ly->config['controllers'] = array(
   'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
 );
 
+
 /**
  * Settings for the theme.
  */
 $ly->config['theme'] = array(
-  // The name of the theme in the theme directory
-  'name'    => 'core', 
+  'name'        => 'grid',        // The name of the theme in the theme directory
+  'stylesheet'  => 'style.php',   // Main stylesheet to include in template files
 );

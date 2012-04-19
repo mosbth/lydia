@@ -1,0 +1,125 @@
+a:4:{s:4:"root";s:14:"style.less.css";s:8:"compiled";s:2471:"html { background-color:#eeeeee; }
+body {
+  margin:0;
+  padding:0;
+  color:#333333;
+  background-color:#ffffff;
+  font:1em Verdana, Arial, Helvetica, sans-serif;
+}
+#wrap-footer {
+  border-top:1px solid #cccccc;
+  background-color:#eeeeee;
+}
+#header, #main, #footer {
+  margin:0 auto;
+  width:970px;
+  padding:8px;
+}
+#main, #footer { margin-bottom:16px; }
+#header, #main { background-color:#ffffff; }
+#main { min-height:300px; }
+#footer {
+  font-size:0.80em;
+  color:#666666;
+  background-color:#eeeeee;
+}
+#login-menu {
+  float:right;
+  font-size:smaller;
+}
+#login-menu img.gravatar { vertical-align:middle; }
+#login-menu a { text-decoration:none; }
+#login-menu a:hover { text-decoration:underline; }
+#banner {
+  display:table;
+  margin-bottom:10px;
+}
+.site-logo, .site-title, .site-slogan {
+  display:table-cell;
+  width:inherit;
+  vertical-align:middle;
+  text-align:left;
+}
+.site-title, .site-slogan {
+  font-family:monospace;
+  line-height:0;
+  padding-left:20px;
+  color:#333333;
+  text-shadow:#cccccc 2px -2px 2px;
+}
+.site-title {
+  font-size:4em;
+  font-weight:bold;
+}
+.site-slogan { font-size:1.5em; }
+.site-title a {
+  text-decoration:none;
+  color:inherit;
+}
+.site-title a:hover {
+  text-decoration:none;
+  color:inherit;
+}
+a { color:inherit; }
+a:hover {
+  text-decoration:none;
+  color:#5c0a0a;
+}
+a:focus {
+  text-decoration:none;
+  color:#5c0a0a;
+}
+h1 {
+  border-bottom:3px double #cccccc;
+  padding-bottom:4px;
+}
+h2 {
+  border-bottom:1px solid #cccccc;
+  padding-bottom:4px;
+}
+input, textarea { font:inherit; }
+input[readonly] { color:#666666; }
+label { font-size:smaller; }
+.validation-failed { border:2px solid red; }
+.validation-message {
+  color:red;
+  font-size:smaller;
+}
+.form-action-link { font-size:smaller; }
+.content-edit input[type=text] { width:30em; }
+.content-edit textarea {
+  width:40em;
+  height:15em;
+}
+.error, .alert, .warning, .notice, .success, .info {
+  padding:0.8em;
+  margin-bottom:1em;
+  border:2px solid #dddddd;
+}
+.error, .alert {
+  background:#fbe3e4;
+  color:#8a1f11;
+  border-color:#fbc2c4;
+}
+.notice, .warning {
+  background:#fff6bf;
+  color:#514721;
+  border-color:#ffd324;
+}
+.success {
+  background:#e6efc2;
+  color:#264409;
+  border-color:#c6d880;
+}
+.info {
+  background:#d5edf8;
+  color:#205791;
+  border-color:#92cae4;
+}
+.error a, .alert a { color:#8a1f11; }
+.notice a, .warning a { color:#514721; }
+.success a { color:#264409; }
+.info a { color:#205791; }
+.smaller-text { font-size:smaller; }
+.silent { color:#999999; }
+";s:5:"files";a:1:{s:71:"/usr/home/mos/htdocs/dbwebb.se/lydia/current/themes/grid/style.less.css";i:1334818897;}s:7:"updated";i:1334819243;}
