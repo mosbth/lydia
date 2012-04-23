@@ -59,6 +59,11 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.2.18 (2012-04-23)
+
+* Updated `CViewContainer` and related items to map views to regions in theme.
+
+
 v0.2.17 (2012-04-23)
 
 * Integrated with semantic.gs though the new theme `theme/grid`.

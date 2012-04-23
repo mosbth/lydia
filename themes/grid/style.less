@@ -1,16 +1,16 @@
 /** 
-* Description: Grid theme for Lydia based on less, lessphp and semantic.gs.
-*/
+ * Description: Grid theme for Lydia based on less, lessphp and semantic.gs.
+ */
 
 /** --------------------------------------------------------------
-* semantic.gs
-*/
+ * semantic.gs
+ */
 @import url(semantic.gs/stylesheets/less/grid.less);
 
 
 /** --------------------------------------------------------------
-* Settings
-*/
+ * Settings
+ */
 @bgcolor1: #eee;
 @bgcolor2: #fff;
 @bgtest: hsla(0,0%,90%,0.5);
@@ -24,15 +24,15 @@
 
 
 /** --------------------------------------------------------------
-* Typography
-*/
+ * Typography
+ */
 h1{border-bottom:3px double #ccc;padding-bottom:4px;}
 h2{border-bottom:1px solid #ccc;padding-bottom:4px;}
 
 
 /** --------------------------------------------------------------
-* Forms
-*/
+ * Forms
+ */
 input,textarea{font:inherit;}
 input[readonly]{color:#666;}
 label{font-size:smaller;}
@@ -47,18 +47,18 @@ label{font-size:smaller;}
 
 
 /** --------------------------------------------------------------
-* HTML & Body
-*/
+ * HTML & Body
+ */
 html{background-color:@bgcolor1;}
 body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
-  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
+//  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
 }  
 
 
 /** --------------------------------------------------------------
-* The header area.
-*
-*/
+ * The header area.
+ *
+ */
 .tablecell() {display:table-cell;vertical-align:middle;text-align:center;}
 #outer-wrap-header{height:@magic-number*4;margin-top:@magic-number/2;margin-bottom:@magic-number/2;}
 #inner-wrap-header{.wrap();}
@@ -66,8 +66,8 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 
 
 /** --------------------------------------------------------------
-* Login menu
-*/
+ * Login menu
+ */
 #login-menu{float:right;font-size:smaller;
   img.gravatar{vertical-align:middle;}
   a{text-decoration:none;}
@@ -76,8 +76,8 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 
 
 /** --------------------------------------------------------------
-* Banner
-*/
+ * Banner
+ */
 #banner {display:table;margin-bottom:@magic-number/2;
   #site-logo{.tablecell();}
   #site-title{.tablecell();font-size:2.5em;padding-left:0.2em;text-shadow:#ccc 2px -2px 2px;
@@ -88,57 +88,57 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 
 
 /** --------------------------------------------------------------
-* The flash area.
-*
-*/
+ * The flash area.
+ *
+ */
 #outer-wrap-flash{}
 #inner-wrap-flash{.wrap();height:@magic-number*3;margin-bottom:@magic-number;}
-#flash{.column(12);background-color:@bgtest;height:100%;}
+#flash{.column(12);height:100%;}
 
 
 /** --------------------------------------------------------------
-* The featured area.
-*
-*/
+ * The featured area.
+ *
+ */
 #outer-wrap-featured{}
-#inner-wrap-featured{.wrap;height:@magic-number*5;margin-bottom:@magic-number;}
+#inner-wrap-featured{.wrap();height:@magic-number*5;margin-bottom:@magic-number;}
 #featured{}
 
 #featured-first,
 #featured-middle,
-#featured-last{.column(4);background-color:@bgtest;height:100%;}
+#featured-last{.column(4);height:100%;}
 
 
 /** --------------------------------------------------------------
-* The main content area.
-*
-*/
+ * The main content area.
+ *
+ */
 #outer-wrap-main{}
-#inner-wrap-main{.wrap;margin-bottom:@magic-number;}
+#inner-wrap-main{.wrap();margin-bottom:@magic-number;}
 #main{}
 
-#primary{.column(8);background-color:@bgtest;}
-#sidebar{.column(4);background-color:@bgtest;}
+#primary{.column(8);}
+#sidebar{.column(4);}
 
 
 /** --------------------------------------------------------------
-* The triptych area.
-*
-*/
+ * The triptych area.
+ *
+ */
 #outer-wrap-triptych{}
 #inner-wrap-triptych{.wrap();height:@magic-number*5;margin-bottom:@magic-number;}
 #triptych{height:inherit;}
 
 #triptych-first,
 #triptych-middle,
-#triptych-last{.column(4);background-color:@bgtest;height:100%;}
+#triptych-last{.column(4);height:100%;}
 
 
 /** --------------------------------------------------------------
-* The footer column area.
-*
-*/
-#outer-wrap-footer-column{background-color:@bgtest;border-top:1px solid #bbb;}
+ * The footer column area.
+ *
+ */
+//#outer-wrap-footer-column{border-top:1px solid #bbb;}
 #inner-wrap-footer-column{.wrap();height:@magic-number*5;padding-bottom:@magic-number;}
 #footer{height:inherit;}
 
@@ -150,17 +150,17 @@ background-color:lighten(@bgtest,10%);}
 
 
 /** --------------------------------------------------------------
-* The footer area.
-*
-*/
-#outer-wrap-footer{background-color:@bgtest;}
-#inner-wrap-footer{.wrap();}
-#footer{.column(12);font-size:0.80em;color:#666;padding-bottom:@magic-number;}
+ * The footer area.
+ *
+ */
+#outer-wrap-footer{background-color:@bgcolor1;border-top:1px solid #bbb;}
+#inner-wrap-footer{.wrap();padding-top:@magic-number;padding-bottom:@magic-number;}
+#footer{.column(12);font-size:0.80em;color:#666;}
 
 
 /** --------------------------------------------------------------
-* Links
-*/
+ * Links
+ */
 .hover(){text-decoration:none;color:#5C0A0A;}
 a{color:inherit;
   &:link{}
@@ -172,8 +172,8 @@ a{color:inherit;
 
 
 /** --------------------------------------------------------------
-* User feedback message wrappers.
-*/
+ * User feedback message wrappers.
+ */
 .error, .alert, .warning, .notice, .success, .info { 
 padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 
@@ -188,7 +188,7 @@ padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 
 
 /** --------------------------------------------------------------
-* Misc
-*/
+ * Misc
+ */
 .smaller-text{font-size:smaller;}
 .silent{color:#999;}
