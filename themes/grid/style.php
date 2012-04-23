@@ -57,7 +57,7 @@ function auto_compile_less($less_fname, $css_fname, $cache_ext='.cache') {
 
 
 // Compile and output the resulting css-file, use caching whenever suitable.
-$less = 'style.less.css';
+$less = 'style.less';
 $css  = 'style.css';
 $cache_extension = '.cache';
 $changed = auto_compile_less($less, $css, $cache_extension);
