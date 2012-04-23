@@ -43,12 +43,31 @@ Lydia path: `themes/grid/lessphp`
 Used by: `themes/grid/style.php`
 
 
+### The Semantic Grid System
+by Tyler Tate/TwigKit to get grid layout through LESS.
+Website: http://semantic.gs/
+Version: 1.2 (2012-01-11)
+License: Apache License
+Lydia path: `themes/grid/semantic.gs`
+Used by: `themes/grid/style.less.css`
+
+
 History
 -------
 
 Todo.
 
 * Yes, a lot of things to do.
+
+v0.2.17 (2012-04-23)
+
+* Integrated with semantic.gs though the new theme `theme/grid`.
+* Included sematic.gs version 1.2 (2012-01-11).
+
+
+v0.2.16 (2012-04-19)
+
+* Integrated with `lessphp` version 0.3.4-2 (2012-04-17) and LESS though a new theme, `theme/grid`.
 
 
 v0.2.15 (2012-04-16)
