@@ -114,17 +114,15 @@ class CLydia implements ISingleton {
   }
   
   
-	/**
-	 * ThemeEngineRender, renders the reply of the request to HTML or whatever.
-	 */
+  /**
+   * ThemeEngineRender, renders the reply of the request to HTML or whatever.
+   */
   public function ThemeEngineRender() {
     // Save to session before output anything
     $this->session->StoreInSession();
   
     // Is theme enabled?
-    if(!isset($this->config['theme'])) {
-      return;
-    }
+    if(!isset($this->config['theme'])) { return; }
     
     // Get the paths and settings for the theme
     $themeName 	= $this->config['theme']['name'];
@@ -133,7 +131,7 @@ class CLydia implements ISingleton {
     
     // Add stylesheet path to the $ly->data array
     $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
-
+    
     // Include the global functions.php and the functions.php that are part of the theme
     $ly = &$this;
     include(LYDIA_INSTALL_PATH . '/themes/functions.php');
@@ -144,8 +142,9 @@ class CLydia implements ISingleton {
 
     // Extract $ly->data to own variables and handover to the template file
     extract($this->data);      
-    extract($this->views->GetData());      
-    include("{$themePath}/default.tpl.php");
+    extract($this->views->GetData());
+    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
+    include("{$themePath}/{$templateFile}");
   }
 
 }
