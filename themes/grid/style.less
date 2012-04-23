@@ -3,6 +3,33 @@
  */
 
 /** --------------------------------------------------------------
+ * Reset. http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126
+ *
+ */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,
+small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,
+figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,
+time,mark,audio,video{margin:0;padding:0;border:0;font-size:100.01%;font:inherit;vertical-align:baseline;}
+body{line-height:1;}
+ol,ul{list-style: none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+
+
+/** --------------------------------------------------------------
+ * HTML5 elements.
+ *
+ */
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block;}
+audio,canvas,video{display:inline-block;*display:inline;*zoom:1;}
+audio:not([controls]){display:none;}
+[hidden]{display:none;}
+
+
+/** --------------------------------------------------------------
  * semantic.gs
  */
 @import url(semantic.gs/stylesheets/less/grid.less);
@@ -15,19 +42,92 @@
 @bgcolor2: #fff;
 @bgtest: hsla(0,0%,90%,0.5);
 @color: #333;
-@font: 1em Verdana, Arial, Helvetica, sans-serif;
 
 /* Wrap elements to site width in grid layout*/
 .wrap() {width:@total-width;margin:0 auto;.clearfix();}
 
-@magic-number:22px;
-
 
 /** --------------------------------------------------------------
- * Typography
+ * Typography.
+ *
+ * http://www.sitepoint.com/eight-definitive-font-stacks/
+ * Times new roman: font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
+ * Georgia: font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+ * Garamond: font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
+ * Helvetica/Arial: font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+ * Verdana: font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+ * Trebuchet: font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+ * Impact font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+ * monospace: font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+ * smallstack: font:100%/1.4  'Helvetica Neue',Arial,Helvetica,sans-serif;
+ *
+ * cambria: Cambria, Georgia, Times, 'Times New Roman', serif
+ *
+ * 100%/1.375 makes magic 22px;
+ * 100%/1.5 makes magic 24px;
  */
-h1{border-bottom:3px double #ccc;padding-bottom:4px;}
-h2{border-bottom:1px solid #ccc;padding-bottom:4px;}
+/* Base font. The font-size percentage is of 16px. */
+@font-family-cambria    = Cambria, Georgia, Times, 'Times New Roman', serif;
+@font-family-monospace  = "Courier New", Courier, monospace;
+@font-family-helvetica  = Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@magic-number: 22px; /* 16px - 100%/1.375 */
+@link-color: #600;
+
+body{color:#222;font:100.01%/1.375 @font-family-helvetica;}
+
+/* Headings */
+/* 2.75em * 16px = 44 => line-height: 1*/
+/* 2.375em * 16px = 38 => line-height: 44/38 = 1.1579*/
+/* 2.25em * 16px = 36 => line-height: 44/36 = 1.2222*/
+/* 2em * 16px = 32 => line-height: 44/32 = 1.375*/
+/* 1.875em * 16px = 30 => line-height: 44/30 = 1.4667*/
+/* 1.75em * 16px = 28 => line-height: 44/28 = 1.5714*/
+/* 1.375em * 16px = 22 => line-height: 22 = 1*/
+/* 1.25em * 16px = 20 => line-height: 22/20 = 1.1*/
+
+.headings-general() {font-weight:normal;color:#111;margin-bottom:@magic-number;font-family:@font-family-cambria}
+h1{.headings-general();font-size:2.375em;line-height:1.1579;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
+h2{.headings-general();font-size:1.875em;line-height:1.4667;}
+h3{.headings-general();font-size:1.375em;line-height:1;}
+h4{.headings-general();font-size:1.25em;line-height:1.1;}
+h5{.headings-general();font-size:1em;font-weight:bold;}
+h6{.headings-general();font-size:1em;font-weight:bold;margin-bottom:0;}
+h1 img,h2 img,h3 img,h4 img,h5 img,h6 img{margin:0;}
+
+
+/* Text elements */
+p{margin-bottom:1.375em;}
+a{color:@link-color;text-decoration:underline;
+  &:focus,&:hover{color:lighten(@link-color, 10%);text-decoration:none;}
+}
+blockquote{margin-left:1em;margin-bottom:1.375em;}
+strong,dfn{font-weight:bold;}
+em,dfn{font-style:italic;}
+pre{margin-bottom:1.375em;white-space:pre;}
+pre,code,tt,.code{font:1em/1.375 @font-family-monospace;}
+
+/* Lists */
+li ul,li ol{margin:0;}
+ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
+ul{list-style-type:disc;}
+ol{list-style-type:decimal;}
+dl{margin:0 0 1.375em 0;}
+dl dt{font-weight:bold;}
+dd{margin-left:1.5em;}
+
+/* Tables. Because of the need for padding on TH and TD, the vertical rhythm
+  on table cells has to be 33px, instead of the standard 22px or 44px
+  of other elements. */
+table{margin-bottom:1.375em;width:100%;}
+caption{text-align:left;font-style:italic;}
+thead{border-bottom:2px solid #222;}
+th{vertical-align:bottom;font-weight:bold;text-align:left;}
+th,td{padding:5px 10px 5px 5px;}
+tbody tr:nth-child(even) td, tbody tr.even td {}
+tbody tr{border-bottom:1px solid #eee;
+  &:hover{color:#000;}
+}
+tfoot{font-style:italic;}
 
 
 /** --------------------------------------------------------------
@@ -50,7 +150,7 @@ label{font-size:smaller;}
  * HTML & Body
  */
 html{background-color:@bgcolor1;}
-body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
+body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 //  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
 }  
 
@@ -155,7 +255,7 @@ background-color:lighten(@bgtest,10%);}
  */
 #outer-wrap-footer{background-color:@bgcolor1;border-top:1px solid #bbb;}
 #inner-wrap-footer{.wrap();padding-top:@magic-number;padding-bottom:@magic-number;}
-#footer{.column(12);font-size:0.80em;color:#666;}
+#footer{.column(12);color:#666;}
 
 
 /** --------------------------------------------------------------

@@ -59,6 +59,12 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.2.19 (2012-04-23)
+
+* Added typografi matching vertical grid to `theme/grid`.
+* Added reset.css.
+
+
 v0.2.18 (2012-04-23)
 
 * Updated `CViewContainer` and related items to map views to regions in theme.
