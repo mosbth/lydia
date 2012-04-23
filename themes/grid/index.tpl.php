@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'/>
   <title><?=$title?></title>
-	<link rel='shortcut icon' href='<?=$favicon?>'/>
+	<link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
   <link rel='stylesheet' href='<?=$stylesheet?>'/>
   <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
 </head>
@@ -14,7 +14,7 @@
     <div id='header'>
       <div id='login-menu'><?=login_menu()?></div>
       <div id='banner'>
-        <a href='<?=base_url()?>'><img id='site-logo' src='<?=$logo?>' alt='logo' width='<?=$logo_width?>' height='<?=$logo_height?>' /></a>
+        <a href='<?=base_url()?>'><img id='site-logo' src='<?=theme_url($logo)?>' alt='logo' width='<?=$logo_width?>' height='<?=$logo_height?>' /></a>
         <span id='site-title'><a href='<?=base_url()?>'><?=$header?></a></span>
         <span id='site-slogan'><?=$slogan?></span>
       </div>
@@ -67,7 +67,7 @@
   </div>
   <?php endif; ?>
   <div id='inner-wrap-footer'>
-    <div id='footer'><?=render_views('footer')?><?=$footer?><?=get_debug()?></div>
+    <div id='footer'><?=render_views('footer')?><?=$footer?><?=get_tools()?><?=get_debug()?></div>
   </div>
 </div>
 

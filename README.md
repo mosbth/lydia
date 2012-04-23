@@ -59,9 +59,15 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.2.20 (2012-04-23)
+
+* Moved static data from `themes/grid/functions.php` to `site/config.php`.
+* Added `themes/functions.php get_tools()` for a list of useful debug tools.
+
+
 v0.2.19 (2012-04-23)
 
-* Added typografi matching vertical grid to `theme/grid`.
+* Added typography matching vertical grid to `theme/grid`.
 * Added reset.css.
 
 
