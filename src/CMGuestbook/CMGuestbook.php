@@ -4,7 +4,7 @@
  * 
  * @package LydiaCore
  */
-class CMGuestbook extends CObject implements IHasSQL {
+class CMGuestbook extends CObject implements IHasSQL, IModule {
 
 
   /**
@@ -35,14 +35,22 @@ class CMGuestbook extends CObject implements IHasSQL {
 
 
   /**
-   * Init the guestbook and create appropriate tables.
+   * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Init() {
-    try {
-      $this->db->ExecuteQuery(self::SQL('create table guestbook'));
-      $this->session->AddMessage('notice', 'Successfully created the database tables (or left them untouched if they already existed).');
-    } catch(Exception$e) {
-      die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
+  public function Manage($action=null) {
+    switch($action) {
+      case 'install': 
+        try {
+          $this->db->ExecuteQuery(self::SQL('create table guestbook'));
+          return array('success', 'Successfully created the database tables (or left them untouched if they already existed).');
+        } catch(Exception$e) {
+          die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
+        }
+      break;
+      
+      default:
+        throw new Exception('Unsupported action for this module.');
+      break;
     }
   }
   

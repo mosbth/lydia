@@ -59,6 +59,12 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.2.22 (2012-05-02)
+
+* Enhanced installation procedure by adding one controller for installation, `module/install`.
+* Added interface `IModule` for all modules to implement that can manage themself for install/update/delete.
+
+
 v0.2.21 (2012-05-02)
 
 * Added module management through `CMModules` and `CCModules`.
