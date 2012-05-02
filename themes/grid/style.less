@@ -168,7 +168,7 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 /** --------------------------------------------------------------
  * Login menu
  */
-#login-menu{float:right;font-size:smaller;
+#login-menu{float:right;font-size:0.95em;
   img.gravatar{vertical-align:middle;}
   a{text-decoration:none;}
   a:hover{text-decoration:underline;}
@@ -218,7 +218,11 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 #main{}
 
 #primary{.column(8);}
-#sidebar{.column(4);}
+#sidebar{.column(4);
+  .box{border-top:4px double #ccc;padding-top:@magic-number/2;margin-bottom:@magic-number*2.5-4px;
+    h4{}
+  }
+}
 
 
 /** --------------------------------------------------------------
@@ -245,7 +249,7 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 #footer-column-one,
 #footer-column-two,
 #footer-column-three,
-#footer-column-four{.column(3);font-size:0.9em;margin-top:1em;height:100%;
+#footer-column-four{.column(3);margin-top:1em;height:100%;
 background-color:lighten(@bgtest,10%);}
 
 

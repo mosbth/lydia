@@ -59,6 +59,11 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.2.21 (2012-05-02)
+
+* Added module management through `CMModules` and `CCModules`.
+
+
 v0.2.20 (2012-04-23)
 
 * Moved static data from `themes/grid/functions.php` to `site/config.php`.

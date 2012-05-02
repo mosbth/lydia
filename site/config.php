@@ -99,6 +99,7 @@ $ly->config['controllers'] = array(
   'page'      => array('enabled' => true,'class' => 'CCPage'),
   'user'      => array('enabled' => true,'class' => 'CCUser'),
   'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
+  'module'   => array('enabled' => true,'class' => 'CCModules'),
 );
 
 

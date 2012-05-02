@@ -182,7 +182,7 @@ body {
 }
 #login-menu {
   float:right;
-  font-size:smaller;
+  font-size:0.95em;
 }
 #login-menu img.gravatar { vertical-align:middle; }
 #login-menu a { text-decoration:none; }
@@ -273,6 +273,11 @@ body {
   width:300px;
   margin:0 10px;
 }
+#sidebar .box {
+  border-top:4px double #cccccc;
+  padding-top:11px;
+  margin-bottom:51px;
+}
 #inner-wrap-triptych {
   width:960px;
   margin:0 auto;
@@ -311,7 +316,6 @@ body {
   float:left;
   width:220px;
   margin:0 10px;
-  font-size:0.9em;
   margin-top:1em;
   height:100%;
   background-color:rgba(255,255,255,0.5);
