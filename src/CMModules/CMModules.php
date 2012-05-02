@@ -57,7 +57,6 @@ class CMModules extends CObject {
           $modules[$module]['isController']  = $rc->implementsInterface('IController');
           $modules[$module]['isModel']       = preg_match('/^CM[A-Z]/', $rc->name);
           $modules[$module]['hasSQL']        = $rc->implementsInterface('IHasSQL');
-          $modules[$module]['isManageable']  = $rc->implementsInterface('IModule');
           $modules[$module]['isLydiaCore']   = in_array($rc->name, array('CLydia', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject'));
           $modules[$module]['isLydiaCMF']    = in_array($rc->name, array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier'));
         }
