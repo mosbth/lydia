@@ -147,12 +147,20 @@ label { font-size:smaller; }
   font-size:smaller;
 }
 .form-action-link { font-size:smaller; }
+textarea {
+  width:100%;
+  height:8em;
+}
 .content-edit input[type=text] { width:30em; }
 .content-edit textarea {
   width:40em;
   height:15em;
 }
-html { background-color:#eeeeee; }
+html {
+  background-color:#eeeeee;
+  overflow:-moz-scrollbars-vertical;
+  overflow-y:scroll;
+}
 body {
   margin:0;
   padding:0;
@@ -160,8 +168,7 @@ body {
   background-color:#ffffff;
 }
 #outer-wrap-header {
-  height:88px;
-  margin-top:11px;
+  padding-top:11px;
   margin-bottom:11px;
 }
 #inner-wrap-header {
@@ -211,6 +218,29 @@ body {
   text-align:center;
   font-size:1.5em;
   padding-left:10px;
+}
+#navbar ul.menu {
+  list-style-type:none;
+  padding:2px 8px;
+  margin:0;
+}
+#navbar ul.menu li {
+  padding:0;
+  margin:0;
+  display:inline;
+}
+#navbar ul.menu li a {
+  padding:6px 8px;
+  text-decoration:none;
+  border:2px solid transparent;
+}
+#navbar ul.menu li a:hover {
+  background:#dddddd;
+  border:2px solid #999999;
+}
+#navbar ul.menu li a.selected {
+  background:#cccccc;
+  border:2px solid #999999;
 }
 #inner-wrap-flash {
   width:960px;

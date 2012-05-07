@@ -59,6 +59,16 @@ Todo.
 
 * Yes, a lot of things to do.
 
+v0.2.23 (2012-05-07)
+
+* Creating menues through `site/config.php`.
+* Mapping menus to theme regions.
+* Child theme in `site/themes`.
+* Site specific controllers/models/modules in `site/src`.
+* Sample website in `site`.
+* Added delete of content.
+
+
 v0.2.22 (2012-05-02)
 
 * Enhanced installation procedure by adding one controller for installation, `module/install`.

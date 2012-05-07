@@ -1,0 +1,11 @@
+/** 
+ * Description: Sample theme for site which extends the Lydia grid-theme.
+ */
+@import url(../../../themes/grid/style.css);
+
+html{background-color:#FFE2B3;}
+body{background-color:#D0DCE1;}
+#outer-wrap-header{background-color:#FFE2B3;border-bottom:2px solid #FFCE80}
+#outer-wrap-footer{background-color:#FFE2B3}
+a{color:#436370}
+#navbar ul.menu li a.selected{background-color:#D0DCE1;border-bottom:none;}

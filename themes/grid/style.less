@@ -45,6 +45,7 @@ audio:not([controls]){display:none;}
 
 /* Wrap elements to site width in grid layout*/
 .wrap() {width:@total-width;margin:0 auto;.clearfix();}
+.alwaysShowScrollbar() {overflow:-moz-scrollbars-vertical;overflow-y:scroll;}
 
 
 /** --------------------------------------------------------------
@@ -139,6 +140,7 @@ label{font-size:smaller;}
 .validation-failed{border:2px solid red;}
 .validation-message{color:red;font-size:smaller;}
 .form-action-link{font-size:smaller;}
+textarea{width:100%;height:8em;}
 
 .content-edit{
   input[type=text]{width:30em;}
@@ -149,7 +151,7 @@ label{font-size:smaller;}
 /** --------------------------------------------------------------
  * HTML & Body
  */
-html{background-color:@bgcolor1;}
+html{background-color:@bgcolor1;.alwaysShowScrollbar()}
 body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 //  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
 }  
@@ -160,7 +162,7 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
  *
  */
 .tablecell() {display:table-cell;vertical-align:middle;text-align:center;}
-#outer-wrap-header{height:@magic-number*4;margin-top:@magic-number/2;margin-bottom:@magic-number/2;}
+#outer-wrap-header{padding-top:@magic-number/2;margin-bottom:@magic-number/2;}
 #inner-wrap-header{.wrap();}
 #header{.column(12);}
 
@@ -184,6 +186,21 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
     a{text-decoration:none;}
   }
   #site-slogan{.tablecell();font-size:1.5em;padding-left:10px;}
+}
+
+
+/** --------------------------------------------------------------
+ * Navbar
+ */
+#navbar{
+  ul.menu{list-style-type:none;padding:2px 8px;margin:0;
+    li{padding:0;margin:0;display:inline;
+      a{padding:6px 8px;text-decoration:none;border:2px solid transparent;
+        &:hover{background:#ddd;border:2px solid #999;}
+        &.selected{background:#ccc;border:2px solid #999;}
+      }
+    }
+  }
 }
 
 
