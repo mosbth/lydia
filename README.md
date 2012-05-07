@@ -57,7 +57,15 @@ History
 
 Todo.
 
-* Yes, a lot of things to do.
+* Yes, a lot of things to do. No need to specify them, to many on the list... Wait until
+there is a stable version of Lydia.
+
+
+v0.2.24 (2012-05-07)
+
+* Updating `CMModules` and `CCModules` to display information on a module's main class
+using Reflection API.
+
 
 v0.2.23 (2012-05-07)
 

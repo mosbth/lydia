@@ -3,7 +3,7 @@
 <p>All Lydia modules.</p>
 <ul>
 <?php foreach($modules as $module): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
 <?php endforeach; ?>
 </ul>
 </div>
@@ -15,7 +15,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if($module['isLydiaCore']): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>
@@ -28,7 +28,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if($module['isLydiaCMF']): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>
@@ -41,7 +41,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if($module['isModel']): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>
@@ -54,7 +54,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if($module['isController']): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>
@@ -67,7 +67,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if($module['isManageable']): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>
@@ -80,7 +80,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if($module['hasSQL']): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>
@@ -93,7 +93,7 @@
 <ul>
 <?php foreach($modules as $module): ?>
   <?php if(!($module['isController'] || $module['isLydiaCore'] || $module['isLydiaCMF'])): ?>
-  <li><?=$module['name']?></li>
+  <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
 </ul>

@@ -7,6 +7,13 @@
 class CMModules extends CObject {
 
   /**
+   * Properties
+   */
+  private $lydiaCoreModules = array('CLydia', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject');
+  private $lydiaCMFModules = array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier');
+
+
+  /**
    * Constructor
    */
   public function __construct() { parent::__construct(); }
@@ -49,23 +56,84 @@ class CMModules extends CObject {
     if(!$dir = dir($src)) throw new Exception('Could not open the directory.');
     $modules = array();
     while (($module = $dir->read()) !== false) {
-      if(is_dir("$src/$module")) {
-        if(class_exists($module)) {
-          $rc = new ReflectionClass($module);
-          $modules[$module]['name']          = $rc->name;
-          $modules[$module]['interface']     = $rc->getInterfaceNames();
-          $modules[$module]['isController']  = $rc->implementsInterface('IController');
-          $modules[$module]['isModel']       = preg_match('/^CM[A-Z]/', $rc->name);
-          $modules[$module]['hasSQL']        = $rc->implementsInterface('IHasSQL');
-          $modules[$module]['isManageable']  = $rc->implementsInterface('IModule');
-          $modules[$module]['isLydiaCore']   = in_array($rc->name, array('CLydia', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject'));
-          $modules[$module]['isLydiaCMF']    = in_array($rc->name, array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier'));
-        }
+      if(is_dir("$src/$module") && class_exists($module)) {
+        $modules[$module] = $this->GetDetailsOfModule($module);
       }
     }
     $dir->close();
     ksort($modules, SORT_LOCALE_STRING);
     return $modules;
+  }
+  
+
+  /**
+   * Get info and details about a module.
+   *
+   * @param $module string with the module name.
+   * @returns array with information on the module.
+   */
+  private function GetDetailsOfModule($module) {
+    $details = array();
+    if(class_exists($module)) {
+      $rc = new ReflectionClass($module);
+      $details['name']          = $rc->name;
+      $details['filename']      = $rc->getFileName();
+      $details['doccomment']    = $rc->getDocComment();
+      $details['interface']     = $rc->getInterfaceNames();
+      $details['isController']  = $rc->implementsInterface('IController');
+      $details['isModel']       = preg_match('/^CM[A-Z]/', $rc->name);
+      $details['hasSQL']        = $rc->implementsInterface('IHasSQL');
+      $details['isManageable']  = $rc->implementsInterface('IModule');
+      $details['isLydiaCore']   = in_array($rc->name, $this->lydiaCoreModules);
+      $details['isLydiaCMF']    = in_array($rc->name, $this->lydiaCMFModules);
+      $details['publicMethods']     = $rc->getMethods(ReflectionMethod::IS_PUBLIC);
+      $details['protectedMethods']  = $rc->getMethods(ReflectionMethod::IS_PROTECTED);
+      $details['privateMethods']    = $rc->getMethods(ReflectionMethod::IS_PRIVATE);
+      $details['staticMethods']     = $rc->getMethods(ReflectionMethod::IS_STATIC);
+    }
+    return $details;
+  }
+  
+
+  /**
+   * Get info and details about the methods of a module.
+   *
+   * @param $module string with the module name.
+   * @returns array with information on the methods.
+   */
+  private function GetDetailsOfModuleMethods($module) {
+    $methods = array();
+    if(class_exists($module)) {
+      $rc = new ReflectionClass($module);
+      $classMethods = $rc->getMethods();
+      foreach($classMethods as $val) {
+        $methodName = $val->name;
+        $rm = $rc->GetMethod($methodName);
+        $methods[$methodName]['name']          = $rm->getName();
+        $methods[$methodName]['doccomment']    = $rm->getDocComment();
+        $methods[$methodName]['startline']     = $rm->getStartLine();
+        $methods[$methodName]['endline']       = $rm->getEndLine();
+        $methods[$methodName]['isPublic']      = $rm->isPublic();
+        $methods[$methodName]['isProtected']   = $rm->isProtected();
+        $methods[$methodName]['isPrivate']     = $rm->isPrivate();
+        $methods[$methodName]['isStatic']      = $rm->isStatic();
+      }
+    }
+    ksort($methods, SORT_LOCALE_STRING);
+    return $methods;
+  }
+  
+
+  /**
+   * Get info and details about a module.
+   *
+   * @param $module string with the module name.
+   * @returns array with information on the module.
+   */
+  public function ReadAndAnalyseModule($module) {
+    $details = $this->GetDetailsOfModule($module);
+    $details['methods'] = $this->GetDetailsOfModuleMethods($module);
+    return $details;
   }
   
 
