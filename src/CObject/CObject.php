@@ -77,5 +77,13 @@ class CObject {
   }
 
 
+	/**
+	 * Wrapper for same method in CLydia. See there for documentation.
+	 */
+	protected function CreateBreadcrumb($options) {
+    return $this->ly->CreateBreadcrumb($options);
+  }
+
+
 }
   
