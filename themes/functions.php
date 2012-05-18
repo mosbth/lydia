@@ -65,7 +65,16 @@ function get_debug() {
     $html .= "<p>Database made the following queries.</p><pre>" . implode('<br/><br/>', $queries) . "</pre>";
   }    
   if(isset($ly->config['debug']['timer']) && $ly->config['debug']['timer']) {
-    $html .= "<p>Page was loaded in " . round(microtime(true) - $ly->timer['first'], 5)*1000 . " msecs.</p>";
+    $now = microtime(true);
+    $flash = $ly->session->GetFlash('timer');
+    $redirect = $flash ? round($flash['redirect'] - $flash['first'], 5)*1000 . ' msecs + x + ' : null;
+    $total = $flash ? round($now - $flash['first'], 5)*1000 . ' msecs. Per page: ' : null;
+    $html .= "<p>Page was loaded in {$total}{$redirect}" . round($now - $ly->timer['first'], 5)*1000 . " msecs.</p>";
+  }    
+  if(isset($ly->config['debug']['memory']) && $ly->config['debug']['memory']) {
+    $flash = $ly->session->GetFlash('memory');
+    $flash = $flash ? round($flash/1024/1024, 2) . ' Mbytes + ' : null;
+    $html .= "<p>Peek memory consumption was $flash" . round(memory_get_peak_usage(true)/1024/1024, 2) . " Mbytes.</p>";
   }    
   if(isset($ly->config['debug']['lydia']) && $ly->config['debug']['lydia']) {
     $html .= "<hr><h3>Debuginformation</h3><p>The content of CLydia:</p><pre>" . htmlent(print_r($ly, true)) . "</pre>";
@@ -118,6 +127,16 @@ function login_menu() {
  */
 function get_gravatar($size=null) {
   return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(CLydia::Instance()->user['email']))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
+}
+
+
+/**
+ * Get language as defined in config.
+ *
+ * @returns string the language.
+ */
+function get_language() {
+  return CLydia::Instance()->config['language'];
 }
 
 
