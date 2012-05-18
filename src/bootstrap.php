@@ -185,3 +185,33 @@ function bbcode2html($text) {
   return preg_replace($search, $replace, $text);
 }
 
+
+/**
+ * Create a slug of a string, to be used as url.
+ *
+ * @param string $str the string to format as slug.
+ * @returns str the formatted slug. 
+ */
+function slugify($str) {
+  $str = mb_strtolower(trim($str));
+  $str = str_replace(array('å','ä','ö'), array('a','a','o'), $str);
+  $str = preg_replace('/[^a-z0-9-]/', '-', $str);
+  $str = trim(preg_replace('/-+/', '-', $str), '-');
+  return $str;
+}
+
+
+/**
+ * Get a smaller part of text, a teaser, break at space/word/dot.
+ *
+ * @param string $str string to get the first part from.
+ * @param int $len maximum length to return, defaults to 200 characters.
+ * @returns string.
+ */
+function teaser($str, $len=400) {
+  if(strlen($str) <= $len) { return($str); }
+  $pos = mb_strpos($str, ' ', $len);
+  $str = trim(mb_substr($str, 0, $pos));
+  return $str;
+}
+
