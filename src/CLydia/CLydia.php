@@ -198,7 +198,11 @@ class CLydia implements ISingleton {
     if(isset($this->config['debug']['db-queries']) && $this->config['debug']['db-queries'] && isset($this->db)) {
       $this->session->SetFlash('database_queries', $this->db->GetQueries());
     }    
+    if(isset($this->config['debug']['memory']) && $this->config['debug']['memory']) {
+	    $this->session->SetFlash('memory', memory_get_peak_usage(true));
+    }    
     if(isset($this->config['debug']['timer']) && $this->config['debug']['timer']) {
+      $this->timer['redirect'] = microtime(true);
 	    $this->session->SetFlash('timer', $this->timer);
     }    
     $this->session->StoreInSession();
@@ -282,6 +286,30 @@ class CLydia implements ISingleton {
       throw new Exception('No such menu.');
     }     
     return "<ul class='menu {$menu}'>\n{$items}</ul>\n";
+  }
+
+
+  /**
+   * Create a breadcrumb from an array.
+   *
+   * @param array $options to use when createing the breadcrumb.
+   * @returns string with the HTML representing the breadcrumb.
+   */
+  public function CreateBreadcrumb($options) {
+    $default = array(
+      'separator' => '&raquo;',
+      'items' => array(),
+    );
+    $options = array_merge($default, $options);
+    $items = null;
+    foreach($options['items'] as $item) {
+      if(isset($item['url'])) {
+        $items .= "<li><a href='" . $this->CreateUrl($item['url']) . "'>{$item['label']}</a> {$options['separator']}</li>\n";
+      } else {
+        $items .= "<li>{$item['label']}</li>\n";
+      }
+    }
+    return "<ul class='breadcrumb'>\n{$items}</ul>\n";
   }
 
 
