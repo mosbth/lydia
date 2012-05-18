@@ -77,16 +77,25 @@ class CRequest {
    */
   public function Init($baseUrl = null, $routing=null) {
     $requestUri = $_SERVER['REQUEST_URI'];
-    $scriptName = $_SERVER['SCRIPT_NAME'];    
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    $scriptPath = dirname($scriptName);
+    $scriptFile = basename($scriptName);
     
     // Compare REQUEST_URI and SCRIPT_NAME as long they match, leave the rest as current request.
     $i=0;
-    $len = min(strlen($requestUri), strlen($scriptName));
-    while($i<$len && $requestUri[$i] == $scriptName[$i]) {
+    $len = min(strlen($requestUri), strlen($scriptPath));
+    while($i<$len && $requestUri[$i] == $scriptPath[$i]) {
       $i++;
     }
     $request = trim(substr($requestUri, $i), '/');
   
+    // Does the request start with script? Then remove that part.
+    $len1 = strlen($request);
+    $len2 = strlen($scriptFile);
+    if($len2 <= $len1 && substr_compare($scriptFile, $request, 0, $len2, true) === 0) {
+      $request = substr($request, $len2);
+    }
+
     // Remove the ?-part from the query when analysing controller/metod/arg1/arg2
     $queryPos = strpos($request, '?');
     if($queryPos !== false) {
@@ -106,7 +115,7 @@ class CRequest {
     }
     
     // Split the request into its parts
-    $splits = explode('/', $request);
+    $splits = explode('/', trim($request, '/'));
     
     // Set controller, method and arguments
     $controller =  !empty($splits[0]) ? $splits[0] : 'index';
