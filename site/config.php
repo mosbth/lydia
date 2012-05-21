@@ -17,6 +17,7 @@ ini_set('display_errors', 1);
 $ly->config['debug']['lydia'] = false;
 $ly->config['debug']['session'] = false;
 $ly->config['debug']['timer'] = true;
+$ly->config['debug']['memory'] = true;
 $ly->config['debug']['db-num-queries'] = true;
 $ly->config['debug']['db-queries'] = true;
 
