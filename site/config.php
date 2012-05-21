@@ -170,7 +170,7 @@ $ly->config['theme'] = array(
     'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
     'footer',
   ),
-  'menu_to_region' => array('my-navbar'=>'navbar'),
+  'region_to_menu' => array('my-navbar'=>'navbar'),
   'data' => array(
     'header' => 'Lydia',
     'slogan' => 'A PHP-based MVC-inspired CMF',
