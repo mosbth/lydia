@@ -144,9 +144,9 @@ class CLydia implements ISingleton {
     $this->themeParentUrl = $parentUrl;
     
     // Map menu to region if defined
-    if(is_array($this->config['theme']['menu_to_region'])) {
-      foreach($this->config['theme']['menu_to_region'] as $key => $val) {
-        $this->views->AddString($this->DrawMenu($key), null, $val);
+    if(is_array($this->config['theme']['region_to_menu'])) {
+      foreach($this->config['theme']['region_to_menu'] as $key => $val) {
+        $this->views->AddString($this->DrawMenu($val), null, $key);
       }
     }
 
