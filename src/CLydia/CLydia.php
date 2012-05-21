@@ -150,6 +150,16 @@ class CLydia implements ISingleton {
       }
     }
 
+    // Map data to region if defined
+    if(is_array($this->config['theme']['view_to_region'])) {
+      foreach($this->config['theme']['view_to_region'] as $val) {
+        switch($val['type']) {
+          case 'string': $this->views->AddString($val['content'], null, $val['region']); break;
+          case 'include': $this->views->AddInclude($val['content'], null, $val['region']); break;
+        }
+      }
+    }
+
     // Include the global functions.php and the functions.php that are part of the theme
     $ly = &$this;
     // First the default Lydia themes/functions.php
@@ -181,6 +191,31 @@ class CLydia implements ISingleton {
     } else {
       throw new Exception('No such template file.');
     }
+  }
+
+
+	/**
+	 * Display a custom error page.
+   *
+	 * @param $code integer the code, for example 403 or 404.
+	 * @param $message string a message to be displayed on the page.
+	 */
+	public function ShowErrorPage($code, $message=null) {
+	  $errors = array(
+	    '403' => 'HTTP/1.0 403 Restricted Content',
+	    '404' => 'HTTP/1.0 404 Not Found',
+	  );
+	  
+	  if(!array_key_exists($code, $errors)) {
+	    throw new Exception('Code is not valid.');
+    }
+    
+    $this->views->AddInclude(LYDIA_SITE_PATH . "/views/{$code}.tpl.php", array('message'=>$message), 'main')
+                ->AddInclude(LYDIA_SITE_PATH . "/views/{$code}_sidebar.tpl.php", array('message'=>$message), 'sidebar');
+
+    header($errors[$code]);
+    $this->ThemeEngineRender();
+    exit();
   }
 
 
@@ -269,23 +304,38 @@ class CLydia implements ISingleton {
   /**
    * Draw HTML for a menu defined in $ly->config['menus'].
    *
-   * @param $menu string then key to the menu in the config-array.
+   * @param $aMenu string/array either key to the menu in the config-array or array with menu-items.
    * @returns string with the HTML representing the menu.
    */
-  public function DrawMenu($menu) {
-    $items = null;
-    if(isset($this->config['menus'][$menu])) {
-      foreach($this->config['menus'][$menu] as $val) {
-        $selected = null;
-        if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
-          $selected = " class='selected'";
-        }
-        $items .= "<li><a {$selected} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
-      }
+  public function DrawMenu($aMenu) {
+    if(is_array($aMenu)) {
+      $menu = $aMenu;
+      $class = null;
+    } else if(isset($this->config['menus'][$aMenu])) {
+      $menu = $this->config['menus'][$aMenu];
+      $class = " $aMenu";
     } else {
       throw new Exception('No such menu.');
     }     
-    return "<ul class='menu {$menu}'>\n{$items}</ul>\n";
+
+    $items = null;
+    foreach($menu as $val) {
+      if(isset($val['label'])) {
+        $selected = null;
+        $title = null;
+        if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
+          $selected = " class='selected'";
+        }
+        if(isset($val['title'])) {
+          $title = " title='{$val['title']}'";
+        }
+        $items .= "<li><a{$selected}{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
+      }
+      if(isset($val['items'])) {
+        $items .= $this->DrawMenu($val['items']);
+      }
+    }
+    return "<ul class='menu{$class}'>\n{$items}</ul>\n";
   }
 
 

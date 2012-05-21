@@ -40,6 +40,14 @@ class CObject {
 	/**
 	 * Wrapper for same method in CLydia. See there for documentation.
 	 */
+	protected function ShowErrorPage($code, $message=null) {
+    $this->ly->ShowErrorPage($code, $message);
+  }
+
+
+	/**
+	 * Wrapper for same method in CLydia. See there for documentation.
+	 */
 	protected function RedirectTo($urlOrController=null, $method=null, $arguments=null) {
     $this->ly->RedirectTo($urlOrController, $method, $arguments);
   }
