@@ -88,6 +88,14 @@ class CObject {
 	/**
 	 * Wrapper for same method in CLydia. See there for documentation.
 	 */
+	protected function CreateUrlToController($method=null, $arguments=null) {
+    return $this->ly->CreateUrlToController($method, $arguments);
+  }
+
+
+	/**
+	 * Wrapper for same method in CLydia. See there for documentation.
+	 */
 	protected function CreateBreadcrumb($options) {
     return $this->ly->CreateBreadcrumb($options);
   }
