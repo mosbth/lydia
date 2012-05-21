@@ -123,13 +123,20 @@ class CRequest {
     $arguments = $splits;
     unset($arguments[0], $arguments[1]); // remove controller & method part from argument list
     
-    // Prepare to create current_url and base_url
+    // Prepare to create current_url, site_url and base_url
     $currentUrl = $this->GetCurrentUrl();
     $parts 	    = parse_url($currentUrl);
-    $baseUrl 		= !empty($baseUrl) ? $baseUrl : "{$parts['scheme']}://{$parts['host']}" . (isset($parts['port']) ? ":{$parts['port']}" : '') . rtrim(dirname($scriptName), '/');
+    if($baseUrl) {
+      $default = parse_url($baseUrl);
+      $siteUrl = "{$default['scheme']}://{$default['host']}" . (isset($default['port']) ? ":{$default['port']}" : '');
+    } else {
+      $siteUrl = "{$parts['scheme']}://{$parts['host']}" . (isset($parts['port']) ? ":{$parts['port']}" : '');
+      $baseUrl = $siteUrl . rtrim(dirname($scriptName), '/') . '/';
+    }
     
     // Store it
-    $this->base_url 	  = rtrim($baseUrl, '/') . '/';
+    $this->site_url     = $siteUrl;
+    $this->base_url 	  = $baseUrl;
     $this->current_url  = $currentUrl;
     $this->request_uri  = $requestUri;
     $this->script_name  = $scriptName;
