@@ -204,11 +204,8 @@ class CLydia implements ISingleton {
 	  $errors = array(
 	    '403' => 'HTTP/1.0 403 Restricted Content',
 	    '404' => 'HTTP/1.0 404 Not Found',
-	  );
-	  
-	  if(!array_key_exists($code, $errors)) {
-	    throw new Exception('Code is not valid.');
-    }
+	  );	  
+	  if(!array_key_exists($code, $errors)) { throw new Exception('Code is not valid.'); }
     
     $this->views->AddInclude(LYDIA_SITE_PATH . "/views/{$code}.tpl.php", array('message'=>$message), 'main')
                 ->AddInclude(LYDIA_SITE_PATH . "/views/{$code}_sidebar.tpl.php", array('message'=>$message), 'sidebar');
@@ -290,7 +287,7 @@ class CLydia implements ISingleton {
 
 
 	/**
-	 * Create an url. Wrapper and shorter method for $this->request->CreateUrl()
+	 * Create an url, wrapper and shorter method for $this->request->CreateUrl()
 	 *
 	 * @param $urlOrController string the relative url or the controller
 	 * @param $method string the method to use, $url is then the controller or empty for current
@@ -298,6 +295,17 @@ class CLydia implements ISingleton {
 	 */
 	public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
     return $this->request->CreateUrl($urlOrController, $method, $arguments);
+  }
+
+
+	/**
+	 * Create an url to current controller, wrapper for CreateUrl().
+	 *
+	 * @param $method string the method to use, $url is then the controller or empty for current
+	 * @param $arguments string the extra arguments to send to the method
+	 */
+	public function CreateUrlToController($method=null, $arguments=null) {
+    return $this->request->CreateUrl($this->request->controller, $method, $arguments);
   }
 
 
