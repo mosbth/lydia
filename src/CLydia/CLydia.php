@@ -351,13 +351,15 @@ class CLydia implements ISingleton {
   /**
    * Create a breadcrumb from an array.
    *
-   * @param array $options to use when createing the breadcrumb.
+   * @param array $items to use in breadcrumb.
+   * @param string $separator to use as separator.
+   * @param array $options to use when creating the breadcrumb.
    * @returns string with the HTML representing the breadcrumb.
    */
-  public function CreateBreadcrumb($options) {
+  public function CreateBreadcrumb($items=array(), $separator='&raquo;', $options=array()) {
     $default = array(
-      'separator' => '&raquo;',
-      'items' => array(),
+      'items' => $items,
+      'separator' => separator,
     );
     $options = array_merge($default, $options);
     $items = null;
