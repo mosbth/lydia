@@ -32,11 +32,31 @@ set_exception_handler('exceptionHandler');
 
 /**
  * i18n, internationalization, send all strings though this function to enable i18n.
+ * Inspired by Drupal´s t()-function.
  *
  * @param string $str the string to check up for translation.
+ * @param array $args associative array with arguments to be replaced in the $str.
+ *   - !variable: Inserted as is. Use this for text that has already been
+ *     sanitized.
+ *   - @variable: Escaped to HTML using htmlEnt(). Use this for anything
+ *     displayed on a page on the site.
  * @returns string the translated string.
  */
-function t($str) {
+function t($str, $args = array()) {
+  // translate string
+  //$str = gettext($str);
+  
+  // santitize and replace arguments
+  if(!empty($args)) {
+    foreach($args as $key => $val) {
+      switch($key[0]) {
+        case '@': $args[$key] = htmlEnt($val); break;
+        case '!': 
+        default: /* pass through */ break;
+      }
+    }
+    return strtr($str, $args);
+  }
   return $str;
 }
 
@@ -213,6 +233,17 @@ function slugify($str) {
   $str = preg_replace('/[^a-z0-9-]/', '-', $str);
   $str = trim(preg_replace('/-+/', '-', $str), '-');
   return $str;
+}
+
+
+/**
+ * Check if string is slugified, containing [a-zA-Z0-9-].
+ *
+ * @param string $str the string to check.
+ * @returns boolean true is slugified, else false.
+ */
+function is_slugified($str) {
+  return preg_match('/^[a-zA-Z0-9-]$/', $str);
 }
 
 
