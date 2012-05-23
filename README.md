@@ -61,13 +61,29 @@ by Tyler Tate/TwigKit to get grid layout through LESS.
 * Used by: `themes/grid/style.less`
 
 
+Todo.
+-----
+
+Yes, a lot of things to do. Lydia is not very stable and this list is not nere complete,
+its more a memory management and wishlist for me when developing.
+
+* Create view-directory and perform alternative load between view and site/view.
+* Add tabs to module-manager and enable management of each module.
+* Add source.php and enable viewing sourceode of modules.
+* Add image.php to enable image-handling.
+* Add tab to module-manager to enable translation of each module, with connection to 
+external translation service, such as google translate.
+
+
+
 History
 -------
 
-Todo.
+v0.3.01 (2012-05-23)
 
-* Yes, a lot of things to do. No need to specify them, to many on the list... Wait until
-there is a stable version of Lydia.
+* Enabling multilanguage, i18n, internationalization, though GNU's `gettext()`.
+* Adding `t()` as the translation function to use.
+* Adding module `CCAllSeeingEye` as a Lydia application for presenting aggregated RSS feed.
 
 
 v0.3.0 (2012-05-23)
@@ -92,6 +108,7 @@ v0.3.0 (2012-05-23)
 
 v0.2.24 (2012-05-07)
 
+* Last change while in the phpmvc-course.
 * Updating `CMModules` and `CCModules` to display information on a module's main class
 using Reflection API.
 

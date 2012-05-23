@@ -31,7 +31,22 @@ set_exception_handler('exceptionHandler');
 
 
 /**
+ * i18n, internationalization, send all strings though this function to enable i18n.
+ *
+ * @param string $str the string to check up for translation.
+ * @returns string the translated string.
+ */
+function t($str) {
+  return $str;
+}
+
+
+/**
  * Helper, include a file and store it in a string. Make $vars available to the included file.
+ *
+ * @param string $filename
+ * @param array $vars a set of variables made available to process in the included file.
+ * @returns string with content from file, processed using variables.
  */
 function getIncludeContents($filename, $vars=array()) {
   if (is_file($filename)) {
