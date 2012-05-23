@@ -23,9 +23,9 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
       'config' => __DIR__ . '/config.php',
       'cache_duration' => 3600*4
       'title' => array(
-        'index' => t('RSS aggregation from several sources.'),
-        'category' => t('RSS aggregation per category.'),
-        'feed' => t('RSS aggregation specific feed.'),
+        'index' => t('RSS aggregation.'),
+        'category' => t('@category (RSS aggregation).'),
+        'feed' => t('@feed (RSS aggregation).'),
       ),
       'breadcrumb' => array(
         array('label' => t('RSS'), 'url' => $this->CreateUrlToController()),
@@ -67,7 +67,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
    */
   public function Categori($aCategory=null) {
     if(is_null($aCategory)) { return $this->Index(); }
-    if(!preg_match('/^[a-zA-Z0-9\-]$/', $aCategory)) { $this->ShowErrorPage(404, t('The category does not exists.')); }
+    if(!is_slug($aCategory)) { $this->ShowErrorPage(404, t('The category is invalid.')); }
     
     $rssFeeds = new CMRSSAggregator();
     $rssFeeds->Load(array('feeds_file' => $this['config'],
@@ -81,7 +81,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
     $this['breadcrumb'][] = array('label' => $rssFeeds['categories'][$aCategory]['name'], 
                                   'url' => $this->CreateUrlToController(null, $aCategory));
     
-    $this->views->SetTitle($this->['title']['category'])
+    $this->views->SetTitle(strtr($this->['title']['category'], array('#category' => $rssFeeds['categories'][$aCategory]['name']))
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this['breadcrumb']))
                 ->AddIncludeToRegion('primary', __DIR__ . '/category.tpl.php', array('feeds'=>$rssFeeds->data))
                 ->AddIncludeToRegion('sidebar', __DIR__ . '/category_sidebar.tpl.php', array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));
@@ -95,7 +95,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
    */
   public function Feed($aFeed=null) {
     if(is_null($aFeed)) { return $this->Index(); }
-    if(!preg_match('/^[a-zA-Z0-9\-]$/', $aFeed)) { $this->ShowErrorPage(404, t('The feed does not exists.')); }
+    if(!is_slug($aFeed)) { $this->ShowErrorPage(404, t('The feed is invalid.')); }
 
     $rssFeeds = new CMRSSAggregator();
     $rssFeeds->Load(array('feeds_file' => $this['config'],
@@ -109,7 +109,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
     $this['breadcrumb'][] = array('label' => $rssFeeds['sites'][$aFeed]->name, 
                                   'url' => $this->CreateUrlToController(null, $aFeed));
     
-    $this->views->SetTitle($this->['title']['feed'])
+    $this->views->SetTitle(strtr($this->['title']['feed'], $rssFeeds['sites'][$aFeed]->name))
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this['breadcrumb']))
                 ->AddIncludeToRegion('primary', __DIR__ . '/feed.tpl.php', array('feeds'=>$rssFeeds->data))
                 ->AddIncludeToRegion('sidebar', __DIR__ . '/feed_sidebar.tpl.php', array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));

@@ -242,7 +242,7 @@ function slugify($str) {
  * @param string $str the string to check.
  * @returns boolean true is slugified, else false.
  */
-function is_slugified($str) {
+function is_slug($str) {
   return preg_match('/^[a-zA-Z0-9-]$/', $str);
 }
 
