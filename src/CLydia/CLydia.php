@@ -99,17 +99,17 @@ class CLydia implements ISingleton {
           if($methodObj->isPublic()) {
             $methodObj->invokeArgs($controllerObj, $arguments);
           } else {
-            die("404. " . get_class() . ' error: Controller method not public.');          
+            $this->ShowErrorPage(404, 'Controller method not public.');          
           }
         } else {
-          die("404. " . get_class() . ' error: Controller does not contain method.');
+          $this->ShowErrorPage(404, 'Controller does not contain method.');
         }
       } else {
-        die('404. ' . get_class() . ' error: Controller does not implement interface IController.');
+        $this->ShowErrorPage(404, 'Controller does not implement interface IController.');
       }
     } 
     else { 
-      die('404. Page is not found.');
+      $this->ShowErrorPage(404, 'Page is not found.');
     }
   }
   
@@ -202,15 +202,16 @@ class CLydia implements ISingleton {
 	 */
 	public function ShowErrorPage($code, $message=null) {
 	  $errors = array(
-	    '403' => 'HTTP/1.0 403 Restricted Content',
-	    '404' => 'HTTP/1.0 404 Not Found',
+	    '403' => array('header' => 'HTTP/1.0 403 Restricted Content', 'title' => '403, restricted content'),
+	    '404' => array('header' => 'HTTP/1.0 404 Not Found', 'title' => '404, page not found'),
 	  );	  
 	  if(!array_key_exists($code, $errors)) { throw new Exception('Code is not valid.'); }
     
-    $this->views->AddInclude(LYDIA_SITE_PATH . "/views/{$code}.tpl.php", array('message'=>$message), 'main')
+    $this->views->SetTitle($errors[$code]['title'])
+                ->AddInclude(LYDIA_SITE_PATH . "/views/{$code}.tpl.php", array('message'=>$message), 'primary')
                 ->AddInclude(LYDIA_SITE_PATH . "/views/{$code}_sidebar.tpl.php", array('message'=>$message), 'sidebar');
 
-    header($errors[$code]);
+    header($errors[$code]['header']);
     $this->ThemeEngineRender();
     exit();
   }
@@ -331,13 +332,13 @@ class CLydia implements ISingleton {
       if(isset($val['label'])) {
         $selected = null;
         $title = null;
-        if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
+        if(in_array($val['url'], array($this->request->request, $this->request->routed_from)) || substr_compare($val['url'], $this->request->controller, 0) == 0) {
           $selected = " class='selected'";
         }
         if(isset($val['title'])) {
           $title = " title='{$val['title']}'";
         }
-        $items .= "<li><a{$selected}{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
+        $items .= "<li{$selected}><a{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
       }
       if(isset($val['items'])) {
         $items .= $this->DrawMenu($val['items']);

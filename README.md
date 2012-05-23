@@ -13,7 +13,7 @@ Material in below links are mainly in swedish.
 License
 -------
 
-Lydia is licenses according to MIT-license. 
+Lydia is licensed according to MIT-license. 
 Any included external modules are subject to their own licensing.
 
 
@@ -27,29 +27,29 @@ The following external modules are included in Lydia.
 
 ### HTMLPurifier
 HTMLPurifier by Edward Z. Yang to filter & format HTML.
-Website: http://htmlpurifier.org/ 
-Version: 4.4.0 (2012-01-18)
-License: LGPL
-Lydia path: `src/CHTMLPurifier`
-Used by: `CMContent`
+* Website: http://htmlpurifier.org/ 
+* Version: 4.4.0 (2012-01-18)
+* License: LGPL
+* Lydia path: `src/CHTMLPurifier`
+* Used by: `CMContent`
 
 
 ### lessphp
 lessphp by leaf to compile LESS.
-Website: http://leafo.net/lessphp
-Version: 0.3.4-2 (2012-04-17)
-License: Dual license, MIT LICENSE and GPL VERSION 3
-Lydia path: `themes/grid/lessphp`
-Used by: `themes/grid/style.php`
+* Website: http://leafo.net/lessphp
+* Version: 0.3.4-2 (2012-04-17)
+* License: Dual license, MIT LICENSE and GPL VERSION 3
+* Lydia path: `themes/grid/lessphp`
+* Used by: `themes/grid/style.php`
 
 
 ### The Semantic Grid System
 by Tyler Tate/TwigKit to get grid layout through LESS.
-Website: http://semantic.gs/
-Version: 1.2 (2012-01-11)
-License: Apache License
-Lydia path: `themes/grid/semantic.gs`
-Used by: `themes/grid/style.less.css`
+* Website: http://semantic.gs/
+* Version: 1.2 (2012-01-11)
+* License: Apache License
+* Lydia path: `themes/grid/semantic.gs`
+* Used by: `themes/grid/style.less`
 
 
 History
@@ -59,6 +59,11 @@ Todo.
 
 * Yes, a lot of things to do. No need to specify them, to many on the list... Wait until
 there is a stable version of Lydia.
+
+
+v0.3.0 (2012-05-14)
+
+* Corrected `CRequest` to handle requests `index/method` which failed before.
 
 
 v0.2.24 (2012-05-07)

@@ -166,12 +166,12 @@ $ly->config['theme'] = array(
   'parent'          => 'themes/grid',
   'stylesheet'      => 'style.css',
   'template_file'   => 'index.tpl.php',
-  'regions' => array('navbar', 'flash','featured-first','featured-middle','featured-last',
+  'regions' => array('site-menu', 'breadcrumb', 'navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',
     'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
     'footer',
   ),
-  'region_to_menu' => array('my-navbar'=>'navbar'),
+  'region_to_menu' => array('site-menu'=>'my-navbar', 'navbar'=>'navbar'),
   'data' => array(
     'header' => 'Lydia',
     'slogan' => 'A PHP-based MVC-inspired CMF',
@@ -179,6 +179,37 @@ $ly->config['theme'] = array(
     'logo' => 'logo_80x80.png',
     'logo_width'  => 80,
     'logo_height' => 80,
-    'footer' => '<p>Lydia &copy; by Mikael Roos (mos@dbwebb.se)</p>',
+  ),
+  'view_to_region' => array(
+    array(
+      'region' => 'footer',
+      'type' => 'string',
+      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; Mikael Roos (mos@dbwebb.se)</p>"
+    ),
+    array(
+      'region' => 'footer-column-one',
+      'type' => 'include',
+      'content' => __DIR__.'/views/footer_column_one.tpl.php'
+    ),
+    array(
+      'region' => 'footer-column-two',
+      'type' => 'include',
+      'content' => __DIR__.'/views/footer_column_two.tpl.php'
+    ),
+    array(
+      'region' => 'footer-column-three',
+      'type' => 'include',
+      'content' => __DIR__.'/views/footer_column_three.tpl.php'
+    ),
+    array(
+      'region' => 'footer-column-four',
+      'type' => 'include',
+      'content' => __DIR__.'/views/footer_column_four.tpl.php'
+    ),
+    array(
+      'region' => 'footer-column-five',
+      'type' => 'include',
+      'content' => __DIR__.'/views/footer_column_five.tpl.php'
+    ),
   ),
 );

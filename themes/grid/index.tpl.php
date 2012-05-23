@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang='en'> 
+<html lang='<?=get_language()?>'> 
 <head>
   <meta charset='utf-8'/>
   <title><?=$title?></title>
@@ -16,11 +16,13 @@
       <div id='banner'>
         <a href='<?=base_url()?>'><img id='site-logo' src='<?=theme_url($logo)?>' alt='logo' width='<?=$logo_width?>' height='<?=$logo_height?>' /></a>
         <span id='site-title'><a href='<?=base_url()?>'><?=$header?></a></span>
-        <span id='site-slogan'><?=$slogan?></span>
+        <?php if($slogan): ?><span id='site-slogan'><?=$slogan?></span><?php endif; ?>
+        <?php if(region_has_content('site-menu')): ?><div id='site-menu'><?=render_views('site-menu')?></div><?php endif; ?>
       </div>
-      <?php if(region_has_content('navbar')): ?>
-      <div id='navbar'><?=render_views('navbar')?></div>
-      <?php endif; ?>
+      <?php if(region_has_content('navbar')): ?><div id='navbar'><?=render_views('navbar')?></div><?php endif; ?>
+    </div>
+    <div id='header-below'>
+      <?php if(region_has_content('breadcrumb')): ?><div id='breadcrumb'><?=render_views('breadcrumb')?></div><?php endif; ?>
     </div>
   </div>
 </div>
@@ -67,10 +69,11 @@
     <div id='footer-column-two'><?=render_views('footer-column-two')?></div>
     <div id='footer-column-three'><?=render_views('footer-column-three')?></div>
     <div id='footer-column-four'><?=render_views('footer-column-four')?></div>
+    <div id='footer-column-five'><?=render_views('footer-column-five')?></div>
   </div>
   <?php endif; ?>
   <div id='inner-wrap-footer'>
-    <div id='footer'><?=render_views('footer')?><?=$footer?><?=get_tools()?><?=get_debug()?></div>
+    <div id='footer'><?=render_views('footer')?><?=get_debug()?></div>
   </div>
 </div>
 
