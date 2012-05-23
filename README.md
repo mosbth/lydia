@@ -34,6 +34,15 @@ HTMLPurifier by Edward Z. Yang to filter & format HTML.
 * Used by: `CMContent`
 
 
+### SimplePie
+SimplePie by Geoffrey, Ryan P., and Ryan M. to read RSS feeds.
+* Website: http://simplepie.org/
+* Version: 1.2.1 (2011-10-14)
+* License: BSD license
+* Lydia path: `src/CRSSFeed/simplepie`
+* Used by: `CRSSFeed`
+
+
 ### lessphp
 lessphp by leaf to compile LESS.
 * Website: http://leafo.net/lessphp
@@ -61,9 +70,24 @@ Todo.
 there is a stable version of Lydia.
 
 
-v0.3.0 (2012-05-14)
+v0.3.0 (2012-05-23)
 
+* Preparing to use Lydia in live site to show off RSS aggregation.
+* Adding SimplePie version 1.2.1. 
 * Corrected `CRequest` to handle requests `index/method` which failed before.
+* adding factory wrapper for external RSS aggregators, including `Simplepie`
+* adding model for RSS aggregator
+* adding view-directory in site
+* added method for `CreateUrlToController()`
+* added method for displaying error codes 404, 403 using `ShowErrorPage()`
+* added config-item for debug timer
+* added `site_url` in `CRequest`
+* added `CreateBreadcrumb()` and keep track of memory and timeusage through page relaods.
+* added `get_language()`
+* added `teaser()` and `slugify()`
+* modified `theme_url()` and `theme_parent_url()` to use `site_url` when url starts with /
+* corrected visible newline character in `user/profile`.
+* corrected: changed  order when drawing menues to regions.
 
 
 v0.2.24 (2012-05-07)
