@@ -64,8 +64,9 @@ class CViewContainer {
 
   
   /**
-   * Add a view as file to be included and optional variables.
-   *
+   * Add a view as file to be included and optional variables. 
+   * 
+   * @deprecated v0.3.01
    * @param $file string path to the file to be included.
    * @param $vars array containing the variables that should be avilable for the included file.
    * @param $region string the theme region, uses string 'default' as default region.
@@ -78,14 +79,43 @@ class CViewContainer {
   
 
   /**
+   * Add a view as file to be included in a region with optional variables.
+   *
+   * @param string $region the theme region.
+   * @param string $file path to the file to be included.
+   * @param array $vars containing the variables that should be avilable for the included file.
+   * @returns $this.
+   */
+  public function AddIncludeToRegion($region, $file, $variables=array()) {
+    $this->views[$region][] = array('type' => 'include', 'file' => $file, 'variables' => $variables);
+    return $this;
+  }
+  
+
+  /**
    * Add text and optional variables.
    *
+   * @deprecated v0.3.01
    * @param $string string content to be displayed.
    * @param $vars array containing the variables that should be avilable for the included file.
    * @param $region string the theme region, uses string 'default' as default region.
    * @returns $this.
    */
   public function AddString($string, $variables=array(), $region='default') {
+    $this->views[$region][] = array('type' => 'string', 'string' => $string, 'variables' => $variables);
+    return $this;
+  }
+  
+        
+  /**
+   * Add text and optional variables.
+   *
+   * @param string $region the theme region.
+   * @param string $string content to be displayed.
+   * @param array $vars containing the variables that should be available for the string.
+   * @returns $this.
+   */
+  public function AddStringToRegion($region, $string, $variables=array()) {
     $this->views[$region][] = array('type' => 'string', 'string' => $string, 'variables' => $variables);
     return $this;
   }
