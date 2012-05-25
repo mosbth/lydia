@@ -84,6 +84,7 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
   public function Load($options=array()) {
     $cmpFunction = function($a, $b) { return date($a->date) == date($b->date) ? 0 : ($a->date < $b->date ? 1 : -1); };
     $default = array(
+      'config' => __DIR__.'/config.php',
       'categories' => array(),
       'categories_exclude' => array(),
       'categories_include' => array(),
@@ -91,7 +92,6 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
       'feeds_exclude' => array(),
       'feeds_include' => array(),
       'number_of_items' => 5,
-      'feeds_file' => __DIR__.'/config.php',
       'url_controller_category' => null,
       'url_method_category' => 'category',
       'url_controller_site' => null,
@@ -101,7 +101,7 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
     );
     $options = array_merge($default, $options);
 
-    if(is_readable($options['feeds_file'])) include($options['feeds_file']);
+    if(is_readable($options['config'])) include($options['config']);
       else throw new Exception('No such feed file.');
     $this->feeds = $feeds;
     $this->options = $options;

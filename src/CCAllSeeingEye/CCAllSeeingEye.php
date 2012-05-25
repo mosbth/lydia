@@ -20,7 +20,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
   public function __construct($options=array()) { 
     parent::__construct();
     $default = array(
-      'config' => __DIR__ . '/config.php',
+      //'config' => __DIR__ . '/config.php',
       'cache_duration' => 3600*4,
       'title' => array(
         'index' => t('RSS aggregation'),
