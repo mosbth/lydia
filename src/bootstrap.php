@@ -44,7 +44,7 @@ set_exception_handler('exceptionHandler');
  */
 function t($str, $args = array()) {
   if(CLydia::Instance()->config['i18n']) {  
-   //$str = gettext($str);
+   $str = gettext($str);
   }
 
   // santitize and replace arguments

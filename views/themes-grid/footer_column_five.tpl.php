@@ -1,5 +1,5 @@
 <nav>
-  <h4><?=t('Get inspired from a world of opensource')?></h4>
+  <h4><?=t('Get inspired of a world of opensource')?></h4>
   <strong><?=t('Philosofy:')?></strong>
   <a href='http://www.catb.org/~esr/faqs/hacker-howto.html'>How to become a hacker</a> &bull;
   <a href='http://catb.org/~esr/faqs/smart-questions.html'>How to ask questions the smart way</a> &bull;
@@ -59,7 +59,6 @@
   <a href='http://sass-lang.com/'>Sass</a>
 
   &nbsp;&nbsp;<strong><?=t('JavaScript:')?></strong>
-  <a href='https://developer.mozilla.org/en/JavaScript'>Mozilla DN</a> &bull;
   <a href='http://jquery.com/'>jQuery</a> &bull;
   <a href='http://www.modernizr.com/'>Modernizer</a>
 

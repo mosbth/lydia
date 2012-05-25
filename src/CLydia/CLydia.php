@@ -45,8 +45,8 @@ class CLydia implements ISingleton/*, IModule*/ {
     setlocale(LC_ALL, $this->config['language']);
     if($this->config['i18n']) {
   		bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
+      bind_textdomain_codeset('lydia', 'UTF-8'); 
 	  	textdomain('lydia');
-	  	echo gettext('Category:');
 	  }
 		
 		// Create a database object.
