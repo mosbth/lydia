@@ -198,32 +198,32 @@ $ly->config['theme'] = array(
     array(
       'region' => 'footer',
       'type' => 'string',
-      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; Mikael Roos (mos@dbwebb.se)</p>"
+      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se), a result from <a href='http://dbwebb.se/'>dbwebb</a></p>"
     ),
     array(
       'region' => 'footer-column-one',
       'type' => 'include',
-      'content' => __DIR__.'/views/footer_column_one.tpl.php'
+      'content' => 'themes-grid/footer_column_one.tpl.php'
     ),
     array(
       'region' => 'footer-column-two',
       'type' => 'include',
-      'content' => __DIR__.'/views/footer_column_two.tpl.php'
+      'content' => 'themes-grid/footer_column_two.tpl.php'
     ),
     array(
       'region' => 'footer-column-three',
       'type' => 'include',
-      'content' => __DIR__.'/views/footer_column_three.tpl.php'
+      'content' => 'themes-grid/footer_column_three.tpl.php'
     ),
     array(
       'region' => 'footer-column-four',
       'type' => 'include',
-      'content' => __DIR__.'/views/footer_column_four.tpl.php'
+      'content' => 'themes-grid/footer_column_four.tpl.php'
     ),
     array(
       'region' => 'footer-column-five',
       'type' => 'include',
-      'content' => __DIR__.'/views/footer_column_five.tpl.php'
+      'content' => 'themes-grid/footer_column_five.tpl.php'
     ),
   ),
 );

@@ -182,8 +182,8 @@ class CLydia implements ISingleton/*, IModule*/ {
     if(is_array($this->config['theme']['view_to_region'])) {
       foreach($this->config['theme']['view_to_region'] as $val) {
         switch($val['type']) {
-          case 'string': $this->views->AddString($val['content'], null, $val['region']); break;
-          case 'include': $this->views->AddInclude($val['content'], null, $val['region']); break;
+          case 'string': $this->views->AddStringToRegion($val['region'], $val['content']); break;
+          case 'include': $this->views->AddIncludeToRegion($val['region'], $this->LoadView(null, $val['content'])); break;
         }
       }
     }
