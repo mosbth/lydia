@@ -20,8 +20,10 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
   public function __construct($options=array()) { 
     parent::__construct();
     $default = array(
-      //'config' => __DIR__ . '/config.php',
-      'cache_duration' => 3600*4,
+      'aggregator_options' => array(
+        //'config' => __DIR__ . '/config.php',
+        'cache_duration' => 3600*4,
+      ),
       'title' => array(
         'index' => t('RSS aggregation'),
         'category' => t('@category (RSS aggregation)'),
@@ -49,9 +51,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
    */
   public function Index() {
     $rssFeeds = new CMRSSAggregator();
-    $rssFeeds->Load(array('feeds_file' => $this['config'], 
-                          'cache_duration'=>$this['cache_duration'],
-                          'number_of_items'=>1));
+    $rssFeeds->Load(array_merge($this['aggregator_options'], array('number_of_items'=>1)));
 
     $this->views->SetTitle($this['title']['index'])
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this['breadcrumb']))
@@ -70,11 +70,9 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
     if(!is_slug($aCategory)) { $this->ShowErrorPage(404, t('The category is invalid.')); }
     
     $rssFeeds = new CMRSSAggregator();
-    $rssFeeds->Load(array('feeds_file' => $this['config'],
-                          'cache_duration'=>$this['cache_duration'],
-                          'number_of_items'=>3, 
-                          'categories_include'=>array($aCategory),
-                          'teaser'=>800));
+    $rssFeeds->Load(array_merge($this['aggregator_options'], array('number_of_items'=>3, 
+                                                                   'categories_include'=>array($aCategory),
+                                                                   'teaser'=>800)));
 
     if(!isset($rssFeeds['categories'][$aCategory])) { $this->ShowErrorPage(404, t('The category does not exists.')); }
 
@@ -98,11 +96,9 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
     if(!is_slug($aFeed)) { $this->ShowErrorPage(404, t('The feed is invalid.')); }
 
     $rssFeeds = new CMRSSAggregator();
-    $rssFeeds->Load(array('feeds_file' => $this['config'],
-                          'cache_duration'=>$this['cache_duration'],
-                          'number_of_items'=>10, 
-                          'sites_include'=>array($aFeed),
-                          'teaser'=>800));
+    $rssFeeds->Load(array_merge($this['aggregator_options'], array('number_of_items'=>10, 
+                                                                   'sites_include'=>array($aFeed),
+                                                                   'teaser'=>800)));
 
     if(!isset($rssFeeds['sites'][$aFeed])) { $this->ShowErrorPage(404, t('The feed does not exists.')); }
 

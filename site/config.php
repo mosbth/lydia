@@ -175,10 +175,11 @@ $ly->config['menus'] = array(
  * available to the template files.
  */
 $ly->config['theme'] = array(
-  'path'            => 'site/themes/mytheme',
-  //'path'            => 'themes/grid',
-  'parent'          => 'themes/grid',
-  'stylesheet'      => 'style.css',
+  //'path'            => 'site/themes/mytheme',
+  'path'            => 'themes/grid',
+  //'parent'          => 'themes/grid',
+  //'stylesheet'      => 'style.css',
+  'stylesheet'      => 'style.php',
   'template_file'   => 'index.tpl.php',
   'regions' => array('site-menu', 'breadcrumb', 'navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',

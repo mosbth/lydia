@@ -46,6 +46,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     if($this->config['i18n']) {
   		bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
 	  	textdomain('lydia');
+	  	echo gettext('Category:');
 	  }
 		
 		// Create a database object.
@@ -230,14 +231,14 @@ class CLydia implements ISingleton/*, IModule*/ {
 	 */
 	public function ShowErrorPage($code, $message=null) {
 	  $errors = array(
-	    '403' => array('header' => 'HTTP/1.0 403 Restricted Content', 'title' => '403, restricted content'),
-	    '404' => array('header' => 'HTTP/1.0 404 Not Found', 'title' => '404, page not found'),
+	    '403' => array('header' => 'HTTP/1.0 403 Restricted Content', 'title' => t('403, restricted content')),
+	    '404' => array('header' => 'HTTP/1.0 404 Not Found', 'title' => t('404, page not found')),
 	  );	  
-	  if(!array_key_exists($code, $errors)) { throw new Exception('Code is not valid.'); }
+	  if(!array_key_exists($code, $errors)) { throw new Exception(t('Header code is not valid.')); }
     
     $this->views->SetTitle($errors[$code]['title'])
-                ->AddInclude(LYDIA_SITE_PATH . "/views/{$code}.tpl.php", array('message'=>$message), 'primary')
-                ->AddInclude(LYDIA_SITE_PATH . "/views/{$code}_sidebar.tpl.php", array('message'=>$message), 'sidebar');
+                ->AddIncludeToRegion('primary', $this->LoadView(null, "{$code}.tpl.php"), array('message'=>$message))
+                ->AddIncludeToRegion('sidebar', $this->LoadView(null, "{$code}_sidebar.tpl.php"), array('message'=>$message));
 
     header($errors[$code]['header']);
     $this->ThemeEngineRender();

@@ -1,6 +1,6 @@
 <section>
 <h1><?=t('RSS aggregation though the All-Seeing-Eye')?></h1>
-<p><?=t('The module CCAllSeeingEye is a Lydia application which does RSS aggregation. Subclass it, create a config.php-file to choose your feeds and customize the views to adapt it.')?></p>
+<p><?=t('The module CCAllSeeingEye is a Lydia application which does RSS aggregation. Make an app-class who use this class, create a config.php-file to choose your feeds and customize the views to adapt it.')?></p>
 </section>
 
 <?php foreach($feeds['items'] as $item): ?>
