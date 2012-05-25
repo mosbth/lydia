@@ -232,6 +232,14 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 #inner-wrap-header{.wrap();}
 #header{.column(24);padding-top:@magic-number/2;margin-bottom:@magic-number*0.5-1px;
 border-bottom:1px dotted #999;}
+
+
+/** --------------------------------------------------------------
+ * Header below.
+ *
+ */
+#outer-wrap-header-below{}
+#inner-wrap-header-below{.wrap();}
 #header-below{.column(24);margin-bottom:@magic-number;}
 
 
@@ -449,8 +457,12 @@ a{color:@anchorColor;
   &:focus{.hover()}
   &:active{}
   &.no-style{text-decoration:none;color:inherit;
-    &:hover{.hover()}
-    &:focus{.hover()}
+    &:hover{text-decoration:underline;color:@anchorColor;}
+    &:focus{text-decoration:underline;color:@anchorColor;}
+  }
+  &.no-style-black{text-decoration:none;color:inherit;
+    &:hover{color:darken(@color,20%);}
+    &:focus{color:darken(@color,20%);}
   }
 }
 

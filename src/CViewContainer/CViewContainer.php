@@ -31,6 +31,10 @@ class CViewContainer {
 	 * @param $value string to be set as title.
 	 */
 	public function SetTitle($value) {
+    $append = CLydia::Instance()->config['title_append'];
+    if($append) {
+      $value .= " $append";
+    }
     return $this->SetVariable('title', $value);
   }
 
@@ -82,7 +86,7 @@ class CViewContainer {
    * Add a view as file to be included in a region with optional variables.
    *
    * @param string $region the theme region.
-   * @param string $file path to the file to be included.
+   * @param string $file path to the file to be included. 
    * @param array $vars containing the variables that should be avilable for the included file.
    * @returns $this.
    */

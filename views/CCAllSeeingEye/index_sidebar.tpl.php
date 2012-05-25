@@ -1,4 +1,4 @@
-<h4>Kategorier</h4>
+<h4><?=t('Categories')?></h4>
 <ul>
 <?php foreach($categories as $category): ?>
 <li><a class='no-style' href='<?=$category->url?>'><?=$category->name?></a></li>

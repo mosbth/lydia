@@ -101,5 +101,13 @@ class CObject {
   }
 
 
+  /**
+	 * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function LoadView($view) {
+    return $this->ly->LoadView(get_class($this), $view);
+  }
+
+
 }
   

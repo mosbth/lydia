@@ -38,14 +38,14 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
 
 
   /**
-   * Get related feeds, which means all feeds in the same category.
+   * Get related sites, which means all feeds in the same category.
    *
-   * @param stdObject $site with a category.
+   * @param stdObject $siteKey key to a site.
    * @returns array with sites.
    */
-  public function GetRelatedFeeds($aSite) {
+  public function GetRelatedSites($siteKey) {
     $related = array();
-    foreach($this->feeds['categories'][$aSite->category->key]['sites'] as $val) {
+    foreach($this->feeds['categories'][$this->data['sites'][$siteKey]->category->key]['sites'] as $val) {
       $site = new stdClass();
       $site->key = $val;
       $site->name = $this->feeds['sites'][$val]['name'];
@@ -87,9 +87,9 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
       'categories' => array(),
       'categories_exclude' => array(),
       'categories_include' => array(),
-      'sites' => array(),
-      'sites_exclude' => array(),
-      'sites_include' => array(),
+      'feeds' => array(),
+      'feeds_exclude' => array(),
+      'feeds_include' => array(),
       'number_of_items' => 5,
       'feeds_file' => __DIR__.'/config.php',
       'url_controller_category' => null,
@@ -165,6 +165,7 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
       $rss->handle_content_type();
 
       $site->permalink = $rss->get_permalink();
+      $site->siteurl = $rss->get_permalink();
       $site->title = $rss->get_title();
       $site->description = strip_tags($rss->get_description());
       $this->data['sites'][$siteKey] = $site;

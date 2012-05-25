@@ -6,9 +6,9 @@
 
 <?php foreach($feeds['items'] as $item): ?>
 <article>
-<em><a class='no-style' href='<?=$item->site->url?>'><?=$item->site->name?><span class='silent smaller'>, <?=time_diff($item->date)?> ago.</span></a></em><br />
+<em><a class='no-style' rel='nofollow' href='<?=$item->site->url?>'><?=$item->site->name?><span class='silent smaller'>, <?=time_diff($item->date)?> ago.</span></a></em><br />
 <h2><a class='no-style' href='<?=$item->permalink?>'><?=$item->title?></a></h2>
-<a class='no-style' href='<?=$item->permalink?>'><p><?=$item->content?> [...]</p></a>
+<a class='no-style-black' rel='nofollow' href='<?=$item->permalink?>'><p><?=$item->content?> [...]</p></a>
 </article>
 <?php endforeach; ?>
 

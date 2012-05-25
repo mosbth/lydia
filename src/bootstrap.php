@@ -43,9 +43,10 @@ set_exception_handler('exceptionHandler');
  * @returns string the translated string.
  */
 function t($str, $args = array()) {
-  // translate string
-  //$str = gettext($str);
-  
+  if(CLydia::Instance()->config['i18n']) {  
+   //$str = gettext($str);
+  }
+
   // santitize and replace arguments
   if(!empty($args)) {
     foreach($args as $key => $val) {
@@ -243,7 +244,7 @@ function slugify($str) {
  * @returns boolean true is slugified, else false.
  */
 function is_slug($str) {
-  return preg_match('/^[a-zA-Z0-9-]$/', $str);
+  return preg_match('/^[a-zA-Z0-9\-]+$/', $str);
 }
 
 
@@ -260,4 +261,15 @@ function teaser($str, $len=400) {
   $str = trim(mb_substr($str, 0, $pos));
   return $str;
 }
+
+
+/**
+ * Dump a array or object for debug.
+ *
+ * @param array/object $a.
+ */
+function dump($a) {
+  echo '<pre>', print_r($a, true), '</pre>';
+}
+
 

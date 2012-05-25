@@ -4,7 +4,7 @@
  *
  * @package LydiaCore
  */
-class CLydia implements ISingleton {
+class CLydia implements ISingleton/*, IModule*/ {
 
 	/**
 	 * Members
@@ -40,6 +40,14 @@ class CLydia implements ISingleton {
 		// Set default date/time-zone
 		date_default_timezone_set('UTC');
 		
+		// Setup i18n, internationalization and multi-language support
+    putenv('LC_ALL='.$this->config['language']);
+    setlocale(LC_ALL, $this->config['language']);
+    if($this->config['i18n']) {
+  		bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
+	  	textdomain('lydia');
+	  }
+		
 		// Create a database object.
 		if(isset($this->config['database'][0]['dsn'])) {
   		$this->db = new CDatabase($this->config['database'][0]['dsn']);
@@ -58,13 +66,33 @@ class CLydia implements ISingleton {
 	 * @return CLydia The instance of this class.
 	 */
 	public static function Instance() {
-		if(self::$instance == null) {
-			self::$instance = new CLydia();
-		}
-		return self::$instance;
+		return is_null(self::$instance) ? self::$instance = new CLydia() : self::$instance;
 	}
 	
 
+  /**
+   * Implementing interface IModule. Manage install/update/deinstall and equal actions.
+   */
+  public function Manage($action=null) {
+    switch($action) {
+      case 'preinstall':
+        // Check gettext
+        // Check pdo & sqlite
+        // Disable magic quotes
+        // check memory limit
+        // check writable data-directory
+      break;
+      
+      case 'install':
+      break;
+      
+      default:
+        throw new Exception('Unsupported action for this module.');
+      break;
+    }
+  }
+
+ 
 	/**
 	 * Frontcontroller, check url and route to controllers.
 	 */
@@ -359,18 +387,36 @@ class CLydia implements ISingleton {
   public function CreateBreadcrumb($items=array(), $separator='&raquo;', $options=array()) {
     $default = array(
       'items' => $items,
-      'separator' => separator,
+      'separator' => $separator,
     );
     $options = array_merge($default, $options);
-    $items = null;
+    $crumbs = null;
     foreach($options['items'] as $item) {
       if(isset($item['url'])) {
-        $items .= "<li><a href='" . $this->CreateUrl($item['url']) . "'>{$item['label']}</a> {$options['separator']}</li>\n";
+        $crumbs .= "<li><a href='" . $this->CreateUrl($item['url']) . "'>{$item['label']}</a> {$options['separator']}</li>\n";
       } else {
-        $items .= "<li>{$item['label']}</li>\n";
+        $crumbs .= "<li>{$item['label']}</li>\n";
       }
     }
-    return "<ul class='breadcrumb'>\n{$items}</ul>\n";
+    return "<ul class='breadcrumb'>\n{$crumbs}</ul>\n";
+  }
+
+
+  /**
+   * Load a view, looks for the file in LYDIA_SITE_PATH/views/$module and then in 
+   * LYDIA_INSTALL_PATH/views/$module.
+   *
+   * @param string $module name of the module owning the view.
+   * @param string $view filename of the view.
+   * @returns string with the absolute filename.
+   */
+  public function LoadView($module, $view) {
+    $path1 = LYDIA_SITE_PATH . "/views/$module/$view";
+    $path2 = LYDIA_INSTALL_PATH . "/views/$module/$view";
+    if(is_file($path1)) {
+      return $path1;
+    } 
+    return $path2;
   }
 
 

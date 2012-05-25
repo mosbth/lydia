@@ -77,8 +77,13 @@ $ly->config['character_encoding'] = 'UTF-8';
 
 /**
  * Define language
+ *
+ * langugage: the language of the webpage and locale, settings for i18n, 
+ *            internationalization supporting multilanguage.
+ * i18n: enable internationalization through gettext.
  */
-$ly->config['language'] = 'en';
+$ly->config['language'] = 'sv';
+$ly->config['i18n'] = true;
 
 
 /**
@@ -102,6 +107,7 @@ $ly->config['controllers'] = array(
   'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
   'module'    => array('enabled' => true,'class' => 'CCModules'),
   'my'        => array('enabled' => true,'class' => 'CCMycontroller'),
+  'rss'       => array('enabled' => true,'class' => 'CCAllSeeingEye'),
 );
 
 
@@ -116,6 +122,13 @@ $ly->config['routing'] = array(
 
 
 /**
+ * Append site label after all titels, seo related, so it looks nice in the search engine
+ * results.
+ */
+$ly->config['title_append'] = '- lydia';
+
+
+/**
  * Define menus.
  *
  * Create hardcoded menus and map them to a theme region through $ly->config['theme'].
@@ -127,6 +140,7 @@ $ly->config['menus'] = array(
     'content'   => array('label'=>'Content', 'url'=>'content'),
     'guestbook' => array('label'=>'Guestbook', 'url'=>'guestbook'),
     'blog'      => array('label'=>'Blog', 'url'=>'blog'),
+    'rss'       => array('label'=>'RSS', 'url'=>'rss'),
   ),
   'my-navbar' => array(
     'home'      => array('label'=>'About Me', 'url'=>'my'),

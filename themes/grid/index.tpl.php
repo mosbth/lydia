@@ -21,11 +21,18 @@
       </div>
       <?php if(region_has_content('navbar')): ?><div id='navbar'><?=render_views('navbar')?></div><?php endif; ?>
     </div>
+  </div>
+</div>
+
+<?php if(region_has_content('breadcrumb')): ?>
+<div id='outer-wrap-header-below'>
+  <div id='inner-wrap-header-below'>
     <div id='header-below'>
-      <?php if(region_has_content('breadcrumb')): ?><div id='breadcrumb'><?=render_views('breadcrumb')?></div><?php endif; ?>
+      <div id='breadcrumb'><?=render_views('breadcrumb')?></div>
     </div>
   </div>
 </div>
+<?php endif; ?>
 
 <?php if(region_has_content('flash')): ?>
 <div id='outer-wrap-flash'>

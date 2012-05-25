@@ -17,18 +17,18 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
    *
    * @param array $options to customize object.
    */
-  public function __construct($options) { 
+  public function __construct($options=array()) { 
     parent::__construct();
     $default = array(
       'config' => __DIR__ . '/config.php',
-      'cache_duration' => 3600*4
+      'cache_duration' => 3600*4,
       'title' => array(
-        'index' => t('RSS aggregation.'),
-        'category' => t('@category (RSS aggregation).'),
-        'feed' => t('@feed (RSS aggregation).'),
+        'index' => t('RSS aggregation'),
+        'category' => t('@category (RSS aggregation)'),
+        'feed' => t('@feed (RSS aggregation)'),
       ),
       'breadcrumb' => array(
-        array('label' => t('RSS'), 'url' => $this->CreateUrlToController()),
+        array('label' => t('RSS aggregation'), 'url' => $this->CreateUrlToController()),
       ),
     );
     $this->options = array_merge($default, $options);
@@ -55,8 +55,8 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
 
     $this->views->SetTitle($this['title']['index'])
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this['breadcrumb']))
-                ->AddIncludeToRegion('primary', __DIR__ . '/index.tpl.php', array('feeds'=>$rssFeeds->data))
-                ->AddIncludeToRegion('sidebar', __DIR__ . '/index_sidebar.tpl.php', array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), array('feeds'=>$rssFeeds->data))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('index_sidebar.tpl.php'), array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));
   }
 
 
@@ -65,7 +65,7 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
    *
    * @param string $aCategory the category to display.
    */
-  public function Categori($aCategory=null) {
+  public function Category($aCategory=null) {
     if(is_null($aCategory)) { return $this->Index(); }
     if(!is_slug($aCategory)) { $this->ShowErrorPage(404, t('The category is invalid.')); }
     
@@ -78,13 +78,13 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
 
     if(!isset($rssFeeds['categories'][$aCategory])) { $this->ShowErrorPage(404, t('The category does not exists.')); }
 
-    $this['breadcrumb'][] = array('label' => $rssFeeds['categories'][$aCategory]['name'], 
-                                  'url' => $this->CreateUrlToController(null, $aCategory));
+    $this->options['breadcrumb'][] = array('label' => $rssFeeds['categories'][$aCategory]['name'], 
+                                           'url' => $this->CreateUrlToController(null, $aCategory));
     
-    $this->views->SetTitle(strtr($this->['title']['category'], array('#category' => $rssFeeds['categories'][$aCategory]['name']))
+    $this->views->SetTitle(strtr($this['title']['category'], array('@category' => $rssFeeds['categories'][$aCategory]['name'])))
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this['breadcrumb']))
-                ->AddIncludeToRegion('primary', __DIR__ . '/category.tpl.php', array('feeds'=>$rssFeeds->data))
-                ->AddIncludeToRegion('sidebar', __DIR__ . '/category_sidebar.tpl.php', array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));
+                ->AddIncludeToRegion('primary', $this->LoadView('category.tpl.php'), array('feeds'=>$rssFeeds->data))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('category_sidebar.tpl.php'), array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));
   }
 
 
@@ -101,18 +101,18 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
     $rssFeeds->Load(array('feeds_file' => $this['config'],
                           'cache_duration'=>$this['cache_duration'],
                           'number_of_items'=>10, 
-                          'categories_include'=>array($aCategory),
+                          'sites_include'=>array($aFeed),
                           'teaser'=>800));
 
     if(!isset($rssFeeds['sites'][$aFeed])) { $this->ShowErrorPage(404, t('The feed does not exists.')); }
 
-    $this['breadcrumb'][] = array('label' => $rssFeeds['sites'][$aFeed]->name, 
-                                  'url' => $this->CreateUrlToController(null, $aFeed));
+    $this->options['breadcrumb'][] = array('label' => $rssFeeds['sites'][$aFeed]->name, 
+                                           'url' => $this->CreateUrlToController(null, $aFeed));
     
-    $this->views->SetTitle(strtr($this->['title']['feed'], $rssFeeds['sites'][$aFeed]->name))
+    $this->views->SetTitle(strtr($this['title']['feed'], array('@feed' => $rssFeeds['sites'][$aFeed]->name)))
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this['breadcrumb']))
-                ->AddIncludeToRegion('primary', __DIR__ . '/feed.tpl.php', array('feeds'=>$rssFeeds->data))
-                ->AddIncludeToRegion('sidebar', __DIR__ . '/feed_sidebar.tpl.php', array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories()));
+                ->AddIncludeToRegion('primary', $this->LoadView('feed.tpl.php'), array('feeds'=>$rssFeeds->data))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('feed_sidebar.tpl.php'), array('feeds'=>$rssFeeds->data, 'categories'=>$rssFeeds->GetCategories(), 'related'=>$rssFeeds->GetRelatedSites($aFeed)));
   }
 
 
