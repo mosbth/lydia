@@ -1,5 +1,5 @@
 <nav>
-  <h4>Validatorer</h4>
+  <h4><?=t('Validators')?></h4>
   <a href='http://validator.w3.org/check/referer'>HTML5</a>
   <a href='http://jigsaw.w3.org/css-validator/check/referer?profile=css3'>CSS3</a>
   <a href='http://jigsaw.w3.org/css-validator/check/referer?profile=css21'>CSS21</a>
