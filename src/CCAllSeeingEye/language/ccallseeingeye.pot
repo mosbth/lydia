@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CCAllSeeingEye\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-23 17:30+0100\n"
-"PO-Revision-Date: 2012-05-23 17:31+0100\n"
+"POT-Creation-Date: 2012-05-25 12:14+0100\n"
+"PO-Revision-Date: 2012-05-25 12:14+0100\n"
 "Last-Translator: Mikael Roos <mikael.t.h.roos@gmail.com>\n"
 "Language-Team: Mikael Roos <me@mikaelroos.se>\n"
 "MIME-Version: 1.0\n"
@@ -15,21 +15,19 @@ msgstr ""
 "X-Poedit-Country: SWEDEN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPath-1: ../../../views/CCAllSeeingEye\n"
 
 #: ../CCAllSeeingEye.php:26
-msgid "RSS aggregation."
+#: ../CCAllSeeingEye.php:31
+msgid "RSS aggregation"
 msgstr ""
 
 #: ../CCAllSeeingEye.php:27
-msgid "@category (RSS aggregation)."
+msgid "@category (RSS aggregation)"
 msgstr ""
 
 #: ../CCAllSeeingEye.php:28
-msgid "@feed (RSS aggregation)."
-msgstr ""
-
-#: ../CCAllSeeingEye.php:31
-msgid "RSS"
+msgid "@feed (RSS aggregation)"
 msgstr ""
 
 #: ../CCAllSeeingEye.php:70
@@ -46,5 +44,47 @@ msgstr ""
 
 #: ../CCAllSeeingEye.php:107
 msgid "The feed does not exists."
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/category_sidebar.tpl.php:1
+#: ../../../views/CCAllSeeingEye/feed_sidebar.tpl.php:1
+#: ../../../views/CCAllSeeingEye/index_sidebar.tpl.php:1
+msgid "Categories"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/category_sidebar.tpl.php:8
+msgid "In this category"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/feed.tpl.php:5
+msgid "Details for !site:"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/feed.tpl.php:6
+msgid "Website"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/feed.tpl.php:7
+msgid "RSS feed"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/feed_sidebar.tpl.php:8
+msgid "Related"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/feed_sidebar.tpl.php:16
+msgid "Latest"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/index.tpl.php:2
+msgid "RSS aggregation though the All-Seeing-Eye"
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/index.tpl.php:3
+msgid "The module CCAllSeeingEye is a Lydia application which does RSS aggregation. Subclass it, create a config.php-file to choose your feeds and customize the views to adapt it."
+msgstr ""
+
+#: ../../../views/CCAllSeeingEye/index.tpl.php:11
+msgid "Category:"
 msgstr ""
 
