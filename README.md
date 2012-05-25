@@ -79,11 +79,15 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.01 (2012-05-23)
+v0.3.01 (2012-05-25)
 
 * Enabling multilanguage, i18n, internationalization, though GNU's `gettext()`.
 * Adding `t()` as the translation function to use.
+* All language files in `language`. One .pot-file for all Lydia.
+* Partly translated some modules to swedish for test.
 * Adding module `CCAllSeeingEye` as a Lydia application for presenting aggregated RSS feed.
+* Moving views to `views`-directory, can be overidden by placing view in `site/views`.
+* Use `LoadView()` to load a view.
 
 
 v0.3.0 (2012-05-23)

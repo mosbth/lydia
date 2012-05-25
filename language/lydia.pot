@@ -1,162 +1,157 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CCAllSeeingEye\n"
+"Project-Id-Version: Lydia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-25 14:19+0100\n"
-"PO-Revision-Date: 2012-05-25 14:19+0100\n"
+"POT-Creation-Date: 2012-05-25 14:08+0100\n"
+"PO-Revision-Date: 2012-05-25 14:09+0100\n"
 "Last-Translator: Mikael Roos <mikael.t.h.roos@gmail.com>\n"
 "Language-Team: Mikael Roos <me@mikaelroos.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: t;_;gettext;gettext_noop\n"
-"X-Poedit-Basepath: ../../..\n"
-"X-Poedit-Language: sv\n"
-"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
-"X-Poedit-SearchPath-1: ../../../views/CCAllSeeingEye\n"
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:26
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:31
 msgid "RSS aggregation"
-msgstr "RSS aggregering"
+msgstr ""
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:27
 msgid "@category (RSS aggregation)"
-msgstr "@category (RSS aggregering)"
+msgstr ""
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:28
 msgid "@feed (RSS aggregation)"
-msgstr "@feed (RSS aggregering)"
+msgstr ""
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:70
 msgid "The category is invalid."
-msgstr "Kategorin är ogiltig."
+msgstr ""
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:79
 msgid "The category does not exists."
-msgstr "Kategorin finns ej."
+msgstr ""
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:98
 msgid "The feed is invalid."
-msgstr "RSS flödet är ej giltigt."
+msgstr ""
 
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:107
 msgid "The feed does not exists."
-msgstr "RSS flödet finns ej."
+msgstr ""
 
 #: ../lydia/src/CMRSSAggregator/config.php:8
 msgid "dbwebb"
-msgstr "dbwebb"
+msgstr ""
 
 #: ../lydia/src/CMRSSAggregator/config.php:9
 msgid "Databases and Webbprogramming. Learn webdevelopment and be inspired from opensource. HTML, CSS, JavaScript, PHP, SQL, Unix."
-msgstr "Databaser och webbprogrammering. Lär dig webbutveckling och bli inspirerad av öppen källkod. HTML, CSS, JavaScript, PHP, SQL, Unix."
+msgstr ""
 
 #: ../lydia/src/CMRSSAggregator/config.php:16
 msgid "dbwebb blogg"
-msgstr "dbwebb blogg"
+msgstr ""
 
 #: ../lydia/src/CMRSSAggregator/config.php:17
 msgid "dbwebb forum"
-msgstr "dbwebb forum"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/category_sidebar.tpl.php:1
 msgid "Categories"
-msgstr "Kategorier"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/category_sidebar.tpl.php:8
 msgid "In this category"
-msgstr "I denna kategori"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/feed.tpl.php:5
 msgid "Details for !site:"
-msgstr "Detaljer för !site:"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/feed.tpl.php:6
 msgid "Website"
-msgstr "Webbplats"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/feed.tpl.php:7
 msgid "RSS feed"
-msgstr "RSS flöde"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:8
 msgid "Related"
-msgstr "Relaterat"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:16
 msgid "Latest"
-msgstr "Senaste"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/index.tpl.php:2
 msgid "RSS aggregation though the All-Seeing-Eye"
-msgstr "RSS aggregering via All-Seeing-Eye"
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/index.tpl.php:3
 msgid "The module CCAllSeeingEye is a Lydia application which does RSS aggregation. Subclass it, create a config.php-file to choose your feeds and customize the views to adapt it."
-msgstr "Modulen CCAllSeeingEye är en Lydia applikation som gör aggregering av RSS flöden. Gör en subklass av den, skapa en egen config-php-fil med dina RSS-flöden och anpassa vyerna för att ändra dess beteende."
+msgstr ""
 
 #: ../lydia/views/CCAllSeeingEye/index.tpl.php:11
 msgid "Category:"
-msgstr "Kategori:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:2
 msgid "Get inspired from a world of opensource"
-msgstr "Bli inspirerad av en värld av öppen källkod"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:3
 msgid "Philosofy:"
-msgstr "Filosofi:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:9
 msgid "Unix & Linux:"
-msgstr "Unix & Linux:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:15
 msgid "Web servers:"
-msgstr "Webbservrar:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:22
 msgid "Terminal, sftp & irc:"
-msgstr "Terminal, sftp & irc:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:30
 msgid "Texteditors:"
-msgstr "Texteditorer:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:35
 msgid "Development tools:"
-msgstr "Utvecklingsverktyg:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:42
 msgid "MVC & CMS:"
-msgstr "MVC & CMS:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:49
 msgid "PHP libraries:"
-msgstr "PHP-libb:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:53
 msgid "CSS frameworks:"
-msgstr "CSS-ramverk:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:61
 msgid "JavaScript:"
-msgstr "JavaScript:"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_one.tpl.php:2
 msgid "Validators"
-msgstr "Validatorer"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_three.tpl.php:2
 msgid "Resources"
-msgstr "Resurser"
+msgstr ""
 
 #: ../lydia/views/themes-grid/footer_column_two.tpl.php:2
 msgid "Manuals"
-msgstr "Manualer"
+msgstr ""
 
-#~ msgid "RSS"
-#~ msgstr "RSS"
