@@ -182,6 +182,7 @@ function formatDateTimeDiff($start, $startTimeZone=null, $end=null, $endTimeZone
 
 /**
  * Helper, make clickable links from URLs in text.
+ * @deprecated since v0.3.0.1, moved to CTextFilter
  */
 function makeClickable($text) {
   return preg_replace_callback(
@@ -200,6 +201,7 @@ function makeClickable($text) {
  *
  * @param string text The text to be converted.
  * @returns string the formatted text.
+ * @deprecated since v0.3.0.1, moved to CTextFilter
  */
 function bbcode2html($text) {
   $search = array( 

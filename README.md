@@ -30,7 +30,7 @@ HTMLPurifier by Edward Z. Yang to filter & format HTML.
 * Website: http://htmlpurifier.org/ 
 * Version: 4.4.0 (2012-01-18)
 * License: LGPL
-* Lydia path: `src/CTextFilter`
+* Lydia path: `src/CTextFilter/htmlpurifier-4.4.0-standalone`
 * Used by: `CMContent`
 
 
@@ -41,7 +41,21 @@ PHP Markdown by Michel Fortin to filter text to HTML to write for the web. Based
 * Version: 1.0.1o (2012-01-08)
 * License: PHP Markdown has BSD-style open source license OR GNU General Public License version 2 or a later version.
 * License: Markdown has BSD-style open source license.
-* Lydia path: `src/CTextFilter`
+* Lydia path: `src/CTextFilter/php-markdown`
+* Used by: `CMContent`
+
+
+### PHP SmartyPants & PHP Typographer
+PHP SmartyPants and PHP Typographer by Michel Fortin for better typography. Based on the concept of Markdown by John Gruber.
+* Website: PHP SmartyPants: http://michelf.com/projects/php-smartypants/
+* Website: PHP Typographer: http://michelf.com/projects/php-smartypants/typographer/
+* Website: SmartyPants: http://daringfireball.net/projects/smartypants/
+* Version: PHP SmartyPants: 1.5.1e (2005-12-09)
+* Version: PHP Typographer: 1.0 (2006-06-28)
+* License: PHP SmartyPants & PHP Typographer has BSD-style open source license.
+* License: SmartyPants has BSD-style open source license.
+* Lydia path: `src/CTextFilter/php_smartypants_1.5.1e`
+* Lydia path: `src/CTextFilter/php_smartypants_typographer_1.0`
 * Used by: `CMContent`
 
 
@@ -101,6 +115,7 @@ v0.3.0? (latest)
 * Use `LoadView()` to load a view.
 * Included PHP Markdown 1.0.1o, released 2012-01-08.
 * Moved `CHTMLPurifier` to `CTextFilter`.
+* Included PHP SmartyPants and PHP Typographer in `CTextFilter`.
 * Many more changes such as `CMBook`, `CInterceptionFilter`, managing of modules and more.
 
 
