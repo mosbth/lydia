@@ -4,7 +4,7 @@
  * 
  * @package LydiaCMF
  */
-class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
+class CMRSSAggregator extends CObject implements ArrayAccess {
 
   /**
    * Properties
@@ -25,16 +25,6 @@ class CMRSSAggregator extends CObject implements ArrayAccess, Iterator {
   public function offsetExists($offset) { return isset($this->data[$offset]); }
   public function offsetUnset($offset) { unset($this->data[$offset]); }
   public function offsetGet($offset) { return isset($this->data[$offset]) ? $this->data[$offset] : null; }
-
-
-  /**
-   * Implementing Iterator for $this->data
-   */
-  public function rewind() { reset($this->data); }
-  public function current() { return current($this->data); }
-  public function key() { return key($this->data); }
-  public function next() { return next($this->data); }
-  public function valid() { $key = key($this->data); return ($key !== null && $key !== false); }
 
 
   /**

@@ -5,6 +5,7 @@
   <a href='http://www.w3.org/TR/CSS2'>CSS2</a>
   <a href='http://www.w3.org/Style/CSS/current-work#CSS3'>CSS3</a>
   <a href='http://php.net/manual/en/index.php'>PHP</a>
+  <a href='http://en.wikipedia.org/wiki/PHPDoc'>PHPDoc</a>
   <a href='http://www.sqlite.org/lang.html'>SQLite</a>
   <a href='http://dev.mysql.com/doc/'>MySQL</a>
   <a href='http://http://www.w3.org/'>W3C</a>

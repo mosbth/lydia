@@ -9,26 +9,7 @@ class CRSSFeed implements IModule {
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) {
-    switch($action) {
-      case 'install':
-        $cache = LYDIA_SITE_PATH.'/data/crssfeed';
-        if(!is_dir($cache)) {
-          if(!mkdir($cache)) {
-            return array('error', 'Could not create cache-directory.');
-          } else {
-            return array('success', 'Created cache-directory.');        
-          }          
-        } else {
-          return array('success', 'Cache-directory is already existing.');        
-        }
-      break;
-      
-      default:
-        throw new Exception('Unsupported action for this module.');
-      break;
-    }
-  }
+  public function Manage($action=null) { include(__DIR__.'/CRSSFeedModule.php'); return CRSSFeedModule::Manage($action); }
 
  
   /**

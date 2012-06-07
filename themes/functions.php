@@ -214,3 +214,40 @@ function render_views($region='default') {
 function region_has_content($region='default' /*...*/) {
   return CLydia::Instance()->views->RegionHasView(func_get_args());
 }
+
+
+/**
+ * Create tracker if defined in config.php.
+ *
+ * Google Analytics: Example from HTML5Boilerplate and http://mathiasbynens.be/notes/async-analytics-snippet
+ * Piwik: Use with Javascript-snippet.
+ */
+function get_tracker() {
+  $ly = CLydia::Instance();
+  $ga = $ly->config['google_analytics'];
+  $pw = $ly->config['piwik'];
+  $html = null;
+  if($ga) {
+    $html .= "<script>var _gaq=[['_setAccount','{$ga}'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>\n";
+  }
+  if($pw) {
+    $html .= <<<EOD
+<!-- Piwik --> 
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://{$pw}" : "http://{$pw}");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://{$pw}piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+EOD;
+  }
+  return $html;
+}
+
+
+

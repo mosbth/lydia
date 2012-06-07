@@ -116,7 +116,7 @@ pre {
 pre, code, tt, .code { font:1em / 1.375 "Courier New", Courier, monospace; }
 li ul, li ol { margin:0; }
 ul, ol {
-  margin:0.6875em 1.5em 1.375em 0;
+  margin:0 1.5em 1.375em 0;
   padding-left:1.5em;
 }
 ul { list-style-type:disc; }
@@ -155,6 +155,7 @@ textarea {
   width:100%;
   height:8em;
 }
+textarea.nowrap { white-space:nowrap; }
 .content-edit input[type=text] { width:30em; }
 .content-edit textarea {
   width:40em;
@@ -214,7 +215,7 @@ body {
 #banner #site-logo {
   display:table-cell;
   position:relative;
-  top:44px;
+  top:22px;
 }
 #banner #site-title {
   display:table-cell;
@@ -384,19 +385,16 @@ body {
 #sidebar {
   display:inline;
   float:left;
-  width:270px;
+  width:310px;
   margin:0 5px;
-  margin-left:45px;
 }
 #sidebar .box {
-  border-top:4px double #cccccc;
+  border:1px solid #cccccc;
   padding-top:11px;
-  margin-bottom:51px;
+  margin-bottom:31px;
+  padding-left:1em;
 }
-#sidebar ul {
-  padding-left:0;
-  list-style-type:circle;
-}
+#sidebar ul { list-style-type:circle; }
 article { margin-bottom:44px; }
 section { margin-bottom:44px; }
 #inner-wrap-triptych {
@@ -418,6 +416,8 @@ section { margin-bottom:44px; }
   width:310px;
   margin:0 5px;
   height:100%;
+  border-top:1px solid #cccccc;
+  padding-top:11px;
 }
 #inner-wrap-footer-column {
   width:960px;

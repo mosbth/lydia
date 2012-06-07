@@ -18,9 +18,9 @@ class CCIndex extends CObject implements IController {
   public function Index() {			
     $modules = new CMModules();
     $controllers = $modules->AvailableControllers();
-    $this->views->SetTitle('Index')
-                ->AddInclude(__DIR__ . '/index.tpl.php', array(), 'primary')
-                ->AddInclude(__DIR__ . '/sidebar.tpl.php', array('controllers'=>$controllers), 'sidebar');
+    $this->views->SetTitle(t('Home'))
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php'), array('controllers'=>$controllers));
   }
 
 

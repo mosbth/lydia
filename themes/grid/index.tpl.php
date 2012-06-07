@@ -62,15 +62,17 @@
 <?php if(region_has_content('triptych-first', 'triptych-middle', 'triptych-last')): ?>
 <div id='outer-wrap-triptych'>
   <div id='inner-wrap-triptych'>
-    <div id='triptych-first'><?=render_views('triptych-first')?></div>
-    <div id='triptych-middle'><?=render_views('triptych-middle')?></div>
-    <div id='triptych-last'><?=render_views('triptych-last')?></div>
+    <div id='triptych'>
+      <div id='triptych-first'><?=render_views('triptych-first')?></div>
+      <div id='triptych-middle'><?=render_views('triptych-middle')?></div>
+      <div id='triptych-last'><?=render_views('triptych-last')?></div>
+    </div>
   </div>
 </div>
 <?php endif; ?>
 
 <div id='outer-wrap-footer'>
-  <?php if(region_has_content('footer-column-one', 'footer-column-two', 'footer-column-three', 'footer-column-four')): ?>
+  <?php if(region_has_content('footer-column-one', 'footer-column-two', 'footer-column-three', 'footer-column-four', 'footer-column-five')): ?>
   <div id='inner-wrap-footer-column'>
     <div id='footer-column-one'><?=render_views('footer-column-one')?></div>
     <div id='footer-column-two'><?=render_views('footer-column-two')?></div>
@@ -84,5 +86,6 @@
   </div>
 </div>
 
+<?=get_tracker()?>
 </body>
 </html>

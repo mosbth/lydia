@@ -4,7 +4,7 @@
  *
  * @package: LydiaApplication
  */
-class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
+class CCAllSeeingEye extends CObject implements IController, IModule, ArrayAccess{
 
   /**
    * Properties
@@ -46,6 +46,12 @@ class CCAllSeeingEye extends CObject implements IController, ArrayAccess {
   public function offsetGet($offset) { return isset($this->options[$offset]) ? $this->options[$offset] : null; }
 
 
+  /**
+   * Implementing interface IModule. Manage install/update/deinstall and equal actions.
+   */
+  public function Manage($action=null) { require_once(__DIR__.'/CCAllSeeingEyeModule.php'); return CCAllSeeingEyeModule::Manage($action, $this['aggregator_options']); }
+
+ 
   /**
    * Index page.
    */

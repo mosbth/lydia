@@ -7,9 +7,20 @@
 class CCModules extends CObject implements IController {
 
   /**
+   * Properties
+   */
+  public $breadcrumb;
+  
+
+  /**
    * Constructor
    */
-  public function __construct() { parent::__construct(); }
+  public function __construct() { 
+    parent::__construct(); 
+    $this->breadcrumb = array(
+        array('label' => t('Module Manager'), 'url' => $this->CreateUrlToController()),
+    );
+  }
 
 
   /**
@@ -19,37 +30,89 @@ class CCModules extends CObject implements IController {
     $modules = new CMModules();
     $controllers = $modules->AvailableControllers();
     $allModules = $modules->ReadAndAnalyse();
-    $this->views->SetTitle('Manage Modules')
-                ->AddInclude(__DIR__ . '/index.tpl.php', array('controllers'=>$controllers), 'primary')
-                ->AddInclude(__DIR__ . '/sidebar.tpl.php', array('modules'=>$allModules), 'sidebar');
+    $supportedActions = $modules->GetSupportedActions();
+    $this->views->SetTitle(t('Manage Modules'))
+                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), array('controllers'=>$controllers, 'actions'=>$supportedActions))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php'), array('modules'=>$allModules));
   }
 
 
   /**
-   * Show a index-page and display what can be done through this controller.
+   * Show a index-page and display what can be done through this controller, replaced by Action('install').
+   *
+   * @deprecated v0.3.01
    */
   public function Install() {
+    $this->Action('install');
+  }
+
+
+  /**
+   * Perform an action to all managable modules supporting the specific action.
+   *
+   * @param string $action the action.
+   */
+  public function Action($action=null) {
     $modules = new CMModules();
-    $results = $modules->Install();
+    $results = $modules->InvokeActionToManage($action);
     $allModules = $modules->ReadAndAnalyse();
-    $this->views->SetTitle('Install Modules')
-                ->AddInclude(__DIR__ . '/install.tpl.php', array('modules'=>$results), 'primary')
-                ->AddInclude(__DIR__ . '/sidebar.tpl.php', array('modules'=>$allModules), 'sidebar');
+    $this->breadcrumb[] = array('label' => t('Action: !action', array('!action'=>$action)), 'url' => $this->CreateUrlToController('action', $action));
+
+    $this->views->SetTitle(t('!action - Results from action', array('!action'=>$action)))
+                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
+                ->AddIncludeToRegion('primary', $this->LoadView('action.tpl.php'), array('modules'=>$results, 'action'=>$action))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php'), array('modules'=>$allModules));
+  }
+
+
+  /**
+   * Execute a series of SQL commands to load the database.
+   */
+  public function ExecuteSQL() {
+    $modules = new CMModules();
+    $form = new CFormModules();
+    $form->CreateExecuteSQL($modules);
+    $status = $form->Check();
+    if($status === false) {
+      $this->AddMessage('notice', t('Some fields did not validate and the form could not be processed.'));
+      $this->RedirectToControllerMethod();
+    } else if($status == true) {
+      $this->AddMessage('success', t('SQL was executed.'));
+      $this->session->SetFlash('results', $status);
+      $this->RedirectToControllerMethod();
+    }
+    
+    //$results = $modules->InvokeActionToManage($action);
+    $results = $this->session->GetFlash('results');
+    $allModules = $modules->ReadAndAnalyse();
+    $this->breadcrumb[] = array('label' => t('Execute SQL'), 'url' => $this->CreateUrlToController('execute-sql'));
+
+    $this->views->SetTitle(t('Execute SQL'))
+                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
+                ->AddIncludeToRegion('primary', $this->LoadView('execute_sql.tpl.php'), array('form'=>$form, 'results'=>$results))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php'), array('modules'=>$allModules));
   }
 
 
   /**
    * Show a module and its parts.
+   *
+   * @param string $module modulename.
    */
-  public function View($module) {
-    if(!preg_match('/^C[a-zA-Z]+$/', $module)) {throw new Exception('Invalid characters in module name.');}
+  public function View($module=null) {
+    if(!preg_match('/^C[a-zA-Z]+$/', $module)) {throw new Exception(t('Invalid characters in module name.'));}
+    // Check that module name exists or redirect to 404.
     $modules = new CMModules();
     $controllers = $modules->AvailableControllers();
     $allModules = $modules->ReadAndAnalyse();
     $aModule = $modules->ReadAndAnalyseModule($module);
-    $this->views->SetTitle('Manage Modules')
-                ->AddInclude(__DIR__ . '/view.tpl.php', array('module'=>$aModule), 'primary')
-                ->AddInclude(__DIR__ . '/sidebar.tpl.php', array('modules'=>$allModules), 'sidebar');
+    $this->breadcrumb[] = array('label' => t('Module: @module', array('@module'=>$module)), 'url' => $this->CreateUrlToController('view', $module));
+
+    $this->views->SetTitle(t('Manage Modules'))
+                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
+                ->AddIncludeToRegion('primary', $this->LoadView('view.tpl.php'), array('module'=>$aModule))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php'), array('modules'=>$allModules));
   }
 
 

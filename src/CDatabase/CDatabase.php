@@ -40,6 +40,16 @@ class CDatabase {
 
 
 	/**
+	 * Get meta information of the table.
+	 *
+	 * @returns array with meta information for tha latest statement.
+	 */
+  public function GetColumnMeta(){
+    return $this->stmt->GetColumnMeta();
+  }
+
+
+	/**
 	 * Execute a select-query with arguments and return the resultset.
 	 */
   public function ExecuteSelectQueryAndFetchAll($query, $params=array()){

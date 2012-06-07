@@ -10,13 +10,31 @@ class CMModules extends CObject {
    * Properties
    */
   private $lydiaCoreModules = array('CLydia', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject');
-  private $lydiaCMFModules = array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier');
+  private $lydiaCMFModules = array('CForm', 'CCPage', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 
+                                   'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier', 'CRSSFeed',
+                                   'CMRSSAggregator',);
+  private $lydiaAppModules = array('CCBlog', 'CCAllSeeingEye');
+
+  private $supportedActions = array(
+    'install' => 'Do a fresh install, all data is removed and essentials is re-created.', 
+    'sample' => 'Insert some sample data to make it look like sample website.',
+    'crontab' => 'Perform crontab actions on regulare basis.',
+//    'backup' => 'Do a backup of this installation.',
+//    'export' => 'Export a zip-file with this installation.',
+//    'import' => 'Upload a zip-file and use it as base for this installation, remove all other content.',
+    'export-db' => 'Export the database as SQL-commands in a text-file.',
+    'supported-actions' => 'List all supported actions.', 
+  );
 
 
   /**
    * Constructor
    */
-  public function __construct() { parent::__construct(); }
+  public function __construct() { 
+    parent::__construct();
+    $cf = new CInterceptionFilter();
+    $cf->AuthenticatedOrLogin()->AdminOrForbidden();
+  }
 
 
   /**
@@ -53,11 +71,22 @@ class CMModules extends CObject {
    */
   public function ReadAndAnalyse() {
     $src = LYDIA_INSTALL_PATH.'/src';
-    if(!$dir = dir($src)) throw new Exception('Could not open the directory.');
+    if(!$dir = dir($src)) throw new Exception(t('Could not open the directory.'));
     $modules = array();
     while (($module = $dir->read()) !== false) {
       if(is_dir("$src/$module") && class_exists($module)) {
         $modules[$module] = $this->GetDetailsOfModule($module);
+        $modules[$module]['isSiteDefined'] = false;
+      }
+    }
+    $dir->close();
+    
+    $src = LYDIA_SITE_PATH.'/src';
+    if(!$dir = dir($src)) throw new Exception(t('Could not open the directory.'));
+    while (($module = $dir->read()) !== false) {
+      if(is_dir("$src/$module") && class_exists($module)) {
+        $modules[$module] = $this->GetDetailsOfModule($module);
+        $modules[$module]['isSiteDefined'] = true;
       }
     }
     $dir->close();
@@ -86,6 +115,7 @@ class CMModules extends CObject {
       $details['isManageable']  = $rc->implementsInterface('IModule');
       $details['isLydiaCore']   = in_array($rc->name, $this->lydiaCoreModules);
       $details['isLydiaCMF']    = in_array($rc->name, $this->lydiaCMFModules);
+      $details['isLydiaApp']    = in_array($rc->name, $this->lydiaAppModules);
       $details['publicMethods']     = $rc->getMethods(ReflectionMethod::IS_PUBLIC);
       $details['protectedMethods']  = $rc->getMethods(ReflectionMethod::IS_PROTECTED);
       $details['privateMethods']    = $rc->getMethods(ReflectionMethod::IS_PRIVATE);
@@ -138,30 +168,123 @@ class CMModules extends CObject {
   
 
   /**
-   * Install all modules.
+   * Invoke an action to each manageable module.
    *
+   * @param string $action the action to invoke.
+   * manage. If null it will read all entries from ReadAndAnalyse().
    * @returns array with a entry for each module and the result from installing it.
    */
-  public function Install() {
-    $allModules = $this->ReadAndAnalyse();
-    uksort($allModules, function($a, $b) {
-        return ($a == 'CMUser' ? -1 : ($b == 'CMUser' ? 1 : 0));
-      }
-    );
-    $installed = array();
-    foreach($allModules as $module) {
+  public function InvokeActionToManage($action) {
+    if(!array_key_exists($action, $this->supportedActions)) { throw new Exception(t('Not a valid action.')); }
+    $modules = $this->ReadAndAnalyse();
+    uksort($modules, function($a, $b) { return ($a == 'CMUser' ? -1 : ($b == 'CMUser' ? 1 : 0)); } );
+    $modules = array_merge(array('CMUser'=>null,'CMContent'=>null), $modules);
+
+    $result = array();
+    foreach($modules as $module) {
       if($module['isManageable']) {
         $classname = $module['name'];
         $rc = new ReflectionClass($classname);
         $obj = $rc->newInstance();
         $method = $rc->getMethod('Manage');
-        $installed[$classname]['name']    = $classname;
-        $installed[$classname]['result']  = $method->invoke($obj, 'install');
+        $result[$classname]['name']    = $classname;
+        $result[$classname]['result']  = $method->invoke($obj, $action);
+        $result[$classname]['output']  = isset($result[$classname]['result'][2]) ? $result[$classname]['result'][2] : null;        
       }
     }
-    //ksort($installed, SORT_LOCALE_STRING);
-    return $installed;
+    return $result;
   }
 
 
+  /**
+   * Get supported actions.
+   *
+   * @returns array with list of strings of supported actions.
+   */
+  public function GetSupportedActions() {
+    return $this->supportedActions;
+  }
+
+
+  /**
+   * Dump SQL from table data.
+   *
+   * @param string $tableName, the name of the table.
+   * @param string $sqlExport, sql to do SELECT * FROM $tableName.
+   * @param string $sqlCreate, sql to create the table.
+   * @param string $sqlDrop, sql to drop the table.
+   * @returns string with SQL commands.
+   */
+  public function DumpTableToSQL($tableName, $sqlExport, $sqlCreate, $sqlDrop) {
+    $res = $this->db->ExecuteSelectQueryAndFetchAll($sqlExport);
+    $sql = "-- ## Start Table {$tableName}\n{$sqlDrop}\n{$sqlCreate}\n";
+    $cols = isset($res[0]) ? implode(', ', array_keys($res[0])) : null;
+  
+    // Find column types
+    $matches = array();
+    preg_match_all('/\((.+)\)/', $sqlCreate, $matches);
+    $matches = explode(',', $matches[1][0]);
+    foreach($matches as $val) {
+      $col = explode(' ', trim($val));
+      $types[$col[0]] = isset($col[1]) ? $col[1] : null;
+    }
+  
+    foreach($res as $val) {
+      $values = null;
+      foreach($val as $key => $value) {
+        if(is_null($value)) {
+          $values .= 'NULL, ';
+        } elseif(preg_match('/TEXT|CHAR|VARCHAR|DATETIME/i', $types[$key])) {
+          $values .= "'" . str_replace("'", "''", $value) . "', ";
+        } else {
+          $values .= "{$value}, ";
+        }
+      }
+      $values = substr($values, 0, -2);
+      $sql .= "INSERT INTO {$tableName} ({$cols}) VALUES(" . str_replace("\n", '\n', $values) . ");\n";
+    }
+    return $sql . "-- ## End Table {$tableName}\n";
+  }
+  
+  
+  /**
+   * Perform SQL queries.
+   *
+   * @param string $sql, one query per row, comments start with --
+   * @returns array with results, row by row.
+   */
+  public function DoSQL($sql) {
+    $meta = array_fill_keys(array('total_rows', 'comments', 'drop', 'create', 'alter', 'insert', 'update', 'unknown', 'success', 'failed', 'rowcount'), 0);
+    $rowcount = array_fill_keys(array('drop', 'create', 'alter', 'insert', 'update'), 0);
+    $rows =  explode("\n", $sql);
+    foreach($rows as $row) {
+      if(preg_match('/^[\s]*$/', $row)) continue;
+      $meta['total_rows']++;
+      $row = trim($row);
+      if(substr_compare('--', $row, 0, 2) == 0) { $meta['comments']++; continue;}
+      if(preg_match('/^(CREATE|DROP|ALTER|INSERT|UPDATE)/i', $row, $command)) {
+        $cmd = strtolower($command[0]);
+        $meta[$cmd]++;
+        try {
+          $res = $this->db->ExecuteQuery($row);
+          $rc = $this->db->RowCount();
+          $meta['rowcount'] += $rc;
+          $rowcount[$cmd] += $rc;
+          $meta['success']++;
+        } catch(Exception $e) {
+          $meta['failed']++;
+          $meta['failed_query'] = mb_strcut($row, 0, 2000);
+          break;
+        }
+      } else {
+        $meta['unknown']++;
+      }
+    }
+    foreach($rowcount as $key => $val) {
+      $meta[$key] = "{$meta[$key]} " . t('(rows affected: !rows)', array('!rows'=>$val));
+    }
+    return array('meta'=>$meta);
+  }
+  
+  
 }

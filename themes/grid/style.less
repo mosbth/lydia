@@ -80,16 +80,23 @@ body {width:100%;.clearfix();}
 .pull(@offset:1) {
 	margin-right: @total-width*(((@gutter-width+@column-width)*@offset) / @gridsystem-width) + @total-width*((@gutter-width*.5)/@gridsystem-width);
 }
-// added by mos to create column with border which spans 1 column
-.columnborder(@x,@columns:@columns) {
-	display: inline;
-	float: left;
-  border-left:1px solid #ccc;
-	width: @total-width*((((@gutter-width+@column-width)*@x)-@gutter-width*2-@column-width) / @gridsystem-width);
-	margin: 0 @total-width*((@gutter-width*.5)/@gridsystem-width);
-	margin-left: @total-width*((@gutter-width+@column-width)*.5/@gridsystem-width)-1;
-	padding-left: @total-width*((@gutter-width+@column-width)*.5/@gridsystem-width);
-}
+// mos: create column border
+/*.border_right() {
+	//margin: 0 @total-width*((@gutter-width*.5)/@gridsystem-width);
+	margin-right: @total-width*((@gutter-width*.5)/@gridsystem-width)/2;
+	padding-right: @total-width*((@gutter-width*.5)/@gridsystem-width)/2-1;
+	border-right: 1px solid #ccc;
+	// *margin: 0 @total-width*((@gutter-width*.5)/@gridsystem-width)-@correction;
+}*/
+// mos: create column border
+/*.border_left() {
+	//margin: 0 @total-width*((@gutter-width*.5)/@gridsystem-width);
+	margin-left: @total-width*((@gutter-width*.5)/@gridsystem-width)/2;
+	padding-left: @total-width*((@gutter-width*.5)/@gridsystem-width)/2-1;
+	border-left: 1px solid #ccc;
+	// *margin: 0 @total-width*((@gutter-width*.5)/@gridsystem-width)-@correction;
+}*/
+
 
 /** --------------------------------------------------------------
  * Settings
@@ -176,7 +183,8 @@ pre,code,tt,.code{font:1em/1.375 @font-family-monospace;}
 
 /* Lists */
 li ul,li ol{margin:0;}
-ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
+//ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
+ul,ol{margin:0 1.5em 1.375em 0;padding-left:1.5em;}
 ul{list-style-type:disc;}
 ol{list-style-type:decimal;}
 dl{margin:0 0 1.375em 0;}
@@ -208,6 +216,7 @@ label{font-size:smaller;}
 .validation-message{color:red;font-size:smaller;}
 .form-action-link{font-size:smaller;}
 textarea{width:100%;height:8em;}
+textarea.nowrap{white-space:nowrap;}
 
 .content-edit{
   input[type=text]{width:30em;}
@@ -221,6 +230,7 @@ textarea{width:100%;height:8em;}
 html{background-color:@bgcolor1;.alwaysShowScrollbar()}
 body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 //  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
+//  &:hover{background:#fff url(grid_24_30_10.png) repeat-y center 11px;}
 }  
 
 
@@ -230,7 +240,7 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
  */
 #outer-wrap-header{}
 #inner-wrap-header{.wrap();}
-#header{.column(24);padding-top:@magic-number/2;margin-bottom:@magic-number*0.5-1px;
+#header{.column(24);padding-top:@magic-number/2;margin-bottom:@magic-number/2-1px;
 border-bottom:1px dotted #999;}
 
 
@@ -258,7 +268,7 @@ border-bottom:1px dotted #999;}
 }
 */
 #banner {display:table;margin-bottom:@magic-number/2;
-  #site-logo{display:table-cell;/*vertical-align:bottom;*/position:relative;top:44px;}
+  #site-logo{display:table-cell;/*vertical-align:bottom;*/position:relative;top:22px;}
   #site-title{display:table-cell;vertical-align:bottom;padding-left:0.2em;
     font-family:@font-family-site-title;font-size:2.5em;line-height:1;text-shadow:#ccc 2px -2px 2px;
     a{text-decoration:none;color:@color-site-title;}
@@ -384,11 +394,12 @@ border-bottom:1px dotted #999;}
 /*#main{}*/
 
 #primary{.column(16);}
-#sidebar{.column(7);.push(1);
-  .box{border-top:4px double #ccc;padding-top:@magic-number/2;margin-bottom:@magic-number*2.5-4px;
+#sidebar{.column(8);
+  .box{border:1px solid #ccc;padding-top:@magic-number/2;margin-bottom:@magic-number * 1.5 - 2;
+    padding-left:1em;
     h4{}
   }
-  ul{padding-left:0;list-style-type:circle;}
+  ul{/*padding-left:0;*/list-style-type:circle;}
 }
 
 article{margin-bottom:@magic-number*2;}
@@ -405,7 +416,7 @@ section{margin-bottom:@magic-number*2;}
 
 #triptych-first,
 #triptych-middle,
-#triptych-last{.column(8);height:100%;}
+#triptych-last{.column(8);height:100%;border-top:1px solid #ccc;padding-top:@magic-number/2;}
 
 
 /** --------------------------------------------------------------

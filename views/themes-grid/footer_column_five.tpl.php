@@ -1,5 +1,5 @@
 <nav>
-  <h4><?=t('Get inspired of a world of opensource')?></h4>
+  <h4><?=t('Get inspired from a world of opensource')?></h4>
   <strong><?=t('Philosofy:')?></strong>
   <a href='http://www.catb.org/~esr/faqs/hacker-howto.html'>How to become a hacker</a> &bull;
   <a href='http://catb.org/~esr/faqs/smart-questions.html'>How to ask questions the smart way</a> &bull;
@@ -36,7 +36,7 @@
   <a href='http://inkscape.org/'>Inkscape</a> &bull;
   <a href='https://github.com/'>GitHub</a> &bull;
   <a href='http://git-scm.com/'>Git</a> &bull;
-  <a href='http://www.simpletest.org/'>Simpletest</a> &bull;
+  <a href='http://simpletest.org/'>Simpletest</a> &bull;
   <a href='http://seleniumhq.org/'>Selenium</a>
 
   &nbsp;&nbsp;<strong><?=t('MVC & CMS:')?></strong>
@@ -61,5 +61,8 @@
   &nbsp;&nbsp;<strong><?=t('JavaScript:')?></strong>
   <a href='http://jquery.com/'>jQuery</a> &bull;
   <a href='http://www.modernizr.com/'>Modernizer</a>
+
+  &nbsp;&nbsp;<strong><?=t('Web admin:')?></strong>
+  <a href='http://piwik.org/'>piwik</a> 
 
 </nav>

@@ -45,8 +45,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
     $order_order  = isset($args['order-order']) ? $args['order-order'] : 'ASC';
     $order_by     = isset($args['order-by'])    ? $args['order-by'] : 'id';    
     $queries = array(
+      'table name content'        => "Content",
       'drop table content'        => "DROP TABLE IF EXISTS Content;",
       'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, title TEXT, data TEXT, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id));",
+      'export table content'      => 'SELECT * FROM Content;',
+      'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
       'insert content'            => 'INSERT INTO Content (key,type,title,data,filter,idUser) VALUES (?,?,?,?,?,?);',
       'select * by id'            => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.id=? AND deleted IS NULL;',
       'select * by key'           => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.key=? AND deleted IS NULL;',
@@ -65,33 +68,9 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) {
-    switch($action) {
-      case 'install': 
-        try {
-          $this->db->ExecuteQuery(self::SQL('drop table content'));
-          $this->db->ExecuteQuery(self::SQL('create table content'));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world', 'post', 'Hello World', "This is a demo post.\n\nThis is another row in this demo post.", 'plain', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world-again', 'post', 'Hello World Again', "This is another demo post.\n\nThis is another row in this demo post.", 'plain', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('hello-world-once-more', 'post', 'Hello World Once More', "This is one more demo post.\n\nThis is another row in this demo post.", 'plain', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('home', 'page', 'Home page', "This is a demo page, this could be your personal home-page.\n\nLydia is a PHP-based MVC-inspired Content management Framework, watch the making of Lydia at: http://dbwebb.se/lydia/tutorial.", 'plain', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('about', 'page', 'About page', "This is a demo page, this could be your personal about-page.\n\nLydia is used as a tool to educate in MVC frameworks.", 'plain', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('download', 'page', 'Download page', "This is a demo page, this could be your personal download-page.\n\nYou can download your own copy of lydia from https://github.com/mosbth/lydia.", 'plain', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('bbcode', 'page', 'Page with BBCode', "This is a demo page with some BBCode-formatting.\n\n[b]Text in bold[/b] and [i]text in italic[/i] and [url=http://dbwebb.se]a link to dbwebb.se[/url]. You can also include images using bbcode, such as the lydia logo: [img]http://dbwebb.se/lydia/current/themes/core/logo_80x80.png[/img]", 'bbcode', $this->user['id']));
-          $this->db->ExecuteQuery(self::SQL('insert content'), array('htmlpurify', 'page', 'Page with HTMLPurifier', "This is a demo page with some HTML code intended to run through <a href='http://htmlpurifier.org/'>HTMLPurify</a>. Edit the source and insert HTML code and see if it works.\n\n<b>Text in bold</b> and <i>text in italic</i> and <a href='http://dbwebb.se'>a link to dbwebb.se</a>. JavaScript, like this: <javascript>alert('hej');</javascript> should however be removed.", 'htmlpurify', $this->user['id']));
-          return array('success', 'Successfully created the database tables and created a default "Hello World" blog post, owned by you.');
-        } catch(Exception$e) {
-          die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
-        }
-      break;
-      
-      default:
-        throw new Exception('Unsupported action for this module.');
-      break;
-    }
-  }
-  
+  public function Manage($action=null) { require_once(__DIR__.'/CMContentModule.php'); $m = new CMContentModule(); return $m->Manage($action); }
 
+ 
   /**
    * Save content. If it has a id, use it to update current entry or else insert new entry.
    *
@@ -173,7 +152,44 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
     }
   }
   
+  /**
+   * List all content as specified in array, build custom SQL-query.
+   *
+   * @param array $options with various settings for the request.
+   * @returns array with listing or null if empty.
+   */
+  public function GetEntries($options=array()) {
+    $default = array(
+      'type' => null,
+      'order_by' => null,
+      'order_order' => null,
+      'limit' => 7,
+    );
+    $options = array_merge($default, $options);
+    $sqlArgs = array();
+    
+    $type = empty($options['type']) ? null : " AND type = ?";
+    if($type) $sqlArgs[] = $options['type'];
+    
+    $limit = empty($options['limit']) ? null : " LIMIT ?";
+    if($limit) $sqlArgs[] = $options['limit'];
+    
+    $order_by = empty($options['order_by']) ? null : " ORDER BY {$options['order_by']}";
+    
+    $order_order = null;
+    if(isset($options['order_order'])) {
+      if(in_array(strtolower($options['order_order']), array('asc', 'desc'))) {
+        $order_order = " {$options['order_order']}";
+      } else {
+        throw new Exception(t('Not valid group by order.'));
+      }
+    }
+    
+    $sql = "SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE deleted IS NULL".$type.$order_by.$order_order.$limit;
+    return $this->db->ExecuteSelectQueryAndFetchAll($sql, $sqlArgs);
+  }
   
+
   /**
    * Filter content according to a filter.
    *

@@ -49,7 +49,7 @@ class CMGuestbook extends CObject implements IHasSQL, IModule {
       break;
       
       default:
-        throw new Exception('Unsupported action for this module.');
+        return array('info', t('Action not supported by this module.'));
       break;
     }
   }

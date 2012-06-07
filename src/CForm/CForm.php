@@ -81,14 +81,17 @@ class CFormElement implements ArrayAccess{
   /**
    * Validate the form element value according a ruleset.
    *
-   * @param $rules array of validation rules.
+   * @param array $rules validation rules.
+   * @param CForm $form the parent form.
    * returns boolean true if all rules pass, else false.
    */
-  public function Validate($rules) {
+  public function Validate($rules, $form) {
     $tests = array(
       'fail' => array('message' => 'Will always fail.', 'test' => 'return false;'),
       'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
       'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
+      'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
+      'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
     );
     $pass = true;
     $messages = array();
@@ -96,6 +99,7 @@ class CFormElement implements ArrayAccess{
     foreach($rules as $key => $val) {
       $rule = is_numeric($key) ? $val : $key;
       if(!isset($tests[$rule])) throw new Exception('Validation of form element failed, no such validation rule exists.');
+      $arg = is_numeric($key) ? null : $val;
       if(eval($tests[$rule]['test']) === false) {
         $messages[] = $tests[$rule]['message'];
         $pass = false;
@@ -272,7 +276,7 @@ class CForm implements ArrayAccess {
     $method = " method='post'";
 
     if(isset($attributes['start']) && $attributes['start']) {
-      return "<form{$id}{$class}{$name}{$action}{$method}>";
+      return "<form{$id}{$class}{$name}{$action}{$method}>\n";
     }
     
     $elements = $this->GetHTMLForElements();
@@ -310,13 +314,14 @@ EOD;
 
   /**
    * Check if a form was submitted and perform validation and call callbacks.
-   *
    * The form is stored in the session if validation or callback fails. The page should then be redirected
    * to the original form page, the form will populate from the session and should be rendered again.
+   * Form elements may remember their value if 'remember' is set and true.
    *
-   * @returns boolean true if submitted&validates and callbacks are successfull, false if not validate or callback fails, null if not submitted.
+   * @returns mixed, $callbackStatus if submitted&validates, false if not validate, null if not submitted.
    */
   public function Check() {
+    $remember = null;
     $validates = null;
     $callbackStatus = null;
     $values = array();
@@ -327,26 +332,26 @@ EOD;
         if(isset($_POST[$element['name']])) {
           $values[$element['name']]['value'] = $element['value'] = $_POST[$element['name']];
           if(isset($element['validation'])) {
-            $element['validation-pass'] = $element->Validate($element['validation']);
+            $element['validation-pass'] = $element->Validate($element['validation'], $this);
             if($element['validation-pass'] === false) {
               $values[$element['name']] = array('value'=>$element['value'], 'validation-messages'=>$element['validation-messages']);
               $validates = false;
             }
           }
+          if(isset($element['remember']) && $element['remember']) {
+            $values[$element['name']] = array('value'=>$element['value']);
+            $remember = true;
+          }
           if(isset($element['callback']) && $validates) {
             if(isset($element['callback-args'])) {
-    					if(call_user_func_array($element['callback'], array_merge(array($this), $element['callback-args'])) === false) {
-    					  $callbackStatus = false;
-    					}
+   					  $callbackStatus = call_user_func_array($element['callback'], array_merge(array($this), $element['callback-args']));
   	  			} else {
-              if(call_user_func($element['callback'], $this) === false) {
-    					  $callbackStatus = false;
-              }
+    					$callbackStatus = call_user_func($element['callback'], $this);
             }
           }
         }
       }
-    } else if(isset($_SESSION['form-failed'])) {
+    } elseif(isset($_SESSION['form-failed'])) {
       foreach($_SESSION['form-failed'] as $key => $val) {
         $this[$key]['value'] = $val['value'];
         if(isset($val['validation-messages'])) {
@@ -355,14 +360,20 @@ EOD;
         }
       }
       unset($_SESSION['form-failed']);
+    } elseif(isset($_SESSION['form-remember'])) {
+      foreach($_SESSION['form-remember'] as $key => $val) {
+        $this[$key]['value'] = $val['value'];
+      }
+      unset($_SESSION['form-remember']);
     }
+        
     if($validates === false || $callbackStatus === false) {
       $_SESSION['form-failed'] = $values;
+    } elseif($remember) {
+      $_SESSION['form-remember'] = $values;
     }
-    if($callbackStatus === false)
-      return false;
-    else 
-      return $validates;
+    
+    return ($validates) ? $callbackStatus : $validates;
   }
   
   

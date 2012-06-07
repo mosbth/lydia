@@ -101,6 +101,7 @@ $ly->config['controllers'] = array(
   'theme'     => array('enabled' => true,'class' => 'CCTheme'),
   'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
   'content'   => array('enabled' => true,'class' => 'CCContent'),
+  'book'      => array('enabled' => true,'class' => 'CCBook'),
   'blog'      => array('enabled' => true,'class' => 'CCBlog'),
   'page'      => array('enabled' => true,'class' => 'CCPage'),
   'user'      => array('enabled' => true,'class' => 'CCUser'),
@@ -122,10 +123,26 @@ $ly->config['routing'] = array(
 
 
 /**
+ * Enable/disable pageloader, all urls that do not match controller or a routing entry will
+ * be sent to the CPageLoader::Load() which should handle it or do a 404.
+ */
+$ly->config['pageloader'] = true;
+
+
+/**
  * Append site label after all titels, seo related, so it looks nice in the search engine
  * results.
  */
 $ly->config['title_append'] = '- lydia';
+
+
+/**
+ * Use tracking to monitor usage of site, set to false to disable.
+ * google_analytics: set to the tracker id.
+ * piwik: set to sitename, including link to piwik installation, i.e. www.where.com/piwik, end with slash.
+ */
+$ly->config['google_analytics'] = false;
+$ly->config['piwik'] = false;
 
 
 /**
@@ -183,7 +200,7 @@ $ly->config['theme'] = array(
   'template_file'   => 'index.tpl.php',
   'regions' => array('site-menu', 'breadcrumb', 'navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',
-    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
+    'footer-column-one','footer-column-two','footer-column-three','footer-column-four','footer-column-five',
     'footer',
   ),
   'region_to_menu' => array('site-menu'=>'my-navbar', 'navbar'=>'navbar'),
@@ -199,7 +216,7 @@ $ly->config['theme'] = array(
     array(
       'region' => 'footer',
       'type' => 'string',
-      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;&mdash;&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;&mdash;&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"
+      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"
     ),
     array(
       'region' => 'footer-column-one',

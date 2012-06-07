@@ -30,7 +30,18 @@ HTMLPurifier by Edward Z. Yang to filter & format HTML.
 * Website: http://htmlpurifier.org/ 
 * Version: 4.4.0 (2012-01-18)
 * License: LGPL
-* Lydia path: `src/CHTMLPurifier`
+* Lydia path: `src/CTextFilter`
+* Used by: `CMContent`
+
+
+### PHP Markdown
+PHP Markdown by Michel Fortin to filter text to HTML to write for the web. Based on the concept of Markdown by John Gruber.
+* Website: PHP markdown: http://michelf.com/projects/php-markdown/
+* Website: Markdown: http://daringfireball.net/projects/markdown/
+* Version: 1.0.1o (2012-01-08)
+* License: PHP Markdown has BSD-style open source license OR GNU General Public License version 2 or a later version.
+* License: Markdown has BSD-style open source license.
+* Lydia path: `src/CTextFilter`
 * Used by: `CMContent`
 
 
@@ -79,7 +90,7 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.01 (2012-05-25)
+v0.3.0? (latest)
 
 * Enabling multilanguage, i18n, internationalization, though GNU's `gettext()`.
 * Adding `t()` as the translation function to use.
@@ -88,6 +99,9 @@ v0.3.01 (2012-05-25)
 * Adding module `CCAllSeeingEye` as a Lydia application for presenting aggregated RSS feed.
 * Moving views to `views`-directory, can be overidden by placing view in `site/views`.
 * Use `LoadView()` to load a view.
+* Included PHP Markdown 1.0.1o, released 2012-01-08.
+* Moved `CHTMLPurifier` to `CTextFilter`.
+* Many more changes such as `CMBook`, `CInterceptionFilter`, managing of modules and more.
 
 
 v0.3.0 (2012-05-23)

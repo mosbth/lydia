@@ -12,7 +12,17 @@ which makes it a manageable module. Lydia provides a administrating interface fo
 modules. You can perform the following actions through this interface:</p>
 
 <ul>
-  <li><a href='<?=create_url('module/install')?>'>install</a></li>
+  <?php foreach($actions as $action => $description): ?>
+  <li><a href='<?=create_url("module/action/$action")?>'><?=$action?></a>: <?=$description?></li>
+  <?php endforeach; ?>
+</ul>
+
+
+<h2>Load database through SQL</h2>
+<p>Use this procedure to import a previous exported database, or parts of it.</p>
+
+<ul>
+  <li><a href='<?=create_url('module/execute-sql')?>'>Execute SQL</a></li>
 </ul>
 
 

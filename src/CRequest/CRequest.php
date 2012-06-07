@@ -51,6 +51,15 @@ class CRequest {
       $method = $this->method;
     }
     
+    // Create list of arguments if suitable
+    /*$numArgs = func_num_args();
+    if($numArgs > 3) {
+      $args = func_get_args();
+      for($i=4; $i <= $numArgs; $i++) {
+        $arguments .= '/' . $args[$i];
+      }
+    }*/
+
     // Create url according to configured style
     $prepend = $this->base_url;
     if($this->cleanUrl) {
