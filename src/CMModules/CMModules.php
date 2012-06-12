@@ -266,7 +266,7 @@ class CMModules extends CObject {
         $cmd = strtolower($command[0]);
         $meta[$cmd]++;
         try {
-          $res = $this->db->ExecuteQuery($row);
+          $res = $this->db->ExecuteQuery(str_replace('\n', "\n", $row));
           $rc = $this->db->RowCount();
           $meta['rowcount'] += $rc;
           $rowcount[$cmd] += $rc;
@@ -286,5 +286,20 @@ class CMModules extends CObject {
     return array('meta'=>$meta);
   }
   
+
+  /**
+   * Create a directory in site/data for a specific module.
+   *
+   * @param string $module, the classname of the module.
+   * @param string $directory, the classname of the module.
+   * @returns mixed null if directory exists, true if created false if failed.
+   */
+   public static function CreateModuleDirectory($module, $directory) {
+    $path = LYDIA_SITE_PATH."/data/$module/$directory";
+    if(is_dir($path)) return null;
+    if(mkdir($path, 0777, true)) return true;
+    return false;
+  }
+
   
 }

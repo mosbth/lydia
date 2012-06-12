@@ -116,8 +116,19 @@ body {width:100%;.clearfix();}
 .wrap() {width:@total-width;margin:0 auto;.clearfix();}
 
 /* Anchors */
-@anchorColor: #5C0A0A;
-.hover(){text-decoration:none;color:#5C0A0A;}
+//@anchorColor: #5C0A0A;
+@anchorColor: #19194D;
+.hover(){color:lighten(@anchorColor, 20%);text-decoration:none;}
+
+
+/** --------------------------------------------------------------
+ * Mixins
+ */
+.border-top-right-radius(@radius: 5px){
+  -webkit-border-top-right-radius:@radius;
+  -moz-border-radius-topright:@radius;
+  border-top-right-radius:@radius;
+}
 
 
 /** --------------------------------------------------------------
@@ -141,7 +152,8 @@ body {width:100%;.clearfix();}
  */
 /* Base font. The font-size percentage is of 16px. */
 @font-family-cambria    = Cambria, Georgia, Times, 'Times New Roman', serif;
-@font-family-monospace  = "Courier New", Courier, monospace;
+//@font-family-monospace  = "Courier New", Courier, monospace;
+@font-family-monospace  = monospace;
 @font-family-helvetica  = Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 @magic-number: 22px; /* 16px - 100%/1.375 */
 @link-color: #600;
@@ -161,7 +173,7 @@ body{color:#222;font:100.01%/1.375 @font-family-helvetica;}
 
 .headings-general() {font-weight:normal;color:#111;margin-bottom:@magic-number;font-family:@font-family-cambria}
 h1{.headings-general();font-size:2.375em;line-height:1.1579;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
-h2{.headings-general();font-size:1.875em;line-height:1.4667;}
+h2{.headings-general();font-size:1.875em;line-height:1.4667;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
 h3{.headings-general();font-size:1.375em;line-height:1;}
 h4{.headings-general();font-size:1.25em;line-height:1.1;}
 h5{.headings-general();font-size:1em;font-weight:bold;}
@@ -172,8 +184,8 @@ h1 img,h2 img,h3 img,h4 img,h5 img,h6 img{margin:0;}
 p{margin-bottom:1.375em;}
 .smaller-font() {font-size:0.875em;line-height:1.5714;}
 .smaller{.smaller-font();}
-a{color:@link-color;text-decoration:underline;
-  &:focus,&:hover{color:lighten(@link-color, 10%);text-decoration:none;}
+a{color:@anchorColor;text-decoration:underline;
+  &:focus,&:hover{.hover();}
 }
 blockquote{margin-left:1em;margin-bottom:1.375em;}
 strong,dfn{font-weight:bold;}
@@ -204,6 +216,15 @@ tbody tr{border-bottom:1px solid #eee;
   &:hover{color:#000;}
 }
 tfoot{font-style:italic;}
+
+
+/** --------------------------------------------------------------
+ * Display source code.
+ */
+div.code{white-space:pre;}
+div.code, pre code{display:block;overflow:auto;}
+div.code, pre code, .geshi{border-top:1px solid #ccc;border-bottom:1px solid #ccc; padding-top:@magic-number * 0.5;
+padding-bottom:@magic-number * 0.5;margin-bottom:@magic-number - 2px;background-color:#eee;padding-left:0.5em;}
 
 
 /** --------------------------------------------------------------
@@ -296,7 +317,7 @@ border-bottom:1px dotted #999;}
 
 #site-menu{
   ul{margin:0;padding:0;list-style:none;
-    ul{float:left;padding-right:4em;
+    ul{float:left;padding-right:3em;
       li{font-family:@font-family-site-title;color:color-site-title;letter-spacing:0.1em;
         &:hover{list-style-type:square;}
         &:hover > a{.hover_menu_item();}
@@ -364,6 +385,22 @@ border-bottom:1px dotted #999;}
 
 
 /** --------------------------------------------------------------
+ * Tabmenu
+ */
+ul.tabmenu{list-style-type:none;padding:0;margin:0;border-bottom:1px solid #666;margin-bottom:@magic-number;
+  li{padding:0;margin:0;display:inline;
+    a{padding:0.2em 0.5em 2px 0.5em;line-height:1;text-decoration:none;color:inherit;border:1px solid #ccc;.border-top-right-radius(5px);border-bottom:none;
+      &:hover, &:active{color:@anchorColor;text-decoration:underline;background-color:#eee;border-color:#aaa;}
+      &:active{border-color:#666;background-color:#ddd;}
+    }
+    &.selected{
+      a, &.hover{padding-bottom:2px;border-color:#666;border-bottom:1px solid #fff;}
+    }
+  }
+}
+
+
+/** --------------------------------------------------------------
  * The flash area.
  *
  */
@@ -393,19 +430,38 @@ border-bottom:1px dotted #999;}
 #inner-wrap-main{.wrap();margin-bottom:@magic-number;}
 /*#main{}*/
 
-#primary{.column(16);}
+#primary{.column(16);
+  .toc{max-width:30%;}
+}
 #sidebar{.column(8);
   .box{border:1px solid #ccc;padding-top:@magic-number/2;margin-bottom:@magic-number * 1.5 - 2;
-    padding-left:1em;
+    padding-left:1em;padding-right:1em;
     h4{}
   }
-  ul{/*padding-left:0;*/list-style-type:circle;}
+  ul{/*padding-left:0;*/list-style:circle;}
 }
 
 article{margin-bottom:@magic-number*2;}
 section{margin-bottom:@magic-number*2;}
+.border-right{border-right:1px solid #ccc;padding-right:1em;}
 
 
+/** --------------------------------------------------------------
+ * Table of content TOC
+ *
+ */
+#toc{
+  h4{}
+  ul{list-style:none;padding-left:0;margin-left:0;
+    li.h2{}
+    li.h3{padding-left:0.5em;}
+    li.h4{padding-left:1em;}
+    li.h5{padding-left:1.5em;}
+    li.h6{padding-left:2em;}
+  }
+}
+ 
+ 
 /** --------------------------------------------------------------
  * The triptych area.
  *
@@ -464,8 +520,8 @@ section{margin-bottom:@magic-number*2;}
 a{color:@anchorColor;
   &:link{}
   &:visited{}
-  &:hover{.hover()}
-  &:focus{.hover()}
+  &:hover{}
+  &:focus{}
   &:active{}
   &.no-style{text-decoration:none;color:inherit;
     &:hover{text-decoration:underline;color:@anchorColor;}
@@ -478,12 +534,20 @@ a{color:@anchorColor;
 }
 
 
+/** --------------------------------------------------------------
+ * Links
+ */
+figure{
+  img{max-width:100%;max-height:100%;}
+  figcaption{font-style:italic;}
+}
+
 
 /** --------------------------------------------------------------
  * User feedback message wrappers.
  */
 .error, .alert, .warning, .notice, .success, .info { 
-padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
+padding:@magic-number * 0.5;margin-bottom:@magic-number - 4px; border: 2px solid #ddd; }
 
 .error, .alert { background: #fbe3e4; color: #8a1f11; border-color: #fbc2c4; }
 .notice, .warning { background: #fff6bf; color: #514721; border-color: #ffd324; }
@@ -500,3 +564,5 @@ padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
  */
 .smaller-text{font-size:smaller;}
 .silent{color:#999;}
+.right{float:right;}
+

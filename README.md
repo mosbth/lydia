@@ -34,12 +34,13 @@ HTMLPurifier by Edward Z. Yang to filter & format HTML.
 * Used by: `CMContent`
 
 
-### PHP Markdown
+### PHP Markdown & PHP Markdown Extra
 PHP Markdown by Michel Fortin to filter text to HTML to write for the web. Based on the concept of Markdown by John Gruber.
 * Website: PHP markdown: http://michelf.com/projects/php-markdown/
 * Website: Markdown: http://daringfireball.net/projects/markdown/
-* Version: 1.0.1o (2012-01-08)
-* License: PHP Markdown has BSD-style open source license OR GNU General Public License version 2 or a later version.
+* Version: PHP Markdown: 1.0.1o (2012-01-08)
+* Version: PHP Markdown Extra 1.2.5 (2012-01-08)
+* License: PHP Markdown & PHP Markdown Extra has BSD-style open source license OR GNU General Public License version 2 or a later version.
 * License: Markdown has BSD-style open source license.
 * Lydia path: `src/CTextFilter/php-markdown`
 * Used by: `CMContent`
@@ -114,6 +115,7 @@ v0.3.0? (latest)
 * Moving views to `views`-directory, can be overidden by placing view in `site/views`.
 * Use `LoadView()` to load a view.
 * Included PHP Markdown 1.0.1o, released 2012-01-08.
+* Included PHP Markdown Extra 1.2.5, released 2012-01-08.
 * Moved `CHTMLPurifier` to `CTextFilter`.
 * Included PHP SmartyPants and PHP Typographer in `CTextFilter`.
 * Many more changes such as `CMBook`, `CInterceptionFilter`, managing of modules and more.

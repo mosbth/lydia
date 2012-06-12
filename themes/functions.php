@@ -78,7 +78,7 @@ function get_messages_from_session() {
 function login_menu() {
   $ly = CLydia::Instance();
   if($ly->user['isAuthenticated']) {
-    $items = "<a href='" . create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
+    $items = "<a href='" . create_url('user') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
     if($ly->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
@@ -87,6 +87,17 @@ function login_menu() {
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
   }
   return "<nav id='login-menu'>$items</nav>";
+}
+
+
+/**
+ * Create menu.
+ *
+ * @param array $menu array with details to generate menu.
+ * @returns string with formatted HTML for menu.
+ */
+function create_menu($menu) {
+  return CLydia::Instance()->CreateMenu($menu);
 }
 
 

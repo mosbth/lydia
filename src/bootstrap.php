@@ -235,6 +235,7 @@ function slugify($str) {
   $str = str_replace(array('å','ä','ö'), array('a','a','o'), $str);
   $str = preg_replace('/[^a-z0-9-]/', '-', $str);
   $str = trim(preg_replace('/-+/', '-', $str), '-');
+  if(empty($str)) { return 'n-a'; }
   return $str;
 }
 

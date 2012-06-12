@@ -10,6 +10,7 @@ class CTextFilter {
    * Properties
    */
   public static $purify = null;
+  public static $geshi = null;
 
 
   /**
@@ -42,6 +43,18 @@ class CTextFilter {
   
 
   /**
+   * Support Markdown syntax with PHP Markdown Extra. 
+   *
+   * @param $text string with Markdown text.
+   * @returns string as formatted HTML.
+   */
+   public static function MarkdownExtra($text) {   
+    require_once(__DIR__.'/php_markdown_extra_1.2.5/markdown.php');
+    return Markdown($text);
+  }
+  
+
+  /**
    * Support SmartyPants for better typography. 
    *
    * @param string text text to be converted.
@@ -62,6 +75,31 @@ class CTextFilter {
    public static function Typographer($text) {   
     require_once(__DIR__.'/php_smartypants_typographer_1.0/smartypants.php');
     return SmartyPants($text);
+  }
+  
+
+  /**
+   * Syntax highlighter using GeSHi http://qbnz.com/highlighter/. 
+   *
+   * @param string $text text to be converted.
+   * @param string $language which language to use for highlighting syntax.
+   * @returns string the formatted text.
+   */
+   public static function SyntaxHighlightGeSHi($text, $language) {   
+    if(!self::$geshi) {
+      require_once(__DIR__.'/geshi/geshi.php');
+      //$path = 'geshi/geshi';
+      //$geshi = new GeSHi($text, $language, $path);
+      self::$geshi = new GeSHi($text, $language);
+      //$geshi->enable_classes();
+      self::$geshi->set_overall_class('geshi');
+      //self::$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);
+      //self::$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+      //CLydia::Instance()->views->AddStyle($geshi->get_stylesheet());
+    }
+    self::$geshi = new GeSHi($text, $language);
+    self::$geshi->set_overall_class('geshi');
+    return self::$geshi->parse_code();
   }
   
 
@@ -95,18 +133,56 @@ class CTextFilter {
   /**
    * Make clickable links from URLs in text.
    *
-   * @param string text  text to be converted.
+   * @param string text text to be converted.
    * @returns string the formatted text.
    */
   public static function MakeClickable($text) {
     return preg_replace_callback(
-      '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
+      '#\b(?<!href=[\'"])https?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#',
+     // '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
       create_function(
         '$matches',
         'return "<a href=\'{$matches[0]}\'>{$matches[0]}</a>";'
       ),
       $text
     );
+  }
+
+
+  /**
+   * Shorttags to to quicker format text as HTML.
+   *
+   * @param string text text to be converted.
+   * @returns string the formatted text.
+   */
+  public static function ShortTags($text) {
+    $callback = function($matches) {
+      switch($matches[1]) {
+        case 'IMG':
+          $caption = t('Image: ');
+          return <<<EOD
+<figure>
+  <a href='{$matches[2]}'><img src='{$matches[2]}' alt='{$matches[3]}' /></a>
+  <figcaption>{$caption}{$matches[3]}</figcaption>
+</figure>
+EOD;
+        break;
+        
+        //case 'syntax=': return CTextFilter::SyntaxHighlightGeSHi($matches[3], $matches[2]); break;
+        case 'syntax=': return "<pre>" . highlight_string($matches[3], true) . "</pre>"; break;
+        //case 'INCL':  include($matches[2]); break;
+        case 'INFO':  return "<div class='info'>"; break;
+        case '/INFO': return "</div>"; break;
+        default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
+      }
+    };
+    $patterns = array(
+      '/\[(IMG) src=(.+) alt=(.+)\]/',
+      '/~~~(syntax=)(php|html|css|sql|javascript)\n([^~]+)\n~~~/s',
+      //'/\[(INCL)/s*([^\]+)/',
+      '#\[(INFO)\]#', '#\[(/INFO)\]#',
+    );
+    return preg_replace_callback($patterns, $callback, $text);
   }
 
 

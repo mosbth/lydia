@@ -40,6 +40,9 @@ class CLydia implements ISingleton/*, IModule*/ {
 		// Set default date/time-zone
 		date_default_timezone_set('UTC');
 		
+		// All internal character encoding to utf-8
+	  mb_internal_encoding('UTF-8');
+		
 		// Setup i18n, internationalization and multi-language support
     putenv('LC_ALL='.$this->config['language']);
     setlocale(LC_ALL, $this->config['language']);
@@ -377,6 +380,43 @@ class CLydia implements ISingleton/*, IModule*/ {
         $items .= $this->DrawMenu($val['items']);
       }
     }
+    return "<ul class='menu{$class}'>\n{$items}</ul>\n";
+  }
+
+
+  /**
+   * Create a menu from an array.
+   * 'items' => array(
+   *    array('label'=>'visible label', 'url'=>'url/to', 'title'=> 'display when hovering'),
+   * );
+   *
+   * @param array $options array with details from which the menu is constructed.
+   * @returns string with the HTML representing the menu.
+   */
+  public function CreateMenu($options) {
+    $default = array(
+      'items' => array(),
+      'class' => null,
+    );
+    $options = array_merge($default, $options);
+    
+    $items = null;
+    foreach($options['items'] as $val) {
+      $selected = null;
+      $link = null;
+      if(in_array($val['url'], array($this->request->request, $this->request->routed_from)) || substr_compare($val['url'], $this->request->controller, 0) == 0) {
+        $selected = " class='selected'";
+        //$link = $val['label'];
+      }
+      $title = isset($val['title']) ? : null;
+      $link = isset($link) ? $link : "<a{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a>";
+      $items .= "<li{$selected}>{$link}</li>\n";
+
+/*      if(isset($val['items'])) {
+        $items .= $this->DrawMenu($val['items']);
+      }*/
+    }
+    $class = isset($options['class']) ? ' '.$options['class'] : null;
     return "<ul class='menu{$class}'>\n{$items}</ul>\n";
   }
 

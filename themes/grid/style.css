@@ -55,6 +55,8 @@ h2 {
   font-family:Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size:1.875em;
   line-height:1.4667;
+  border-bottom:1px solid #cccccc;
+  margin-bottom:21px;
 }
 h3 {
   font-weight:normal;
@@ -96,11 +98,11 @@ p { margin-bottom:1.375em; }
   line-height:1.5714;
 }
 a {
-  color:#660000;
+  color:#19194d;
   text-decoration:underline;
 }
 a:focus, a:hover {
-  color:#990000;
+  color:#32329a;
   text-decoration:none;
 }
 blockquote {
@@ -113,7 +115,7 @@ pre {
   margin-bottom:1.375em;
   white-space:pre;
 }
-pre, code, tt, .code { font:1em / 1.375 "Courier New", Courier, monospace; }
+pre, code, tt, .code { font:1em / 1.375 monospace; }
 li ul, li ol { margin:0; }
 ul, ol {
   margin:0 1.5em 1.375em 0;
@@ -142,6 +144,20 @@ th, td { padding:5px 10px 5px 5px; }
 tbody tr { border-bottom:1px solid #eeeeee; }
 tbody tr:hover { color:#000000; }
 tfoot { font-style:italic; }
+div.code { white-space:pre; }
+div.code, pre code {
+  display:block;
+  overflow:auto;
+}
+div.code, pre code, .geshi {
+  border-top:1px solid #cccccc;
+  border-bottom:1px solid #cccccc;
+  padding-top:11px;
+  padding-bottom:11px;
+  margin-bottom:20px;
+  background-color:#eeeeee;
+  padding-left:0.5em;
+}
 input, textarea { font:inherit; }
 input[readonly] { color:#666666; }
 label { font-size:smaller; }
@@ -254,7 +270,7 @@ body {
 }
 #site-menu ul ul {
   float:left;
-  padding-right:4em;
+  padding-right:3em;
 }
 #site-menu ul ul li {
   font-family:Cambria, Georgia, Times, 'Times New Roman', serif;
@@ -325,7 +341,45 @@ body {
 }
 #breadcrumb ul.breadcrumb li a:hover {
   text-decoration:underline;
-  color:#5c0a0a;
+  color:#19194d;
+}
+ul.tabmenu {
+  list-style-type:none;
+  padding:0;
+  margin:0;
+  border-bottom:1px solid #666666;
+  margin-bottom:22px;
+}
+ul.tabmenu li {
+  padding:0;
+  margin:0;
+  display:inline;
+}
+ul.tabmenu li a {
+  padding:0.2em 0.5em 2px 0.5em;
+  line-height:1;
+  text-decoration:none;
+  color:inherit;
+  border:1px solid #cccccc;
+  -webkit-border-top-right-radius:5px;
+  -moz-border-radius-topright:5px;
+  border-top-right-radius:5px;
+  border-bottom:none;
+}
+ul.tabmenu li a:hover, ul.tabmenu li a:active {
+  color:#19194d;
+  text-decoration:underline;
+  background-color:#eeeeee;
+  border-color:#aaaaaa;
+}
+ul.tabmenu li a:active {
+  border-color:#666666;
+  background-color:#dddddd;
+}
+ul.tabmenu li.selected a, ul.tabmenu li.selected.hover {
+  padding-bottom:2px;
+  border-color:#666666;
+  border-bottom:1px solid #ffffff;
 }
 #inner-wrap-flash {
   width:960px;
@@ -382,6 +436,7 @@ body {
   width:630px;
   margin:0 5px;
 }
+#primary .toc { max-width:30%; }
 #sidebar {
   display:inline;
   float:left;
@@ -393,10 +448,24 @@ body {
   padding-top:11px;
   margin-bottom:31px;
   padding-left:1em;
+  padding-right:1em;
 }
-#sidebar ul { list-style-type:circle; }
+#sidebar ul { list-style:circle; }
 article { margin-bottom:44px; }
 section { margin-bottom:44px; }
+.border-right {
+  border-right:1px solid #cccccc;
+  padding-right:1em;
+}
+#toc ul {
+  list-style:none;
+  padding-left:0;
+  margin-left:0;
+}
+#toc ul li.h3 { padding-left:0.5em; }
+#toc ul li.h4 { padding-left:1em; }
+#toc ul li.h5 { padding-left:1.5em; }
+#toc ul li.h6 { padding-left:2em; }
 #inner-wrap-triptych {
   width:960px;
   margin:0 auto;
@@ -500,26 +569,18 @@ section { margin-bottom:44px; }
   font-style:italic;
 }
 #footer .debug p { line-height:1; }
-a { color:#5c0a0a; }
-a:hover {
-  text-decoration:none;
-  color:#5c0a0a;
-}
-a:focus {
-  text-decoration:none;
-  color:#5c0a0a;
-}
+a { color:#19194d; }
 a.no-style {
   text-decoration:none;
   color:inherit;
 }
 a.no-style:hover {
   text-decoration:underline;
-  color:#5c0a0a;
+  color:#19194d;
 }
 a.no-style:focus {
   text-decoration:underline;
-  color:#5c0a0a;
+  color:#19194d;
 }
 a.no-style-black {
   text-decoration:none;
@@ -527,9 +588,14 @@ a.no-style-black {
 }
 a.no-style-black:hover { color:#000000; }
 a.no-style-black:focus { color:#000000; }
+figure img {
+  max-width:100%;
+  max-height:100%;
+}
+figure figcaption { font-style:italic; }
 .error, .alert, .warning, .notice, .success, .info {
-  padding:0.8em;
-  margin-bottom:1em;
+  padding:11px;
+  margin-bottom:18px;
   border:2px solid #dddddd;
 }
 .error, .alert {
@@ -558,3 +624,4 @@ a.no-style-black:focus { color:#000000; }
 .info a { color:#205791; }
 .smaller-text { font-size:smaller; }
 .silent { color:#999999; }
+.right { float:right; }

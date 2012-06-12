@@ -47,15 +47,16 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
     $queries = array(
       'table name content'        => "Content",
       'drop table content'        => "DROP TABLE IF EXISTS Content;",
-      'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, title TEXT, data TEXT, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id));",
+      'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id));",
       'export table content'      => 'SELECT * FROM Content;',
-      'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
-      'insert content'            => 'INSERT INTO Content (key,type,title,data,filter,idUser) VALUES (?,?,?,?,?,?);',
+      //'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
+      'insert content'            => 'INSERT INTO Content (key,type,title,data,datafile,filter,idUser) VALUES (?,?,?,?,?,?,?);',
       'select * by id'            => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.id=? AND deleted IS NULL;',
       'select * by key'           => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.key=? AND deleted IS NULL;',
       'select * by type'          => "SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE type=? AND deleted IS NULL ORDER BY {$order_by} {$order_order};",
       'select *'                  => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE deleted IS NULL;',
-      'update content'            => "UPDATE Content SET key=?, type=?, title=?, data=?, filter=?, updated=datetime('now') WHERE id=?;",
+      'flexible select *'         => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE deleted IS NULL',
+      'update content'            => "UPDATE Content SET key=?, type=?, title=?, data=?, datafile=?, filter=?, updated=datetime('now') WHERE id=?;",
       'update content as deleted' => "UPDATE Content SET deleted=datetime('now') WHERE id=?;",
      );
     if(!isset($queries[$key])) {
@@ -79,10 +80,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
   public function Save() {
     $msg = null;
     if($this['id']) {
-      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['filter'], $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['id']));
       $msg = 'update';
     } else {
-      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['filter'], $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this->user['id']));
       $this['id'] = $this->db->LastInsertId();
       $msg = 'created';
     }
@@ -184,12 +185,26 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
         throw new Exception(t('Not valid group by order.'));
       }
     }
-    
-    $sql = "SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE deleted IS NULL".$type.$order_by.$order_order.$limit;
-    return $this->db->ExecuteSelectQueryAndFetchAll($sql, $sqlArgs);
+    return $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$order_by.$order_order.$limit, $sqlArgs);
   }
   
 
+  /**
+   * Get a list of supported textfilters.
+   *
+   * @returns array with list of supported filters.
+   */
+  public static function SupportedFilters() {
+    return array(
+      'plain' => t('Convert http://webb.com/ to clickable links. Convert newline to <br />.'),
+      'bbcode' => t('Support bbcode. Convert newline to <br />.'),
+      'htmlpurify' => t('Treat data as HTML and use HTMLPurify to filter content. Convert newline to <br />.'),
+      'markdown' => t('Support Markdown-syntax together with Typographer (SmartyPants).'),
+      'markdownx' => t('Support extended Markdown-syntax together with Typographer (SmartyPants). Converts links, shorttags'),
+    );
+  }
+  
+  
   /**
    * Filter content according to a filter.
    *
@@ -200,10 +215,12 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
     switch($filter) {
       /*case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
       case 'html': $data = nl2br(makeClickable($data)); break;*/
-      case 'htmlpurify': $data = nl2br(CHTMLPurifier::Purify($data)); break;
-      case 'bbcode': $data = nl2br(bbcode2html(htmlEnt($data))); break;
+      case 'markdownx': $data = CTextFilter::MakeClickable(CTextFilter::Typographer(CTextFilter::MarkdownExtra(CTextFilter::ShortTags($data)))); break;
+      case 'markdown': $data = CTextFilter::Typographer(CTextFilter::Markdown($data)); break;
+      case 'htmlpurify': $data = nl2br(CTextFilter::Purify($data)); break;
+      case 'bbcode': $data = nl2br(CTextFilter::Bbcode2HTML(htmlEnt($data))); break;
       case 'plain': 
-      default: $data = nl2br(makeClickable(htmlEnt($data))); break;
+      default: $data = nl2br(CTextFilter::MakeClickable(htmlEnt($data))); break;
     }
     return $data;
   }
@@ -215,7 +232,45 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
    * @returns string with the filtered data.
    */
   public function GetFilteredData() {
-    return $this->Filter($this['data'], $this['filter']);
+    $data = null;
+    if($this['datafile']) {
+      $data = "\n".file_get_contents(LYDIA_SITE_PATH.'/data/'.get_class().'/txt/'.$this['datafile']);
+    }
+    $this->data['data_filtered'] = $this->Filter($this['data'] . $data, $this['filter']);
+    return $this->data['data_filtered'];
+  }
+  
+  
+  /**
+   * Get the TOC of headings to a certain level.
+   *
+   * @param integer $level which level of headings to use for toc.
+   * @returns array with entries to generate a TOC.
+   */
+  public function GetTableOfContent($level=3) {
+  	$pattern = '/<(h[2-'.$level.'])([^>]*)>(.*)<\/h[2-'.$level.']>/';
+  	preg_match_all($pattern, $this->data['data_filtered'], $matches, PREG_SET_ORDER);
+    $this->data['toc'] = array();
+    $this->data['toc_formatted'] = null;
+    foreach($matches as $val) {
+      preg_match('/id=[\'"]([^>"\']+)/', $val[2], $id);
+      $id = isset($id[1]) ? $id[1] : null;
+      $this->data['toc'][] = array('level' => $matches[1], 'id' => $id, 'label' => $val[3]);
+      $a1 = $id ? "<a href='#{$id}'>" : null;
+      $a2 = $id ? "</a>" : null;
+      $this->data['toc_formatted'] .= "<li class='{$val[1]}'>{$a1}{$val[3]}{$a2}</li>\n";
+    }
+    $this->data['toc_formatted'] = "<ul>\n" . $this->data['toc_formatted'] . "</ul>\n";
+    return $this->data['toc'];
+  }
+  
+  
+  /**
+   * Prepare all data before sending to view, stores all prepared data in object, easy for views to access.
+   */
+  public function Prepare() {
+    $this->GetFilteredData();
+    $this->GetTableOfContent();
   }
   
   
