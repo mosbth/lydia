@@ -86,7 +86,7 @@ function login_menu() {
   } else {
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
   }
-  return "<nav id='login-menu'>$items</nav>";
+  return "<nav>$items</nav>";
 }
 
 
@@ -234,7 +234,7 @@ function region_has_content($region='default' /*...*/) {
  * Piwik: Use with Javascript-snippet.
  */
 function get_tracker() {
-  $ly = CLydia::Instance();
+  global $ly;
   $ga = $ly->config['google_analytics'];
   $pw = $ly->config['piwik'];
   $html = null;
@@ -261,4 +261,20 @@ EOD;
 }
 
 
+/**
+ * Does the site has a slogan to show?
+ */
+function has_slogan() {
+  global $ly;
+  return isset($ly->config['theme']['data']['slogan']) && $ly->config['theme']['data']['show_slogan'];
+}
+
+
+/**
+ * Return the site slogan.
+ */
+function slogan() {
+  global $ly;
+  return $ly->config['theme']['data']['slogan'];
+}
 

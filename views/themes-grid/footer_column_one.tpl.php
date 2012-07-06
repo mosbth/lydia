@@ -9,5 +9,4 @@
   <!-- <a href='link?'>http-header</a> -->
   <a href='http://csslint.net/'>CSS-lint</a>
   <a href='http://jslint.com/'>JS-lint</a>
-  <a href='http://jsperf.com/'>JS-perf</a>
 </nav>

@@ -109,8 +109,8 @@ blockquote {
   margin-left:1em;
   margin-bottom:1.375em;
 }
-strong, dfn { font-weight:bold; }
-em, dfn { font-style:italic; }
+strong, b, dfn { font-weight:bold; }
+em, i, dfn { font-style:italic; }
 pre {
   margin-bottom:1.375em;
   white-space:pre;
@@ -120,6 +120,10 @@ li ul, li ol { margin:0; }
 ul, ol {
   margin:0 1.5em 1.375em 0;
   padding-left:1.5em;
+}
+ul p, ol p {
+  margin-top:0.6875em;
+  margin-bottom:0.6875em;
 }
 ul { list-style-type:disc; }
 ol { list-style-type:decimal; }
@@ -144,6 +148,11 @@ th, td { padding:5px 10px 5px 5px; }
 tbody tr { border-bottom:1px solid #eeeeee; }
 tbody tr:hover { color:#000000; }
 tfoot { font-style:italic; }
+sup {
+  position:relative;
+  top:-0.5em;
+  font-size:80%;
+}
 div.code { white-space:pre; }
 div.code, pre code {
   display:block;
@@ -228,11 +237,7 @@ body {
   display:table;
   margin-bottom:11px;
 }
-#banner #site-logo {
-  display:table-cell;
-  position:relative;
-  top:22px;
-}
+#banner #site-logo { display:table-cell; }
 #banner #site-title {
   display:table-cell;
   vertical-align:bottom;
@@ -268,29 +273,31 @@ body {
   padding:0;
   list-style:none;
 }
+#site-menu ul li { display:inline; }
 #site-menu ul ul {
   float:left;
   padding-right:3em;
 }
-#site-menu ul ul li {
+#site-menu ul ul li { display:list-item; }
+#site-menu li {
   font-family:Cambria, Georgia, Times, 'Times New Roman', serif;
-  color:color-site-title;
+  color:#333333;
   letter-spacing:0.1em;
 }
-#site-menu ul ul li:hover { list-style-type:square; }
-#site-menu ul ul li:hover > a {
+#site-menu li:hover { list-style-type:square; }
+#site-menu li:hover > a {
   text-decoration:underline;
   color:#111111;
 }
-#site-menu ul ul li:focus > a {
+#site-menu li:focus > a {
   text-decoration:underline;
   color:#111111;
 }
-#site-menu ul ul li.selected {
+#site-menu li.selected {
   list-style-type:square;
   color:#000000;
 }
-#site-menu ul ul li a {
+#site-menu a {
   text-decoration:none;
   color:inherit;
 }
@@ -451,7 +458,7 @@ ul.tabmenu li.selected a, ul.tabmenu li.selected.hover {
   padding-right:1em;
 }
 #sidebar ul { list-style:circle; }
-article { margin-bottom:44px; }
+article { margin-bottom:22px; }
 section { margin-bottom:44px; }
 .border-right {
   border-right:1px solid #cccccc;
@@ -622,6 +629,102 @@ figure figcaption { font-style:italic; }
 .notice a, .warning a { color:#514721; }
 .success a { color:#264409; }
 .info a { color:#205791; }
+.javascript.geshi .de1, .javascript.geshi .de2 {
+  font:normal normal 1em / 1.2em monospace;
+  margin:0;
+  padding:0;
+  background:none;
+  vertical-align:top;
+}
+.javascript.geshi { font-family:monospace; }
+.javascript.geshi .imp {
+  font-weight:bold;
+  color:red;
+}
+.javascript.geshi li, .javascript.geshi .li1 {
+  font-weight:normal;
+  vertical-align:top;
+}
+.javascript.geshi .ln {
+  width:1px;
+  text-align:right;
+  margin:0;
+  padding:0 2px;
+  vertical-align:top;
+}
+.javascript.geshi .li2 {
+  font-weight:bold;
+  vertical-align:top;
+}
+.javascript.geshi .kw1 {
+  color:#000066;
+  font-weight:bold;
+}
+.javascript.geshi .kw2 {
+  color:#003366;
+  font-weight:bold;
+}
+.javascript.geshi .kw3 { color:#000066; }
+.javascript.geshi .co1 {
+  color:#006600;
+  font-style:italic;
+}
+.javascript.geshi .co2 {
+  color:#009966;
+  font-style:italic;
+}
+.javascript.geshi .coMULTI {
+  color:#006600;
+  font-style:italic;
+}
+.javascript.geshi .es0 {
+  color:#000099;
+  font-weight:bold;
+}
+.javascript.geshi .br0 { color:#009900; }
+.javascript.geshi .sy0 { color:#339933; }
+.javascript.geshi .st0 { color:#3366cc; }
+.javascript.geshi .nu0 { color:#cc0000; }
+.javascript.geshi .me1 { color:#660066; }
+.javascript.geshi .ln-xtra, .javascript.geshi li.ln-xtra, .javascript.geshi div.ln-xtra { background-color:#ffffcc; }
+.javascript.geshi span.xtra { display:block; }
+.geshi { overflow:scroll; }
+.footnotes > hr { display:none; }
+.page {
+  border-right:1px solid #cccccc;
+  padding-right:0.5em;
+  padding-bottom:22px;
+}
+.revision-history {
+  font-size:smaller;
+  color:#999999;
+}
+.blog-post h2 a {
+  color:inherit;
+  text-decoration:none;
+}
+.blog-post h2 a:hover {
+  color:#19194d;
+  text-decoration:underline;
+}
+.blog-post .published, .blog-post .category, .blog-post .edit, .blog-post .details {
+  font-size:smaller;
+  color:#999999;
+}
+.blog-post .published a, .blog-post .category a, .blog-post .edit a, .blog-post .details a {
+  color:inherit;
+  text-decoration:none;
+}
+.blog-post .published a:hover, .blog-post .category a:hover, .blog-post .edit a:hover, .blog-post .details a:hover {
+  color:#19194d;
+  text-decoration:underline;
+}
+.blog-post .published { font-style:italic; }
+.blog-list {
+  border-right:1px solid #cccccc;
+  padding-right:0.5em;
+  padding-bottom:22px;
+}
 .smaller-text { font-size:smaller; }
 .silent { color:#999999; }
 .right { float:right; }

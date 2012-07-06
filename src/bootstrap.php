@@ -259,7 +259,7 @@ function is_slug($str) {
  * @returns string.
  */
 function teaser($str, $len=400) {
-  if(strlen($str) <= $len) { return($str); }
+  if(mb_strlen($str) <= $len) { return($str); }
   $pos = mb_strpos($str, ' ', $len);
   $str = trim(mb_substr($str, 0, $pos));
   return $str;

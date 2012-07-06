@@ -1,22 +1,28 @@
+<div class='box'>
 <h4><?=t('Categories')?></h4>
 <ul>
 <?php foreach($categories as $category): ?>
 <li><a class='no-style' href='<?=$category->url?>'><?=$category->name?></a></li>
 <?php endforeach; ?>
 </ul>
+</div>
 
+<div class='box'>
 <h4><?=t('In this category')?></h4>
 <ul>
 <?php foreach($feeds['sites'] as $site): ?>
 <li><a class='no-style' href='<?=$site->url?>'><?=$site->name?></a></li>
 <?php endforeach; ?>
 </ul>
+</div>
 
 <?php foreach($feeds['sites'] as $site): ?>
+<div class='box'>
 <h4><a class='no-style' href='<?=$site->url?>'><?=$site->name?></a></h4>
 <ul>
 <?php foreach($site->items as $item): ?>
 <li><a class='no-style' href='<?=$item->permalink?>' title='<?=''.time_diff($item->date).' ago'?>'><?=$item->title?></a></li>
 <?php endforeach; ?>
 </ul>
+</div>
 <?php endforeach; ?>

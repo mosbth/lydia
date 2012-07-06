@@ -87,6 +87,15 @@ by Tyler Tate/TwigKit to get grid layout through LESS.
 * Used by: `themes/grid/style.less`
 
 
+### GeSHi - Generic Syntax Highlighter
+by Nigel McNie, Benny Baumann.
+* Website: http://qbnz.com/highlighter/
+* Version: 1.0.8.10 (2011-02-11)
+* License: GNU GPL v2
+* Lydia path: `src/CTextFilter/geshi_1.0.8.10`
+* Used by: `CTextFilter`
+
+
 Todo.
 -----
 

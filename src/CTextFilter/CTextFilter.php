@@ -87,18 +87,23 @@ class CTextFilter {
    */
    public static function SyntaxHighlightGeSHi($text, $language) {   
     if(!self::$geshi) {
-      require_once(__DIR__.'/geshi/geshi.php');
+      require_once(__DIR__.'/geshi_1.0.8.10/geshi.php');
       //$path = 'geshi/geshi';
       //$geshi = new GeSHi($text, $language, $path);
-      self::$geshi = new GeSHi($text, $language);
+      //self::$geshi = new GeSHi($text, $language);
       //$geshi->enable_classes();
-      self::$geshi->set_overall_class('geshi');
+      //self::$geshi->set_overall_class('geshi');
       //self::$geshi->set_header_type(GESHI_HEADER_PRE_TABLE);
       //self::$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+      //self::$geshi->set_line_style('color: red; font-weight: bold;', 'color: green;');
       //CLydia::Instance()->views->AddStyle($geshi->get_stylesheet());
     }
     self::$geshi = new GeSHi($text, $language);
     self::$geshi->set_overall_class('geshi');
+    self::$geshi->enable_classes('geshi');
+    //self::$geshi->set_header_type(GESHI_HEADER_PRE_VALID);
+    //self::$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+    //echo "<pre>", self::$geshi->get_stylesheet(false) , "</pre>";
     return self::$geshi->parse_code();
   }
   
@@ -138,7 +143,7 @@ class CTextFilter {
    */
   public static function MakeClickable($text) {
     return preg_replace_callback(
-      '#\b(?<!href=[\'"])https?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#',
+      '#\b(?<![href|src]=[\'"])https?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#',
      // '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
       create_function(
         '$matches',
@@ -159,7 +164,7 @@ class CTextFilter {
     $callback = function($matches) {
       switch($matches[1]) {
         case 'IMG':
-          $caption = t('Image: ');
+          $caption = t('Figure: ');
           return <<<EOD
 <figure>
   <a href='{$matches[2]}'><img src='{$matches[2]}' alt='{$matches[3]}' /></a>
@@ -167,17 +172,47 @@ class CTextFilter {
 </figure>
 EOD;
         break;
+
+        case 'BOOK':
+          $isbn = $matches[2];
+          $stores = array(
+            'Libris (bibliotek)' => "http://libris.kb.se/hitlist?q={$isbn}",
+            'Google Books' => "http://books.google.com/books?q={$isbn}",
+            'Bokus' => "http://www.bokus.com/bok/{$isbn}",
+            'Adlibris' => "http://www.adlibris.com/se/product.aspx?isbn={$isbn}",
+            'Amazon' => "http://www.amazon.com/s/ref=nb_ss?url=field-keywords={$isbn}",
+            'Barnes&Noble' => "http://search.barnesandnoble.com/booksearch/ISBNInquiry.asp?r=1&IF=N&EAN={$isbn}",
+          );
+          $html = null;
+          foreach($stores as $key => $val) {
+            $html .= "<a href='$val'>$key</a> &bull; ";
+          }
+          return substr($html, 0, -8);
+        break;
+
+        case 'YOUTUBE':
+          $caption = t('Figure: ');
+          $height = $matches[3] / (16/9);
+          return <<<EOD
+<figure>
+  <iframe width='{$matches[3]}' height='{$height}' src="http://www.youtube.com/embed/{$matches[2]}" frameborder="0" allowfullscreen></iframe>
+  <figcaption>{$caption}{$matches[4]}</figcaption>
+</figure>
+EOD;
+        break;
         
-        //case 'syntax=': return CTextFilter::SyntaxHighlightGeSHi($matches[3], $matches[2]); break;
-        case 'syntax=': return "<pre>" . highlight_string($matches[3], true) . "</pre>"; break;
+        case 'syntax=': return CTextFilter::SyntaxHighlightGeSHi($matches[3], $matches[2]); break;
+        //case 'syntax=': return "<pre>" . highlight_string($matches[3], true) . "</pre>"; break;
         //case 'INCL':  include($matches[2]); break;
-        case 'INFO':  return "<div class='info'>"; break;
+        case 'INFO':  return "<div class='info'markdown=1>"; break;
         case '/INFO': return "</div>"; break;
         default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
       }
     };
     $patterns = array(
       '/\[(IMG) src=(.+) alt=(.+)\]/',
+      '/\[(BOOK) isbn=(.+)\]/',
+      '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
       '/~~~(syntax=)(php|html|css|sql|javascript)\n([^~]+)\n~~~/s',
       //'/\[(INCL)/s*([^\]+)/',
       '#\[(INFO)\]#', '#\[(/INFO)\]#',

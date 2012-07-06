@@ -167,7 +167,7 @@ class CMRSSAggregator extends CObject implements ArrayAccess {
         $entry->permalink = $item->get_permalink();
         $entry->title = strip_tags($item->get_title());
         $entry->date = $item->get_date('c');
-        $entry->content = teaser(CHTMLPurifier::Purify(strip_tags($item->get_content())), $this->options['teaser']);
+        $entry->content = teaser(CTextFilter::Purify(strip_tags($item->get_content())), $this->options['teaser']);
         
         // Add shallow copy in several places to ease usage and presentation
         $this->data['sites'][$siteKey]->items[] = $entry;

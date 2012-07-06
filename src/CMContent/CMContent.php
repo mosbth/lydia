@@ -4,12 +4,14 @@
  * 
  * @package LydiaCore
  */
-class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
+class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterator {
 
   /**
    * Properties
    */
   public $data;
+  public $set;
+  public $position;
 
 
   /**
@@ -33,6 +35,20 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
   public function offsetUnset($offset) { unset($this->data[$offset]); }
   public function offsetGet($offset) { return isset($this->data[$offset]) ? $this->data[$offset] : null; }
 
+
+  /**
+   * Implementing Iterator for $this->data and $this->set
+   */
+  function rewind() { $this->position = 0; }
+  function current() { 
+    $this->data = $this->set[$this->position];
+    $this->Prepare();
+    return $this;
+  }
+  function key() { return $this->position; }
+  function next() { ++$this->position; }
+  function valid() { return isset($this->set[$this->position]); }
+  
 
   /**
    * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
@@ -185,7 +201,9 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
         throw new Exception(t('Not valid group by order.'));
       }
     }
-    return $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$order_by.$order_order.$limit, $sqlArgs);
+    $this->position = 0;
+    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$order_by.$order_order.$limit, $sqlArgs);
+    return $this;
   }
   
 
@@ -247,7 +265,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
    * @param integer $level which level of headings to use for toc.
    * @returns array with entries to generate a TOC.
    */
-  public function GetTableOfContent($level=3) {
+  public function GetTableOfContent($level=4) {
   	$pattern = '/<(h[2-'.$level.'])([^>]*)>(.*)<\/h[2-'.$level.']>/';
   	preg_match_all($pattern, $this->data['data_filtered'], $matches, PREG_SET_ORDER);
     $this->data['toc'] = array();
@@ -255,7 +273,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
     foreach($matches as $val) {
       preg_match('/id=[\'"]([^>"\']+)/', $val[2], $id);
       $id = isset($id[1]) ? $id[1] : null;
-      $this->data['toc'][] = array('level' => $matches[1], 'id' => $id, 'label' => $val[3]);
+      $this->data['toc'][] = array('level' => (isset($matches[1]) ? $matches[1] : null), 'id' => $id, 'label' => (isset($val[3]) ? $val[3] : null));
       $a1 = $id ? "<a href='#{$id}'>" : null;
       $a2 = $id ? "</a>" : null;
       $this->data['toc_formatted'] .= "<li class='{$val[1]}'>{$a1}{$val[3]}{$a2}</li>\n";

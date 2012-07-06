@@ -10,7 +10,11 @@ class CCContent extends CObject implements IController {
   /**
    * Constructor
    */
-  public function __construct() { parent::__construct(); }
+  public function __construct() { 
+    parent::__construct(); 
+    $cf = new CInterceptionFilter();
+    $cf->AuthenticatedOrLogin();
+  }
 
 
   /**

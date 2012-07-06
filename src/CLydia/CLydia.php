@@ -377,7 +377,7 @@ class CLydia implements ISingleton/*, IModule*/ {
         $items .= "<li{$selected}><a{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
       }
       if(isset($val['items'])) {
-        $items .= $this->DrawMenu($val['items']);
+        $items .= "<li>" . $this->DrawMenu($val['items']) . "</li>\n";
       }
     }
     return "<ul class='menu{$class}'>\n{$items}</ul>\n";
@@ -453,12 +453,13 @@ class CLydia implements ISingleton/*, IModule*/ {
    *
    * @param string $module name of the module owning the view.
    * @param string $view filename of the view.
+   * @param boolean $original set to true to override the site-version of the view, default is false.
    * @returns string with the absolute filename.
    */
-  public function LoadView($module, $view) {
+  public function LoadView($module, $view, $original=false) {
     $path1 = LYDIA_SITE_PATH . "/views/$module/$view";
     $path2 = LYDIA_INSTALL_PATH . "/views/$module/$view";
-    if(is_file($path1)) {
+    if(!$original && is_file($path1)) {
       return $path1;
     } 
     return $path2;

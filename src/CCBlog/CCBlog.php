@@ -20,10 +20,12 @@ class CCBlog extends CObject implements IController {
    */
   public function Index() {
     $content = new CMContent();
-    $this->views->SetTitle('Blog')
-                ->AddInclude(__DIR__ . '/index.tpl.php', array(
-                  'contents' => $content->ListAll(array('type'=>'post', 'order-by'=>'title', 'order-order'=>'DESC')),
-                ));
+    $this->views->SetTitle(t('Blog'))
+                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb(array(array('label' => t('Blog'), 'url' => $this->CreateUrlToController()))))
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), array(
+                  'contents' => $content->GetEntries(array('type'=>'post', 'order_by'=>'created', 'order_order'=>'DESC')),
+                ))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('index_sidebar.tpl.php'), array());
   }
 
 
