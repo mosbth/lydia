@@ -80,7 +80,7 @@ $ly->config['timezone'] = 'Europe/Stockholm';
 
 
 /**
- * Define internal character encoding
+ * Define internal character encoding OBSOLETE? Done for $lydia in construktor instead.
  */
 $ly->config['character_encoding'] = 'UTF-8';
 
