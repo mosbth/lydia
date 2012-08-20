@@ -190,10 +190,11 @@ $ly->config['menus'] = array(
  *  theme_url($url): Prepends the current theme url to $url to make an absolute url. 
  *  theme_parent_url($url): Prepends the parent theme url to $url to make an absolute url. 
  *
- * path: Path to current theme, relativly LYDIA_INSTALL_PATH, for example themes/grid or site/themes/mytheme.
- * parent: Path to parent theme, same structure as 'path'. Can be left out or set to null.
+ * path: Path (on disk) to the directory holding the theme.
+ * url: The url to the theme directory, relative to base_url or absolute (starts with /).
+ * parent-path: Path (on disk) to parent theme. Can be left out or set to null.
  * stylesheet: The stylesheet to include, always part of the current theme, use @import to include the parent stylesheet.
- * template_file: Set the default template file, defaults to default.tpl.php.
+ * template_file: Set the default template file, defaults to index.tpl.php.
  * regions: Array with all regions that the theme supports.
  * menu_to_region: Array mapping menus to regions.
  * data: Array with data that is made available to the template file as variables. 
@@ -202,12 +203,13 @@ $ly->config['menus'] = array(
  * available to the template files.
  */
 $ly->config['theme'] = array(
-  //'path'            => 'site/themes/mytheme',
-  'path'            => 'themes/grid',
-  //'parent'          => 'themes/grid',
-  //'stylesheet'      => 'style.css',
-  'stylesheet'      => 'style.php',
-  'template_file'   => 'index.tpl.php',
+  'path'          => LYDIA_SITE_PATH . '/themes/dbwebb',
+  'url'           => 'site/themes/dbwebb',
+  //'parent'        => LYDIA_INSTALL_PATH . '/themes/grid', 
+  //'parent-url'    => 'themes/grid', 
+  //'stylesheet'    => 'style.css',
+  'stylesheet'    => 'style.php',
+  //'template_file' => 'index.tpl.php',
   'regions' => array('site-menu', 'breadcrumb', 'navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',
     'footer-column-one','footer-column-two','footer-column-three','footer-column-four','footer-column-five',
