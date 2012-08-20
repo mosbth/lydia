@@ -3,9 +3,8 @@
 *.sqlite
 *.cache
 
-# Files that may be changed by the user  on per site basis #
-############################################################
+# Files that may be changed by the user on per site basis #
+###########################################################
 index.php
 site/config.php
-site/data
 
