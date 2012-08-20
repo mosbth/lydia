@@ -102,10 +102,15 @@ class CObject {
 
 
   /**
-	 * Wrapper for same method in CLydia. See there for documentation.
+	 * Wrapper for same method in CLydia. See there for documentation. Trys to find view 
+	 * related to class, if it fails it tries to find view related to parent class.
    */
   protected function LoadView($view) {
-    return $this->ly->LoadView(get_class($this), $view);
+    $file = $this->ly->LoadView(get_class($this), $view);
+    if(!$file) {
+      $file = $this->ly->LoadView(get_parent_class($this), $view);
+    }
+    return $file;
   }
 
 

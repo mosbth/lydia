@@ -62,17 +62,22 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     $order_by     = isset($args['order-by'])    ? $args['order-by'] : 'id';    
     $queries = array(
       'table name content'        => "Content",
+      'table name category'       => "Category",
       'drop table content'        => "DROP TABLE IF EXISTS Content;",
-      'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id));",
+      'drop table category'       => "DROP TABLE IF EXISTS Category;",
+      'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, idCategory INT default null, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id), FOREIGN KEY(idCategory) REFERENCES Category(id));",
+      'create table category'     => "CREATE TABLE IF NOT EXISTS Category (id INTEGER PRIMARY KEY, key TEXT KEY, title TEXT);",
       'export table content'      => 'SELECT * FROM Content;',
+      'export table category'     => 'SELECT * FROM Category;',
       //'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
-      'insert content'            => 'INSERT INTO Content (key,type,title,data,datafile,filter,idUser) VALUES (?,?,?,?,?,?,?);',
-      'select * by id'            => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.id=? AND deleted IS NULL;',
-      'select * by key'           => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.key=? AND deleted IS NULL;',
-      'select * by type'          => "SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE type=? AND deleted IS NULL ORDER BY {$order_by} {$order_order};",
-      'select *'                  => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE deleted IS NULL;',
-      'flexible select *'         => 'SELECT c.*, u.acronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE deleted IS NULL',
-      'update content'            => "UPDATE Content SET key=?, type=?, title=?, data=?, datafile=?, filter=?, updated=datetime('now') WHERE id=?;",
+      'insert content'            => 'INSERT INTO Content (key,type,idCategory,title,data,datafile,filter,idUser) VALUES (?,?,?,?,?,?,?,?);',
+      'insert category'           => 'INSERT INTO Category (key,title) VALUES (?,?);',
+      'select * by id'            => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.id=? AND c.deleted IS NULL;',
+      'select * by key'           => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.key=? AND c.deleted IS NULL;',
+      'select * by type'          => "SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL ORDER BY {$order_by} {$order_order};",
+      'select *'                  => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL;',
+      'flexible select *'         => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
+      'update content'            => "UPDATE Content SET key=?, type=?, idCategory=?, title=?, data=?, datafile=?, filter=?, updated=datetime('now') WHERE id=?;",
       'update content as deleted' => "UPDATE Content SET deleted=datetime('now') WHERE id=?;",
      );
     if(!isset($queries[$key])) {
@@ -96,10 +101,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public function Save() {
     $msg = null;
     if($this['id']) {
-      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['id']));
       $msg = 'update';
     } else {
-      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this->user['id']));
       $this['id'] = $this->db->LastInsertId();
       $msg = 'created';
     }
@@ -141,7 +146,26 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public function LoadById($id) {
     $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by id'), array($id));
     if(empty($res)) {
-      $this->AddMessage('error', "Failed to load content with id '$id'.");
+      $this->AddMessage('error', "Failed to load content by id.");
+      return false;
+    } else {
+      $this->data = $res[0];
+    }
+    return true;
+  }
+  
+  
+  /**
+   * Load content by key.
+   *
+   * @param string $key the key of the content.
+   * @returns boolean true if success else false.
+   */
+  public function LoadByKey($key=null) {
+    if(!$key) return false;
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by key'), array($key));
+    if(empty($res)) {
+      $this->AddMessage('error', "Failed to load content by key.");
       return false;
     } else {
       $this->data = $res[0];
@@ -255,6 +279,13 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $data = "\n".file_get_contents(LYDIA_SITE_PATH.'/data/'.get_class().'/txt/'.$this['datafile']);
     }
     $this->data['data_filtered'] = $this->Filter($this['data'] . $data, $this['filter']);
+    $pos = stripos($this->data['data_filtered'], '<!--more-->');
+    $this->data['data_has_more'] = $pos;
+    if($pos) {
+      $this->data['data_short_filtered'] = substr($this->data['data_filtered'], 0, $pos);
+    } else {
+      $this->data['data_short_filtered'] = $this->data['data_filtered'];
+    }
     return $this->data['data_filtered'];
   }
   
@@ -278,7 +309,9 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $a2 = $id ? "</a>" : null;
       $this->data['toc_formatted'] .= "<li class='{$val[1]}'>{$a1}{$val[3]}{$a2}</li>\n";
     }
-    $this->data['toc_formatted'] = "<ul>\n" . $this->data['toc_formatted'] . "</ul>\n";
+    if($this->data['toc_formatted']) {
+      $this->data['toc_formatted'] = "<ul>\n" . $this->data['toc_formatted'] . "</ul>\n";
+    }
     return $this->data['toc'];
   }
   

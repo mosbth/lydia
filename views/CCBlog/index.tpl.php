@@ -1,15 +1,36 @@
 <?php if($contents != null):?>
 
-<article class='blog-list'>
+<article class='blog list'>
 
 <?php if(isset($intro)) echo $intro; ?>
 
 <?php foreach($contents as $val):?>
-<section class='blog-post'>
+<section class='post'>
+
+  <?php if($order_by_updated): ?>
+  <span class='updated'><?=t('Last updated on !updated', array('!updated' => $val['updated']))?></span>
+  <?php else: ?>
   <span class='published'><?=t('On !created by !owner', array('!created' => $val['created'], '!owner' => $val['owner']))?></span>
-  <h2><?=esc($val['title'])?></h2>
-  <p><?=$val['data_filtered']?></p>
-  <p class='edit'><a href='<?=create_url("content/edit/{$val['id']}")?>'><?=t('edit')?></a></p>
+  <?php endif; ?>
+  
+  <h2><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></h2>
+
+  <?php if($post_format_short): ?>
+  <?=$val['data_short_filtered']?>
+    <?php if($val['data_has_more']): ?>  
+    <p class='readmore'><a href='<?=create_url(null, $val['key'])?>'><?=t('Read more »')?></a></p>
+    <?php endif; ?>
+  <?php else: ?>
+  <?=$val['data_filtered']?>
+  <?php endif; ?>
+
+  <p class='footer'>
+    <?=t('Category: @category_name', array('@category_name' => $val['category_title']))?>
+    <?php if($user_is_admin_or_owner): ?>
+    | <a href='<?=create_url("content/edit/{$val['id']}")?>'><?=t('edit')?></a>
+    <?php endif; ?>
+  </p>
+
 </section>
 <?php endforeach; ?>
 </article>

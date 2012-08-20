@@ -91,6 +91,7 @@ class CViewContainer {
    * @returns $this.
    */
   public function AddIncludeToRegion($region, $file, $variables=array()) {
+    if(empty($file)) throw new Exception(t('View filename is empty.'));
     $this->views[$region][] = array('type' => 'include', 'file' => $file, 'variables' => $variables);
     return $this;
   }

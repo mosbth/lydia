@@ -52,9 +52,14 @@ class CCModules extends CObject implements IController {
    * Perform an action to all managable modules supporting the specific action.
    *
    * @param string $action the action.
+   * @param string $secret pass this to enable management without being logged in.
    */
-  public function Action($action=null) {
-    $modules = new CMModules();
+  public function Action($action=null, $secret=null) {
+    if($secret && $action != 'crontab') {
+      $this->ShowErrorPage(403, t('You need admin-privileges to access this page.'));
+    }
+    
+    $modules = new CMModules($secret);
     $results = $modules->InvokeActionToManage($action);
     $allModules = $modules->ReadAndAnalyse();
     $this->breadcrumb[] = array('label' => t('Action: !action', array('!action'=>$action)), 'url' => $this->CreateUrlToController('action', $action));

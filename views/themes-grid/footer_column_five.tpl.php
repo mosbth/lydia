@@ -4,7 +4,7 @@
   <a href='http://www.catb.org/~esr/faqs/hacker-howto.html'>How to become a hacker</a> &bull;
   <a href='http://catb.org/~esr/faqs/smart-questions.html'>How to ask questions the smart way</a> &bull;
   <a href='http://freenode.net/catalysts.shtml'>Become a catalyst</a> &bull;
-  <a href='http://www.chiark.greenend.org.uk/~sgtatham/bugs.html'>How to report bugs effectively</a>
+  <a href='http://www.chiark.greenend.org.uk/~sgtatham/bugs.html'>How to report bugs effectively</a> &bull;
   <a href='http://sscce.org/'>Short, Self Contained, Correct Example</a>
 
   &nbsp;&nbsp;<strong><?=t('Unix & Linux:')?></strong>

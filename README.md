@@ -63,7 +63,7 @@ PHP SmartyPants and PHP Typographer by Michel Fortin for better typography. Base
 ### SimplePie
 SimplePie by Geoffrey, Ryan P., and Ryan M. to read RSS feeds.
 * Website: http://simplepie.org/
-* Version: 1.2.1 (2011-10-14)
+* Version: 1.3 (2012-07-07)
 * License: BSD license
 * Lydia path: `src/CRSSFeed/simplepie`
 * Used by: `CRSSFeed`
@@ -114,8 +114,15 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.0? (latest)
+v0.3.0x (latest)
 
+* tbd.
+
+
+v0.3.01 (2012-08-20)
+
+* Use as basis for website http://dbwebb.se as a live testcase.
+* Included new version of SimplePie 1.3.
 * Enabling multilanguage, i18n, internationalization, though GNU's `gettext()`.
 * Adding `t()` as the translation function to use.
 * All language files in `language`. One .pot-file for all Lydia.
@@ -128,6 +135,7 @@ v0.3.0? (latest)
 * Moved `CHTMLPurifier` to `CTextFilter`.
 * Included PHP SmartyPants and PHP Typographer in `CTextFilter`.
 * Many more changes such as `CMBook`, `CInterceptionFilter`, managing of modules and more.
+* to many changes to mension, I need to get a stable base again when the site dbwebb.se gets up and runs this version of Lydia...
 
 
 v0.3.0 (2012-05-23)

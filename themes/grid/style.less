@@ -101,10 +101,12 @@ body {width:100%;.clearfix();}
 /** --------------------------------------------------------------
  * Settings
  */
-@bgcolor1: #eee;
+@bgcolor1: #f3f3ff;
 @bgcolor2: #fff;
 @bgtest: hsla(0,0%,90%,0.5);
 @color: #333;
+@color-lighter: #666;
+@color-light: #999;
 
 /* site-title */
 @font-family-site-title: Cambria, Georgia, Times, 'Times New Roman', serif;
@@ -119,6 +121,8 @@ body {width:100%;.clearfix();}
 //@anchorColor: #5C0A0A;
 @anchorColor: #19194D;
 .hover(){color:lighten(@anchorColor, 20%);text-decoration:none;}
+.hover-none(){color:lighten(@anchorColor, 20%);text-decoration:none;}
+.hover-underline(){color:lighten(@anchorColor, 20%);text-decoration:underline;}
 
 
 /** --------------------------------------------------------------
@@ -196,7 +200,7 @@ pre,code,tt,.code{font:1em/1.375 @font-family-monospace;}
 /* Lists */
 li ul,li ol{margin:0;}
 //ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
-ul,ol{margin:0 1.5em 1.375em 0;padding-left:1.5em;
+ul,ol{margin:0 0 1.375em 0;padding-left:1.5em;
   p{margin-top:0.6875em;margin-bottom:0.6875em;}
 }
 ul{list-style-type:disc;}
@@ -255,7 +259,7 @@ textarea.nowrap{white-space:nowrap;}
 html{background-color:@bgcolor1;.alwaysShowScrollbar()}
 body{margin:0;padding:0;color:@color;background-color:@bgcolor2;
 //  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
-//  &:hover{background:#fff url(grid_24_30_10.png) repeat-y center 11px;}
+//  &:hover{background:#fff url(grid_24_30_10.png) repeat-y center 12px;}
 }  
 
 
@@ -306,10 +310,10 @@ border-bottom:1px dotted #999;}
 /** --------------------------------------------------------------
  * Login menu
  */
-#login-menu{float:right;font-size:0.95em;
+#login-menu{float:right;.smaller-font();
   img.gravatar{vertical-align:middle;}
-  a{text-decoration:none;}
-  a:hover{text-decoration:underline;}
+  a{text-decoration:none;color:inherit;}
+  a:hover{.hover-underline();}
 }
 
 
@@ -396,11 +400,10 @@ border-bottom:1px dotted #999;}
  */
 #breadcrumb{
   ul.breadcrumb{list-style-type:none;padding:0;margin:0;
-    li{padding:0;margin:0;display:inline;.smaller-font();
-      a{text-decoration:none;color:inherit;
-        &:hover{text-decoration:underline;color:@anchorColor;}
-      }
-    }
+    li{padding:0;margin:0;display:inline;.smaller-font();}
+  }
+  a{text-decoration:none;color:inherit;
+    &:hover{.hover-underline();}
   }
 }
 
@@ -426,7 +429,7 @@ ul.tabmenu{list-style-type:none;padding:0;margin:0;border-bottom:1px solid #666;
  *
  */
 #outer-wrap-flash{}
-#inner-wrap-flash{.wrap();height:@magic-number*3;margin-bottom:@magic-number;}
+#inner-wrap-flash{.wrap();margin-bottom:@magic-number;}
 #flash{.column(24);height:100%;}
 
 
@@ -451,11 +454,13 @@ ul.tabmenu{list-style-type:none;padding:0;margin:0;border-bottom:1px solid #666;
 #inner-wrap-main{.wrap();margin-bottom:@magic-number;}
 /*#main{}*/
 
+#primary-fullwidth{.column(24);}
+
 #primary{.column(16);
-  .toc{max-width:30%;}
+  .toc{max-width:30%;} /* OBSOLETE? */
 }
 #sidebar{.column(8);
-  .box{border:1px solid #ccc;padding-top:@magic-number/2;margin-bottom:@magic-number * 1.5 - 2;
+  .box{border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding-top:@magic-number - 1px;margin-bottom:@magic-number * 2 - 1px;/*background-color:#FBFCFF;*/
     padding-left:1em;padding-right:1em;
     h4{}
   }
@@ -502,6 +507,7 @@ section{margin-bottom:@magic-number*2;}
  */
 @footer-font-color: #444;
 //#outer-wrap-footer-column{border-top:1px solid #bbb;}
+#outer-wrap-footer-column{}
 #inner-wrap-footer-column{.wrap();height:@magic-number*4;}
 
 #footer-column-one,
@@ -510,14 +516,14 @@ section{margin-bottom:@magic-number*2;}
 #footer-column-four{.column(6);margin-top:1em;height:100%;.smaller-font();
   h4{margin-bottom:0.2em;}
   a{color:inherit;text-decoration:none;
-    &:hover{text-decoration:underline;color:darken(@footer-font-color,30%);}
+    &:hover{.hover-underline();}
   }
 }
 
 #footer-column-five{.column(24);margin-top:@magic-number;padding-bottom:@magic-number*2;.smaller-font();
   h4{margin-bottom:0.5em;}
   a{color:inherit;text-decoration:none;
-    &:hover{text-decoration:underline;color:darken(@footer-font-color,30%);}
+    &:hover{.hover-underline();}
   }
 }
 
@@ -598,7 +604,7 @@ padding:@magic-number * 0.5;margin-bottom:@magic-number - 4px; border: 2px solid
  */
 @color: #999;
 .page{border-right:1px solid #ccc;padding-right:0.5em;padding-bottom:@magic-number;}
-.revision-history{font-size:smaller;color:@color;}
+.revision-history{.smaller-font();color:@color;}
 
 
 /** --------------------------------------------------------------
@@ -611,11 +617,27 @@ padding:@magic-number * 0.5;margin-bottom:@magic-number - 4px; border: 2px solid
   }
 }
 
-.blog-post{
-  h2{.link-no-style();}
-  .published, .category, .edit, .details{font-size:smaller;color:@color;.link-no-style();}
-  .published{font-style:italic;}
+.blog{border-right:1px solid #ccc;padding-right:0.5em;padding-bottom:@magic-number;
+  .post{
+    h2{.link-no-style();}
+    .published, .updated, .footer{.smaller-font();color:@color-light;.link-no-style();}
+    .readmore{.smaller-font();color:@color-lighter;.link-no-style();}
+    .published, .updated{font-style:italic;}
+  }
 }
+
+.blog-list{border-right:1px solid #ccc;padding-right:0.5em;padding-bottom:@magic-number;}
+
+
+/** --------------------------------------------------------------
+ * IRC
+ */
+.irclog{.smaller-font();word-wrap:break-word;
+  .time{color:@color-light;}
+  .user{}
+  .msg{}
+}
+
 
 .blog-list{border-right:1px solid #ccc;padding-right:0.5em;padding-bottom:@magic-number;}
 

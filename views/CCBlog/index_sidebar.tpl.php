@@ -1,7 +1,16 @@
-<div class='box'>
-<p>Visa tre senaste inläggen från respektive kategori.</p>
-</div>
+<?php if($contents != null):?>
 
 <div class='box'>
-<p>Kanske även tag-cloud.</p>
-</div>
+<h4>Senaste inläggen</h4>
+<ul>
+
+<?php foreach($contents as $val):?>
+<li><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></li>
+<?php endforeach; ?>
+</ul>
+
+<?php else:?>
+<p><?=t('No posts exists.')?></p>
+<?php endif;?>
+
+

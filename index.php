@@ -22,11 +22,15 @@ $ly = CLydia::Instance();
 //
 // PHASE: FRONTCONTROLLER ROUTE
 //
-$ly->FrontControllerRoute();
+if(!defined('LYDIA_PASS_FRONTCONTROLLER')) {
+  $ly->FrontControllerRoute();
+}
 
 
 // ---------------------------------------------------------------------------------------
 //
 // PHASE: THEME ENGINE RENDER
 //
-$ly->ThemeEngineRender();
+if(!defined('LYDIA_PASS_THEMEENGINE')) {
+  $ly->ThemeEngineRender();
+}

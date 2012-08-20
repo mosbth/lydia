@@ -22,8 +22,8 @@ class CCContent extends CObject implements IController {
    */
   public function Index() {
     $content = new CMContent();
-    $this->views->SetTitle('Content Controller')
-                ->AddInclude(__DIR__ . '/index.tpl.php', array(
+    $this->views->SetTitle(t('Content Controller'))
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), array(
                   'contents' => $content->ListAll(),
                 ));
   }
@@ -47,7 +47,7 @@ class CCContent extends CObject implements IController {
     
     $title = isset($id) ? 'Edit' : 'Create';
     $this->views->SetTitle("$title content: ".htmlEnt($content['title']))
-                ->AddInclude(__DIR__ . '/edit.tpl.php', array(
+                ->AddIncludeToRegion('primary', $this->LoadView('edit.tpl.php'), array(
                   'user'=>$this->user, 
                   'content'=>$content, 
                   'form'=>$form,

@@ -9,6 +9,7 @@ class CCAllSeeingEyeModule {
    *
    * @param string $action the action to carry out.
    * @param array $options to use when loading the feed.
+   * @returns array with info on success or not.
    */
   public static function Manage($action, $options) {
     switch($action) {

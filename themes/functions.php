@@ -266,7 +266,7 @@ EOD;
  */
 function has_slogan() {
   global $ly;
-  return isset($ly->config['theme']['data']['slogan']) && $ly->config['theme']['data']['show_slogan'];
+  return isset($ly->config['theme']['data']['slogan']) && isset($ly->config['theme']['data']['show_slogan']) && $ly->config['theme']['data']['show_slogan'];
 }
 
 

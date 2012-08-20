@@ -57,6 +57,16 @@ $ly->config['create_new_users'] = true;
 
 
 /**
+ * Create a secret key and use it for remote management. Make it long through sha1 or
+ * similair. Disable it by setting to null/false.
+ *
+ * Currently supporting:
+ * module/action/crontab/[secret_key]
+ */
+$ly->config['secret_key'] = false;
+
+
+/**
  * Define session name
  */
 $ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);

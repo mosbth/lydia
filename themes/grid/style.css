@@ -118,7 +118,7 @@ pre {
 pre, code, tt, .code { font:1em / 1.375 monospace; }
 li ul, li ol { margin:0; }
 ul, ol {
-  margin:0 1.5em 1.375em 0;
+  margin:0 0 1.375em 0;
   padding-left:1.5em;
 }
 ul p, ol p {
@@ -187,7 +187,7 @@ textarea.nowrap { white-space:nowrap; }
   height:15em;
 }
 html {
-  background-color:#eeeeee;
+  background-color:#f3f3ff;
   overflow:-moz-scrollbars-vertical;
   overflow-y:scroll;
 }
@@ -263,11 +263,18 @@ body {
 }
 #login-menu {
   float:right;
-  font-size:0.95em;
+  font-size:0.875em;
+  line-height:1.5714;
 }
 #login-menu img.gravatar { vertical-align:middle; }
-#login-menu a { text-decoration:none; }
-#login-menu a:hover { text-decoration:underline; }
+#login-menu a {
+  text-decoration:none;
+  color:inherit;
+}
+#login-menu a:hover {
+  color:#32329a;
+  text-decoration:underline;
+}
 #site-menu ul {
   margin:0;
   padding:0;
@@ -342,13 +349,13 @@ body {
   font-size:0.875em;
   line-height:1.5714;
 }
-#breadcrumb ul.breadcrumb li a {
+#breadcrumb a {
   text-decoration:none;
   color:inherit;
 }
-#breadcrumb ul.breadcrumb li a:hover {
+#breadcrumb a:hover {
+  color:#32329a;
   text-decoration:underline;
-  color:#19194d;
 }
 ul.tabmenu {
   list-style-type:none;
@@ -392,7 +399,6 @@ ul.tabmenu li.selected a, ul.tabmenu li.selected.hover {
   width:960px;
   margin:0 auto;
   *zoom:1;
-  height:66px;
   margin-bottom:22px;
 }
 #inner-wrap-flash:before, #inner-wrap-flash:after {
@@ -437,6 +443,12 @@ ul.tabmenu li.selected a, ul.tabmenu li.selected.hover {
   display:table;
 }
 #inner-wrap-main:after { clear:both; }
+#primary-fullwidth {
+  display:inline;
+  float:left;
+  width:950px;
+  margin:0 5px;
+}
 #primary {
   display:inline;
   float:left;
@@ -451,9 +463,10 @@ ul.tabmenu li.selected a, ul.tabmenu li.selected.hover {
   margin:0 5px;
 }
 #sidebar .box {
-  border:1px solid #cccccc;
-  padding-top:11px;
-  margin-bottom:31px;
+  border-top:1px solid #cccccc;
+  border-bottom:1px solid #cccccc;
+  padding-top:21px;
+  margin-bottom:43px;
   padding-left:1em;
   padding-right:1em;
 }
@@ -522,8 +535,8 @@ section { margin-bottom:44px; }
   text-decoration:none;
 }
 #footer-column-one a:hover, #footer-column-two a:hover, #footer-column-three a:hover, #footer-column-four a:hover {
+  color:#32329a;
   text-decoration:underline;
-  color:#000000;
 }
 #footer-column-five {
   display:inline;
@@ -541,11 +554,11 @@ section { margin-bottom:44px; }
   text-decoration:none;
 }
 #footer-column-five a:hover {
+  color:#32329a;
   text-decoration:underline;
-  color:#000000;
 }
 #outer-wrap-footer {
-  background-color:#eeeeee;
+  background-color:#f3f3ff;
   border-top:1px solid #bbbbbb;
 }
 #inner-wrap-footer {
@@ -696,30 +709,61 @@ figure figcaption { font-style:italic; }
   padding-bottom:22px;
 }
 .revision-history {
-  font-size:smaller;
+  font-size:0.875em;
+  line-height:1.5714;
   color:#999999;
 }
-.blog-post h2 a {
+.blog {
+  border-right:1px solid #cccccc;
+  padding-right:0.5em;
+  padding-bottom:22px;
+}
+.blog .post h2 a {
   color:inherit;
   text-decoration:none;
 }
-.blog-post h2 a:hover {
+.blog .post h2 a:hover {
   color:#19194d;
   text-decoration:underline;
 }
-.blog-post .published, .blog-post .category, .blog-post .edit, .blog-post .details {
-  font-size:smaller;
+.blog .post .published, .blog .post .updated, .blog .post .footer {
+  font-size:0.875em;
+  line-height:1.5714;
   color:#999999;
 }
-.blog-post .published a, .blog-post .category a, .blog-post .edit a, .blog-post .details a {
+.blog .post .published a, .blog .post .updated a, .blog .post .footer a {
   color:inherit;
   text-decoration:none;
 }
-.blog-post .published a:hover, .blog-post .category a:hover, .blog-post .edit a:hover, .blog-post .details a:hover {
+.blog .post .published a:hover, .blog .post .updated a:hover, .blog .post .footer a:hover {
   color:#19194d;
   text-decoration:underline;
 }
-.blog-post .published { font-style:italic; }
+.blog .post .readmore {
+  font-size:0.875em;
+  line-height:1.5714;
+  color:#666666;
+}
+.blog .post .readmore a {
+  color:inherit;
+  text-decoration:none;
+}
+.blog .post .readmore a:hover {
+  color:#19194d;
+  text-decoration:underline;
+}
+.blog .post .published, .blog .post .updated { font-style:italic; }
+.blog-list {
+  border-right:1px solid #cccccc;
+  padding-right:0.5em;
+  padding-bottom:22px;
+}
+.irclog {
+  font-size:0.875em;
+  line-height:1.5714;
+  word-wrap:break-word;
+}
+.irclog .time { color:#999999; }
 .blog-list {
   border-right:1px solid #cccccc;
   padding-right:0.5em;

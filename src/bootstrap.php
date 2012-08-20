@@ -70,9 +70,9 @@ function t($str, $args = array()) {
  * @returns string with content from file, processed using variables.
  */
 function getIncludeContents($filename, $vars=array()) {
-  if (is_file($filename)) {
-    ob_start();
+  if(is_file($filename)) {
     extract($vars);
+    ob_start();
     include $filename;
     return ob_get_clean();
   }

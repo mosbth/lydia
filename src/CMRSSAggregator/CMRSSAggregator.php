@@ -135,12 +135,12 @@ class CMRSSAggregator extends CObject implements ArrayAccess {
 
 
   /**
-   * Load feed from sepcified sites.
+   * Load feed from specified sites.
    *
    * @param array $sites with list of sites to load.
    */
   private function LoadSites($sites) {
-    $rss = CRSSFeed::Factory('simplepie');
+    $rss = CRSSFeed::Factory('simplepie', $this->options['cache_duration']);
     $items = array();
     foreach($sites as $siteKey => $siteConfig) {
       $siteConfig = $this->feeds['sites'][$siteKey];

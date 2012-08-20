@@ -29,11 +29,17 @@ class CMModules extends CObject {
 
   /**
    * Constructor
+   * 
+   * @param string $secret a key to enable remote management without being logged in. 
    */
-  public function __construct() { 
+  public function __construct($secret=null) { 
     parent::__construct();
     $cf = new CInterceptionFilter();
-    $cf->AuthenticatedOrLogin()->AdminOrForbidden();
+    if($secret) {
+      $cf->MatchSecretKey($secret);
+    } else {
+      $cf->AuthenticatedOrLogin()->AdminOrForbidden();
+    }
   }
 
 

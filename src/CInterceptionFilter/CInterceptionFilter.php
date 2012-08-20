@@ -42,6 +42,21 @@ class CInterceptionFilter extends CObject {
   
   
   /**
+   * Check if secret matches in config.php. This enables remote management of some features
+   * without being loggedin.
+   *
+   * @param string $key secret key to match in config.php.
+   * @returns CInterceptionFilter to allow chaining.
+   */
+  public function MatchSecretKey($secret=null) {
+    if($this->config['secret_key'] != $secret) {
+      $this->ShowErrorPage(403, t('You need admin-privileges to access this page.'));
+    }
+    return $this;
+  }
+  
+  
+  /**
    * Check if user acronym is same as current session acronym.
    *
    * @param string $acronym

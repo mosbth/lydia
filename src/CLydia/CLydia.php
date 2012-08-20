@@ -133,8 +133,16 @@ class CLydia implements ISingleton/*, IModule*/ {
           } else {
             $this->ShowErrorPage(404, 'Controller method not public.');          
           }
+        } else if($rc->hasMethod('CatchAll')) {
+          $controllerObj = $rc->newInstance();
+          $methodObj = $rc->getMethod('CatchAll');
+          if($methodObj->isPublic()) {
+            $methodObj->invokeArgs($controllerObj, array_merge(array($method), $arguments));
+          } else {
+            $this->ShowErrorPage(404, 'Controller default method not public.');          
+          }
         } else {
-          $this->ShowErrorPage(404, 'Controller does not contain method.');
+          $this->ShowErrorPage(404, 'Controller does not contain method nor implements a default method.');
         }
       } else {
         $this->ShowErrorPage(404, 'Controller does not implement interface IController.');
@@ -454,15 +462,17 @@ class CLydia implements ISingleton/*, IModule*/ {
    * @param string $module name of the module owning the view.
    * @param string $view filename of the view.
    * @param boolean $original set to true to override the site-version of the view, default is false.
-   * @returns string with the absolute filename.
+   * @returns string with the absolute filename or false if no filename exists.
    */
   public function LoadView($module, $view, $original=false) {
     $path1 = LYDIA_SITE_PATH . "/views/$module/$view";
     $path2 = LYDIA_INSTALL_PATH . "/views/$module/$view";
     if(!$original && is_file($path1)) {
       return $path1;
-    } 
-    return $path2;
+    } else if(is_file($path2)) {
+      return $path2;
+    }
+    return false;
   }
 
 
