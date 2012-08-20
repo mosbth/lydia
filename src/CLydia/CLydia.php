@@ -166,22 +166,22 @@ class CLydia implements ISingleton/*, IModule*/ {
     $this->session->StoreInSession();
   
     // Is theme enabled?
-    if(!isset($this->config['theme'])) { return; }
+    if(!isset($this->config['theme'])) { throw new Exception(t('Theme not enabled.')); }
     
-    // Get the paths and settings for the theme, look in the site dir first
-    $themePath 	= LYDIA_INSTALL_PATH . '/' . $this->config['theme']['path'];
-    $themeUrl		= $this->request->base_url . $this->config['theme']['path'];
+    // Get the paths and settings for the theme
+    $themePath 	= $this->config['theme']['path'];
+    $themeUrl		= $this->CreateUrl($this->config['theme']['url']);
 
     // Is there a parent theme?
     $parentPath = null;
     $parentUrl = null;
     if(isset($this->config['theme']['parent'])) {
-      $parentPath = LYDIA_INSTALL_PATH . '/' . $this->config['theme']['parent'];
-      $parentUrl	= $this->request->base_url . $this->config['theme']['parent'];
+      $parentPath = $this->config['theme']['parent'];
+      $parentUrl	= $this->CreateUrl($this->config['theme']['parent-url']);
     }
     
     // Add stylesheet name to the $ly->data array
-    $this->data['stylesheet'] = $this->config['theme']['stylesheet'];
+    $this->views->SetVariable('stylesheet', $this->config['theme']['stylesheet']);
     
     // Make the theme urls available as part of $ly
     $this->themeUrl = $themeUrl;
@@ -220,20 +220,20 @@ class CLydia implements ISingleton/*, IModule*/ {
     }
 
     // Extract $ly->data to own variables and handover to the template file
-    extract($this->data);  // OBSOLETE, use $this->views->GetData() to set variables
+    //extract($this->data);  // OBSOLETE, use $this->views->GetData() to set variables
     extract($this->views->GetData());
     if(isset($this->config['theme']['data'])) {
       extract($this->config['theme']['data']);
     }
 
     // Execute the template file
-    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
+    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'index.tpl.php';
     if(is_file("{$themePath}/{$templateFile}")) {
       include("{$themePath}/{$templateFile}");
     } else if(is_file("{$parentPath}/{$templateFile}")) {
       include("{$parentPath}/{$templateFile}");
     } else {
-      throw new Exception('No such template file.');
+      throw new Exception(t('No such template file.'));
     }
   }
 

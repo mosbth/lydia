@@ -181,7 +181,7 @@ function create_url($urlOrController=null, $method=null, $arguments=null) {
  */
 function theme_url($url) {
   if(!empty($url) && $url[0] == '/') 
-    return create_url(CLydia::Instance()->request->site_url . "/{$url}");
+    return create_url(CLydia::Instance()->request->site_url . "{$url}");
   return create_url(CLydia::Instance()->themeUrl . "/{$url}");
 }
 
@@ -194,7 +194,7 @@ function theme_url($url) {
  */
 function theme_parent_url($url) {
   if(!empty($url) && $url[0] == '/') 
-    return create_url(CLydia::Instance()->request->site_url . "/{$url}");
+    return create_url(CLydia::Instance()->request->site_url . "{$url}");
   return create_url(CLydia::Instance()->themeParentUrl . "/{$url}");
 }
 
