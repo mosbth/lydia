@@ -121,7 +121,7 @@ v0.3.0x (latest)
 
 v0.3.01 (2012-08-20)
 
-* Use as basis for website http://dbwebb.se as a live testcase.
+* Use as basis for website http://dbwebb.se as a live testcase. Still internal use.
 * Included new version of SimplePie 1.3.
 * Enabling multilanguage, i18n, internationalization, though GNU's `gettext()`.
 * Adding `t()` as the translation function to use.
