@@ -6,8 +6,9 @@
   <link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
   <link rel='stylesheet' type='text/css' href='<?=theme_url($stylesheet)?>'/>
   <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
+  <?=modernizr_include()?>
 </head>
-<body>
+<body class='<?=modernizr_no_js()?>'>
 
 <div id='outer-wrap-header'>
   <div id='inner-wrap-header'>

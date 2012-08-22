@@ -19,7 +19,7 @@ $ly = CLydia::Instance();
 
 // Allow siteowner to add own code or overwrite existning. Call init function if defined.
 require(LYDIA_SITE_PATH.'/functions.php');
-if(function_exists(lySiteInit)) {
+if(function_exists('lySiteInit')) {
   lySiteInit();
 }
 

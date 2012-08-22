@@ -278,3 +278,25 @@ function slogan() {
   return $ly->config['theme']['data']['slogan'];
 }
 
+
+/**
+ * Include the javascript library modernizer, if defined.
+ *
+ * @returns string if modernizr path is defined, else null.
+ */
+function modernizr_include() {
+  global $ly;
+  return isset($ly->config['javascript']['modernizr']) ? "<script src='{$ly->config['javascript']['modernizr']}'></script>" : null;
+}
+
+
+/**
+ * Add modernizer related class 'no-js' but only if modernizr is defined.
+ *
+ * @returns string if modernizr is defined, else null.
+ */
+function modernizr_no_js() {
+  global $ly;
+  return isset($ly->config['javascript']['modernizr']) ? 'no-js' : null;
+}
+

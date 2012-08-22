@@ -147,6 +147,13 @@ $ly->config['title_append'] = '- lydia';
 
 
 /**
+ * Define what Javascript librarys to be included. Set the url to the source-file, use
+ * relative link to be relative base_url, else set absolute url.
+ */
+$ly->config['javascript']['modernizr'] = 'js/modernizr/2.6.1_smallest.js';
+
+
+/**
  * Use tracking to monitor usage of site, set to false to disable.
  * google_analytics: set to the tracker id.
  * piwik: set to sitename, including link to piwik installation, i.e. www.where.com/piwik, end with slash.
