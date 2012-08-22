@@ -4,7 +4,7 @@
   <meta charset='utf-8'/>
   <title><?=$title?></title>
   <link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
-  <link rel='stylesheet' href='<?=theme_url($stylesheet)?>'/>
+  <link rel='stylesheet' type='text/css' href='<?=theme_url($stylesheet)?>'/>
   <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
 </head>
 <body>
@@ -54,7 +54,7 @@
 
 <div id='outer-wrap-main'>
   <div id='inner-wrap-main'>
-    <div id='primary'><?=get_messages_from_session()?><?=@$main?><?=render_views('primary')?><?=render_views()?></div>
+    <div id='primary'><?=get_messages_from_session()?><?=render_views('primary')?><?=render_views()?></div>
     <div id='sidebar'><?=render_views('sidebar')?></div>
   </div>
 </div>
