@@ -13,7 +13,7 @@ Material in below links are mainly in swedish.
 License
 -------
 
-Lydia is licensed according to MIT-license. 
+Lydia is licensed according to MIT-license. Will consider double licensing with GPL in the future.
 Any included external modules are subject to their own licensing.
 
 
@@ -31,7 +31,7 @@ HTMLPurifier by Edward Z. Yang to filter & format HTML.
 * Version: 4.4.0 (2012-01-18)
 * License: LGPL
 * Lydia path: `src/CTextFilter/htmlpurifier-4.4.0-standalone`
-* Used by: `CMContent`
+* Used by: `CTextFilter`
 
 
 ### PHP Markdown & PHP Markdown Extra
@@ -43,7 +43,7 @@ PHP Markdown by Michel Fortin to filter text to HTML to write for the web. Based
 * License: PHP Markdown & PHP Markdown Extra has BSD-style open source license OR GNU General Public License version 2 or a later version.
 * License: Markdown has BSD-style open source license.
 * Lydia path: `src/CTextFilter/php-markdown`
-* Used by: `CMContent`
+* Used by: `CTextFilter`
 
 
 ### PHP SmartyPants & PHP Typographer
@@ -57,7 +57,7 @@ PHP SmartyPants and PHP Typographer by Michel Fortin for better typography. Base
 * License: SmartyPants has BSD-style open source license.
 * Lydia path: `src/CTextFilter/php_smartypants_1.5.1e`
 * Lydia path: `src/CTextFilter/php_smartypants_typographer_1.0`
-* Used by: `CMContent`
+* Used by: `CTextFilter`
 
 
 ### SimplePie
@@ -72,7 +72,7 @@ SimplePie by Geoffrey, Ryan P., and Ryan M. to read RSS feeds.
 ### lessphp
 lessphp by leaf to compile LESS.
 * Website: http://leafo.net/lessphp
-* Version: 0.3.4-2 (2012-04-17)
+* Version: 0.3.8 (2012-08-18)
 * License: Dual license, MIT LICENSE and GPL VERSION 3
 * Lydia path: `themes/grid/lessphp`
 * Used by: `themes/grid/style.php`
@@ -116,7 +116,7 @@ History
 
 v0.3.0x (latest)
 
-* tbd.
+* Updated to latest version v0.3.8 of lessphp. 
 
 
 v0.3.01 (2012-08-20)
@@ -387,4 +387,4 @@ v0.01 - v0.03 (2011 december)
 
 
  .   
-..:  Copyright 2011 by Mikael Roos (me@mikaelroos.se)
+..:  Copyright 2012 by Mikael Roos (me@mikaelroos.se)
