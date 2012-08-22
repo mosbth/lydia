@@ -1,31 +1,28 @@
 <?php
 /**
- * Compiles a less-file to a css-file using phpless.
+ * Autocompiles a less-file to a css-file using phpless.
  *
  * Uses a cache-file before compiling. Uses gzip. Caches the resulting css-file by using a HTTP-
  * header with Last-Modified.
- * Read more on less: http://lesscss.org/
  * Read more on lessphp: http://leafo.net/lessphp/
- * The code below were taken from the following two tutorials and then slightly modified to suite
- * my needs:
- * http://leafo.net/lessphp/docs/#php_interface
- * http://net.tutsplus.com/tutorials/php/how-to-squeeze-the-most-out-of-less/
+ * Read more on less: http://lesscss.org/
  *
  * @author Mikael Roos mos@dbwebb.se
- * @example http://dbwebb.se/example/lessphp/
- * @link https://github.com/mosbth/Utility/blob/master/style.php
+ * @example http://dbwebb.se/kod-exempel/lessphp/
+ * @link https://github.com/mosbth/stylephp
+ *
+ * 2012-08-21: 
+ * Uppdated with lessphp v0.3.8, released 2012-08-18. 
+ * Corrected gzip-handling and caching using Not Modified.
+ *
+ * 2012-04-18: First try.
+ *
  */
-// __DIRNAME__only available from PHP 5.3 and forward
-if(!defined('__DIR__')) define('__DIR__', dirname(__FILE__));
-  
 // Include the lessphp-compiler
-include __DIR__."/lessphp/lessc.inc.php";
+include dirname(__FILE__)."/lessphp/lessc.inc.php";
 
 // Use gzip if available
-if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) 
-  ob_start("ob_gzhandler");  
-else 
-  ob_start();  
+ob_start("ob_gzhandler") or ob_start();
 
 
 /**
@@ -33,23 +30,25 @@ else
  *
  * This code is originally from the manual of lessphp.
  *
- * @param @less_fname string the filename of the less-file.
- * @param @css_fname string the filename of the css-file.
- * @param @cache_ext string the file-extension of the cache-file, added to the less filename. Default is '.cache'.
+ * @param string $inputFile the filename of the less-file.
+ * @param string $outputFile the filename of the css-file to be created.
  * @returns boolean true if the css-file was changed, else returns false.
  */
-function auto_compile_less($less_fname, $css_fname, $cache_ext='.cache') {
-  $cache_fname = $less_fname.$cache_ext;
-  if (file_exists($cache_fname)) {
-    $cache = unserialize(file_get_contents($cache_fname));
+function autoCompileLess($inputFile, $outputFile) {
+  $cacheFile = $inputFile.".cache";
+
+  if (file_exists($cacheFile)) {
+    $cache = unserialize(file_get_contents($cacheFile));
   } else {
-    $cache = $less_fname;
+    $cache = $inputFile;
   }
 
-  $new_cache = lessc::cexecute($cache);
-  if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
-    file_put_contents($cache_fname, serialize($new_cache));
-    file_put_contents($css_fname, $new_cache['compiled']);
+  $less = new lessc;
+  $newCache = $less->cachedCompile($cache);
+
+  if (!is_array($cache) || $newCache["updated"] > $cache["updated"]) {
+    file_put_contents($cacheFile, serialize($newCache));
+    file_put_contents($outputFile, $newCache['compiled']);
     return true;
   }
   return false;
@@ -59,13 +58,14 @@ function auto_compile_less($less_fname, $css_fname, $cache_ext='.cache') {
 // Compile and output the resulting css-file, use caching whenever suitable.
 $less = 'style.less';
 $css  = 'style.css';
-$cache_extension = '.cache';
-$changed = auto_compile_less($less, $css, $cache_extension);
 $time = mktime(0,0,0,21,5,1980); 
-if(!$changed && isset($_SERVER['If-Modified-Since']) && strtotime($_SERVER['If-Modified-Since']) >= $time){  
+$changed = autoCompileLess($less, $css);
+
+// Write it out and leave a response
+if(!$changed && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $time){  
   header("HTTP/1.0 304 Not Modified");  
 } else {  
   header('Content-type: text/css');  
-  header('Last-Modified: ' . gmdate("D, d M Y H:i:s",$time) . " GMT");  
+  header('Last-Modified: ' . date("D, d M Y H:i:s", filemtime($css)) . " GMT");  
   readfile($css);  
 }  
