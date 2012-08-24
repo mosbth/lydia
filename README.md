@@ -114,6 +114,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.03 (2012-08-24)
+
+* Added site/functions.php and used it to show how to integrate Lydia and phpBB.
+
+
 v0.3.02 (2012-08-24)
 
 * Updated to latest version v0.3.8 of lessphp.

@@ -14,5 +14,41 @@
  * after the creation of $ly.
  */
 function lySiteInit() {
-  echo "hej";
+  global $ly;
+  
+  if(isset($ly->config['extra']['phpbb_root_path'])) {
+    lySiteIntegratePHPBBSession($ly->config['extra']['phpbb_root_path']);
+  }
+}
+
+
+/**
+ * Sample functino to integrate with a phpbb installation and lend some information 
+ * on the authorized user.
+ *
+ * @param string $path is the install path of PHPBB.
+ */
+function lySiteIntegratePHPBBSession($path) {
+  global $ly, $phpbb_root_path, $phpEx, $user, $db, $config, $cache, $template, $auth;
+  
+  define('IN_PHPBB', true);
+  $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : $path;
+  $phpEx = 'php'; //substr(strrchr(__FILE__, '.'), 1);
+  include($phpbb_root_path . 'common.' . $phpEx);
+  
+  // Start session management
+  $user->session_begin();
+  $auth->acl($user->data);
+  $user->setup();
+
+  // Populate this user with data from phpbb user.
+  if($user->data['user_id'] != ANONYMOUS && !$ly->user->IsAuthenticated()) {
+    $ly->user['isAuthenticated'] = true;
+    $ly->user['hasRoleAnonomous'] = false;
+    $ly->user['hasRoleVisitor'] = true;
+    $ly->user['id'] = 1;
+    $ly->user['acronym'] = $user->data['username_clean'];      
+    $ly->user['email'] = $user->data['user_email'];
+    $ly->config['menus']['login']['logout']['url'] .= '&amp;sid=' . $user->data['session_id'];
+  }
 }
