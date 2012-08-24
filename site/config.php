@@ -147,6 +147,12 @@ $ly->config['title_append'] = '- lydia';
 
 
 /**
+ * Extra parameters, useful sometimes or for adaptions.
+ */
+$ly->config['extra']['phpbb_root_path'] = '/usr/home/mos/htdocs/dbwebb.se/forum/';
+
+
+/**
  * Define what Javascript librarys to be included. Set the url to the source-file, use
  * relative link to be relative base_url, else set absolute url.
  */
@@ -168,6 +174,12 @@ $ly->config['piwik'] = false;
  * Create hardcoded menus and map them to a theme region through $ly->config['theme'].
  */
 $ly->config['menus'] = array(
+  'login' => array(
+    'login' => array('label'=>'login', 'url'=>'user/login', 'title'=>'Login'),
+    'logout' => array('label'=>'logout', 'url'=>'user/logout', 'title'=>'Logout'),
+    'ucp' => array('label'=>'ucp', 'url'=>'user', 'title'=>'User control panel'),
+    'acp' => array('label'=>'acp', 'url'=>'acp', 'title'=>'Admin control panel'),
+  ),
   'navbar' => array(
     'home'      => array('label'=>'Home', 'url'=>'home'),
     'modules'   => array('label'=>'Modules', 'url'=>'module'),

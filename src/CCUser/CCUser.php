@@ -28,6 +28,9 @@ class CCUser extends CObject implements IController {
    */
   public function Index() {
     $if = new CInterceptionFilter();
+    $if->IsRegularUserOrForbidden();
+    
+    $if = new CInterceptionFilter();
     $if->AuthenticatedOrLogin();
     $this->views->SetTitle(t('User Control Panel'))
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
@@ -73,6 +76,9 @@ class CCUser extends CObject implements IController {
    * View and edit user profile.
    */
   public function Profile() {    
+    $if = new CInterceptionFilter();
+    $if->IsRegularUserOrForbidden();
+    
     $form = new CFormUser();
     $form->CreateProfile($this->user);
     $status = $form->Check();
@@ -96,6 +102,9 @@ class CCUser extends CObject implements IController {
    * Change password.
    */
   public function ChangePassword() {    
+    $if = new CInterceptionFilter();
+    $if->IsRegularUserOrForbidden();
+    
     $form = new CFormUser();
     $form->CreateChangePassword($this->user);
     $status = $form->Check();
@@ -128,6 +137,9 @@ class CCUser extends CObject implements IController {
    * Create a new user.
    */
   public function Create() {
+    $if = new CInterceptionFilter();
+    $if->CreateNewUserOrForbidden();
+    
     $form = new CFormUser();
     $form->CreateUserCreate($this->user);
     $status = $form->Check();

@@ -23,6 +23,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
     if(!$this['isAuthenticated']) {
       $this['id'] = 1;
       $this['acronym'] = 'anonomous';      
+      $this['hasRoleAnonomous'] = true;
     }
   }
 
@@ -250,6 +251,36 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    */
   public function IsAuthenticated() {
     return $this['isAuthenticated'];
+  }
+  
+
+  /**
+   * Check if user is anonomous.
+   *
+   * @returns boolean true or false.
+   */
+  public function IsAnonomous() {
+    return $this['hasRoleAnonomous'];
+  }
+  
+  
+  /**
+   * Check if user is a known visitor.
+   *
+   * @returns boolean true or false.
+   */
+  public function IsVisitor() {
+    return $this['hasRoleVisitor'];
+  }
+  
+  
+  /**
+   * Check if user is a regular user.
+   *
+   * @returns boolean true or false.
+   */
+  public function IsUser() {
+    return $this['hasRoleUser'];
   }
   
   

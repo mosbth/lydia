@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang='<?=get_language()?>'> 
+<html lang='<?=get_language()?>' class='<?=modernizr_no_js()?>'> 
 <head>
   <meta charset='utf-8'/>
   <title><?=$title?></title>
@@ -8,7 +8,7 @@
   <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
   <?=modernizr_include()?>
 </head>
-<body class='<?=modernizr_no_js()?>'>
+<body>
 
 <div id='outer-wrap-header'>
   <div id='inner-wrap-header'>
