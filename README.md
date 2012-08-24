@@ -114,9 +114,12 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.0x (latest)
+v0.3.02 (2012-08-24)
 
-* Updated to latest version v0.3.8 of lessphp. 
+* Updated to latest version v0.3.8 of lessphp.
+* Ability to protect pages.
+* Creating directory `js` to store various JavaScript files that are included in Lydia.
+* Adding JavaScript library Modernizr.
 
 
 v0.3.01 (2012-08-20)
