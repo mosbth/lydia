@@ -114,6 +114,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.0x (latest)
+
+* alpha3 for dbwebb.se.
+* Added preg_match capability to routing table.
+
 v0.3.04 (2012-08-28)
 
 * alpha2 for dbwebb.se.
