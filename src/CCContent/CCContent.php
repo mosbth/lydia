@@ -13,7 +13,8 @@ class CCContent extends CObject implements IController {
   public function __construct() { 
     parent::__construct(); 
     $cf = new CInterceptionFilter();
-    $cf->AuthenticatedOrLogin();
+    //$cf->AuthenticatedOrLogin();
+    $cf->AdminOrForbidden();
   }
 
 

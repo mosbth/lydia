@@ -52,3 +52,4 @@ function lySiteIntegratePHPBBSession($path) {
     $ly->config['menus']['login']['logout']['url'] .= '&amp;sid=' . $user->data['session_id'];
   }
 }
+

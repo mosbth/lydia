@@ -12,7 +12,6 @@ class CObject {
 	protected $ly;
 	protected $config;
 	protected $request;
-	protected $data;
 	protected $db;
 	protected $views;
 	protected $session;
@@ -29,7 +28,6 @@ class CObject {
 	  $this->ly       = &$ly;
     $this->config   = &$ly->config;
     $this->request  = &$ly->request;
-    $this->data     = &$ly->data;
     $this->db       = &$ly->db;
     $this->views    = &$ly->views;
     $this->session  = &$ly->session;

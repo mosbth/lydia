@@ -2,7 +2,13 @@
 
 <article class='blog list'>
 
-<?php if(isset($intro)) echo $intro; ?>
+<?php if(isset($category)): ?>
+<h1><?=esc($category['title'])?></h1>
+<p><?=esc($category['description'])?></p>
+<?php elseif(isset($intro)): ?>
+<?=$intro?>
+<?php endif; ?>
+
 
 <?php foreach($contents as $val):?>
 <section class='post'>
@@ -25,7 +31,7 @@
   <?php endif; ?>
 
   <p class='footer'>
-    <?=t('Category: @category_name', array('@category_name' => $val['category_title']))?>
+    <a href='<?=create_url(null, 'category', $val['category_key'])?>'><?=t('Category: @category_name', array('@category_name' => $val['category_title']))?></a>
     <?php if($user_is_admin_or_owner): ?>
     | <a href='<?=create_url("content/edit/{$val['id']}")?>'><?=t('edit')?></a>
     <?php endif; ?>

@@ -23,8 +23,19 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $this->LoadById($id);
     } else {
       $this->data = array();
+      $this->set = $this->data;
+      $this->position = 0;
     }
   }
+
+
+  /**
+   * Clone
+   */
+  /*public function __clone() {
+    $this->data = unserialize(serialize($this->data));
+    $this->set  = unserialize(serialize($this->set));
+  }*/
 
 
   /**
@@ -66,7 +77,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'drop table content'        => "DROP TABLE IF EXISTS Content;",
       'drop table category'       => "DROP TABLE IF EXISTS Category;",
       'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, idCategory INT default null, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id), FOREIGN KEY(idCategory) REFERENCES Category(id));",
-      'create table category'     => "CREATE TABLE IF NOT EXISTS Category (id INTEGER PRIMARY KEY, key TEXT KEY, title TEXT);",
+      'create table category'     => "CREATE TABLE IF NOT EXISTS Category (id INTEGER PRIMARY KEY, key TEXT KEY, title TEXT, description TEXT);",
       'export table content'      => 'SELECT * FROM Content;',
       'export table category'     => 'SELECT * FROM Category;',
       //'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
@@ -76,6 +87,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'select * by key'           => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.key=? AND c.deleted IS NULL;',
       'select * by type'          => "SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL ORDER BY {$order_by} {$order_order};",
       'select *'                  => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL;',
+      'select categories by type' => "SELECT ca.*, count(ca.id) as items FROM Content as c LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL GROUP BY ca.title;",
+      'select category by key'    => "SELECT ca.* FROM Category as ca WHERE ca.key=?;",
       'flexible select *'         => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
       'update content'            => "UPDATE Content SET key=?, type=?, idCategory=?, title=?, data=?, datafile=?, filter=?, updated=datetime('now') WHERE id=?;",
       'update content as deleted' => "UPDATE Content SET deleted=datetime('now') WHERE id=?;",
@@ -141,17 +154,18 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Load content by id.
    *
    * @param $id integer the id of the content.
-   * @returns boolean true if success else false.
+   * @returns boolean/Class $this if success else false.
    */
   public function LoadById($id) {
     $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by id'), array($id));
     if(empty($res)) {
       $this->AddMessage('error', "Failed to load content by id.");
       return false;
-    } else {
-      $this->data = $res[0];
-    }
-    return true;
+    } 
+    $this->data = $res[0];
+    $this->set = $this->data;
+    $this->position = 0;
+    return $this;
   }
   
   
@@ -159,7 +173,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Load content by key.
    *
    * @param string $key the key of the content.
-   * @returns boolean true if success else false.
+   * @returns boolean/Class $this if success else false.
    */
   public function LoadByKey($key=null) {
     if(!$key) return false;
@@ -167,9 +181,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     if(empty($res)) {
       $this->AddMessage('error', "Failed to load content by key.");
       return false;
-    } else {
-      $this->data = $res[0];
-    }
+    } 
+    $this->data = $res[0];
+    $this->set = $this->data;
+    $this->position = 0;
     return true;
   }
   
@@ -197,11 +212,12 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * List all content as specified in array, build custom SQL-query.
    *
    * @param array $options with various settings for the request.
-   * @returns array with listing or null if empty.
+   * @returns $this.
    */
   public function GetEntries($options=array()) {
     $default = array(
       'type' => null,
+      'category_key' => null,
       'order_by' => null,
       'order_order' => null,
       'limit' => 7,
@@ -212,6 +228,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     $type = empty($options['type']) ? null : " AND type = ?";
     if($type) $sqlArgs[] = $options['type'];
     
+    if(isset($options['category_key'])) {
+      $catKey = " AND ca.key = ?";
+      $sqlArgs[] = $options['category_key'];
+    }
+
     $limit = empty($options['limit']) ? null : " LIMIT ?";
     if($limit) $sqlArgs[] = $options['limit'];
     
@@ -226,8 +247,37 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       }
     }
     $this->position = 0;
-    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$order_by.$order_order.$limit, $sqlArgs);
+    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit, $sqlArgs);
+    $this->data = $this->set[$this->position];
     return $this;
+  }
+  
+
+  /**
+   * Get category.
+   *
+   * @param array $options with various settings for the request.
+   * @returns array with listing or null if empty.
+   */
+  public function GetCategory($key=null) {
+    if(!$key) return null;
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select category by key'), array($key));
+    return $res[0];
+  }
+  
+
+  /**
+   * Get categories.
+   *
+   * @param array $options with various settings for the request.
+   * @returns array with listing or null if empty.
+   */
+  public function GetCategories($options=array()) {
+    $default = array(
+      'type' => null,
+    );
+    $options = array_merge($default, $options);    
+    return $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select categories by type'), array($options['type']));
   }
   
 
@@ -318,10 +368,13 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   
   /**
    * Prepare all data before sending to view, stores all prepared data in object, easy for views to access.
+   * 
+   * @returns $this.
    */
   public function Prepare() {
     $this->GetFilteredData();
     $this->GetTableOfContent();
+    return $this;
   }
   
   
