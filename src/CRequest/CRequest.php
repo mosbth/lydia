@@ -118,9 +118,19 @@ class CRequest {
     
     // Check if url matches an entry in routing table
     $routed_from = null;
-    if(is_array($routing) && isset($routing[$request]) && $routing[$request]['enabled']) {
-      $routed_from = $request;
-      $request = $routing[$request]['url'];
+    if(is_array($routing)) {
+      if(isset($routing[$request]) && $routing[$request]['enabled']) {
+        $routed_from = $request;
+        $request = $routing[$request]['url'];
+      } else {
+        $match = array();
+        foreach($routing as $key => $val) {
+          if(isset($val['preg']) && $val['preg'] && preg_match($key, $request, $matches)) {
+            $routed_from = $request;
+            $request = $routing[$key]['url'] . '/' . $matches[1];
+          }
+        }
+      }
     }
     
     // Split the request into its parts

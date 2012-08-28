@@ -129,6 +129,7 @@ $ly->config['controllers'] = array(
  */
 $ly->config['routing'] = array(
   'home' => array('enabled' => true, 'url' => 'index/index'),
+  //'#^kurser/(.+)$#' => array('preg' => true, 'enabled' => true, 'url' => 'index/courses'),
 );
 
 
