@@ -357,6 +357,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $this->data['toc'][] = array('level' => (isset($matches[1]) ? $matches[1] : null), 'id' => $id, 'label' => (isset($val[3]) ? $val[3] : null));
       $a1 = $id ? "<a href='#{$id}'>" : null;
       $a2 = $id ? "</a>" : null;
+      //$this->data['toc_formatted'] .= "<li class='{$val[1]}'>{$a1}" . htmlEnt($val[3]) . "{$a2}</li>\n";
       $this->data['toc_formatted'] .= "<li class='{$val[1]}'>{$a1}{$val[3]}{$a2}</li>\n";
     }
     if($this->data['toc_formatted']) {
