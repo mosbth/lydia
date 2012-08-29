@@ -165,7 +165,8 @@ class CTextFilter {
       switch($matches[1]) {
         case 'IMG':
           $caption = t('Figure: ');
-          $href = substr($matches[2], 0, strpos($matches[2], '?'));
+          $pos = strpos($matches[2], '?');
+          $href = $pos ? substr($matches[2], 0, $pos) : $matches[2];
           return <<<EOD
 <figure>
   <a href='{$href}'><img src='{$matches[2]}' alt='{$matches[3]}' /></a>
