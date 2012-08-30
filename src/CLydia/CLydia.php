@@ -376,7 +376,9 @@ class CLydia implements ISingleton/*, IModule*/ {
       if(isset($val['label'])) {
         $selected = null;
         $title = null;
-        if(in_array($val['url'], array($this->request->request, $this->request->routed_from)) || substr_compare($val['url'], $this->request->controller, 0) == 0) {
+        if(in_array($val['url'], array($this->request->request, $this->request->routed_from)) || 
+           substr_compare($val['url'], $this->request->controller, 0) == 0 ||
+           strncmp($this->request->routed_from, $val['url'],  strlen($val['url'])) == 0) {
           $selected = " class='selected'";
         }
         if(isset($val['title'])) {

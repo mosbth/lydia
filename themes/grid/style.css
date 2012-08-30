@@ -676,6 +676,7 @@ ul.tabmenu li.selected.hover {
   float: left;
   width: 630px;
   margin: 0 5px;
+  word-wrap: break-word;
 }
 #primary .toc {
   max-width: 30%;

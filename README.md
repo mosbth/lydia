@@ -118,6 +118,7 @@ v0.3.0x (latest)
 
 * alpha3 for dbwebb.se.
 * Added preg_match capability to routing table.
+* Corrected. Menu to set selected when routing table is used for urls.
 
 v0.3.04 (2012-08-28)
 
