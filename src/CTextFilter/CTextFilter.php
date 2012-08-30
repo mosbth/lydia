@@ -170,7 +170,7 @@ class CTextFilter {
           return <<<EOD
 <figure>
   <a href='{$href}'><img src='{$matches[2]}' alt='{$matches[3]}' /></a>
-  <figcaption>{$caption}{$matches[3]}</figcaption>
+  <figcaption markdown=1>{$caption}{$matches[3]}</figcaption>
 </figure>
 EOD;
         break;
