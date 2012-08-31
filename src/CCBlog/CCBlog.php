@@ -106,17 +106,17 @@ class CCBlog extends CObject implements IController {
     
     if($content->LoadByKey($key) && $content['type'] == $o['content_type']) {
       $data = array(
-        'content' => clone $content->Prepare(),
+        'content' => $c1 = clone $content->Prepare(),
         'contents' => $content->GetEntries(array('type'=>$o['content_type'], 'order_by'=>$o['content_order_by'], 'order_order'=>$o['content_order_order'])),
         'categories' => $content->GetCategories(array('type'=>$o['content_type'])),
         'user_is_admin_or_owner' => $this->user->IsAdmin(),
         'order_by_updated' => $o['content_order_by'] === 'updated',
       );
 
-      $title      = htmlEnt($content['title']) . $o['title_separator'] . $o['title_app'];
+      $title      = htmlEnt($c1['title']) . $o['title_separator'] . $o['title_app'];
       $breadcrumb = $this->CreateBreadcrumb(array(
         array('label' => $o['breadcrumb_first'], 'url' => $this->CreateUrlToController()),
-        array('label' => htmlEnt($content['title']), 'url' => $this->CreateUrlToController($key)),
+        array('label' => htmlEnt($c1['title']), 'url' => $this->CreateUrlToController($key)),
       ));
       
       $this->views->SetTitle($title)
