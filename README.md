@@ -114,6 +114,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.06 (2012-09-04)
+
+* alpha4 for dbwebb.se.
+* Added textfilter [BASEURL] to make urls depended on [BASEURL] rather than hardcoded in text and articles.
+
 v0.3.05 (2012-08-31)
 
 * alpha3 for dbwebb.se.

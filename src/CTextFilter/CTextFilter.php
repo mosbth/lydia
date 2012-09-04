@@ -208,10 +208,12 @@ EOD;
         //case 'INCL':  include($matches[2]); break;
         case 'INFO':  return "<div class='info'markdown=1>"; break;
         case '/INFO': return "</div>"; break;
+        case 'BASEURL': return CLydia::Instance()->request->base_url; break;
         default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
       }
     };
     $patterns = array(
+      '#\[(BASEURL)\]#',
       '/\[(IMG) src=(.+) alt=(.+)\]/',
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
