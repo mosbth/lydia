@@ -114,6 +114,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.07 (2012-09-04)
+
+* alpha5 for dbwebb.se.
+* Added more columns to footer in grid theme.
+
 v0.3.06 (2012-09-04)
 
 * alpha4 for dbwebb.se.

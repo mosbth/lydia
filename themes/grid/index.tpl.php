@@ -73,13 +73,21 @@
 <?php endif; ?>
 
 <div id='outer-wrap-footer'>
-  <?php if(region_has_content('footer-column-one', 'footer-column-two', 'footer-column-three', 'footer-column-four', 'footer-column-five')): ?>
+  <?php if(region_has_content('footer-column-one', 'footer-column-two', 'footer-column-three', 'footer-column-four', 'footer-column-five', 'footer-column-six', 'footer-column-seven',  'footer-column-eight',  'footer-column-nine')): ?>
   <div id='inner-wrap-footer-column'>
-    <div id='footer-column-one'><?=render_views('footer-column-one')?></div>
-    <div id='footer-column-two'><?=render_views('footer-column-two')?></div>
-    <div id='footer-column-three'><?=render_views('footer-column-three')?></div>
-    <div id='footer-column-four'><?=render_views('footer-column-four')?></div>
-    <div id='footer-column-five'><?=render_views('footer-column-five')?></div>
+    <div id='footer-column-wrapper-one'>
+      <div id='footer-column-one' class='footer-column'><?=render_views('footer-column-one')?></div>
+      <div id='footer-column-two' class='footer-column'><?=render_views('footer-column-two')?></div>
+      <div id='footer-column-three' class='footer-column'><?=render_views('footer-column-three')?></div>
+      <div id='footer-column-four' class='footer-column'><?=render_views('footer-column-four')?></div>
+    </div>
+    <div id='footer-column-wrapper-two'>
+      <div id='footer-column-five' class='footer-column'><?=render_views('footer-column-five')?></div>
+      <div id='footer-column-six' class='footer-column'><?=render_views('footer-column-six')?></div>
+      <div id='footer-column-seven' class='footer-column'><?=render_views('footer-column-seven')?></div>
+      <div id='footer-column-eight' class='footer-column'><?=render_views('footer-column-eight')?></div>
+    </div>
+    <div id='footer-column-nine' class='footer-column'><?=render_views('footer-column-nine')?></div>
   </div>
   <?php endif; ?>
   <div id='inner-wrap-footer'>
