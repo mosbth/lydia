@@ -114,6 +114,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.0x (latest)
+
+* Prepare `gettext` to work in non-gettext environment.
+* Clean up by removing dependencies to dbwebb.se.
+
 v0.3.07 (2012-09-04)
 
 * alpha5 for dbwebb.se.
