@@ -13,6 +13,7 @@
  * This function is called by index.php, if defined, at the start of each page load, right 
  * after the creation of $ly.
  */
+/*
 function lySiteInit() {
   global $ly;
   
@@ -20,14 +21,16 @@ function lySiteInit() {
     lySiteIntegratePHPBBSession($ly->config['extra']['phpbb_root_path']);
   }
 }
+*/
 
 
 /**
- * Sample functino to integrate with a phpbb installation and lend some information 
+ * Sample function to integrate with a phpbb installation and lend some information 
  * on the authorized user.
  *
  * @param string $path is the install path of PHPBB.
  */
+/*
 function lySiteIntegratePHPBBSession($path) {
   global $ly, $phpbb_root_path, $phpEx, $user, $db, $config, $cache, $template, $auth;
   
@@ -52,4 +55,5 @@ function lySiteIntegratePHPBBSession($path) {
     $ly->config['menus']['login']['logout']['url'] .= '&amp;sid=' . $user->data['session_id'];
   }
 }
+*/
 
