@@ -81,6 +81,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     switch($action) {
       case 'preinstall':
         // Check gettext
+        // Check safe_mode (putenv)
         // Check pdo & sqlite
         // Disable magic quotes
         // check memory limit

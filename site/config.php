@@ -150,7 +150,7 @@ $ly->config['title_append'] = '- lydia';
 /**
  * Extra parameters, useful sometimes or for adaptions.
  */
-$ly->config['extra']['phpbb_root_path'] = '/usr/home/mos/htdocs/dbwebb.se/forum/';
+//$ly->config['extra']['phpbb_root_path'] = '/usr/home/mos/htdocs/dbwebb.se/forum/';
 
 
 /**
@@ -223,8 +223,8 @@ $ly->config['menus'] = array(
  * available to the template files.
  */
 $ly->config['theme'] = array(
-  'path'          => LYDIA_SITE_PATH . '/themes/dbwebb',
-  'url'           => 'site/themes/dbwebb',
+  'path'          => LYDIA_INSTALL_PATH . '/themes/grid',
+  'url'           => 'themes/grid',
   //'parent'        => LYDIA_INSTALL_PATH . '/themes/grid', 
   //'parent-url'    => 'themes/grid', 
   //'stylesheet'    => 'style.css',
