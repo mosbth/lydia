@@ -124,7 +124,7 @@ audio,
 canvas,
 video {
   display: inline-block;
-  *display: inline;
+  display: inline;
   *zoom: 1;
 }
 audio:not([controls]) {
