@@ -44,7 +44,7 @@ class CLydia implements ISingleton/*, IModule*/ {
 	  mb_internal_encoding('UTF-8');
 		
 		// Setup i18n, internationalization and multi-language support
-    putenv('LC_ALL='.$this->config['language']);
+    @putenv('LC_ALL='.$this->config['language']); // Will not work in safe_mode, ignore warning.
     setlocale(LC_ALL, $this->config['language']);
     if($this->config['i18n']) {
   		bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
