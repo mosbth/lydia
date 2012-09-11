@@ -149,10 +149,12 @@ class CLydia implements ISingleton/*, IModule*/ {
         $this->ShowErrorPage(404, 'Controller does not implement interface IController.');
       }
     } 
+/*
     else if($this->config['pageloader']) { 
       $pl = new CPageLoader();
       $pl->Load($this->request->request);
     }
+*/
     else { 
       $this->ShowErrorPage(404, 'Page is not found.');
     }
