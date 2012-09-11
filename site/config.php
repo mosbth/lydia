@@ -248,7 +248,7 @@ $ly->config['theme'] = array(
     array(
       'region' => 'footer',
       'type' => 'string',
-      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"
+      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sverige &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"
     ),
     array(
       'region' => 'footer-column-one',
