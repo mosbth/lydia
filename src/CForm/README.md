@@ -10,7 +10,7 @@ There are some example code here:
 * http://dbwebb.se/kod-exempel/cform/
 
 
-By Mikael Roos (me@miakelroos.se)
+By Mikael Roos (me@mikaelroos.se)
 
 
 License
@@ -26,11 +26,11 @@ The class `CForm` uses `CFormElements`.
 
 The following form elements are supported:
 
-class CFormElementText extends CFormElement {
-class CFormElementTextarea extends CFormElement {
-class CFormElementHidden extends CFormElement {
-class CFormElementPassword extends CFormElement {
-class CFormElementSubmit extends CFormElement {
+    class CFormElementText extends CFormElement {
+    class CFormElementTextarea extends CFormElement {
+    class CFormElementHidden extends CFormElement {
+    class CFormElementPassword extends CFormElement {
+    class CFormElementSubmit extends CFormElement {
 
 
 Validation rules
@@ -38,11 +38,11 @@ Validation rules
 
 The following validation rules are supported:
 
-  'fail' => array('message' => 'Will always fail.', 'test' => 'return false;'),
-  'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
-  'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
-  'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
-  'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
+    'fail' => array('message' => 'Will always fail.', 'test' => 'return false;'),
+    'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
+    'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
+    'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
+    'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
   
 The validation rule for 'match' is useful when changing password and one field should match another field in the form.
 
