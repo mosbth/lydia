@@ -77,20 +77,23 @@ function get_messages_from_session() {
  */
 function login_menu() {
   $ly = CLydia::Instance();
-  if($ly->user->isAuthenticated()) {
-    $item = $ly->config['menus']['login']['ucp'];
-    $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
-    if($ly->user['hasRoleAdministrator']) {
-      $item = $ly->config['menus']['login']['acp'];
+  if(isset($ly->config['menus']['login'])) {
+    if($ly->user->isAuthenticated()) {
+      $item = $ly->config['menus']['login']['ucp'];
+      $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
+      if($ly->user['hasRoleAdministrator']) {
+        $item = $ly->config['menus']['login']['acp'];
+        $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
+      }
+      $item = $ly->config['menus']['login']['logout'];
       $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
+    } else {
+      $item = $ly->config['menus']['login']['login'];
+      $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
     }
-    $item = $ly->config['menus']['login']['logout'];
-    $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
-  } else {
-    $item = $ly->config['menus']['login']['login'];
-    $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
+    return "<nav>$items</nav>";
   }
-  return "<nav>$items</nav>";
+  return null;
 }
 
 

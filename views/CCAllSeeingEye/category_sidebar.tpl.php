@@ -20,9 +20,11 @@
 <div class='box'>
 <h4><a class='no-style' href='<?=$site->url?>'><?=$site->name?></a></h4>
 <ul>
-<?php foreach($site->items as $item): ?>
-<li><a class='no-style' href='<?=$item->permalink?>' title='<?=''.time_diff($item->date).' ago'?>'><?=$item->title?></a></li>
-<?php endforeach; ?>
+  <?php if(isset($site->items)): ?>
+  <?php foreach($site->items as $item): ?>
+  <li><a class='no-style' href='<?=$item->permalink?>' title='<?=''.time_diff($item->date).' ago'?>'><?=$item->title?></a></li>
+  <?php endforeach; ?>
+  <?php endif; ?>
 </ul>
 </div>
 <?php endforeach; ?>

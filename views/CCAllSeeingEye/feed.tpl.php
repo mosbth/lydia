@@ -8,6 +8,7 @@
   <p class='footer'><?=t('Details for !site:', array('!site'=>$site->name))?> <a href='<?=$site->siteurl?>'><?=t('Website')?></a> &bull; <a href='<?=$site->feedurl?>'><?=t('RSS feed')?></a></p>
 </section>
 
+<?php if(isset($feeds['items'])): ?>
 <?php foreach($feeds['items'] as $item): ?>
 <section class='post'>
   <span class='published'><a rel='nofollow' href='<?=$item->site->url?>'><?=$item->site->name?> &bull; <?=time_diff($item->date)?></a></span>
@@ -16,6 +17,7 @@
   <p class='footer'><a href='<?=$item->site->category->url?>'><?=t('Category:') . ' ' . $item->site->category->name?></a></p>
 </section>
 <?php endforeach; ?>
+<?php endif; ?>
 
 <?php endforeach; ?>
 

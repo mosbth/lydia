@@ -344,9 +344,9 @@ EOD;
           }
           if(isset($element['callback']) && $validates) {
             if(isset($element['callback-args'])) {
-   					  $callbackStatus = call_user_func_array($element['callback'], array_merge(array($this), $element['callback-args']));
-  	  			} else {
-    					$callbackStatus = call_user_func($element['callback'], $this);
+              $callbackStatus = call_user_func_array($element['callback'], array_merge(array($this), $element['callback-args']));
+            } else {
+              $callbackStatus = call_user_func($element['callback'], $this);
             }
           }
         }

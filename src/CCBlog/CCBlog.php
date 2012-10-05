@@ -29,7 +29,7 @@ class CCBlog extends CObject implements IController {
       'title_index' => t('Index'),
       'title_app' => t('blog'),
       'title_separator' => ' - ',
-      'post_format_short' => false,
+      'post_format_short' => true,
     );
     $this->options = array_merge($default, $options);
   }

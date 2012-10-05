@@ -54,7 +54,11 @@ class CLydia implements ISingleton/*, IModule*/ {
 		
 		// Create a database object.
 		if(isset($this->config['database'][0]['dsn'])) {
-  		$this->db = new CDatabase($this->config['database'][0]['dsn']);
+		  try{
+    		$this->db = new CDatabase($this->config['database'][0]['dsn']);
+    	} catch(Exception $e) {
+    	  //die('<p>Lydia says: I could not read (or create) the default database. Ensure that the <code>site/data</code> directory is writable by the webserver.<p><p><code>cd lydia; chmod 777 site/data</code></p>');
+    	}
   	}
   	
   	// Create a container for all views and theme data

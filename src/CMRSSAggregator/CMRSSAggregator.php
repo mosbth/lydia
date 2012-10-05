@@ -115,7 +115,9 @@ class CMRSSAggregator extends CObject implements ArrayAccess {
         $this->data['categories'][$categoryKey]['items'] = $items;
       }
     }
-    usort($this->data['items'], $cmpFunction);
+    if(isset($this->data['items'])) {
+      usort($this->data['items'], $cmpFunction);
+    }
 
     // Load category data into sites
     foreach($this->feeds['categories'] as $categoryKey => $categoryConfig) {

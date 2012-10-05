@@ -133,37 +133,36 @@ function formatDateTimeDiff($start, $startTimeZone=null, $end=null, $endTimeZone
   }
   
   $interval = $end->diff($start);
-  $doPlural = function($nb,$str){return $nb>1?$str.'s':$str;}; // adds plurals
-  //$doPlural = create_function('$nb,$str', 'return $nb>1?$str."s":$str;'); // adds plurals
+  $doPlural = function($nb, $str1, $str2){return $nb>1?$str2:$str1;}; // adds plurals
   
   $format = array();
   if($interval->y !== 0) {
-    $format[] = "%y ".$doPlural($interval->y, "year");
+    $format[] = "%y ".$doPlural($interval->y, t('year'), t('years'));
   }
   if($interval->m !== 0) {
-    $format[] = "%m ".$doPlural($interval->m, "month");
+    $format[] = "%m ".$doPlural($interval->m, t('month'), t('months'));
   }
   if($interval->d !== 0) {
-    $format[] = "%d ".$doPlural($interval->d, "day");
+    $format[] = "%d ".$doPlural($interval->d, t('day'), t('days'));
   }
   if($interval->h !== 0) {
-    $format[] = "%h ".$doPlural($interval->h, "hour");
+    $format[] = "%h ".$doPlural($interval->h, t('hour'), t('hours'));
   }
   if($interval->i !== 0) {
-    $format[] = "%i ".$doPlural($interval->i, "minute");
+    $format[] = "%i ".$doPlural($interval->i, t('minute'), t('minutes'));
   }
   if(!count($format)) {
-      return "less than a minute";
+      return t('less than a minute');
   }
   if($interval->s !== 0) {
-    $format[] = "%s ".$doPlural($interval->s, "second");
+    $format[] = "%s ".$doPlural($interval->s, t('second'), t('seconds'));
   }
   
   if($interval->s !== 0) {
       if(!count($format)) {
-          return "less than a minute";
+          return t('less than a minute');
       } else {
-          $format[] = "%s ".$doPlural($interval->s, "second");
+          $format[] = "%s ".$doPlural($interval->s, t('second'), t('seconds'));
       }
   }
   

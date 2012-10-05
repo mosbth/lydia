@@ -93,7 +93,8 @@ $ly->config['character_encoding'] = 'UTF-8';
  * i18n: enable internationalization through gettext.
  */
 $ly->config['language'] = 'en';
-$ly->config['i18n'] = true;
+//$ly->config['i18n'] = true;
+$ly->config['i18n'] = function_exists('gettext');
 
 
 /**
@@ -131,13 +132,6 @@ $ly->config['routing'] = array(
   'home' => array('enabled' => true, 'url' => 'index/index'),
   //'#^kurser/(.+)$#' => array('preg' => true, 'enabled' => true, 'url' => 'index/courses'),
 );
-
-
-/**
- * Enable/disable pageloader, all urls that do not match controller or a routing entry will
- * be sent to the CPageLoader::Load() which should handle it or do a 404.
- */
-$ly->config['pageloader'] = true;
 
 
 /**
@@ -245,35 +239,15 @@ $ly->config['theme'] = array(
     'logo_height' => 80,
   ),
   'view_to_region' => array(
-    array(
-      'region' => 'footer',
-      'type' => 'string',
-      'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"
-    ),
-    array(
-      'region' => 'footer-column-one',
-      'type' => 'include',
-      'content' => 'themes-grid/footer_column_one.tpl.php'
-    ),
-    array(
-      'region' => 'footer-column-two',
-      'type' => 'include',
-      'content' => 'themes-grid/footer_column_two.tpl.php'
-    ),
-    array(
-      'region' => 'footer-column-three',
-      'type' => 'include',
-      'content' => 'themes-grid/footer_column_three.tpl.php'
-    ),
-    array(
-      'region' => 'footer-column-four',
-      'type' => 'include',
-      'content' => 'themes-grid/footer_column_four.tpl.php'
-    ),
-    array(
-      'region' => 'footer-column-five',
-      'type' => 'include',
-      'content' => 'themes-grid/footer_column_five.tpl.php'
-    ),
+    array('region' => 'footer', 'type' => 'string', 'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"),
+    array('region' => 'footer-column-one',   'type' => 'include', 'content' => 'themes-grid/footer_column_one.tpl.php'),
+    array('region' => 'footer-column-two',   'type' => 'include', 'content' => 'themes-grid/footer_column_two.tpl.php'),
+    array('region' => 'footer-column-three', 'type' => 'include', 'content' => 'themes-grid/footer_column_three.tpl.php'),
+    array('region' => 'footer-column-four',  'type' => 'include', 'content' => 'themes-grid/footer_column_four.tpl.php'),
+    array('region' => 'footer-column-five',  'type' => 'include', 'content' => 'themes-grid/footer_column_five.tpl.php'),
+    array('region' => 'footer-column-six',   'type' => 'include', 'content' => 'themes-grid/footer_column_six.tpl.php'),
+    array('region' => 'footer-column-seven', 'type' => 'include', 'content' => 'themes-grid/footer_column_seven.tpl.php'),
+    array('region' => 'footer-column-eight', 'type' => 'include', 'content' => 'themes-grid/footer_column_eight.tpl.php'),
+    array('region' => 'footer-column-nine',  'type' => 'include', 'content' => 'themes-grid/footer_column_nine.tpl.php'),
   ),
 );

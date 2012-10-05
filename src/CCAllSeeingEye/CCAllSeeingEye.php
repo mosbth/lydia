@@ -33,7 +33,7 @@ class CCAllSeeingEye extends CObject implements IController, IModule, ArrayAcces
         array('label' => t('RSS aggregation'), 'url' => $this->CreateUrlToController()),
       ),
     );
-    $this->options = array_merge_recursive($default, $options);
+    $this->options = array_replace_recursive($default, $options);
   }
   
 

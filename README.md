@@ -118,6 +118,8 @@ v0.3.0x (latest)
 
 * Prepare `gettext` to work in non-gettext environment.
 * Clean up by removing dependencies to dbwebb.se.
+* Corrected bugs in `CCAllSeeingEye` and `CMRSSAggregation` when feed is empty.
+* Translated to swedish. Not all strings are yet being translated though.
 
 v0.3.07 (2012-09-04)
 
