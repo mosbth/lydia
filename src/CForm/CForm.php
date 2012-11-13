@@ -53,9 +53,10 @@ class CFormElement implements ArrayAccess{
     $label = isset($this['label']) ? ($this['label'] . (isset($this['required']) && $this['required'] ? "<span class='form-element-required'>*</span>" : null)) : null;
     $autofocus = isset($this['autofocus']) && $this['autofocus'] ? " autofocus='autofocus'" : null;    
     $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;    
-    $type 	= isset($this['type']) ? " type='{$this['type']}'" : null;
-    $onlyValue 	= isset($this['value']) ? htmlentities($this['value'], ENT_QUOTES, $this->characterEncoding) : null;
-    $value 	= isset($this['value']) ? " value='{$onlyValue}'" : null;
+    $checked = isset($this['checked']) && $this['checked'] ? " checked='checked'" : null;    
+    $type   = isset($this['type']) ? " type='{$this['type']}'" : null;
+    $onlyValue  = isset($this['value']) ? htmlentities($this['value'], ENT_QUOTES, $this->characterEncoding) : null;
+    $value  = isset($this['value']) ? " value='{$onlyValue}'" : null;
 
     $messages = null;
     if(isset($this['validation-messages'])) {
@@ -72,8 +73,10 @@ class CFormElement implements ArrayAccess{
       return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
     } else if($type && $this['type'] == 'hidden') {
       return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
+    } else if($type && $this['type'] == 'checkbox') {
+      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
     } else {
-      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";			  
+      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";        
     }
   }
 
@@ -92,6 +95,7 @@ class CFormElement implements ArrayAccess{
       'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
       'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
       'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
+      'must_accept' => array('message' => 'You must accept this.', 'test' => 'return isset($value);'),
     );
     $pass = true;
     $messages = array();
@@ -192,6 +196,22 @@ class CFormElementPassword extends CFormElement {
 }
 
 
+class CFormElementCheckbox extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type']     = 'checkbox';
+    $this['checked']  = isset($attributes['checked']) ? $attributes['checked'] : false;
+    $this['value']    = isset($attributes['value']) ? $attributes['value'] : $name;
+  }
+}
+
+
 class CFormElementSubmit extends CFormElement {
   /**
    * Constructor
@@ -269,9 +289,9 @@ class CForm implements ArrayAccess {
     if(is_array($attributes)) {
       $this->form = array_merge($this->form, $attributes);
     }
-    $id 	  = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
-    $class 	= isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
-    $name 	= isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
+    $id     = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
+    $class  = isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
+    $name   = isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
     $action = isset($this->form['action'])  ? " action='{$this->form['action']}'" : null;
     $method = " method='post'";
 
@@ -329,8 +349,16 @@ EOD;
       unset($_SESSION['form-failed']);
       $validates = true;
       foreach($this->elements as $element) {
+
+        // The form element has a value set
         if(isset($_POST[$element['name']])) {
           $values[$element['name']]['value'] = $element['value'] = $_POST[$element['name']];
+
+          // If the element is a checkbox, set its value of checked.
+          if($element['type'] === 'checkbox') {
+            $element['checked'] = true;
+          }
+
           if(isset($element['validation'])) {
             $element['validation-pass'] = $element->Validate($element['validation'], $this);
             if($element['validation-pass'] === false) {
@@ -349,6 +377,28 @@ EOD;
               $callbackStatus = call_user_func($element['callback'], $this);
             }
           }
+        } 
+        // The form element has no value set
+        else {
+
+          // Set element to null, then we know it was not set.
+          $element['value'] = null;
+
+          // If the element is a checkbox, clear its value of checked.
+          if($element['type'] === 'checkbox') {
+            $element['checked'] = false;
+          }
+
+          // Do validation even when the form element is not set? Duplicate code, revise this section and move outside this if-statement?
+          if(isset($element['validation'])) {
+            $element['validation-pass'] = $element->Validate($element['validation'], $this);
+            if($element['validation-pass'] === false) {
+              $values[$element['name']] = array('value'=>$element['value'], 'validation-messages'=>$element['validation-messages']);
+              $validates = false;
+            }
+          }
+
+
         }
       }
     } elseif(isset($_SESSION['form-failed'])) {
