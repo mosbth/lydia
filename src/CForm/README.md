@@ -1,7 +1,7 @@
 CForm a form creator and validator
 ==================================
 
-This class can be used outside this frameowrk to aid in the process of creating and validating
+This class can be used outside this framework to aid in the process of creating and validating
 forms. There is an example on how to do this (only swedish) at:
 
 * http://dbwebb.se/kunskap/anvand-lydias-formularklass-cform-for-formularhantering
