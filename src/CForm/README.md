@@ -79,8 +79,8 @@ Added code example for checkboxes:
 Updated this readme-file and reworked the tutorial at 
 * http://dbwebb.se/kunskap/anvand-lydias-formularklass-cform-for-formularhantering
 
-Updated the code-example at:
-* http://dbwebb.se/kod-exempel/cform/
+Updated the code-example at:  
+    * http://dbwebb.se/kod-exempel/cform/
 
 
  .   
