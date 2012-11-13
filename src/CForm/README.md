@@ -68,12 +68,14 @@ History
 ----------------------------------
 
 2012-11-13:
+
 Added `CFormElementCheckbox` and validation rule `must_accept`.
-Added code example for checkboxes:
+Added code example for checkboxes:  
 * http://dbwebb.se/kod-exempel/cform/test_checkbox.php
 
 
 2012-10-05: 
+
 Updated this readme-file and reworked the tutorial at 
 * http://dbwebb.se/kunskap/anvand-lydias-formularklass-cform-for-formularhantering
 
