@@ -22,6 +22,9 @@ class CFormElement implements ArrayAccess{
   public function __construct($name, $attributes=array()) {
     $this->attributes = $attributes;    
     $this['name'] = $name;
+    //$this['key'] = $name;
+    //$this['name'] = isset($this['name']) ? $this['name'] : $name;
+
     if(is_callable('CLydia::Instance()')) {
       $this->characterEncoding = CLydia::Instance()->config['character_encoding'];
     } else {
@@ -75,6 +78,18 @@ class CFormElement implements ArrayAccess{
       return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
     } else if($type && $this['type'] == 'checkbox') {
       return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
+    } else if($type && $this['type'] == 'checkbox-multiple') {
+      $type = "type='checkbox'";
+      $name = " name='{$this['name']}[]'";
+      $ret = null;
+      foreach($this['values'] as $val) {
+        $id .= $val;
+        $label = $onlyValue  = htmlentities($val, ENT_QUOTES, $this->characterEncoding);
+        $value = " value='{$onlyValue}'";
+        $checked = is_array($this['checked']) && in_array($val, $this['checked']) ? " checked='checked'" : null;    
+        $ret .= "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
+      }
+      return $ret;
     } else {
       return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";        
     }
@@ -209,6 +224,20 @@ class CFormElementCheckbox extends CFormElement {
     $this['type']     = 'checkbox';
     $this['checked']  = isset($attributes['checked']) ? $attributes['checked'] : false;
     $this['value']    = isset($attributes['value']) ? $attributes['value'] : $name;
+  }
+}
+
+
+class CFormElementCheckboxMultiple extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'checkbox-multiple';
   }
 }
 
@@ -353,7 +382,13 @@ EOD;
 
         // The form element has a value set
         if(isset($_POST[$element['name']])) {
-          $values[$element['name']]['value'] = $element['value'] = $_POST[$element['name']];
+
+          // Multiple choices comes in the form of an array
+          if(is_array($_POST[$element['name']])) {
+            $values[$element['name']]['values'] = $element['checked'] = $_POST[$element['name']];
+          } else {
+            $values[$element['name']]['value'] = $element['value'] = $_POST[$element['name']];
+          }
 
           // If the element is a checkbox, set its value of checked.
           if($element['type'] === 'checkbox') {
@@ -386,7 +421,7 @@ EOD;
           //$element['value'] = null;
 
           // If the element is a checkbox, clear its value of checked.
-          if($element['type'] === 'checkbox') {
+          if($element['type'] === 'checkbox' || $element['type'] === 'checkbox-multiple') {
             $element['checked'] = false;
           }
 

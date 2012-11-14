@@ -31,6 +31,7 @@ The following form elements are supported:
     class CFormElementHidden extends CFormElement {
     class CFormElementPassword extends CFormElement {
     class CFormElementCheckbox extends CFormElement {
+    class CFormElementCheckboxMultiple extends CFormElement {
     class CFormElementSubmit extends CFormElement {
 
 
@@ -66,6 +67,13 @@ Todo
 
 History
 ----------------------------------
+
+2012-11-14:
+
+* Added `CFormElementCheckboxMultiple`.
+* Added code example for checkbox-multiple:  
+    http://dbwebb.se/kod-exempel/cform/test_checkbox_multiple.php
+    http://dbwebb.se/kod-exempel/cform/test_checkbox1.php (same example but not true multiple choice)
 
 2012-11-13:
 
