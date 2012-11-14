@@ -95,11 +95,12 @@ class CFormElement implements ArrayAccess{
       'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
       'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
       'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
-      'must_accept' => array('message' => 'You must accept this.', 'test' => 'return isset($value);'),
+      'must_accept' => array('message' => 'You must accept this.', 'test' => 'return $checked;'),
     );
     $pass = true;
     $messages = array();
     $value = $this['value'];
+    $checked = $this['checked'];
     foreach($rules as $key => $val) {
       $rule = is_numeric($key) ? $val : $key;
       if(!isset($tests[$rule])) throw new Exception('Validation of form element failed, no such validation rule exists.');
@@ -382,7 +383,7 @@ EOD;
         else {
 
           // Set element to null, then we know it was not set.
-          $element['value'] = null;
+          //$element['value'] = null;
 
           // If the element is a checkbox, clear its value of checked.
           if($element['type'] === 'checkbox') {
