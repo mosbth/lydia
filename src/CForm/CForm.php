@@ -58,6 +58,7 @@ class CFormElement implements ArrayAccess{
     $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;    
     $checked = isset($this['checked']) && $this['checked'] ? " checked='checked'" : null;    
     $type   = isset($this['type']) ? " type='{$this['type']}'" : null;
+    $description   = isset($this['description']) ? $this['description'] : null;
     $onlyValue  = isset($this['value']) ? htmlentities($this['value'], ENT_QUOTES, $this->characterEncoding) : null;
     $value  = isset($this['value']) ? " value='{$onlyValue}'" : null;
 
@@ -89,7 +90,7 @@ class CFormElement implements ArrayAccess{
         $checked = is_array($this['checked']) && in_array($val, $this['checked']) ? " checked='checked'" : null;    
         $ret .= "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
       }
-      return $ret;
+      return "<div><p>{$description}</p>{$ret}</div>";
     } else {
       return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";        
     }
@@ -104,28 +105,43 @@ class CFormElement implements ArrayAccess{
    * returns boolean true if all rules pass, else false.
    */
   public function Validate($rules, $form) {
+    $regExpEmailAddress = '/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i';
     $tests = array(
       'fail' => array('message' => 'Will always fail.', 'test' => 'return false;'),
       'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
       'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
       'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
+      'mail_address' => array('message' => 'Must be an emailaddress.', 'test' => function($value) { return preg_match('/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i', $value) === 1; } ),
       'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
       'must_accept' => array('message' => 'You must accept this.', 'test' => 'return $checked;'),
     );
+
     $pass = true;
     $messages = array();
     $value = $this['value'];
     $checked = $this['checked'];
+
     foreach($rules as $key => $val) {
       $rule = is_numeric($key) ? $val : $key;
       if(!isset($tests[$rule])) throw new Exception('Validation of form element failed, no such validation rule exists.');
       $arg = is_numeric($key) ? null : $val;
-      if(eval($tests[$rule]['test']) === false) {
+
+      $status = null;
+      if(is_callable($tests[$rule]['test'])) {
+        $status = $tests[$rule]['test']($value);
+      } else {
+        $status = eval($tests[$rule]['test']);
+      }
+
+      if($status === false) {
         $messages[] = $tests[$rule]['message'];
         $pass = false;
       }
     }
-    if(!empty($messages)) $this['validation-messages'] = $messages;
+
+    if(!empty($messages)) {
+      $this['validation-messages'] = $messages;
+    } 
     return $pass;
   }
 

@@ -44,6 +44,7 @@ The following validation rules are supported:
     'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
     'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
     'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
+    'mail_address' => array('message' => 'Must be an emailaddress.', 'test' => function($value) { return preg_match('/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i', $value) === 1; } ),
     'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
     'must_accept' => array('message' => 'You must accept this.', 'test' => 'return isset($value);'),
 
@@ -67,6 +68,10 @@ Todo
 
 History
 ----------------------------------
+
+2012-11-26:
+
+* Added validation rule for email address `email_address`. Rewrote `CFormElement::Validate()` to accept anonomous function as validation rule.
 
 2012-11-14:
 
