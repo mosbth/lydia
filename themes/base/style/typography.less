@@ -1,0 +1,247 @@
+/** --------------------------------------------------------------
+ * Typography settings for a default rythm.
+ *
+ */
+
+
+/** --------------------------------------------------------------
+ * Body
+ */
+//body{font:100.01%/1.375 @font-family-helvetica;}
+body {
+  .body-font();
+}
+
+
+/** --------------------------------------------------------------
+ * Headings
+ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: @fontFamilyHeadings;
+  margin-top: 0;
+  margin-bottom: @magicNumber;
+  img {
+    margin: 0;
+  }
+}
+
+h1 {
+  .font-size(@fontSizeH1);
+  font-weight: normal;
+  & ~ h2, & ~ h3, & ~ h4, & ~ h5, & ~ h6 {
+    margin-top: @magicNumber * 2;
+  }
+}
+
+h2 {
+  .font-size(@fontSizeH2);
+  font-weight: normal;
+}
+
+h3 {
+  .font-size(@fontSizeH3);
+  font-weight: normal;
+}
+
+h4 {
+  .font-size(@fontSizeH4);
+  font-weight: normal;
+}
+
+h5 {
+  .font-size(@fontSizeH5);
+}
+
+h6 {
+  .font-size(@fontSizeH6);
+}
+
+/*
+h1{.headings-general();font-size:2.375em;line-height:1.1579;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
+h2{.headings-general();font-size:1.875em;line-height:1.4667;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
+h3{.headings-general();font-size:1.375em;line-height:1;}
+h4{.headings-general();font-size:1.25em;line-height:1.1;}
+h5{.headings-general();font-size:1em;font-weight:bold;}
+h6{.headings-general();font-size:1em;font-weight:bold;margin-bottom:0;}
+h1 img,h2 img,h3 img,h4 img,h5 img,h6 img{margin:0;}
+*/
+
+
+/** --------------------------------------------------------------
+ * Text elements
+ */
+p {
+  margin-top: 0;
+  margin-bottom: @magicNumber;
+}
+
+small, .small, .smaller {
+  .font-size(@fontSizeSmall);
+}
+
+blockquote {
+  border-left: 2px solid @colorBorderLight;
+  padding-left: 1em;
+  margin-left: 0;
+  margin-bottom: @magicNumber;
+}
+
+strong, b{
+  font-weight: bold;
+}
+
+mark {
+  color: @colorMark;
+  background-color: @bgColorMark;
+}
+
+abbr[title] {
+
+}
+
+em,i,dfn{font-style:italic;}
+
+sub,sup{font-size:0.75em;line-height:0;position:relative;vertical-align: baseline;}
+sup{top:-0.5em;}
+sub{bottom:-0.25em;}
+
+
+/** --------------------------------------------------------------
+ * Display source code.
+ */
+pre{margin-bottom:1.375em;white-space:pre;}
+pre,code,kbd,samp,.code{font:1em/1.375 @font-family-monospace;}
+
+div.code{white-space:pre;}
+div.code, pre code{display:block;overflow:auto;}
+div.code, pre code, .geshi{border-top:1px solid #ccc;border-bottom:1px solid #ccc; padding-top:@magic-number * 0.5;
+padding-bottom:@magic-number * 0.5;margin-bottom:@magic-number - 2px;background-color:#eee;padding-left:0.5em;}
+
+
+/** --------------------------------------------------------------
+ * Lists
+ */
+//ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
+ul, 
+ol {
+  margin: 0 0 @magicNumber 0;
+  padding-left: 1.5em;
+  p { 
+    margin-top: @magicNumber / 2;
+    margin-bottom: @magicNumber / 2;
+  }
+}
+
+li ul, 
+li ol, 
+ol ol, 
+ul ul, 
+ul ol, 
+ol ul {
+  margin: 0;
+}
+
+ul {
+  margin-left: -8px;
+  list-style-type:disc;
+}
+
+ol {
+  list-style-type:decimal;
+}
+
+dl {
+  margin:0 0 1.375em 0;
+}
+
+dt { 
+  font-weight:bold;
+}
+
+dd { 
+  margin-left:1.5em;
+}
+
+dl.dl-horizontal {
+  .clearfix();
+  @margin: 5em;
+  dt {
+    clear: left;
+    float: left;
+    width: @margin
+  } 
+  dd {
+    margin-left: @margin + 1em;
+    display:block;
+  } 
+}
+
+
+
+/** --------------------------------------------------------------
+ * Tables. Because of the need for padding on TH and TD, the vertical rhythm
+ * on table cells has to be 1.5*@magic-number.
+ */
+table {
+
+}
+
+article table, 
+.table {
+  margin-bottom: @magicNumber;
+  width: 100%;
+}
+
+article caption,
+.table  caption { 
+  text-align: left;
+  font-style: italic;
+}
+
+article thead,
+.table  thead { 
+  border-bottom: 2px solid @colorTableHeaderBorder;
+}
+
+article th,
+.table  th { 
+  vertical-align:bottom;font-weight:bold;text-align:left;
+}
+
+article th,
+article td,
+.table  th,
+.table  td {
+  // should use @magicNumber
+  padding: 5px 10px 5px 5px;
+}
+
+.table-striped tbody tr:nth-child(even) td,
+.table-striped tbody tr.even td {
+  background-color: @bgColorTableStripe;
+}
+
+article tbody tr,
+.table  tbody tr {
+  border-bottom: 1px solid @colorTableRowBorder;
+  &:hover {
+    color: @colorTableRowHover;
+    border-color: @colorTableRowBorderHover;
+  }
+}
+
+article tfoot,
+.table  tfoot {
+  font-style: italic;
+}
+
+
+
+/** --------------------------------------------------------------
+ * More
+ */
+hr {
+  color: @colorBorderLight;  
+  border-color: @colorBorderLight;
+  margin: @magicNumber auto;
+}

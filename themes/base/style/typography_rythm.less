@@ -1,0 +1,92 @@
+/** --------------------------------------------------------------
+ * Typography.
+ *
+ * Based upon:
+ * http://coding.smashingmagazine.com/2011/03/14/technical-web-typography-guidelines-and-techniques/
+ * 
+ * Fontstcks from:
+ * http://www.sitepoint.com/eight-definitive-font-stacks/
+ *
+ * Times new roman: font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
+ * Georgia: font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+ * Garamond: font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
+ * Helvetica/Arial: font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+ * Verdana: font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+ * Trebuchet: font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+ * Impact font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+ * monospace: font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+ * smallstack: font:100%/1.4  'Helvetica Neue',Arial,Helvetica,sans-serif;
+ *
+ * cambria: Cambria, Georgia, Times, 'Times New Roman', serif
+ *
+ */
+
+/**
+ * Font families to choose from. 
+ */
+// Monospace
+@font-family-courier:         "Courier New", Courier, monospace;
+@font-family-monospace:       monospace;
+
+// Serif
+@font-family-cambria:         Cambria, Georgia, Times, 'Times New Roman', serif;
+@font-family-times:           Times, 'Times New Roman', serif;
+@font-family-garamond:        Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", Georgia, "Times New Roman", Times, serif;
+
+// Sans-serif
+@font-family-helvetica:       Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-calibri:         Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-myriad-pro:      MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', Helvetica, Arial, sans-serif;
+@font-family-helvetica-neue:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-arial:           Arial, sans-serif;
+
+
+/**
+ * Default font-families
+ */
+@font-family-headings:  "font-family-times";
+@font-family-body:      "font-family-times";
+@font-family-code:      "font-family-monospace";
+
+
+/**
+ * Magic number
+ */
+@magic-number-int: 22;
+@magic-number:     @{magic-number-int}px; /* 16px - 100%/1.375 */
+//@magic-number: 24px; /* 16px - 100%/1.5 */
+
+
+/**
+ * Headings calculation 
+ */
+@font-size-body: 16;
+
+@font-size-h1: 2.375;
+@font-size-h2: 1.875;
+@font-size-h3: 1.375;
+@font-size-h4: 1.25;
+@font-size-h5: 1;
+@font-size-h6: 2;
+
+/* 
+2.75em  * 16px   = 44 => line-height: 44 = 1
+2.375em * 16px   = 38 => line-height: 44/38 = 1.1579
+2.25em  * 16px   = 36 => line-height: 44/36 = 1.2222
+2em     * 16px   = 32 => line-height: 44/32 = 1.375
+1.875em * 16px   = 30 => line-height: 44/30 = 1.4667
+1.75em  * 16px   = 28 => line-height: 44/28 = 1.5714
+1.375em * 16px   = 22 => line-height: 22 = 1
+1.25em  * 16px   = 20 => line-height: 22/20 = 1.1
+1em     * 16px   = 16 => line-height: 22/16 = 1.375
+0.875em * 16px   = 14 => line-height: 22/14 = 1.5714
+0.75em  * 16px   = 12 => line-height: 22/12 = 1.8333
+*/
+
+
+/**
+ * Standard settings for body.
+ */
+
+
+

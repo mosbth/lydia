@@ -1,0 +1,100 @@
+/** 
+ * Description: Style specific for wordpress and this theme.
+ * The long term plan is to integrate this into lydia stylesheet.
+ */
+
+
+/** --------------------------------------------------------------
+ * Content & Sidebars.
+ *
+ */
+/*
+.sb-left{min-height:@magic-number*24;position:relative;right:16px;width:255px;.border-radius(10px);background-color:#fff;color:#333;
+  .sb-content{padding:14px;}
+  
+  &.page-2, &.page-21{background-color:#5c5c5c;color:#fff;
+    a{color:#fff;
+      &:hover{color:#f7da38;}
+    }
+  }
+  h1, h2{color:#fff;font-size:16px;font-weight:bold;text-decoration:none;}
+}
+*/
+
+/*.sb-left.page-2{background-color:#5c5c5c;color:#fff;
+  a{color:#fff;
+    &:hover{color:#f7da38;}
+  }
+} */
+
+//.sb-top-image{padding-top:8px;margin:0 auto;}
+
+
+/** --------------------------------------------------------------
+ * Posts.
+ *
+ */
+.post h2{margin-top:0;}
+.box h4{margin-top:0;}
+
+.cat-links, 
+.tag-links,
+.edit-link,
+.published{font-size:smaller;color:#999;font-style:italic;
+  a{color:inherit;text-decoration:none;
+    &:hover{color:#666;text-decoration:underline;}
+  }
+}
+
+
+/** --------------------------------------------------------------
+ * Category.
+ *
+ */
+.category-archive-meta{margin-bottom:@magic-number*2;}
+
+
+
+/** --------------------------------------------------------------
+ * Search.
+ *
+ */
+section.search-results{.column(16);}
+.search-results #searchform{margin-bottom:@magic-number*2;}
+
+
+/** --------------------------------------------------------------
+ * Error 404.
+ *
+ */
+section.error404{.column(16);}
+.error404 #searchform{margin-bottom:@magic-number*4;}
+
+
+/** --------------------------------------------------------------
+ * Comments.
+ *
+ */
+.nocomments{display:none;}
+#comments{
+  #comments-title,#reply-title{border-bottom:2px solid #222;}
+  .comment-author{color:#999;font-size:smaller;
+    a{color:#999;text-decoration:none;
+      &:hover{text-decoration:underline;}
+    }
+    img{float:right;}
+  }
+  .reply{font-size:smaller;
+    a{color:#999;text-decoration:none;
+      &:hover{text-decoration:underline;}
+    }    
+  }
+}
+
+#commentform{
+  input[type=text]{width:100%}
+  textarea{width:100%;}
+}
+
+.form-allowed-tags, .logged-in-as{color:#666;font-size:smaller;}
+

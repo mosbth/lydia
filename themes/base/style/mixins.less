@@ -1,0 +1,97 @@
+/** ------------------------------------------------------------------ 
+ * Mixins
+ */
+
+
+/** ------------------------------------------------------------------ 
+ * The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
+ */
+.clearfix() {
+  *zoom:1;  
+  &:before, &:after {
+    content:"";display:table;
+  }
+  &:after {
+    clear:both;
+  }
+}
+
+
+/** ------------------------------------------------------------------ 
+ * Wrap elements to site width in grid layout
+ */
+.wrap() {
+  width: @total-width;
+  margin: 0 auto;
+  .clearfix();
+}
+
+
+/** ------------------------------------------------------------------ 
+ * Always show the scrollbar
+ */
+.alwaysShowScrollbar() {
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll;
+}
+
+
+/** ------------------------------------------------------------------ 
+ * Typography. Calculate font-size and line-height.
+ */
+.body-font() {
+  //font: @font-size/(@magic-number/@font-size) @@font-family-body;
+  font: 100.01%/(unit((@magicNumber)/unit(@fontSizeBody))) @fontFamilyBody;
+}
+
+.font-size(@fontSize) {
+  font-size: @fontSize;
+}
+
+.font-size(@fontSize) when (@fontSize > 1) and (@fontSize*@fontSizeBody < @magicNumber) {
+  line-height: unit(@magicNumber/(@fontSize*@fontSizeBody)); 
+}
+
+.font-size(@fontSize) when (@fontSize > @magicNumber/@fontSizeBody) and (@fontSize*@fontSizeBody > @magicNumber) and (@fontSize*@fontSizeBody < @magicNumber*2) {
+  line-height: unit(@magicNumber*2/(@fontSize*@fontSizeBody)); 
+}
+
+// 5/4 for smaller font-size, incremental leading.
+
+
+/** ------------------------------------------------------------------ 
+ * Anchors.
+ */
+.anchor-none(@color: inherit) {
+  a {
+    color: @color;
+    text-decoration: none;
+  }
+}
+
+.anchor-anonymous(@color: inherit, @hover: inherit) {
+  a {
+    color: @color;
+    text-decoration: none;
+    &:hover {
+      color: @hover;
+      text-decoration: underline;
+    }
+  }
+}
+
+.anchor(@color: inherit, @hover: inherit, @visited: inherit) {
+  a {
+    color: @color;
+    text-decoration: underline;
+    &:visited {
+      color: @visited;
+    }
+    &:hover {
+      color: @hover;
+      text-decoration: none;
+    }
+  }
+}
+
+
