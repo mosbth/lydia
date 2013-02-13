@@ -51,6 +51,15 @@ class CObject {
   }
 
 
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   *
+   */
+  public function RedirectToCurrent() {
+    $this->ly->RedirectToCurrent();
+  }
+
+
 	/**
 	 * Wrapper for same method in CLydia. See there for documentation.
 	 */
@@ -83,18 +92,34 @@ class CObject {
   }
 
 
-	/**
-	 * Wrapper for same method in CLydia. See there for documentation.
-	 */
-	protected function CreateUrlToController($method=null, $arguments=null) {
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateUrlToController($method=null, $arguments=null) {
     return $this->ly->CreateUrlToController($method, $arguments);
   }
 
 
-	/**
-	 * Wrapper for same method in CLydia. See there for documentation.
-	 */
-	protected function CreateBreadcrumb($options) {
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateUrlToControllerMethod($arguments=null) {
+    return $this->ly->CreateUrlToControllerMethod($arguments);
+  }
+
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateMenu($options) {
+    return $this->ly->CreateMenu($options);
+  }
+
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateBreadcrumb($options) {
     return $this->ly->CreateBreadcrumb($options);
   }
 

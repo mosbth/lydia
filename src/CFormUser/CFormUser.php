@@ -18,12 +18,10 @@ class CFormUser extends CForm {
    * @param string $acronym the acronym from the form.
    */
   public function MatchAcronymToSession($acronym) {
-    $if = new CInterceptionFilter();
-    return $if->SessionUser($acronym);
+    return CInterceptionFilter::Instance()->SessionUserMatches($acronym);
   }
   
 
-  /**
   /**
    * Create the login form.
    *
@@ -85,7 +83,7 @@ class CFormUser extends CForm {
    *
    * @param CUser $user the user object.
    */
-  public function CreateChangePassword($user) {
+/*  public function CreateChangePassword($user) {
     $this->AddElement(new CFormElementHidden('acronym', array('value'=>$user['acronym'])))
          ->AddElement(new CFormElementPassword('password1', array('label'=>'Current password:')))
          ->AddElement(new CFormElementPassword('password2', array('label'=>'New password:')))
@@ -96,7 +94,7 @@ class CFormUser extends CForm {
          ->SetValidation('password2', array('not_empty'))
          ->SetValidation('password3', array('not_empty', 'match'=>'password2'));
   }
-  
+  */
 
   /**
    * Change the password.

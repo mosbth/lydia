@@ -11,14 +11,241 @@
 .anchor(@anchorColor, @anchorColorHover, @anchorColorVisited);
 
 
-/* Anchors */
-//@anchorColor: #5C0A0A;
-//@anchorColor: #19194D;
-//.hover(){color:lighten(@anchorColor, 20%);text-decoration:none;}
-//.hover-none(){color:lighten(@anchorColor, 20%);text-decoration:none;}
-//.hover-underline(){color:lighten(@anchorColor, 20%);text-decoration:underline;}
+.footer {
+  .anchor(@anchorColor2)
+}
 
-/*a{
-  &:focus,&:hover{}
-}*/
+
+
+/** --------------------------------------------------------------
+ * Breadcrumb
+ */
+ul.breadcrumb {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 0;
+    margin: 0;
+    display: inline;
+  }
+
+  a {
+    .font-size(@fontSizeSmall);
+    text-decoration: none;
+    color: @anchorColorAnonymous;
+    
+    &:hover {
+      text-decoration: underline;
+      color: @anchorColorAnonymousHover;
+    }
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Navbar: Plain style, nothing special
+ *
+ */
+ul.nb-plain{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    padding: 0 1em 0 0;
+    margin: 0;
+    display: inline;
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &.selected a, 
+    &.current-menu-item a {
+      color: @anchorColor;
+      text-decoration: underline;
+    }    
+  }
+  
+  a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: @colorBody;
+  
+    &:hover {
+      color: @anchorColorHover;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Navbar: Anna style
+ *
+ */
+ul.nb-anna{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    padding: 0 1em 0 0;
+    margin: 0;
+    display: inline;
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &.selected a, 
+    &.current-menu-item a {
+      border-top:     1px solid @anchorColor;
+      border-bottom:  1px solid @anchorColor;
+      color: @anchorColor;
+    }    
+  }
+  
+  a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: @colorBody;
+    padding: 0.1em 0;
+  
+    &:hover {
+      color: @anchorColorHover;
+      border-top:     1px solid @anchorColorHover;
+      border-bottom:  1px solid @anchorColorHover;
+    }
+  }
+}
+
+
+/** --------------------------------------------------------------
+ * Navbar: Tab style
+ *
+ */
+ul.nb-tab{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid @colorBorderTabBottom;
+  
+  li {
+    padding: 0;
+    margin: 0 0.3em;
+    display: inline-block;
+    background-color: @anchorTabBgColor;
+    border-top: 1px solid @colorBorderTabElement;
+    border-left: 1px solid @colorBorderTabElement;
+    border-right: 1px solid @colorBorderTabElement;
+    .border-radius();
+
+    &:first-child {
+      margin-left: 0.5em;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      background-color: @anchorTabBgColorHover;
+      border-color: @colorBorderTabElementHover;
+    }
+
+    &.selected, 
+    &.current-menu-item {
+      background-color: @anchorTabBgColorSelected;
+      border-color: @colorBorderTabElementSelected;
+    
+      a {
+        color: @colorBody;
+        padding-bottom: 2px;
+        background-color: @anchorTabBgColorSelected;
+      }
+    }
+  }
+  
+  a {
+    text-decoration: none;
+    color: @colorBodyLighter;
+    padding: 0 1em;
+  
+    &:hover {
+      color: @anchorColorHover;
+    }
+
+    &:active {
+      color: @anchorColorActive;
+      background-color: @anchorTabBgColorActive;
+    }
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Navbar: dbwebb.se menu style
+ *
+ */
+ul.nb-dbwebb {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    //position: relative;
+    //width: 6em;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  ul {    
+    margin: 0 3em 0 0;
+    padding: 0;
+    float:left;
+    //position: absolute;
+    //top: -1em;
+
+    li {
+      margin: 0;
+      padding: 0;
+      list-style: none; 
+      display:list-item;
+
+      &:hover,
+      &:focus,
+      &.selected { 
+        list-style-type: square;
+      }
+
+      &.selected a {
+        color: @colorMenuItemsSelected;
+      }    
+    }
+  }
+
+  a {
+    font-family: @fontFamilySiteTitle;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: @colorMenuItems;
+  
+    &:hover {
+      color: @colorMenuItemsHover;
+      text-decoration: underline;
+    }
+  }
+}
+
 

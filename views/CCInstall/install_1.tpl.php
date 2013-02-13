@@ -51,7 +51,7 @@ $problems = !$gettext || $safemode || !$pdo || !$pdo_sqlite || $magic_quotes;
 
 
 <p>
-<a href='<?=create_url(null, null, 'start')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step1')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step2')?>'>Continue &raquo;</a>
+<a href='<?=create_url(null, 'index')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
+<a href='<?=create_url(null, 'step1')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
+<a href='<?=create_url(null, 'step2')?>'>Continue &raquo;</a>
 </p>

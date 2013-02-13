@@ -12,8 +12,6 @@ class CMContentModule extends CMContent {
   public function Manage($action=null) {
     switch($action) {
       case 'install': 
-        $this->db->ExecuteQuery(self::SQL('drop table content'));
-        $this->db->ExecuteQuery(self::SQL('drop table category'));
         $this->db->ExecuteQuery(self::SQL('create table category'));
         $this->db->ExecuteQuery(self::SQL('create table content'));
         $ret = CMModules::CreateModuleDirectory(get_parent_class(), 'txt');

@@ -1,6 +1,6 @@
 <?php
 /**
- * A model for an authenticated user.
+ * A model for an authenticated user. Maybe split in two, one for the authenticated user and one for administrere users.
  * 
  * @package LydiaCore
  */
@@ -40,7 +40,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) { require_once(__DIR__.'/CMUserModule.php'); $m = new CMUserModule(); return $m->Manage($action); }
+  public function Manage($action=null, $args=null) { require_once(__DIR__.'/CMUserModule.php'); $m = new CMUserModule(); return $m->Manage($action, $args); }
 
  
   /**
@@ -66,6 +66,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
       'insert into group'       => 'INSERT INTO Groups (acronym,name) VALUES (?,?);',
       'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups) VALUES (?,?);',
       'check user password'     => 'SELECT * FROM User WHERE (acronym=? OR email=?);',
+      'select user by id'       => 'SELECT * FROM User WHERE id=?;',
       'get group memberships'   => 'SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;',
       'update profile'          => "UPDATE User SET name=?, email=?, updated=datetime('now') WHERE id=?;",
       'update password'         => "UPDATE User SET algorithm=?, salt=?, password=?, updated=datetime('now') WHERE id=?;",
@@ -82,7 +83,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    *
    * @param string $akronymOrEmail the emailadress or user akronym.
    * @param string $password the password that should match the akronym or emailadress.
-   * @returns array with the user details as returned from the database.
+   * @return array with the user details as returned from the database.
    */
   private function VerifyUserAndPassword($akronymOrEmail, $password) {
     if(empty($akronymOrEmail) || empty($password)) { return false; }
@@ -104,7 +105,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    *
    * @param string $akronymOrEmail the emailadress or user akronym.
    * @param string $password the password that should match the akronym or emailadress.
-   * @returns boolean true if match else false.
+   * @return boolean true if match else false.
    */
   public function Login($akronymOrEmail, $password) {
     if(!($user = $this->VerifyUserAndPassword($akronymOrEmail, $password))) { return false; }
@@ -131,11 +132,14 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
 
   /**
    * Logout. Clear both session and internal properties.
+   *
+   * @return boolean true.
    */
   public function Logout() {
     $this->session->UnsetAuthenticatedUser();
     $this->profile = array();
-    $this->AddMessage('success', "You have logged out.");
+    //$this->AddMessage('success', "You have logged out.");
+    return true;
   }
   
 
@@ -146,7 +150,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    * @param $password string the password plain text to use as base. 
    * @param $name string the user full name.
    * @param $email string the user email.
-   * @returns boolean true if user was created or else false and sets failure message in session.
+   * @return boolean true if user was created or else false and sets failure message in session.
    */
   public function Create($acronym, $password, $name, $email) {
     $pwd = $this->CreatePassword($password);
@@ -167,7 +171,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    * @param $plain string the password plain text to use as base.
    * @param $algorithm string stating what algorithm to use, plain, md5, md5salt, sha1, sha1salt. 
    * defaults to the settings of site/config.php.
-   * @returns array with 'salt' and 'password'.
+   * @return array with 'salt' and 'password'.
    */
   public function CreatePassword($plain, $algorithm=null) {
     $password = array(
@@ -193,7 +197,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    * @param $algorithm string the algorithm mused to hash the user salt/password.
    * @param $salt string the user salted string to use to hash the password.
    * @param $password string the hashed user password that should match.
-   * @returns boolean true if match, else false.
+   * @return boolean true if match, else false.
    */
   public function CheckPassword($plain, $algorithm, $salt, $password) {
     switch($algorithm) {
@@ -210,7 +214,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Save user profile to database and update user profile in session.
    *
-   * @returns boolean true if success else false.
+   * @return boolean true if success else false.
    */
   public function Save() {
     $this->db->ExecuteQuery(self::SQL('update profile'), array($this['name'], $this['email'], $this['id']));
@@ -222,9 +226,9 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Change user password.
    *
-   * @param $current string plaintext of current password
-   * @param $plain string plaintext of the new password
-   * @returns boolean true if success else false.
+   * @param string $current plaintext of current password
+   * @param string $plain plaintext of the new password
+   * @return boolean true if success else false.
    */
   public function ChangePassword($current, $plain) {
     if(!($user = $this->VerifyUserAndPassword($this['acronym'], $current))) { return false; }
@@ -235,9 +239,66 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   
   
   /**
+   * User changes own password if successful verification.
+   *
+   * @param string $acronym current user according to controller
+   * @param string $current password,
+   * @param string $new1 new password,
+   * @param string $new2 new password again,
+   * @return boolean true if success else false.
+   */
+  public function ChangeOwnPasswordVerify($acronym, $current, $new1, $new2) {
+
+    if(CInterceptionFilter::Instance()->SessionUserMatches($acronym) === false) {
+      return false; 
+    }
+
+    return $this->ChangePassword($current, $new1);
+  }
+  
+  
+  /**
+   * User changes own mail.
+   *
+   * @param string $acronym current user according to controller
+   * @param string $email the users email adress.
+   * @return boolean true if success else false.
+   */
+  public function ChangeOwnEmail($acronym, $email) {
+
+    if(CInterceptionFilter::Instance()->SessionUserMatches($acronym) === false) {
+      return false; 
+    }
+
+    $this['email'] = $email;
+    return $this->Save();
+  }
+  
+  
+  /**
+   * User changes own profile.
+   *
+   * @param string $acronym current user according to controller
+   * @param string $acronym of the user.
+   * @param string $name of the user.
+   * @return boolean true if success else false.
+   */
+  public function ChangeOwnProfile($acronym, $acronym, $name) {
+
+    if(CInterceptionFilter::Instance()->SessionUserMatches($acronym) === false) {
+      return false; 
+    }
+
+    $this['acronym'] = $acronym;
+    $this['name'] = $name;
+    return $this->Save();
+  }
+  
+  
+  /**
    * Check if user has admin role.
    *
-   * @returns boolean true or false.
+   * @return boolean true or false.
    */
   public function IsAdmin() {
     return $this['hasRoleAdmin'];
@@ -247,7 +308,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Check if user is authenticated.
    *
-   * @returns boolean true or false.
+   * @return boolean true or false.
    */
   public function IsAuthenticated() {
     return $this['isAuthenticated'];
@@ -257,7 +318,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Check if user is anonomous.
    *
-   * @returns boolean true or false.
+   * @return boolean true or false.
    */
   public function IsAnonomous() {
     return $this['hasRoleAnonomous'];
@@ -267,7 +328,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Check if user is a known visitor.
    *
-   * @returns boolean true or false.
+   * @return boolean true or false.
    */
   public function IsVisitor() {
     return $this['hasRoleVisitor'];
@@ -277,10 +338,26 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
    * Check if user is a regular user.
    *
-   * @returns boolean true or false.
+   * @return boolean true or false.
    */
   public function IsUser() {
     return $this['hasRoleUser'];
+  }
+  
+  
+  /**
+   * Get details for a user by its id.
+   *
+   * @return array with details or false.
+   */
+  public function GetUserbyId($id) {
+    try {
+      $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select user by id'), array($id));
+    }
+    catch(Exception $e) {
+      return false;
+    }
+    return $res[0];
   }
   
   

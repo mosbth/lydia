@@ -12,11 +12,9 @@ class CMBookModule extends CMBook {
   public function Manage($action=null) {
     switch($action) {
       case 'install': 
-        $this->db->ExecuteQuery(self::SQL('drop table chapter'));
-        $this->db->ExecuteQuery(self::SQL('drop table book'));
         $this->db->ExecuteQuery(self::SQL('create table book'));
         $this->db->ExecuteQuery(self::SQL('create table chapter'));
-        return array('success', t('Successfully dropped and created the database tables.'));
+        return array('success', t('Successfully created the database tables.'));
       break;
 
       case 'export-db':

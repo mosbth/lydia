@@ -344,7 +344,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Get the TOC of headings to a certain level.
    *
    * @param integer $level which level of headings to use for toc.
-   * @returns array with entries to generate a TOC.
+   * @return array with entries to generate a TOC.
    */
   public function GetTableOfContent($level=4) {
   	$pattern = '/<(h[2-'.$level.'])([^>]*)>(.*)<\/h[2-'.$level.']>/';
@@ -370,12 +370,56 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   /**
    * Prepare all data before sending to view, stores all prepared data in object, easy for views to access.
    * 
-   * @returns $this.
+   * @return $this.
    */
   public function Prepare() {
     $this->GetFilteredData();
     $this->GetTableOfContent();
     return $this;
+  }
+  
+  
+  /**
+   * Returns the excerpt of the text with at most the specified amount of characters.
+   * 
+   * @param int $chars the number of characters to return.
+   * @param boolean $hard do a hard break at exactly $chars characters or find closest space.
+   * @return string as the excerpt.
+   */
+  public function GetExcerpt($chars=139, $hard=false) {
+    if(!isset($this->data['data_filtered'])) {
+      return null;
+    }
+    $excerpt = strip_tags($this->data['data_filtered']);
+
+    if(strlen($excerpt) > $chars) {
+      $excerpt   = substr($excerpt, 0, $chars-1);
+    }
+
+    if(!$hard) {
+      $lastSpace = strrpos($excerpt, ' ');
+      $excerpt   = substr($excerpt, 0, $lastSpace);
+    }
+
+    return $excerpt;
+  }
+  
+  
+  /**
+   * Returns the first paragraph ot the text.
+   * 
+   * @return string as the first paragraph.
+   */
+  public function GetFirstParagraph() {
+    if(!isset($this->data['data_filtered'])) {
+      return null;
+    }
+    $excerpt = $this->data['data_filtered'];
+
+    $firstPara = strpos($excerpt, '</p>');
+    $excerpt   = substr($excerpt, 0, $firstPara + 4);
+
+    return $excerpt;
   }
   
   

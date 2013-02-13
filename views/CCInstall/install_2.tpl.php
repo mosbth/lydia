@@ -3,6 +3,10 @@
 <p>Lets ensure that the directory <code>site/data</code> is writable by the webserver. 
 This is the (only) place where Lydia and Lydia modules needs to be able to write and create files.</p>
 
+<p>The path to your site-directory is (this is defined in <code>index.php</code>):</p>
+
+<pre><code><?=LYDIA_SITE_PATH.'/data'?></code></pre>
+
 <?php 
 $is_directory = is_dir(LYDIA_SITE_PATH.'/data'); 
 $is_writable  = is_writable(LYDIA_SITE_PATH.'/data'); 
@@ -41,7 +45,9 @@ $is_writable  = is_writable(LYDIA_SITE_PATH.'/data');
 
 
 <p>
-<a href='<?=create_url(null, null, 'step1')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step2')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step3')?>'>Continue &raquo;</a>
+<a href='<?=create_url(null, 'step1')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
+<a href='<?=create_url(null, 'step2')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
+<?php if($is_directory && $is_writable): ?>
+<a href='<?=create_url(null, 'step3')?>'>Continue &raquo;</a>
+<?php endif; ?>
 </p>

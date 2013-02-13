@@ -84,7 +84,7 @@ by Tyler Tate/TwigKit to get grid layout through LESS.
 * Version: 1.2 (2012-01-11)
 * License: Apache License
 * Lydia path: `themes/grid/semantic.gs`
-* Used by: `themes/grid/style.less`
+* Used by: `themes/grid/style.less`, `themes/base/style/semanticgs.less`
 
 
 ### GeSHi - Generic Syntax Highlighter
@@ -116,6 +116,10 @@ History
 
 v0.3.0x (latest)
 
+* Added improved `CForm`.
+* Refactored `CCUser`.
+* New theme, base. To be the new base-theme and replace both `grid` and `core`.
+* Installation phase added.
 * Prepare `gettext` to work in non-gettext environment.
 * Clean up by removing dependencies to dbwebb.se.
 * Corrected bugs in `CCAllSeeingEye` and `CMRSSAggregation` when feed is empty.

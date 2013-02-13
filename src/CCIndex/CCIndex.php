@@ -15,7 +15,7 @@ class CCIndex extends CObject implements IController {
   /**
    * Implementing interface IController. All controllers must have an index action.
    */
-  public function Index() {			
+  public function Index() {     
     $this->views->SetTitle(t('Home'))
                 ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'))
                 ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php')
@@ -24,34 +24,15 @@ class CCIndex extends CObject implements IController {
 
 
   /**
-   * Installation phase.
+   * Implementing a default method for this controller. This is used for all actions that does not have a 
+   * corresponding method in the controller, its a catch-all method.
    */
-  public function Install($step=null) {
-    global $ly;
-    include(__DIR__.'/config_install.php');
-    
-    $data = array(
-      'dsn' => isset($this->config['database'][0]['dsn']) ? $this->config['database'][0]['dsn'] : t('Setting for default database is missing in config.php.'),
-    );
-    
-    $this->views->SetTitle(t('Install Lydia'));
-    
-    if(!$step || $step == 'start') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_0.tpl.php'));
-    } else if($step == 'step1') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_1.tpl.php'));
-    } else if($step == 'step2') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_2.tpl.php'));
-    } else if($step == 'step3') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_3.tpl.php'), $data);
-    } else if($step == 'step4') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_4.tpl.php'));
-    } else if($step == 'step5') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_5.tpl.php'));
-    } else if($step == 'step6') {
-      $this->views->AddIncludeToRegion('primary', $this->LoadView('install_6.tpl.php'));
+  public function CatchAll() {
+    // Check if this is the last step of the installation process or just some random call
+    if($this->request->method == 'step7') {
+      $this->views->SetTitle(t('Home'))->AddIncludeToRegion('primary', $this->LoadView('installed.tpl.php'));
     } else {
-      throw new Exception(t('No such step during installation phase.'));
+      $this->ShowErrorPage(404, t('Page is not found.'));
     }
   }
 

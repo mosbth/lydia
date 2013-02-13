@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang='<?=get_language()?>' class='<?=modernizr_no_js()?>'> 
+<html lang='<?=get_language()?>' class='<?=html_classes()?> <?=modernizr_no_js()?>'> 
 <head>
 <meta charset='utf-8'/>
-<title><?=$title?></title>
+<title><?=get_title()?></title>
 <link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
 <link rel='stylesheet' type='text/css' href='<?=theme_url($stylesheet)?>'/>
+<?=get_meta('description')?>
+<?=get_meta('keywords')?>
+<?=get_meta('robots')?>
 <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
 <?=modernizr_include()?>
 </head>
@@ -23,7 +26,7 @@
         <?php if(isset($site_slogan)):?><span id='site-slogan'><?=$site_slogan?></span><?php endif;?>
 <?php endif; ?>
       </div>
-      <?php if(region_has_content('navbar1')): ?><nav id='navbar1' class='navbar' role='navigation'><?=render_views('navbar1')?></nav><?php endif; ?>
+      <?php if(region_has_content('navbar1')): ?><nav id='navbar1' role='navigation'><?=render_views('navbar1')?></nav><?php endif; ?>
     </div>
   </div>
 </header>
@@ -32,7 +35,7 @@
 <div id='outer-wrap-navbar' role='navigation'>
   <div id='inner-wrap-navbar'>
     <div id='navbar'>
-      <navbar id='navbar2' class='navbar'><?=render_views('navbar2')?></navbar>
+      <navbar id='navbar2'><?=render_views('navbar2')?></navbar>
     </div>
   </div>
 </div>
@@ -68,8 +71,9 @@
 
 <div id='outer-wrap-main'>
   <div id='inner-wrap-main'>
-    <div id='primary' role='main'><?=get_messages_from_session()?><?=render_views('primary')?></div>
+    <?php if(region_has_content('primary')): ?><div id='primary' role='main'<?=get_class_for_region('primary')?>><?=get_messages_from_session()?><?=render_views('primary')?></div><?php endif; ?>
     <?php if(region_has_content('sidebar')): ?><div id='sidebar' role='complementary'><?=render_views('sidebar')?></div><?php endif; ?>
+    <?php if(region_has_content('custom')):  ?><div id='custom'<?=get_class_for_region('custom')?>><?=render_views('custom')?></div><?php endif; ?>
   </div>
 </div>
 
@@ -85,7 +89,7 @@
 </div>
 <?php endif; ?>
 
-<footer id='outer-wrap-footer' role='contentinfo'>
+<footer id='outer-wrap-footer' class='footer' role='contentinfo'>
   <?php if(region_has_content('footer-column-one', 'footer-column-two', 'footer-column-three', 'footer-column-four', 'footer-column-five', 'footer-column-six', 'footer-column-seven',  'footer-column-eight')): ?>
   <div id='inner-wrap-footer-column'>
     <div id='footer-column-wrapper-one' class='footer-column-wrapper'>

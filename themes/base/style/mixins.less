@@ -69,7 +69,7 @@
   }
 }
 
-.anchor-anonymous(@color: inherit, @hover: inherit) {
+.anchor-anonymous(@color: inherit, @hover: @anchorColorHover) {
   a {
     color: @color;
     text-decoration: none;
@@ -93,5 +93,12 @@
     }
   }
 }
+
+
+/*.link-no-style(){
+  a{color:inherit;text-decoration:none;
+    &:hover{color:@anchorColor;text-decoration:underline;}
+  }
+}*/
 
 

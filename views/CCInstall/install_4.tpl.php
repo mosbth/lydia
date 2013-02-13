@@ -9,7 +9,9 @@
 <?php endif; ?>
 
 <p>
-<a href='<?=create_url(null, null, 'step3')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step4')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step5')?>'>Continue &raquo;</a>
+<a href='<?=create_url(null, 'step3')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
+<a href='<?=create_url(null, 'step4')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
+<?php if($rootUser): ?>
+<a href='<?=create_url(null, 'step5')?>'>Continue &raquo;</a>
+<?php endif; ?>
 </p>

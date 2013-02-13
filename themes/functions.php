@@ -77,21 +77,95 @@ function get_messages_from_session() {
  */
 function login_menu() {
   $ly = CLydia::Instance();
+
+  if(!isset($ly->config['menus']['login'])) {
+    return null;
+  }
+  $menu = $ly->config['menus']['login'];
+
+  if($ly->user->isAuthenticated()) {
+    $item = $menu['items']['ucp'];
+    //$items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
+    $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>" . $ly->user['acronym'] . " <img class='gravatar' src='" . get_gravatar(20) . "' alt='[avatar]'></a>";
+    
+    if($ly->user['hasRoleAdministrator']) {
+      $item = $menu['items']['acp'];
+      $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
+    }
+    
+    //$item = $menu['items']['logout'];
+    //$items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
+  } else {
+    $item = $menu['items']['login'];
+    $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a>";
+  }
+
+  $id    = isset($menu['id'])    ? " id='{$menu['id']}'" : null;
+  $class = isset($menu['class']) ? " class='{$menu['class']}'" : null;
+  return "<nav{$id}{$class}>$items</nav>";
+}
+
+
+/*
+function login_menu() {
+  $ly = CLydia::Instance();
   if(isset($ly->config['menus']['login'])) {
     if($ly->user->isAuthenticated()) {
-      $item = $ly->config['menus']['login']['ucp'];
+      $item = $ly->config['menus']['login']['items']['ucp'];
       $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $ly->user['acronym'] . "</a> ";
       if($ly->user['hasRoleAdministrator']) {
-        $item = $ly->config['menus']['login']['acp'];
+        $item = $ly->config['menus']['login']['items']['acp'];
         $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
       }
-      $item = $ly->config['menus']['login']['logout'];
+      $item = $ly->config['menus']['login']['items']['logout'];
       $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
     } else {
-      $item = $ly->config['menus']['login']['login'];
+      $item = $ly->config['menus']['login']['items']['login'];
       $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
     }
     return "<nav>$items</nav>";
+  }
+  return null;
+}
+*/
+
+
+/**
+ * Return the title of the page.
+ *
+ * @return string for title.
+ */
+function get_title() {
+  return CLydia::Instance()->views->GetVariable('title');
+}
+
+
+/**
+ * Return the meta content the page, if it exists, either as a theme variable or from the config.
+ *
+ * @param string for meta element.
+ * @return string for meta element.
+ */
+function get_meta($what) {
+  global $ly;
+  $variable = "meta_{$what}";
+  $meta1 = $ly->views->GetVariable($variable);
+  $meta2 = isset($ly->config[$variable]) ? $ly->config[$variable] : null;
+  $meta = isset($meta1) ? $meta1 : (isset($meta2) ? $meta2 : null);
+  return isset($meta) ? "<meta name='{$what}' content='{$meta}'/>\n" : null;
+}
+
+
+
+/**
+ * Add classes to html element.
+ *
+ * @return string with classes.
+ */
+function html_classes() {
+  global $ly;
+  if(isset($ly->config['theme']['html_class'])) {
+    return $ly->config['theme']['html_class'];
   }
   return null;
 }
@@ -101,7 +175,7 @@ function login_menu() {
  * Create menu.
  *
  * @param array $menu array with details to generate menu.
- * @returns string with formatted HTML for menu.
+ * @return string with formatted HTML for menu.
  */
 function create_menu($menu) {
   return CLydia::Instance()->CreateMenu($menu);
@@ -130,7 +204,7 @@ function get_language() {
  * Escape data to make it safe to write in the browser.
  *
  * @param $str string to escape.
- * @returns string the escaped string.
+ * @return string the escaped string.
  */
 function esc($str) {
   return htmlEnt($str);
@@ -142,7 +216,7 @@ function esc($str) {
  *
  * @param $data string the data-string to filter.
  * @param $filter string the filter to use.
- * @returns string the filtered string.
+ * @return string the filtered string.
  */
 function filter_data($data, $filter) {
   return CMContent::Filter($data, $filter);
@@ -153,7 +227,7 @@ function filter_data($data, $filter) {
  * Display diff of time between now and a datetime. 
  *
  * @param $start datetime|string
- * @returns string
+ * @return string
  */
 function time_diff($start) {
   return formatDateTimeDiff($start);
@@ -184,7 +258,7 @@ function create_url($urlOrController=null, $method=null, $arguments=null) {
  * Prepend the theme_url to non-absolute urls, theme_url is the url to the current theme directory.
  *
  * @param $url string the url-part to prepend.
- * @returns string the absolute url.
+ * @return string the absolute url.
  */
 function theme_url($url) {
   if(!empty($url) && $url[0] == '/') 
@@ -193,11 +267,12 @@ function theme_url($url) {
 }
 
 
+
 /**
  * Prepend the theme_parent_url to non-absolute urls, theme_parent_url is the url to the parent theme directory.
  *
  * @param $url string the url-part to prepend.
- * @returns string the absolute url.
+ * @return string the absolute url.
  */
 function theme_parent_url($url) {
   if(!empty($url) && $url[0] == '/') 
@@ -206,12 +281,14 @@ function theme_parent_url($url) {
 }
 
 
+
 /**
  * Return the current url.
  */
 function current_url() {
   return CLydia::Instance()->request->current_url;
 }
+
 
 
 /**
@@ -224,6 +301,7 @@ function render_views($region='default') {
 }
 
 
+
 /**
  * Check if region has views. Accepts variable amount of arguments as regions.
  *
@@ -232,6 +310,21 @@ function render_views($region='default') {
 function region_has_content($region='default' /*...*/) {
   return CLydia::Instance()->views->RegionHasView(func_get_args());
 }
+
+
+
+/**
+ * Get the class that may be attached to the region.
+ *
+ * @param $region string the region to draw the content in.
+ * @param $region string the region to draw the content in.
+ * @return mixed the resulting classes within a string with class='$classes' or null if no classes.
+ */
+function get_class_for_region($region, $classes=null) {
+  $classes .= CLydia::Instance()->views->RegionHasClass($region);
+  return isset($classes) ? " class='{$classes}'" : null;
+}
+
 
 
 /**
@@ -269,27 +362,9 @@ EOD;
 
 
 /**
- * Does the site has a slogan to show?
- */
-function has_slogan() {
-  global $ly;
-  return isset($ly->config['theme']['data']['slogan']) && isset($ly->config['theme']['data']['show_slogan']) && $ly->config['theme']['data']['show_slogan'];
-}
-
-
-/**
- * Return the site slogan.
- */
-function slogan() {
-  global $ly;
-  return $ly->config['theme']['data']['slogan'];
-}
-
-
-/**
  * Include the javascript library modernizer, if defined.
  *
- * @returns string if modernizr path is defined, else null.
+ * @return string if modernizr path is defined, else null.
  */
 function modernizr_include() {
   global $ly;
@@ -300,10 +375,33 @@ function modernizr_include() {
 /**
  * Add modernizer related class 'no-js' but only if modernizr is defined.
  *
- * @returns string if modernizr is defined, else null.
+ * @return string if modernizr is defined, else null.
  */
 function modernizr_no_js() {
   global $ly;
   return isset($ly->config['javascript']['modernizr']) ? 'no-js' : null;
+}
+
+
+
+//
+// OBSOLETE
+//
+
+/**
+ * Does the site has a slogan to show? OBSOLETE use $slogan in template.
+ */
+function has_slogan() {
+  global $ly;
+  return isset($ly->config['theme']['data']['site-slogan']) && isset($ly->config['theme']['data']['show_slogan']) && $ly->config['theme']['data']['show_slogan'];
+}
+
+
+/**
+ * Return the site slogan. OBSOLETE use $slogan in template.
+ */
+function slogan() {
+  global $ly;
+  return $ly->config['theme']['data']['site-slogan'];
 }
 

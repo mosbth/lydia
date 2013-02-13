@@ -8,31 +8,42 @@ class CMUserModule extends CMUser {
    * Manage install/update/deinstall and equal actions.
    *
    * @param string $action the action to carry out.
+   * @param array $args extra arguments.
    */
-  public function Manage($action=null) {
+  public function Manage($action=null, $args=null) {
     switch($action) {
-      case 'install': 
-        $this->db->ExecuteQuery(self::SQL('drop table user2group'));
-        $this->db->ExecuteQuery(self::SQL('drop table group'));
-        $this->db->ExecuteQuery(self::SQL('drop table user'));
+      case 'install-root': 
+
+        // Need to have arguments to create root user
+        if(!is_array($args)) {
+          return array('error', t('CMUserModule::Manage() says - Missing arguments to create the root user'));
+        }
+        $rootEmail = $args['rootEmail'];
+        $rootUserName = $args['rootUserName'];
+        $rootPassword = $args['rootPassword'];
+        $password = $this->CreatePassword($rootPassword);
+
+        // Create the tables if not already there
         $this->db->ExecuteQuery(self::SQL('create table user'));
         $this->db->ExecuteQuery(self::SQL('create table group'));
         $this->db->ExecuteQuery(self::SQL('create table user2group'));
-        $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonymous', 'Anonymous user', null, 'plain', null, null));
-        $password = $this->CreatePassword('root');
-        $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+
+        // Root user already exists?
+        $this->db->ExecuteQuery(self::SQL('select user by id'), array(1));
+        if($this->db->RowCount()) {
+          return array('error', t('You can not create a root user since there is already a root-user with id=1.'));
+        }
+
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array($rootUserName, 'The Root User', $rootEmail, $password['algorithm'], $password['salt'], $password['password']));
         $idRootUser = $this->db->LastInsertId();
-        $password = $this->CreatePassword('doe');
-        $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
-        $idDoeUser = $this->db->LastInsertId();
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonymous', 'Anonymous user', null, 'plain', null, null));
         $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
         $idAdminGroup = $this->db->LastInsertId();
         $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
         $idUserGroup = $this->db->LastInsertId();
         $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
         $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
-        $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
-        return array('success', t('Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.'));
+        return array('success', t('Database tables for users and groups are ready, as is the the root user.'));
       break;
       
       case 'export-db':
@@ -46,7 +57,7 @@ class CMUserModule extends CMUser {
       break;
       
       case 'supported-actions':
-        $actions = array('install', 'export-db');
+        $actions = array('install-root', 'export-db');
         return array('success', t('Supporting the following actions: !actions.', array('!actions'=>implode(', ', $actions))), 'actions'=>$actions);
       break;
 

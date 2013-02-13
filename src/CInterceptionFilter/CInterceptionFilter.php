@@ -4,19 +4,35 @@
  * 
  * @package LydiaCore
  */
-class CInterceptionFilter extends CObject {
+class CInterceptionFilter extends CObject implements ISingleton {
 
   /**
+   * Members
+   */
+  private static $instance = null;
+
+
+ /**
    * Constructor
    */
   public function __construct() { parent::__construct(); }
 
 
   /**
+   * Singleton pattern. Get the instance of the latest created object or create a new one. 
+   *
+   * @return CLydia The instance of this class.
+   */
+  public static function Instance() {
+    return is_null(self::$instance) ? self::$instance = new static : self::$instance;
+  }
+
+
+  /**
    * Check if user is logged in and has administrator role, redirect to login-page or
    * display forbidden depending on privilegies.
    *
-   * @returns CInterceptionFilter to allow chaining.
+   * @return CInterceptionFilter to allow chaining.
    */
   public function AuthenticatedOrLogin() {
     if(!$this->user->IsAuthenticated()) {
@@ -32,7 +48,7 @@ class CInterceptionFilter extends CObject {
    * display forbidden depending on privilegies.
    *
    * @param string $msg to display.
-   * @returns CInterceptionFilter to allow chaining.
+   * @return CInterceptionFilter to allow chaining.
    */
   public function AdminOrForbidden($msg=null) {
     $msg = isset($msg) ? $msg : t('You need admin-privileges to access this content.');
@@ -48,7 +64,7 @@ class CInterceptionFilter extends CObject {
    * without being loggedin.
    *
    * @param string $key secret key to match in config.php.
-   * @returns CInterceptionFilter to allow chaining.
+   * @return CInterceptionFilter to allow chaining.
    */
   public function MatchSecretKey($secret=null) {
     if($this->config['secret_key'] != $secret) {
@@ -62,9 +78,9 @@ class CInterceptionFilter extends CObject {
    * Check if user acronym is same as current session acronym.
    *
    * @param string $acronym
-   * @returns boolean true or false.
+   * @return boolean true or false.
    */
-  public function SessionUser($acronym) {
+  public function SessionUserMatches($acronym) {
     $user = $this->session->GetAuthenticatedUser();
     if($acronym == $user['acronym']) {
       return true;
@@ -77,7 +93,7 @@ class CInterceptionFilter extends CObject {
   /**
    * Allow creating new users or display forbidden.
    *
-   * @returns CInterceptionFilter to allow chaining.
+   * @return CInterceptionFilter to allow chaining.
    */
   public function CreateNewUserOrForbidden() {
     if(!$this->config['create_new_users']) {
@@ -90,7 +106,7 @@ class CInterceptionFilter extends CObject {
   /**
    * Is regular user or display forbidden.
    *
-   * @returns CInterceptionFilter to allow chaining.
+   * @return CInterceptionFilter to allow chaining.
    */
   public function IsRegularUserOrForbidden() {
     if(!$this->user->IsUser()) {
@@ -103,7 +119,7 @@ class CInterceptionFilter extends CObject {
   /**
    * Display forbidden for all anonomous users.
    *
-   * @returns CInterceptionFilter to allow chaining.
+   * @return CInterceptionFilter to allow chaining.
    */
   public function AnonomousToForbidden() {
     if($this->user->IsAnonomous()) {

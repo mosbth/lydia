@@ -37,6 +37,18 @@
 
 
 
+/** --------------------------------------------------------------
+ * Navbar
+ */
+#navbar1{
+  position: absolute;
+  left: 400px;
+  top: 40px;
+}
+
+
+
+
 /** ==============================================================
  * The main content area.
  *
@@ -46,10 +58,170 @@
 }
 
 
+
+/** ==============================================================
+ * User Control Panel
+ *
+ */
+.ucp {
+  h1 img.gravatar {
+    position:relative;
+    top:10px;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: @magicNumber;
+  }
+}
+
+
+
 /** ==============================================================
  * The footer column area.
  *
  */
 //#footer{border-top: 1px solid @colorBorderLight;}
+
+
+
+/** --------------------------------------------------------------
+ * Blog
+ */
+.ly-blog {
+  padding-bottom: @magicNumber;
+
+  .post {
+    margin-bottom: @magicNumber * 2;
+    h2 {
+      .anchor-anonymous();
+      border-bottom: none;
+    }
+
+    .published, 
+    .updated, 
+    .footer {
+      .font-size(@fontSizeSmall);
+      color: @color-light;
+      .anchor-anonymous();
+    }
+
+    .readmore {
+      .font-size(@fontSizeSmall);
+      color: @color-lighter;
+      .anchor-anonymous();
+    }
+
+    .published, 
+    .updated {
+      font-style:italic;
+    }
+  }
+}
+
+.ly-blog .list {
+  border-right: 1px solid #ccc;
+  padding-right: 0.5em;
+  padding-bottom: @magicNumber;
+}
+
+
+
+/** --------------------------------------------------------------
+ * Table of content TOC
+ *
+ */
+#toc {
+  
+  h4 {
+
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+    
+    li.h2 {
+
+    }
+
+    li.h3 {
+      padding-left: 0.5em;
+    }
+
+    li.h4 {
+      padding-left: 1em;
+    }
+
+    li.h5 {
+      padding-left: 1.5em;
+    }
+
+    li.h6 {
+      padding-left:2em;
+    }
+  }
+}
+ 
+ 
+
+/** --------------------------------------------------------------
+ * Figure
+ */
+figure {
+  margin-bottom: @magicNumber;
+  
+  a {
+    .clearfix();
+  }
+  
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+  
+  figcaption {
+    font-style: italic;
+    padding-top: 1em;
+  }
+}
+
+figure.left {
+  float: left;
+  margin-right: 1em;
+}
+
+figure.right {
+  float: right;
+  margin-left: 1em;
+}
+
+figure.center {
+  clear: both;
+  
+  img {
+    margin: 0 auto;
+  }
+  
+  figcaption {
+    text-align: center;
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Text and articles
+ */
+.revision-history,
+.edit {
+  .font-size(@fontSizeSmall);
+  .anchor-anonymous();
+  color: @colorBodyLighter
+}
 
 

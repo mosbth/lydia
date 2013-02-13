@@ -1122,3 +1122,16 @@ figure figcaption {
 .right {
   float: right;
 }
+.author-inline {
+  font-size: 0.875em;
+  line-height: 1.5714;
+  color: #999;
+}
+.author-inline a {
+  text-decoration: none;
+  color: inherit;
+}
+.author-inline a:hover {
+  text-decoration: underline;
+  color: #19194D;
+}

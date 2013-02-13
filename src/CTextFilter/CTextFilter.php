@@ -173,12 +173,20 @@ class CTextFilter {
   <figcaption markdown=1>{$caption}{$matches[3]}</figcaption>
 </figure>
 EOD;
+        case 'AUTHOR':
+          $name   = $matches[2];
+          $email  = $matches[3];
+          // Should use ALTERNATE URL from config.php
+          $href   = " href='" . CLydia::Instance()->CreateUrl('author', $matches[4]) . "'";
+          $text   = t('By @NAME (@EMAIL)', array('@NAME' => $name, '@EMAIL' => $email));
+          return "<span class='author-inline'><a{$href}>{$text}</a></span>\n";
         break;
 
         case 'BOOK':
           $isbn = $matches[2];
           $stores = array(
-            'Libris (bibliotek)' => "http://libris.kb.se/hitlist?q={$isbn}",
+            'BTH' => "http://bth.summon.serialssolutions.com/search/results?spellcheck=true&q={$isbn}",
+            'Libris' => "http://libris.kb.se/hitlist?q={$isbn}",
             'Google Books' => "http://books.google.com/books?q={$isbn}",
             'Bokus' => "http://www.bokus.com/bok/{$isbn}",
             'Adlibris' => "http://www.adlibris.com/se/product.aspx?isbn={$isbn}",
@@ -214,6 +222,7 @@ EOD;
     };
     $patterns = array(
       '#\[(BASEURL)\]#',
+      '/\[(AUTHOR) name=(.+) email=(.+) url=(.+)\]/',
       '/\[(IMG) src=(.+) alt=(.+)\]/',
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',

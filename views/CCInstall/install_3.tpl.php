@@ -4,9 +4,7 @@
 
 <p>Your default database is (change this in <code>site/config.php</code>):</p>
 
-<blockquote>
-<code><?=$dsn?></code>
-</blockquote>
+<pre><code><?=$dsn?></code></pre>
 
 <?php 
 global $ly;
@@ -25,7 +23,9 @@ $db_works = $ly->db === null ? false : true;
 
 
 <p>
-<a href='<?=create_url(null, null, 'step2')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step3')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step4')?>'>Continue &raquo;</a>
+<a href='<?=create_url(null, 'step2')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
+<a href='<?=create_url(null, 'step3')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
+<?php if($db_works): ?>
+<a href='<?=create_url(null, 'step4')?>'>Continue &raquo;</a>
+<?php endif; ?>
 </p>

@@ -12,15 +12,11 @@ class CRSSFeedModule {
   public static function Manage($action=null) {
     switch($action) {
       case 'install':
-        $cache = LYDIA_SITE_PATH.'/data/crssfeed';
-        if(!is_dir($cache)) {
-          if(!mkdir($cache)) {
-            return array('error', t('Could not create cache-directory.'));
-          } else {
-            return array('success', t('Created cache-directory.'));
-          }          
-        } else {
-          return array('success', t('Cache-directory is already existing.'));
+        $ret = CMModules::CreateModuleDirectory(get_parent_class());
+        switch($ret) {
+          case null:  return array('success', t('Cache-directory is already existing and is left untouched.')); break;
+          case false: return array('error', t('Could not create cache-directory.')); break;
+          default:    return array('success', t('Created cache-directory.')); break;
         }
       break;
       
@@ -37,3 +33,20 @@ class CRSSFeedModule {
 
  
 }
+
+
+/*
+        $ret = CMModules::CreateModuleDirectory(get_parent_class(), 'txt');
+        $status = 'success';
+        $msg = t('Successfully created the database tables.');
+        if($ret === null) {
+          $msg .= ' '.t('Directory in site/data already exists.');
+        } elseif($ret === false) {
+          $status = 'error';
+          $msg .= ' '.t('Failed to create directory in site/data.');
+        } else {
+          $msg .= ' '.t('Created directory in site/data.');
+        }
+        return array($status, $msg);
+
+        */

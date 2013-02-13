@@ -32,7 +32,7 @@ class CRequest {
 	 *
 	 * @param $url string the relative url or the controller
 	 * @param $method string the method to use, $url is then the controller or empty for current controller.
-	 * @param $arguments string the extra arguments to send to the method
+	 * @param $arguments string/array the extra arguments to send to the method
 	 * @returns string the url
 	 */
 	public function CreateUrl($url=null, $method=null, $arguments=null) {
@@ -51,6 +51,11 @@ class CRequest {
       $method = $this->method;
     }
     
+    // Get current arguments
+    if(is_array($arguments)) {
+      $arguments = implode('/', $arguments);
+    }
+
     // Create list of arguments if suitable
     /*$numArgs = func_num_args();
     if($numArgs > 3) {

@@ -1,0 +1,203 @@
+/** ------------------------------------------------------------------ 
+ * Make it look like dbwebb.se, builds upon Lydia.
+ */
+
+
+html.dbwebb {
+
+  /** ==============================================================
+   * Variables
+   */
+
+  @colorSiteTitle:       #444;
+  @colorSiteTitleShadow: #ccc;
+
+  @fontSizeSiteTitle: 40px;
+
+  @colorBorderBottomHeader: #bbb;
+
+
+  /** ==============================================================
+   * Header 
+   */
+  #header{
+    padding-bottom: 6px;
+    margin-top: 15px;
+    border-bottom: 1px dashed @colorBorderBottomHeader;
+  }
+
+
+  /** --------------------------------------------------------------
+   * Banner 
+   *
+   */
+  #site-title {
+    top: 0;
+    font-size: @fontSizeSiteTitle;
+    color: @colorSiteTitle;
+    text-shadow: 2px -2px 2px @colorSiteTitleShadow;
+  }
+
+
+  /** --------------------------------------------------------------
+   * Navbar
+   */
+  #navbar1{
+    position: relative;
+    left: 180px;
+    top: 0;
+  }
+
+
+}
+
+
+
+/** ==============================================================
+ * The footer column area.
+ *
+ */
+#inner-wrap-footer-column {
+  padding-top: 2em;
+  margin-bottom: @magicNumber;
+}
+
+#inner-wrap-footer {
+  border-top: 1px solid @colorBorderLight;
+
+}
+
+#inner-wrap-footer,
+#inner-wrap-footer-column {
+  a {
+    color: inherit;
+
+    &:hover {
+      color: @anchorColorHover;
+    }
+  }
+}
+
+
+/** --------------------------------------------------------------
+ * IRC
+ */
+.irclog {
+  .font-size(@fontSizeSmall);
+  word-wrap: break-word;
+  
+  .time {
+    color: @colorBodyLighter;
+  }
+  
+  .user {
+
+  }
+  
+  .msg {
+
+  }
+}
+
+
+
+ /** --------------------------------------------------------------
+ * Frontpage
+ */
+ .box,
+ .box-frontpage {
+  h4 {
+    background-color: @bgColorHtml;
+    #gradient .vertical(@bgColorHtml, @bgColorBody);
+    padding: 6px 0;
+    border-top: 1px solid @colorBorderLight;
+    border-bottom: 1px solid @colorBorderLight;
+    margin-bottom: @magicNumber / 2;
+    text-align: center;
+  }
+
+  p {
+    .font-size(@fontSizeSmall);
+  }
+
+  h4 a {
+    color: @colorBody;
+    text-decoration: none;
+    display: block;
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      color: @anchorColorHover;
+      text-decoration: underline;
+    }
+  }
+  
+  ul {
+    /*padding-left: 0;*/
+    list-style: circle;
+  }
+}
+
+
+ul.article-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+
+  li {
+    padding-bottom: 0.5em;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  a {
+    .font-size(@fontSizeSmall);
+    color: @colorBody;
+    text-decoration: none;
+    //display: block;
+
+    &:first-letter {
+      font-weight: bold;
+    }
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      color: @anchorColorHover;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+/** --------------------------------------------------------------
+* Misc.
+*/
+a.button {
+  display: block;
+  padding: 1em;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid @colorBorderLight;
+  .border-radius(40px);
+  color: @colorBody;
+  background-color: @bgColorHtml;
+  .box-shadow(2px 2px 2px 2px @grey);
+
+  &:hover {
+    color: @anchorColorHover;
+    text-decoration: underline;
+    background-color: darken(@bgColorHtml, 10%);
+    border-color: darken(@colorBorderLight, 10%);
+  }
+}
+
+
+

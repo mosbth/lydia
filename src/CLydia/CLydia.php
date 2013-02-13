@@ -13,75 +13,85 @@ class CLydia implements ISingleton/*, IModule*/ {
 	public $config = array();
 	public $request;
 	public $data;
-	public $db;
+	public $db = null;
 	public $views;
 	public $session;
 	public $user;
 	public $timer = array();
 	
 	
-	/**
-	 * Constructor
-	 */
-	protected function __construct() {
-		// time page generation
-		$this->timer['first'] = microtime(true); 
+  /**
+   * Constructor
+   */
+  protected function __construct() {  }
+  
+  
+  /**
+   * Init the class, can not do init in constructor since the class itself is used during Init-process.
+   */
+  public function Init() {
+    // time page generation
+    $this->timer['first'] = microtime(true); 
 
-		// include the site specific config.php and create a ref to $ly to be used by config.php
-		$ly = &$this;
+    // Set default date/time-zone
+    date_default_timezone_set('UTC');
+    
+    // All internal character encoding to utf-8
+    mb_internal_encoding('UTF-8');
+    
+    // include the site specific config.php and create a ref to $ly to be used by config.php
+    $ly = &$this;
     require(LYDIA_SITE_PATH.'/config.php');
 
-		// Start a named session
-		session_name($this->config['session_name']);
-		session_start();
-		$this->session = new CSession($this->config['session_key']);
-		$this->session->PopulateFromSession();
-		
-		// Set default date/time-zone
-		date_default_timezone_set('UTC');
-		
-		// All internal character encoding to utf-8
-	  mb_internal_encoding('UTF-8');
-		
-		// Setup i18n, internationalization and multi-language support
+    // Setup i18n, internationalization and multi-language support
     @putenv('LC_ALL='.$this->config['language']); // Will not work in safe_mode, ignore warning.
     setlocale(LC_ALL, $this->config['language']);
     if($this->config['i18n']) {
-  		bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
+      bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
       bind_textdomain_codeset('lydia', 'UTF-8'); 
-	  	textdomain('lydia');
-	  }
-		
-		// Create a database object.
-		if(isset($this->config['database'][0]['dsn'])) {
-		  try{
-    		$this->db = new CDatabase($this->config['database'][0]['dsn']);
-    	} catch(Exception $e) {
-    	  //die('<p>Lydia says: I could not read (or create) the default database. Ensure that the <code>site/data</code> directory is writable by the webserver.<p><p><code>cd lydia; chmod 777 site/data</code></p>');
-    	}
-  	}
-  	
-  	// Create a container for all views and theme data
-  	$this->views = new CViewContainer();
+      textdomain('lydia');
+    }
+    
+    // Start a named session
+    session_name($this->config['session_name']);
+    session_start();
+    $this->session = new CSession($this->config['session_key']);
+    $this->session->PopulateFromSession();
+    
+    // Create a database object.
+    if(isset($this->config['database'][0]['dsn'])) {
+      try{
+        $this->db = new CDatabase($this->config['database'][0]['dsn']);
+      } catch(Exception $e) {
+        //die('<p>Lydia says: I could not read (or create) the default database. Ensure that the <code>site/data</code> directory is writable by the webserver.<p><p><code>cd lydia; chmod 777 site/data</code></p>');
+      }
+    }
+    
+    // Create a container for all views and theme data
+    $this->views = new CViewContainer();
 
-  	// Create a object for the user
-  	$this->user = new CMUser($this);
+    // Create a object for the user
+    $this->user = new CMUser($this);
+
+    return $this;
   }
   
+
   
   /**
 	 * Singleton pattern. Get the instance of the latest created object or create a new one. 
 	 * @return CLydia The instance of this class.
 	 */
 	public static function Instance() {
-		return is_null(self::$instance) ? self::$instance = new CLydia() : self::$instance;
+		return is_null(self::$instance) ? self::$instance = new static : self::$instance;
 	}
 	
+
 
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) {
+  /*public function Manage($action=null) {
     switch($action) {
       case 'preinstall':
         // Check gettext
@@ -99,7 +109,7 @@ class CLydia implements ISingleton/*, IModule*/ {
         throw new Exception('Unsupported action for this module.');
       break;
     }
-  }
+  }*/
 
  
 	/**
@@ -113,18 +123,20 @@ class CLydia implements ISingleton/*, IModule*/ {
     $method     = $this->request->method;
     $arguments  = $this->request->arguments;
     
+    // If the install controller is enabled, then redirect all traffic there.
+    $installController = 'install';
+    if(isset($this->config['controllers'][$installController]) && 
+       $this->config['controllers'][$installController]['enabled'] && 
+       ($controller != $installController)) {
+      $controller = $installController;
+    }
+
     // Is the controller enabled in config.php?
     $controllerExists 	= isset($this->config['controllers'][$controller]);
-    $controllerEnabled 	= false;
-    $className			    = false;
-    $classExists 		    = false;
+    $controllerEnabled 	= $controllerExists ? $this->config['controllers'][$controller]['enabled'] : false;
+    $className			    = $controllerExists ? $this->config['controllers'][$controller]['class']   : false;
+    $classExists 		    = $controllerExists ? class_exists($className) : false;
 
-    if($controllerExists) {
-      $controllerEnabled 	= ($this->config['controllers'][$controller]['enabled'] == true);
-      $className					= $this->config['controllers'][$controller]['class'];
-      $classExists 		    = class_exists($className);
-    }
-    
     // Check if controller has a callable method in the controller class, if then call it
     if($controllerExists && $controllerEnabled && $classExists) {
       $rc = new ReflectionClass($className);
@@ -160,7 +172,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     }
 */
     else { 
-      $this->ShowErrorPage(404, 'Page is not found.');
+      $this->ShowErrorPage(404, t('Page is not found.'));
     }
   }
   
@@ -197,7 +209,8 @@ class CLydia implements ISingleton/*, IModule*/ {
     // Map menu to region if defined
     if(is_array($this->config['theme']['region_to_menu'])) {
       foreach($this->config['theme']['region_to_menu'] as $key => $val) {
-        $this->views->AddString($this->DrawMenu($val), null, $key);
+        //$this->views->AddString($this->DrawMenu($val), null, $key);
+        $this->views->AddString($this->CreateMenu($val), null, $key);
       }
     }
 
@@ -295,13 +308,22 @@ class CLydia implements ISingleton/*, IModule*/ {
   }
 
 
-	/**
-	 * Redirect to a method within the current controller. Defaults to index-method. Uses RedirectTo().
-	 *
-	 * @param string method name the method, default is index method.
-	 * @param $arguments string the extra arguments to send to the method
-	 */
-	public function RedirectToController($method=null, $arguments=null) {
+  /**
+   * Redirect to the current url. Uses RedirectTo().
+   *
+   */
+  public function RedirectToCurrent() {
+    $this->RedirectTo($this->request->controller, $this->request->method, $this->request->arguments);
+  }
+
+
+  /**
+   * Redirect to a method within the current controller. Defaults to index-method. Uses RedirectTo().
+   *
+   * @param string method name the method, default is index method.
+   * @param $arguments string the extra arguments to send to the method
+   */
+  public function RedirectToController($method=null, $arguments=null) {
     $this->RedirectTo($this->request->controller, $method, $arguments);
   }
 
@@ -344,6 +366,7 @@ class CLydia implements ISingleton/*, IModule*/ {
 	 * @param $urlOrController string the relative url or the controller
 	 * @param $method string the method to use, $url is then the controller or empty for current
 	 * @param $arguments string the extra arguments to send to the method
+   * @return string as the url.
 	 */
 	public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
     return $this->request->CreateUrl($urlOrController, $method, $arguments);
@@ -351,91 +374,101 @@ class CLydia implements ISingleton/*, IModule*/ {
 
 
 	/**
-	 * Create an url to current controller, wrapper for CreateUrl().
-	 *
-	 * @param $method string the method to use, $url is then the controller or empty for current
-	 * @param $arguments string the extra arguments to send to the method
-	 */
-	public function CreateUrlToController($method=null, $arguments=null) {
+   * Create an url to current controller, wrapper for CreateUrl().
+   *
+   * @param $method string the method to use, $url is then the controller or empty for current
+   * @param $arguments string the extra arguments to send to the method
+   * @return string as the url.
+   */
+  public function CreateUrlToController($method=null, $arguments=null) {
     return $this->request->CreateUrl($this->request->controller, $method, $arguments);
   }
 
 
   /**
-   * Draw HTML for a menu defined in $ly->config['menus'].
+   * Create an url to current controller and current method, wrapper for CreateUrl().
    *
-   * @param $aMenu string/array either key to the menu in the config-array or array with menu-items.
-   * @returns string with the HTML representing the menu.
+   * @param $arguments string the extra arguments to send to the method
+   * @return string as the url.
    */
-  public function DrawMenu($aMenu) {
-    if(is_array($aMenu)) {
-      $menu = $aMenu;
-      $class = null;
-    } else if(isset($this->config['menus'][$aMenu])) {
-      $menu = $this->config['menus'][$aMenu];
-      $class = " $aMenu";
-    } else {
-      throw new Exception('No such menu.');
-    }     
-
-    $items = null;
-    foreach($menu as $val) {
-      if(isset($val['label'])) {
-        $selected = null;
-        $title = null;
-        if(in_array($val['url'], array($this->request->request, $this->request->routed_from)) || 
-           substr_compare($val['url'], $this->request->controller, 0) == 0 ||
-           strncmp($this->request->routed_from, $val['url'],  strlen($val['url'])) == 0) {
-          $selected = " class='selected'";
-        }
-        if(isset($val['title'])) {
-          $title = " title='{$val['title']}'";
-        }
-        $items .= "<li{$selected}><a{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
-      }
-      if(isset($val['items'])) {
-        $items .= "<li>" . $this->DrawMenu($val['items']) . "</li>\n";
-      }
-    }
-    return "<ul class='menu{$class}'>\n{$items}</ul>\n";
+  public function CreateUrlToControllerMethod($arguments=null) {
+    return $this->request->CreateUrl($this->request->controller, $this->request->method, $arguments);
   }
 
 
+
   /**
-   * Create a menu from an array.
+   * Create a menu from an array or use a predefined array from $ly->config['menus'].
    * 'items' => array(
    *    array('label'=>'visible label', 'url'=>'url/to', 'title'=> 'display when hovering'),
    * );
    *
-   * @param array $options array with details from which the menu is constructed.
-   * @returns string with the HTML representing the menu.
+   * @param  array $options array with details from which the menu is constructed.
+   * @return string with the HTML representing the menu.
+   *
    */
   public function CreateMenu($options) {
     $default = array(
-      'items' => array(),
+      'id' => null,
       'class' => null,
+      'items' => array(),
     );
+
+    // If not an array, check if the menu is predefined in config.
+    if(!is_array($options) && isset($this->config['menus'][$options])) {
+      $options = $this->config['menus'][$options];
+    }
     $options = array_merge($default, $options);
-    
+
+    // Walkthrough all items
     $items = null;
     foreach($options['items'] as $val) {
       $selected = null;
-      $link = null;
-      if(in_array($val['url'], array($this->request->request, $this->request->routed_from)) || substr_compare($val['url'], $this->request->controller, 0) == 0) {
-        $selected = " class='selected'";
-        //$link = $val['label'];
-      }
-      $title = isset($val['title']) ? : null;
-      $link = isset($link) ? $link : "<a{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a>";
-      $items .= "<li{$selected}>{$link}</li>\n";
+     
+      // Has submenu?
+      $submenu = null;
+      if(isset($val['items'])) {
+        $subitems = null;
 
-/*      if(isset($val['items'])) {
-        $items .= $this->DrawMenu($val['items']);
-      }*/
+        foreach($val['items'] as $subitem) {
+          $subSelected = null;
+
+          // Current item selected?
+          if(in_array($subitem['url'], array($this->request->request, $this->request->routed_from)) || 
+            substr_compare($subitem['url'], $this->request->controller, 0) == 0 ||
+            strncmp($this->request->routed_from, $subitem['url'],  strlen($subitem['url'])) == 0) {
+            $subSelected = " class='selected'";
+            $selected = " class='selected'";
+          }
+
+          $title = isset($subitem['title']) ? " title='{$subitem['title']}'" : null;
+          $link = "<a{$title} href='" . $this->CreateUrl($subitem['url']) . "'>{$subitem['label']}</a>";
+          $subitems .= "<li{$subSelected}>{$link}</li>\n";
+        }
+
+        $submenu = "<ul>\n{$subitems}</ul>\n";
+      }
+
+      // Current item selected?
+      if(!empty($val['url'])) {
+        if($selected ||
+           in_array($val['url'], array($this->request->request, $this->request->routed_from)) || 
+           substr_compare($val['url'], $this->request->controller, 0) == 0 ||
+           strncmp($this->request->routed_from, $val['url'],  strlen($val['url'])) == 0) {
+          $selected = " class='selected'";
+        }
+      }
+
+      $title = isset($val['title']) ? " title='{$val['title']}'" : null;
+      $link = "<a{$title} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a>";
+      $items .= "<li{$selected}>{$link}{$submenu}</li>\n";
     }
-    $class = isset($options['class']) ? ' '.$options['class'] : null;
-    return "<ul class='menu{$class}'>\n{$items}</ul>\n";
+
+    $id    = isset($options['id'])    ? " id='{$options['id']}'" : null;
+    $class = isset($options['class']) ? " class='{$options['class']}'" : null;
+    return "<ul{$id}{$class}>\n{$items}</ul>\n";
   }
+
 
 
   /**
@@ -444,7 +477,7 @@ class CLydia implements ISingleton/*, IModule*/ {
    * @param array $items to use in breadcrumb.
    * @param string $separator to use as separator.
    * @param array $options to use when creating the breadcrumb.
-   * @returns string with the HTML representing the breadcrumb.
+   * @return string with the HTML representing the breadcrumb.
    */
   public function CreateBreadcrumb($items=array(), $separator='&raquo;', $options=array()) {
     $default = array(
@@ -471,7 +504,7 @@ class CLydia implements ISingleton/*, IModule*/ {
    * @param string $module name of the module owning the view.
    * @param string $view filename of the view.
    * @param boolean $original set to true to override the site-version of the view, default is false.
-   * @returns string with the absolute filename or false if no filename exists.
+   * @return string with the absolute filename or false if no filename exists.
    */
   public function LoadView($module, $view, $original=false) {
     $path1 = LYDIA_SITE_PATH . "/views/$module/$view";

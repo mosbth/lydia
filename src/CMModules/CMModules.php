@@ -294,14 +294,14 @@ class CMModules extends CObject {
   
 
   /**
-   * Create a directory in site/data for a specific module.
+   * Create a directory in site/data for a specific module, using only lowercase letters.
    *
    * @param string $module, the classname of the module.
-   * @param string $directory, the classname of the module.
+   * @param string $directory, a subdirectory which defaults to null.
    * @returns mixed null if directory exists, true if created false if failed.
    */
-   public static function CreateModuleDirectory($module, $directory) {
-    $path = LYDIA_SITE_PATH."/data/$module/$directory";
+   public static function CreateModuleDirectory($module, $directory=null) {
+    $path = LYDIA_SITE_PATH.strtolower("/data/$module/$directory");
     if(is_dir($path)) return null;
     if(mkdir($path, 0777, true)) return true;
     return false;

@@ -43,18 +43,60 @@ class CFormElement implements ArrayAccess{
 
 
   /**
+   * Create a formelement from an array, factory returns the correct type. 
+   *
+   * @param string name of the element.
+   * @param array attributes to use when creating the element.
+   * @return the instance of the form element.
+   */
+  public static function Create($name, $attributes) {
+    $types = array(
+      'text'              => 'CFormElementText',
+      'textarea'          => 'CFormElementTextArea',
+      'password'          => 'CFormElementPassword',
+      'hidden'            => 'CFormElementHidden',
+      'checkbox'          => 'CFormElementCheckbox',
+      'checkbox-multiple' => 'CFormElementCheckboxMultiple',
+      'select'            => 'CFormElementSelect',
+      'submit'            => 'CFormElementSubmit',
+    );
+
+    $type = isset($attributes['type']) ? $attributes['type'] : null;
+
+    if($type && isset($types[$type])) {
+      return new $types[$type]($name, $attributes);
+    } else {
+      throw new Exception("Form element does not exists and can not be created: $name - $type");
+    }
+  }
+
+
+
+  /**
    * Get HTML code for a element. 
    *
-   * @returns HTML code for the element.
+   * @return HTML code for the element.
+   */
+  public function GetElementId() {
+    return ($this['id'] = isset($this['id']) ? $this['id'] : 'form-element-' . $this['name']);
+  }
+
+
+
+  /**
+   * Get HTML code for a element. 
+   *
+   * @return HTML code for the element.
    */
   public function GetHTML() {
-    $id = isset($this['id']) ? $this['id'] : 'form-element-' . $this['name'];
+    $id =  $this->GetElementId();
     $class = isset($this['class']) ? " {$this['class']}" : null;
     $validates = (isset($this['validation-pass']) && $this['validation-pass'] === false) ? ' validation-failed' : null;
     $class = (isset($class) || isset($validates)) ? " class='{$class}{$validates}'" : null;
     $name = " name='{$this['name']}'";
     $label = isset($this['label']) ? ($this['label'] . (isset($this['required']) && $this['required'] ? "<span class='form-element-required'>*</span>" : null)) : null;
     $autofocus = isset($this['autofocus']) && $this['autofocus'] ? " autofocus='autofocus'" : null;    
+    $required = isset($this['required']) && $this['required'] ? " required='required'" : null;    
     $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;    
     $checked = isset($this['checked']) && $this['checked'] ? " checked='checked'" : null;    
     $type   = isset($this['type']) ? " type='{$this['type']}'" : null;
@@ -71,15 +113,19 @@ class CFormElement implements ArrayAccess{
       $messages = "<ul class='validation-message'>\n{$message}</ul>\n";
     }
     
-    if($type && $this['type'] == 'submit') {
+    if($this['type'] == 'submit') {
       return "<span><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></span>\n";
-    } else if($type && $this['type'] == 'textarea') {
-      return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
-    } else if($type && $this['type'] == 'hidden') {
+    } 
+    else if($this['type'] == 'textarea') {
+      return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$required}{$readonly}>{$onlyValue}</textarea></p>\n"; 
+    } 
+    else if($this['type'] == 'hidden') {
       return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
-    } else if($type && $this['type'] == 'checkbox') {
-      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
-    } else if($type && $this['type'] == 'checkbox-multiple') {
+    } 
+    else if($this['type'] == 'checkbox') {
+      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
+    } 
+    else if($this['type'] == 'checkbox-multiple') {
       $type = "type='checkbox'";
       $name = " name='{$this['name']}[]'";
       $ret = null;
@@ -91,8 +137,16 @@ class CFormElement implements ArrayAccess{
         $ret .= "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked} /><label for='$id'>$label</label>{$messages}</p>\n"; 
       }
       return "<div><p>{$description}</p>{$ret}</div>";
-    } else {
-      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";        
+    } 
+    else if($this['type'] == 'select') {
+      $options = null;
+      foreach($this['options'] as $optValue => $optText) {
+        $options .= "<option value='{$optValue}'" . (($this['value'] == $optValue) ? " selected" : null) . ">{$optText}</option>\n";
+      }
+      return "<p><label for='$id'>$label</label><br/>\n<select id='$id'{$class}{$name}{$autofocus}{$required}{$readonly}{$checked}>\n{$options}</select>{$messages}</p>\n"; 
+    } 
+    else {
+      return "<p><label for='$id'>$label</label><br/>\n<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly} />{$messages}</p>\n";        
     }
   }
 
@@ -110,10 +164,12 @@ class CFormElement implements ArrayAccess{
       'fail' => array('message' => 'Will always fail.', 'test' => 'return false;'),
       'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
       'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
+      'not_equal' => array('message' => 'Value not valid.', 'test' => 'return $value != $arg;'),
       'numeric' => array('message' => 'Must be numeric.', 'test' => 'return is_numeric($value);'),
-      'mail_address' => array('message' => 'Must be an emailaddress.', 'test' => function($value) { return preg_match('/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i', $value) === 1; } ),
+      'email_adress' => array('message' => 'Must be an email adress.', 'test' => function($value) { return preg_match('/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i', $value) === 1; } ),
       'match' => array('message' => 'The field does not match.', 'test' => 'return $value == $form[$arg]["value"] ;'),
       'must_accept' => array('message' => 'You must accept this.', 'test' => 'return $checked;'),
+      'custom_test' => true,
     );
 
     $pass = true;
@@ -123,18 +179,19 @@ class CFormElement implements ArrayAccess{
 
     foreach($rules as $key => $val) {
       $rule = is_numeric($key) ? $val : $key;
-      if(!isset($tests[$rule])) throw new Exception('Validation of form element failed, no such validation rule exists.');
+      if(!isset($tests[$rule])) throw new Exception('Validation of form element failed, no such validation rule exists: $rule');
       $arg = is_numeric($key) ? null : $val;
 
+      $test = ($rule == 'custom_test') ? $arg : $tests[$rule];
       $status = null;
-      if(is_callable($tests[$rule]['test'])) {
-        $status = $tests[$rule]['test']($value);
+      if(is_callable($test['test'])) {
+        $status = $test['test']($value);
       } else {
-        $status = eval($tests[$rule]['test']);
+        $status = eval($test['test']);
       }
 
       if($status === false) {
-        $messages[] = $tests[$rule]['message'];
+        $messages[] = $test['message'];
         $pass = false;
       }
     }
@@ -258,6 +315,23 @@ class CFormElementCheckboxMultiple extends CFormElement {
 }
 
 
+class CFormElementSelect extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type']     = 'select';
+    $this->UseNameAsDefaultLabel();
+   //$this['checked']  = isset($attributes['checked']) ? $attributes['checked'] : false;
+    //$this['value']    = isset($attributes['value']) ? $attributes['value'] : $name;
+  }
+}
+
+
 class CFormElementSubmit extends CFormElement {
   /**
    * Constructor
@@ -287,7 +361,11 @@ class CForm implements ArrayAccess {
    */
   public function __construct($form=array(), $elements=array()) {
     $this->form = $form;
-    $this->elements = $elements;
+    if(!empty($elements)) {
+      foreach($elements as $key => $element) {
+        $this->elements[$key] = CFormElement::Create($key, $element);
+      }
+    }
   }
 
 
@@ -304,10 +382,22 @@ class CForm implements ArrayAccess {
    * Add a form element
    *
    * @param $element CFormElement the formelement to add.
-   * @returns $this CForm
+   * @return $this CForm
    */
   public function AddElement($element) {
     $this[$element['name']] = $element;
+    return $this;
+  }
+  
+
+  /**
+   * Remove an form element
+   *
+   * @param $name string the name of the element to remove from the form.
+   * @return $this CForm
+   */
+  public function RemoveElement($name) {
+    unset($this->elements[$name]);
     return $this;
   }
   
@@ -317,7 +407,7 @@ class CForm implements ArrayAccess {
    *
    * @param $element string the name of the formelement to add validation rules to.
    * @param $rules array of validation rules.
-   * @returns $this CForm
+   * @return $this CForm
    */
   public function SetValidation($element, $rules) {
     $this[$element]['validation'] = $rules;
@@ -326,26 +416,43 @@ class CForm implements ArrayAccess {
   
 
   /**
+   * Get value of a form element
+   *
+   * @param $element string the name of the formelement.
+   * @return mixed the value of the element.
+   */
+  public function Value($element) {
+    return $this[$element]['value'];
+  }
+  
+
+  /**
    * Return HTML for the form or the formdefinition.
    *
-   * @param $attributes array with attributes affecting the form output.
-   * @returns string with HTML for the form.
+   * @param $options array with options affecting the form output.
+   * @return string with HTML for the form.
    */
-  public function GetHTML($attributes=null) {
-    if(is_array($attributes)) {
-      $this->form = array_merge($this->form, $attributes);
-    }
+  public function GetHTML($options=array()) {
+    $defaults = array(
+      'start'          => false,  // Only return the start of the form element
+      'columns'        => 1,      // Layout all elements in one column
+      'use_buttonbar'  => true,   // Layout consequtive buttons as one element wrapped in <p>
+    );
+    $options = array_merge($defaults, $options);
+
+    $this->form = array_merge($this->form, $options);
     $id     = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
     $class  = isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
     $name   = isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
     $action = isset($this->form['action'])  ? " action='{$this->form['action']}'" : null;
     $method = " method='post'";
 
-    if(isset($attributes['start']) && $attributes['start']) {
+    if($options['start']) {
       return "<form{$id}{$class}{$name}{$action}{$method}>\n";
     }
     
-    $elements = $this->GetHTMLForElements();
+    $elementsArray  = $this->GetHTMLForElements($options);
+    $elements       = $this->GetHTMLLayoutForElements($elementsArray, $options);
     $html = <<< EOD
 \n<form{$id}{$class}{$name}{$action}{$method}>
 <fieldset>
@@ -359,24 +466,116 @@ EOD;
 
   /**
    * Return HTML for the elements
+  *
+   * @param $options array with options affecting the form output.
+   * @return array with HTML for the formelements.
    */
-  public function GetHTMLForElements() {
-    $html = null;
-    $buttonbar = null;
-    foreach($this->elements as $element) {
-      // Wrap buttons in buttonbar.
-      if(!$buttonbar && $element['type'] == 'submit') {
-        $buttonbar = true;
-        $html .= '<p>';
-      } else if($buttonbar && $element['type'] != 'submit') {
-        $buttonbar = false;
-        $html .= "</p>\n";
+  public function GetHTMLForElements($options=array()) {
+    $defaults = array(
+      'use_buttonbar' => true,
+    );
+    $options = array_merge($defaults, $options);
+
+    $elements = array();
+    //reset($this->elements);
+    while(list($key, $element) = each($this->elements)) {
+      
+      // Create a buttonbar?
+      if($element['type'] == 'submit' && $options['use_buttonbar']) {
+        $name = 'buttonbar';
+        $html = "<p class='buttonbar'>\n" . $element->GetHTML() . '&nbsp;';
+        // Get all following submits (and buttons)
+        while(list($key, $element) = each($this->elements)) {
+          if($element['type'] == 'submit') {
+            $html .= $element->GetHTML();
+          } else {
+            prev($this->elements);
+            break;
+          }
+        }
+        $html .= "\n</p>";
       }
-      $html .= $element->GetHTML();
+
+      // Just add the element
+      else {
+        $name = $element['name'];
+        $html = $element->GetHTML();
+      }
+
+      $elements[] = array('name'=>$name, 'html'=> $html);
     }
+
+    return $elements;
+  }
+
+  
+
+
+  /**
+   * Place the elements according to a layout and return the HTML
+   *
+   * @param array $elements as returned from GetHTMLForElements().
+   * @param array $options with options affecting the layout.
+   * @return array with HTML for the formelements.
+   */
+  public function GetHTMLLayoutForElements($elements, $options=array()) {
+    $defaults = array(
+      'columns' => 1,
+      'wrap_at_element' => false,  // Wraps column in equal size or at the set number of elements
+    );
+    $options = array_merge($defaults, $options);
+
+    $html = null;
+    if($options['columns'] === 1) {
+      foreach($elements as $element) {
+        $html .= $element['html'];
+      }
+    }
+    else if($options['columns'] === 2) {
+      $buttonbar = null;
+      $col1 = null;
+      $col2 = null;
+      
+      $e = end($elements);
+      if($e['name'] == 'buttonbar') {
+        $e = array_pop($elements);
+        $buttonbar = "<div class='cform-buttonbar'>\n{$e['html']}</div>\n";
+      }
+
+      $size = count($elements);
+      $wrapAt = $options['wrap_at_element'] ? $options['wrap_at_element'] : round($size/2);
+      for($i=0; $i<$size; $i++) {
+        if($i < $wrapAt) {
+          $col1 .= $elements[$i]['html'];
+        } else {
+          $col2 .= $elements[$i]['html'];
+        }
+      }
+
+      $html = "<div class='cform-columns-2'>\n<div class='cform-column-1'>\n{$col1}\n</div>\n<div class='cform-column-2'>\n{$col2}\n</div>\n{$buttonbar}</div>\n";
+    }
+
     return $html;
   }
   
+
+
+  /**
+   * Get an array with all elements that failed validation together with their id and validation message.
+   *
+   * @return array with elements that failed validation.
+   */
+  public function GetValidationErrors() {
+    $errors = array();
+    foreach($this->elements as $name => $element) {
+      if($element['validation-pass'] === false) {
+        $errors[$name] = array('id' => $element->GetElementId(), 'label' => $element['label'], 'message' => implode(' ', $element['validation-messages']));
+      }
+    }
+    return $errors;
+  }
+
+
 
   /**
    * Check if a form was submitted and perform validation and call callbacks.
@@ -384,16 +583,19 @@ EOD;
    * to the original form page, the form will populate from the session and should be rendered again.
    * Form elements may remember their value if 'remember' is set and true.
    *
-   * @returns mixed, $callbackStatus if submitted&validates, false if not validate, null if not submitted.
+   * @return mixed, $callbackStatus if submitted&validates, false if not validate, null if not submitted. 
+   *         If submitted the callback functino will return the actual value which should be true or false.
    */
   public function Check() {
     $remember = null;
     $validates = null;
     $callbackStatus = null;
     $values = array();
+    
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       unset($_SESSION['form-failed']);
       $validates = true;
+
       foreach($this->elements as $element) {
 
         // The form element has a value set
@@ -418,10 +620,13 @@ EOD;
               $validates = false;
             }
           }
+
           if(isset($element['remember']) && $element['remember']) {
             $values[$element['name']] = array('value'=>$element['value']);
             $remember = true;
           }
+
+          // Carry out the callback if the form validates
           if(isset($element['callback']) && $validates) {
             if(isset($element['callback-args'])) {
               $callbackStatus = call_user_func_array($element['callback'], array_merge(array($this), $element['callback-args']));
@@ -430,6 +635,7 @@ EOD;
             }
           }
         } 
+
         // The form element has no value set
         else {
 

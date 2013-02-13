@@ -1,23 +1,19 @@
-<h1>Install all modules</h1>
+<h1>Login as the root user</h1>
 
-<p>Lydia is built by modules and each module has a installation phase which usually means creating the database tables and a directory in the <code>site/data</code> area.</p>
+<p>You need to login as root to carry out the final installation steps.</p>
 
-<table>
-<caption><?=t('Results from each module affected.')?></caption>
-<thead>
-  <tr><th><?=t('Module')?></th><th><?=t('Result')?></th></tr>
-</thead>
-<tbody>
-<?php $output = null; ?>
-<?php foreach($modules as $module): ?>
-  <tr><td><?=esc($module['name'])?></td><td><div class='<?=$module['result'][0]?>'><?=esc($module['result'][1])?></div></td></tr>
-<?php endforeach; ?>
-</tbody>
-</table>
+<?=$form->GetHTML()?>
 
+<?php if($isAdmin): ?>
+<p><em>You are logged in as the root user and can proceed with the final steps.</em></p>
+<?php else: ?>
+<p><em>You need to login as root before you can proceed with the final steps.</em></p>
+<?php endif; ?>
 
 <p>
-<a href='<?=create_url(null, null, 'step4')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step5')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
-<a href='<?=create_url(null, null, 'step6')?>'>Continue &raquo;</a>
+<a href='<?=create_url(null, 'step4')?>'>&laquo; Back</a>&nbsp;&nbsp;&nbsp;
+<a href='<?=create_url(null, 'step5')?>'>Reload this step to check status again...</a>&nbsp;&nbsp;&nbsp;
+<?php if($isAdmin): ?>
+<a href='<?=create_url(null, 'step6')?>'>Continue &raquo;</a>
+<?php endif; ?>
 </p>

@@ -39,15 +39,26 @@ class CViewContainer {
   }
 
 
-	/**
-	 * Set any variable that should be available for the theme engine.
-	 *
-	 * @param $value string to be set as title.
-	 * @returns $this.
-	 */
-	public function SetVariable($key, $value) {
-	  $this->data[$key] = $value;
-	  return $this;
+  /**
+   * Set any variable that should be available for the theme engine.
+   *
+   * @param $value string to be set as title.
+   * @return $this.
+   */
+  public function SetVariable($key, $value) {
+    $this->data[$key] = $value;
+    return $this;
+  }
+
+  
+  /**
+   * Get variable that should be available for the theme engine.
+   *
+   * @param $value string to be set as title.
+   * @return mixed as variable value or null if it does not exists.
+   */
+  public function GetVariable($key) {
+    return isset($this->data[$key]) ? $this->data[$key] : null ;
   }
 
   
@@ -55,7 +66,7 @@ class CViewContainer {
    * Add inline style.
    *
    * @param $value string to be added as inline style.
-   * @returns $this.
+   * @return $this.
    */
   public function AddStyle($value) {
     if(isset($this->data['inline_style'])) {
@@ -74,7 +85,7 @@ class CViewContainer {
    * @param $file string path to the file to be included.
    * @param $vars array containing the variables that should be avilable for the included file.
    * @param $region string the theme region, uses string 'default' as default region.
-   * @returns $this.
+   * @return $this.
    */
   public function AddInclude($file, $variables=array(), $region='default') {
     $this->views[$region][] = array('type' => 'include', 'file' => $file, 'variables' => $variables);
@@ -88,7 +99,7 @@ class CViewContainer {
    * @param string $region the theme region.
    * @param string $file path to the file to be included. 
    * @param array $vars containing the variables that should be avilable for the included file.
-   * @returns $this.
+   * @return $this.
    */
   public function AddIncludeToRegion($region, $file, $variables=array()) {
     if(empty($file)) throw new Exception(t('View filename is empty.'));
@@ -104,33 +115,57 @@ class CViewContainer {
    * @param $string string content to be displayed.
    * @param $vars array containing the variables that should be avilable for the included file.
    * @param $region string the theme region, uses string 'default' as default region.
-   * @returns $this.
+   * @return $this.
    */
   public function AddString($string, $variables=array(), $region='default') {
     $this->views[$region][] = array('type' => 'string', 'string' => $string, 'variables' => $variables);
     return $this;
   }
-  
-        
+
+
   /**
    * Add text and optional variables.
    *
    * @param string $region the theme region.
    * @param string $string content to be displayed.
    * @param array $vars containing the variables that should be available for the string.
-   * @returns $this.
+   * @return $this.
    */
   public function AddStringToRegion($region, $string, $variables=array()) {
     $this->views[$region][] = array('type' => 'string', 'string' => $string, 'variables' => $variables);
     return $this;
   }
+
+
+  /**
+   * Add class to region.
+   *
+   * @param string $region the theme region.
+   * @param string $class the class to add.
+   * @return $this.
+   */
+  public function AddClassToRegion($region, $class) {
+    $this->views[$region]['class'] = $class;
+    return $this;
+  }
+
+
+  /**
+   * Check if there is a class attribute attached to the view.
+   *
+   * @param string $region the theme region(s).
+   * @return mixed boolean true if region has a class else null.
+   */
+  public function RegionHasClass($region) {
+    return isset($this->views[$region]['class']) ? $this->views[$region]['class'] : null;
+  }
   
-        
+  
   /**
    * Check if there exists views for a specific region.
    *
    * @param $region string/array the theme region(s).
-   * @returns boolean true if region has views, else false.
+   * @return boolean true if region has views, else false.
    */
   public function RegionHasView($region) {
     if(is_array($region)) {

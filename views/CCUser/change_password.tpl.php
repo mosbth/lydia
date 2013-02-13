@@ -1,5 +1,5 @@
-<h1><?=t('Change password')?></h1>
-<p><?=t('Change your current password.')?></p>
-<?=$form?>
+<?php include($header); ?>
 
+<h2><?=t('Change password')?></h2>
+<?=$form?>
 

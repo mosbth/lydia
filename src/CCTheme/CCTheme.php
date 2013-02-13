@@ -11,7 +11,7 @@ class CCTheme extends CObject implements IController {
    * Constructor
    */
   public function __construct() { parent::__construct(); 
-    $this->views->AddStyle('body:hover{background:#fff url('.$this->request->base_url.'themes/grid/grid_12_60_20.png) repeat-y center top;}');
+    $this->views->AddStyle('body:hover{background:#fff url('.$this->request->base_url.'themes/base/img/grid_24_30_10.png) repeat-y center top;}');
   }
 
 
@@ -27,15 +27,23 @@ class CCTheme extends CObject implements IController {
       if($method->name != '__construct' && $method->name != '__destruct' && $method->name != 'Index') {
         $items[] = $this->request->controller . '/' . mb_strtolower($method->name);
       }
-   }
+    }
+
+    $data = array(
+      'theme_name' => $this->config['theme']['name'],
+      'methods' => $items,
+    );
 
     $this->views->SetTitle('Theme')
-                ->AddInclude(__DIR__ . '/index.tpl.php', array(
-                  'theme_name' => $this->config['theme']['name'],
-                  'methods' => $items,
-                ));
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), $data);
   }
 
+/*
+    $this->views->SetTitle(t('Home'))
+                ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php')
+    );
+*/
 
   /**
    * Put content in some regions.
@@ -66,11 +74,21 @@ class CCTheme extends CObject implements IController {
 
 
   /**
-   * Display text as h1h6 and paragraphs with some inline formatting.
+   * Display text as h1h6 and paragraphs with some inline formatting. OBSOLETE
    */
   public function H1H6() {
     $this->views->SetTitle('Theme testing headers and paragraphs')
-                ->AddInclude(__DIR__ . '/h1h6.tpl.php', array(), 'primary');
+                ->AddIncludeToRegion('primary', $this->LoadView('h1h6.tpl.php'));
+  }
+
+
+  /**
+   * Display text to view typographic settings
+   */
+  public function Typography() {
+    $this->views->SetTitle('Theme typography testing')
+                ->AddIncludeToRegion('primary', $this->LoadView('typography.tpl.php'))
+                ->AddIncludeToRegion('sidebar', $this->LoadView('typography_sidebar.tpl.php'));
   }
 
 

@@ -51,9 +51,10 @@ $ly->config['hashing_algorithm'] = 'sha1salt';
 
 
 /**
- * Allow or disallow creation of new user accounts.
+ * Allow or disallow creation of new user accounts. 
+ * Set to false to disable that anyone can create a new user, set true to enable.
  */
-$ly->config['create_new_users'] = true;
+$ly->config['create_new_users'] = false;
 
 
 /**
@@ -107,6 +108,7 @@ $ly->config['i18n'] = function_exists('gettext');
  * which is called in the frontcontroller phase from index.php.
  */
 $ly->config['controllers'] = array(
+  //'install'   => array('enabled' => true,'class' => 'CCInstall'),
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
   'theme'     => array('enabled' => true,'class' => 'CCTheme'),
@@ -130,6 +132,7 @@ $ly->config['controllers'] = array(
  */
 $ly->config['routing'] = array(
   'home' => array('enabled' => true, 'url' => 'index/index'),
+  'user' => array('enabled' => true, 'url' => 'user/overview'),
   //'#^kurser/(.+)$#' => array('preg' => true, 'enabled' => true, 'url' => 'index/courses'),
 );
 
@@ -163,6 +166,7 @@ $ly->config['google_analytics'] = false;
 $ly->config['piwik'] = false;
 
 
+
 /**
  * Define menus.
  *
@@ -170,25 +174,41 @@ $ly->config['piwik'] = false;
  */
 $ly->config['menus'] = array(
   'login' => array(
-    'login' => array('label'=>'login', 'url'=>'user/login', 'title'=>'Login'),
-    'logout' => array('label'=>'logout', 'url'=>'user/logout', 'title'=>'Logout'),
-    'ucp' => array('label'=>'ucp', 'url'=>'user', 'title'=>'User control panel'),
-    'acp' => array('label'=>'acp', 'url'=>'acp', 'title'=>'Admin control panel'),
+    'id'    => 'login-menu',
+    'class' => '',
+    'items' => array(
+      'login' => array('label'=>'login', 'url'=>'user/login', 'title'=>'Login'),
+      'logout' => array('label'=>'logout', 'url'=>'user/logout', 'title'=>'Logout'),
+      'ucp' => array('label'=>'ucp', 'url'=>'user', 'title'=>'User control panel'),
+      'acp' => array('label'=>'acp', 'url'=>'acp', 'title'=>'Admin control panel'),
+    ),
   ),
-  'navbar' => array(
-    'home'      => array('label'=>'Home', 'url'=>'home'),
-    'modules'   => array('label'=>'Modules', 'url'=>'module'),
-    'content'   => array('label'=>'Content', 'url'=>'content'),
-    'guestbook' => array('label'=>'Guestbook', 'url'=>'guestbook'),
-    'blog'      => array('label'=>'Blog', 'url'=>'blog'),
-    'rss'       => array('label'=>'RSS', 'url'=>'rss'),
+  'navbar-default' => array(
+    'id'    => 'navbar-default',
+    'class' => 'nb-anna',
+    'items' => array(
+      'home'      => array('label'=>'Home', 'url'=>'home'),
+      'blog'      => array('label'=>'Blog', 'url'=>'blog'),
+      'content'   => array('label'=>'Content', 'url'=>'content'),
+      'rss'       => array('label'=>'RSS', 'url'=>'rss'),
+      'theme'     => array('label'=>'Theme', 'url'=>'theme'),
+      'modules'   => array('label'=>'Modules', 'url'=>'module'),
+    ),
   ),
-  'my-navbar' => array(
-    'home'      => array('label'=>'About Me', 'url'=>'my'),
-    'blog'      => array('label'=>'My Blog', 'url'=>'my/blog'),
-    'guestbook' => array('label'=>'Guestbook', 'url'=>'my/guestbook'),
+  'navbar-ucp' => array(
+    'id'    => 'navbar-ucp',
+    'class' => 'nb-tab',
+    'items' => array(
+      'overview'  => array('label'=>t('Overview'),  'url'=>'user/overview'),
+      'content'   => array('label'=>t('Content'),   'url'=>'user/content'),
+      'profile'   => array('label'=>t('Profile'),   'url'=>'user/profile'),
+      'mail'      => array('label'=>t('Groups'),    'url'=>'user/groups'),
+      'groups'    => array('label'=>t('Mail'),      'url'=>'user/email'),
+      'password'  => array('label'=>t('Password'),  'url'=>'user/change-password'),
+    ),
   ),
 );
+
 
 
 /**
@@ -217,30 +237,37 @@ $ly->config['menus'] = array(
  * available to the template files.
  */
 $ly->config['theme'] = array(
-  'path'          => LYDIA_INSTALL_PATH . '/themes/grid',
-  'url'           => 'themes/grid',
+  'html_class'    => null,
+  'name'          => 'base',
+  'path'          => LYDIA_INSTALL_PATH . '/themes/base',
+  'url'           => 'themes/base',
   //'parent'        => LYDIA_INSTALL_PATH . '/themes/grid', 
   //'parent-url'    => 'themes/grid', 
   //'stylesheet'    => 'style.css',
-  'stylesheet'    => 'style.php',
+  'stylesheet'    => 'style/style.php',
   //'template_file' => 'index.tpl.php',
   'regions' => array('site-menu', 'breadcrumb', 'navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',
     'footer-column-one','footer-column-two','footer-column-three','footer-column-four','footer-column-five',
     'footer',
   ),
-  'region_to_menu' => array('site-menu'=>'my-navbar', 'navbar'=>'navbar'),
+  'region_to_menu' => array(
+    'navbar1' => 'navbar-default', 
+  //  'navbar2'=>'navbar-default1',
+  ),
   'data' => array(
-    'header' => 'Lydia',
-    'slogan' => 'A PHP-based MVC-inspired CMF',
-    'favicon' => 'logo_80x80.png',
-    'logo' => 'logo_80x80.png',
-    'logo_width'  => 80,
-    'logo_height' => 80,
+    'site_title' => 'Lydia',
+    'site_slogan' => 'A PHP-based MVC-inspired CMF',
+    'favicon' => 'img/logo_80x80.png',
+    //'site_logo' => 'logo_80x80.png',
+    //'site_logo_alt' => 'logo',
+    //'site_logo_width'  => 80,
+    //'site_logo_height' => 80,
+    //'custom_banner' => 'custom',
   ),
   'view_to_region' => array(
-    array('region' => 'footer', 'type' => 'string', 'content' => "<p style='line-height:1;'><code style='font-size:0.8em;line-height:1;'>&nbsp;.&nbsp;<br/>..:</code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"),
-    array('region' => 'footer-column-one',   'type' => 'include', 'content' => 'themes-grid/footer_column_one.tpl.php'),
+    array('region' => 'footer', 'type' => 'string', 'content' => "<p><code style='position:relative;'>..:<span style='position:relative;top:-8px;left:-14px;'>.</span></code>&nbsp;&nbsp;Copyright &copy; <a class='no-style' href='http://mikaelroos.se'>Mikael Roos</a> (me@mikaelroos.se) &nbsp;&nbsp;|&nbsp;&nbsp; Ronneby &bull; Bankeryd &bull; Sweden &nbsp;&nbsp;|&nbsp;&nbsp; <em><a class='no-style' href='http://dbwebb.se/lydia/'>Lydia</a> is a brainchild of <a class='no-style' href='http://dbwebb.se/'>dbwebb</a>.</em></p>"),
+  /*  array('region' => 'footer-column-one',   'type' => 'include', 'content' => 'themes-grid/footer_column_one.tpl.php'),
     array('region' => 'footer-column-two',   'type' => 'include', 'content' => 'themes-grid/footer_column_two.tpl.php'),
     array('region' => 'footer-column-three', 'type' => 'include', 'content' => 'themes-grid/footer_column_three.tpl.php'),
     array('region' => 'footer-column-four',  'type' => 'include', 'content' => 'themes-grid/footer_column_four.tpl.php'),
@@ -249,5 +276,5 @@ $ly->config['theme'] = array(
     array('region' => 'footer-column-seven', 'type' => 'include', 'content' => 'themes-grid/footer_column_seven.tpl.php'),
     array('region' => 'footer-column-eight', 'type' => 'include', 'content' => 'themes-grid/footer_column_eight.tpl.php'),
     array('region' => 'footer-column-nine',  'type' => 'include', 'content' => 'themes-grid/footer_column_nine.tpl.php'),
-  ),
+  */),
 );

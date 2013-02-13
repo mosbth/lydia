@@ -52,7 +52,7 @@
 @fontFamilyHeadings:  @fontFamilyTimes;
 @fontFamilyBody:      @fontFamilyTimes;
 @fontFamilyCode:      @fontFamilyMonospace;
-
+@fontFamilySiteTitle: @fontFamilyTimes;
 
 /**
  * Magic number for vertical rythm
@@ -87,6 +87,7 @@
 
 @fontSizeSmall: 0.875em;
 
+@fontSizeSiteTitle: 3em;
 
 
 /** --------------------------------------------------------------
@@ -96,6 +97,7 @@
 @bgColorBody: #fff;
 
 @colorBody:         #333;
+@colorBody2:        #444;
 @colorBodyLighter:  #666;
 @colorBodyLight:    #999;
 
@@ -103,16 +105,27 @@
 
 @bgColorLight: #f6f6f6;
 
-@siteTitleColor: #333;
-@siteSloganColor: #333;
-
+@colorSiteTitle: #333;
+@colorSiteSlogan: #333;
 
 @anchorColor:         #33b;
+@anchorColor2:        #448;
 @anchorColorHover:    #33f;
+@anchorColorActive:   #838;
 @anchorColorVisited:  #838;
 
 @anchorColorAnonymous:      @colorBody;
 @anchorColorAnonymousHover: #00c;
+
+@anchorTabBgColor:          lighten(@anchorColorHover, 35%);
+@anchorTabBgColorHover:     lighten(@anchorColorHover, 30%);
+@anchorTabBgColorActive:    lighten(@anchorColorHover, 35%);
+@anchorTabBgColorSelected:  @bgColorBody;
+
+@colorBorderTabElement:         #aaa;
+@colorBorderTabElementHover:    #777;
+@colorBorderTabElementSelected: #999;
+@colorBorderTabBottom:          #ccc;
 
 @colorMark:   @colorBody;
 @bgColorMark: #eee;
@@ -123,4 +136,7 @@
 @colorTableRowHover:        #222;
 @bgColorTableStripe:        @bgColorLight;
 
+@colorMenuItems:          #444;
+@colorMenuItemsHover:     #222;
+@colorMenuItemsSelected:  #000;
 

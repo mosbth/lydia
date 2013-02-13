@@ -15,7 +15,8 @@ define('LYDIA_SITE_PATH', LYDIA_INSTALL_PATH . '/site');
 
 require(LYDIA_INSTALL_PATH.'/src/bootstrap.php');
 
-$ly = CLydia::Instance();
+$ly = CLydia::Instance()->Init();
+
 
 // Allow siteowner to add own code or overwrite existning. Call init function if defined.
 require(LYDIA_SITE_PATH.'/functions.php');
