@@ -133,6 +133,9 @@ class CObject {
     if(!$file) {
       $file = $this->ly->LoadView(get_parent_class($this), $view);
     }
+    if(!$file) {
+      throw new Exception(t('No such view @viewname.', array('@viewname' => $view)));
+    }
     return $file;
   }
 

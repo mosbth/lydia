@@ -12,9 +12,9 @@ class CCContent extends CObject implements IController {
    */
   public function __construct() { 
     parent::__construct(); 
-    $cf = new CInterceptionFilter();
+    //$cf = new CInterceptionFilter();
     //$cf->AuthenticatedOrLogin();
-    $cf->AdminOrForbidden();
+    //$cf->AdminOrForbidden();
   }
 
 
@@ -23,6 +23,9 @@ class CCContent extends CObject implements IController {
    */
   public function Index() {
     $content = new CMContent();
+
+    CInterceptionFilter::OwnerAdminOrForbidden($content);
+
     $this->views->SetTitle(t('Content Controller'))
                 ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), array(
                   'contents' => $content->ListAll(),
@@ -37,6 +40,10 @@ class CCContent extends CObject implements IController {
    */
   public function Edit($id=null) {
     $content = new CMContent($id);
+
+    //CInterceptionFilter::OwnerAdminOrForbidden($content);
+    CInterceptionFilter::IsRegularUserOrForbidden();
+
     $form = new CFormContent($content);
     $status = $form->Check();
     if($status === false) {
@@ -67,11 +74,11 @@ class CCContent extends CObject implements IController {
   /**
    * Init the content database.
    */
-  public function Init() {
+/*  public function Init() {
     $content = new CMContent();
     $content->Init();
     $this->RedirectToController();
   }
-  
+  */
 
 } 

@@ -34,6 +34,97 @@ body {
 
 
 /** --------------------------------------------------------------
+ * Table of content TOC
+ *
+ */
+#toc, .toc{
+  
+  h4 {
+
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+
+    li.h2 {
+
+    }
+
+    li.h3 {
+      padding-left:0.5em;
+    }
+    
+    li.h4 {
+      padding-left:1em;
+    }
+
+    li.h5 {
+      padding-left:1.5em;
+    }
+
+    li.h6 {
+      padding-left:2em;
+    }
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Page
+ */
+//.page{border-right:1px solid #ccc;padding-right:0.5em;padding-bottom:@magic-number;}
+//.revision-history{.smaller-font();color:@color-light;}
+
+
+
+/** --------------------------------------------------------------
+ * Blog
+ */
+.ly-blog {
+
+}
+
+.ly-blog-header {
+  .clearfix();
+  margin-bottom: @magicNumber;
+}
+
+.ly-blog-post {
+  .clearfix();
+  margin-bottom: @magicNumber;
+
+  h2 {
+    .anchor-anonymous();
+  }
+}
+
+.ly-blog-post-header {
+  h1 {
+    margin-bottom: @magicNumber / 2;
+  }
+} 
+
+.ly-blog-post-meta-header, 
+.ly-blog-post-meta-footer {
+  .font-size(@fontSizeSmall);
+  color: @colorBodyLight;
+  .anchor-anonymous();
+}
+
+.ly-blog-post-meta-header {
+  font-style: italic;
+}
+
+.ly-blog-post-readmore {
+  //.anchor-anonymous();
+}
+
+
+
+/** --------------------------------------------------------------
  * User feedback message wrappers.
  */
 .error,

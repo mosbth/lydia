@@ -36,6 +36,9 @@ h1 {
 h2 {
   .font-size(@fontSizeH2);
   font-weight: normal;
+  & ~ h3 {
+    margin-top: @magicNumber;
+  }
 }
 
 h3 {

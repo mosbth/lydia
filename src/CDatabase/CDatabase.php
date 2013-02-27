@@ -42,17 +42,50 @@ class CDatabase {
 	/**
 	 * Get meta information of the table.
 	 *
-	 * @returns array with meta information for tha latest statement.
+	 * @return array with meta information for the latest statement.
 	 */
   public function GetColumnMeta(){
     return $this->stmt->GetColumnMeta();
   }
 
 
-	/**
-	 * Execute a select-query with arguments and return the resultset.
-	 */
+  /**
+   * Extend params array to support arrays in it.
+   *
+   * @param string $query as the query to prepare.
+   * @param array $params the parameters that may contain arrays.
+   * @return array with query and params.
+   */
+  protected function ExpandParamArray($query, $params) {
+    $param = array();
+    $offset = -1;
+    
+    foreach($params as $val) {
+    
+      $offset = strpos($query, '?', $offset + 1);
+
+      if(is_array($val)) {
+        $nrOfItems = count($val);
+        if($nrOfItems) {
+          $query = substr($query, 0, $offset) . str_repeat('?,', $nrOfItems  - 1) . '?' . substr($query, $offset + 1);
+          $param = array_merge($param, $val);
+        } else {
+          $param[] = null;
+        }
+      } else {
+        $param[] = $val;
+      }
+    }
+
+    return array($query, $param);
+  }
+
+
+  /**
+   * Execute a select-query with arguments and return the resultset.
+   */
   public function ExecuteSelectQueryAndFetchAll($query, $params=array()){
+    list($query, $params) = $this->ExpandParamArray($query, $params);
     $this->stmt = $this->db->prepare($query);
     self::$queries[] = $query; 
     self::$numQueries++;
@@ -65,6 +98,7 @@ class CDatabase {
    * Execute a SQL-query and ignore the resultset.
    */
   public function ExecuteQuery($query, $params = array()) {
+    list($query, $params) = $this->ExpandParamArray($query, $params);
     $this->stmt = $this->db->prepare($query);
     self::$queries[] = $query; 
     self::$numQueries++;

@@ -20,10 +20,14 @@ html.dbwebb {
   /** ==============================================================
    * Header 
    */
+  #inner-wrap-header {
+    height: @magicNumber * 3;
+  }
+
   #header{
-    padding-bottom: 6px;
-    margin-top: 15px;
-    border-bottom: 1px dashed @colorBorderBottomHeader;
+    padding-bottom: 2px;
+    margin-top: 4px;
+    border-bottom: 1px dotted @colorBorderBottomHeader;
   }
 
 
@@ -60,6 +64,10 @@ html.dbwebb {
 #inner-wrap-footer-column {
   padding-top: 2em;
   margin-bottom: @magicNumber;
+
+  h4 {
+    margin-bottom: @magicNumber / 3;
+  }
 }
 
 #inner-wrap-footer {
@@ -77,6 +85,7 @@ html.dbwebb {
     }
   }
 }
+
 
 
 /** --------------------------------------------------------------
@@ -106,6 +115,8 @@ html.dbwebb {
  */
  .box,
  .box-frontpage {
+  margin-bottom: @magicNumber * 2;
+
   h4 {
     background-color: @bgColorHtml;
     #gradient .vertical(@bgColorHtml, @bgColorBody);
@@ -113,11 +124,12 @@ html.dbwebb {
     border-top: 1px solid @colorBorderLight;
     border-bottom: 1px solid @colorBorderLight;
     margin-bottom: @magicNumber / 2;
-    text-align: center;
+    //text-align: center;
+    padding-left: 4px;
   }
 
   p {
-    .font-size(@fontSizeSmall);
+    //.font-size(@fontSizeSmall);
   }
 
   h4 a {
@@ -139,6 +151,10 @@ html.dbwebb {
     /*padding-left: 0;*/
     list-style: circle;
   }
+}
+
+.box-frontpage {
+  margin-bottom: 0;
 }
 
 
@@ -174,6 +190,11 @@ ul.article-list {
       text-decoration: underline;
     }
   }
+}
+
+.tip-title {
+  .anchor-anonymous();
+  margin-bottom: 0;
 }
 
 

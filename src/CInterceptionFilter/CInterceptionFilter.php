@@ -60,6 +60,21 @@ class CInterceptionFilter extends CObject implements ISingleton {
   
   
   /**
+   * Check if user is owner of content, or has administrator role else redirect to forbidden.
+   *
+   * @param CMContent $content to display.
+   * @return CInterceptionFilter to allow chaining.
+   */
+  public function OwnerAdminOrForbidden($content) {
+    if($this->user->IsAdmin() || $content->CurrentUserIsOwner()) {
+      return $this;
+    }
+    $msg = t('You do not have privileges to access this content.');
+    return $this->ShowErrorPage(403, $msg);
+  }
+  
+  
+  /**
    * Check if secret matches in config.php. This enables remote management of some features
    * without being loggedin.
    *

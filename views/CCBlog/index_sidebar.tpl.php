@@ -1,42 +1,56 @@
-<?php if($contents != null):?>
+<?php 
+foreach($sidebar_contains as $val) {
+  switch($val) {
 
-<?php if(!isset($category)): ?>
+
+    case 'intro':
+?>
 <div class='box'>
-  <h4>Senaste inläggen</h4>
-  <ul>
-  
-  <?php foreach($contents as $val):?>
-  <li><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></li>
-  <?php endforeach; ?>
-  </ul>
+<h4><?=$intro['title']?></h4>
+<p><?=$intro['content']?></p>
 </div>
-<?php endif; ?>
+<?php
+    break;
 
-<div class='box'>
-  <h4>Kategorier</h4>
-  <ul>
-  
-  <?php foreach($categories as $val):?>
-  <li><a href='<?=create_url(null, 'category', $val['key'])?>'><?=esc($val['title'])?></a> (<?=$val['items']?>)</li>
-  <?php endforeach; ?>
-  </ul>
+
+    case 'toc':
+?>
+<?php if(!empty($content['toc_formatted'])): ?>
+<div id='toc' class='box'>
+<h4>Innehållsförteckning</h4>
+<?=$content['toc_formatted']?>
 </div>
-
-<?php if(isset($category)): ?>
-<div class='box'>
-  <h4>I denna kategori</h4>
-  <ul>
-  
-  <?php foreach($contents as $val):?>
-  <li><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></li>
-  <?php endforeach; ?>
-  </ul>
-</div>
-<?php endif; ?>
-
-
-<?php else:?>
-<p><?=t('No posts exists.')?></p>
 <?php endif;?>
+<?php
+    break;
 
 
+    case 'latest':
+?>
+<div class='box'>
+<h4>Senaste inläggen</h4>
+<ul>
+<?php foreach($contents as $val):?>
+<li><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></li>
+<?php endforeach; ?>
+</ul>
+</div>
+<?php
+    break;
+
+
+    case 'categories':
+?>
+<div class='box'>
+<h4>Kategorier</h4>
+<ul>
+<?php foreach($categories as $val):?>
+<li><a href='<?=create_url(null, 'category', $val['key'])?>'><?=esc($val['title'])?></a> (<?=$val['items']?>)</li>
+<?php endforeach; ?>
+</ul>
+</div>
+<?php
+    break;
+
+  }
+}

@@ -131,6 +131,19 @@ function login_menu() {
 
 
 /**
+ * Format a date according the collate.
+ *
+ * @param string $date a date for format.
+ * @return string for the formatted date.
+ */
+function format_date($date) {
+  $locale = CLydia::Instance()->config['language'];
+  $ftm = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+  return $ftm->format(strtotime($date));
+}
+
+
+/**
  * Return the title of the page.
  *
  * @return string for title.

@@ -16,7 +16,7 @@
 <header id='outer-wrap-header' role='banner'>
   <div id='inner-wrap-header'>
     <div id='header'>
-      <div id='login-menu'><?=login_menu()?></div>
+      <div id='user-menu'><?=login_menu()?></div>
       <div id='banner'>
 <?php if(isset($custom_banner)): ?>
         <?=$custom_banner?>
@@ -98,12 +98,14 @@
       <div id='footer-column-three' class='footer-column'><?=render_views('footer-column-three')?></div>
       <div id='footer-column-four' class='footer-column'><?=render_views('footer-column-four')?></div>
     </div>
+    <?php if(region_has_content('footer-column-five', 'footer-column-six', 'footer-column-seven',  'footer-column-eight')): ?>
     <div id='footer-column-wrapper-two' class='footer-column-wrapper'>
       <div id='footer-column-five' class='footer-column'><?=render_views('footer-column-five')?></div>
       <div id='footer-column-six' class='footer-column'><?=render_views('footer-column-six')?></div>
       <div id='footer-column-seven' class='footer-column'><?=render_views('footer-column-seven')?></div>
       <div id='footer-column-eight' class='footer-column'><?=render_views('footer-column-eight')?></div>
     </div>
+    <?php endif; ?>
   </div>
   <?php endif; ?>
   <div id='inner-wrap-footer'>

@@ -32,8 +32,10 @@ class CViewContainer {
 	 */
 	public function SetTitle($value) {
     $append = CLydia::Instance()->config['title_append'];
+    $separator = CLydia::Instance()->config['title_separator'];
+
     if($append) {
-      $value .= " $append";
+      $value .= "{$separator}{$append}";
     }
     return $this->SetVariable('title', $value);
   }
@@ -93,22 +95,7 @@ class CViewContainer {
   }
   
 
-  /**
-   * Add a view as file to be included in a region with optional variables.
-   *
-   * @param string $region the theme region.
-   * @param string $file path to the file to be included. 
-   * @param array $vars containing the variables that should be avilable for the included file.
-   * @return $this.
-   */
-  public function AddIncludeToRegion($region, $file, $variables=array()) {
-    if(empty($file)) throw new Exception(t('View filename is empty.'));
-    $this->views[$region][] = array('type' => 'include', 'file' => $file, 'variables' => $variables);
-    return $this;
-  }
-  
-
-  /**
+   /**
    * Add text and optional variables.
    *
    * @deprecated v0.3.01
@@ -123,16 +110,66 @@ class CViewContainer {
   }
 
 
+ /**
+   * Add a view as file to be included in a region with optional variables.
+   *
+   * @param mixed $region the theme region as a string or array which contains all arguments..
+   * @param string $file path to the file to be included. 
+   * @param array $vars containing the variables that should be avilable for the included file.
+   * @param integer $order value to sort views by.
+   * @return $this.
+   */
+  public function AddIncludeToRegion($region, $file=null, $variables=array(), $order=0) {
+    if(is_array($region)) {
+      $order      = isset($region['order']) ? $region['order']  : $order;
+      $variables  = isset($region['data'])  ? $region['data']   : $variables; 
+      $file       = $region['content']; 
+      $region     = $region['region'];
+    }
+    if(empty($file)) throw new Exception(t('View filename is empty.'));
+    $this->views[$region][] = array('type' => 'include', 'file' => $file, 'variables' => $variables, 'order' => $order);
+    return $this;
+  }
+  
+
   /**
-   * Add text and optional variables.
+   * Add string to region.
    *
    * @param string $region the theme region.
    * @param string $string content to be displayed.
    * @param array $vars containing the variables that should be available for the string.
+   * @param integer $order value to sort views by.
    * @return $this.
    */
-  public function AddStringToRegion($region, $string, $variables=array()) {
-    $this->views[$region][] = array('type' => 'string', 'string' => $string, 'variables' => $variables);
+  public function AddStringToRegion($region, $string=null, $variables=array(), $order=0) {
+    if(is_array($region)) {
+      $order      = isset($region['order']) ? $region['order']  : $order;
+      $variables  = isset($region['data']) ? $region['data']  : $variables; 
+      $string     = $region['content']; 
+      $region     = $region['region']; 
+    }
+    $this->views[$region][] = array('type' => 'string', 'string' => $string, 'variables' => $variables, 'order' => $order);
+    return $this;
+  }
+
+
+  /**
+   * Add function to region.
+   *
+   * @param string $region the theme region.
+   * @param string $string content to be displayed.
+   * @param array $vars containing the variables that should be available for the string.
+   * @param integer $order value to sort views by.
+   * @return $this.
+   */
+  public function AddFunctionToRegion($region, $function=null, $variables=array(), $order=0) {
+    if(is_array($region)) {
+      $order      = isset($region['order']) ? $region['order']  : $order;
+      $variables  = isset($region['data']) ? $region['data']  : $variables; 
+      $function   = $region['content']; 
+      $region     = $region['region']; 
+    }
+    $this->views[$region][] = array('type' => 'function', 'function' => $function, 'variables' => $variables, 'order' => $order);
     return $this;
   }
 
@@ -162,6 +199,35 @@ class CViewContainer {
   
   
   /**
+   * Add mixed data from array.
+   *
+   * @param array $arg containing array with data to add.
+   * @return $this.
+   */
+  public function Add($args=array()) {
+    // Assume the args is just one regions
+    if(!isset($args['regions'])) {
+      $args['regions'] = $args;
+    }
+
+    if(isset($args['title'])) {
+      $this->SetTitle($args['title']);
+    }
+
+    foreach($args['regions'] as $val) {
+      switch($val['type']) {
+        case 'string':    $this->AddStringToRegion($val);   break;
+        case 'include':   $this->AddIncludeToRegion($val);  break;
+        case 'function':  $this->AddFunctionToRegion($val); break;
+        default: throw new Exception(t('No such type for adding region to view container'));
+      }
+    }
+
+    return $this;
+  }
+
+
+  /**
    * Check if there exists views for a specific region.
    *
    * @param $region string/array the theme region(s).
@@ -188,10 +254,35 @@ class CViewContainer {
    */
   public function Render($region='default') {
     if(!isset($this->views[$region])) return;
+
+    usort($this->views[$region], function($a, $b) {
+      if($a['order'] == $b['order']) {
+        return 0;
+      }
+      return ($a['order'] < $b['order']) ? -1 : 1;
+    });
+
     foreach($this->views[$region] as $view) {
       switch($view['type']) {
-        case 'include': if(isset($view['variables'])) extract($view['variables']); include($view['file']); break;
-        case 'string':  if(isset($view['variables'])) extract($view['variables']); echo $view['string']; break;
+
+        case 'include':   
+          if(isset($view['variables'])) {
+            extract($view['variables']);             
+          }
+          include($view['file']); 
+        break;
+
+        case 'string':
+          if(isset($view['variables'])) {
+            extract($view['variables']);
+          }
+         echo $view['string']; 
+        break;
+
+        case 'function':  
+          $data = isset($view['variables']) ? $view['variables'] : array(); 
+          echo $view['function']($data); 
+        break;
       }
     }
   }

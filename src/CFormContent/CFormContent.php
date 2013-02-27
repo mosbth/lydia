@@ -26,6 +26,11 @@ class CFormContent extends CForm {
          ->AddElement(new CFormElementText('type', array('value'=>$content['type'])))
          ->AddElement(new CFormElementText('idCategory', array('label'=>t('Category id:'), 'value'=>$content['idCategory'])))
          ->AddElement(new CFormElementText('filter', array('value'=>$content['filter'])))
+         ->AddElement(new CFormElementText('url', array('value'=>$content['url'])))
+         ->AddElement(new CFormElementText('breadcrumb', array('label' => t('Breadcrumb parent title:'), 'value'=>$content['breadcrumb'])))
+         ->AddElement(new CFormElementText('parenttitle', array('label' => t('Parent title:'), 'value'=>$content['parenttitle'])))
+         ->AddElement(new CFormElementText('template', array('label' => t('Template:'), 'value'=>$content['template'])))
+         ->AddElement(new CFormElementText('published', array('label' => t('Published:'), 'value'=>$content['published'])))
          ->AddElement(new CFormElementSubmit($save, array('callback'=>array($this, 'DoSave'), 'callback-args'=>array($content))))
          ->AddElement(new CFormElementSubmit('delete', array('callback'=>array($this, 'DoDelete'), 'callback-args'=>array($content))));
 
@@ -46,11 +51,16 @@ class CFormContent extends CForm {
     } else {
       $content['key'] = $form['key']['value'];
     }
-    $content['data']      = $form['data']['value'];
-    $content['datafile']  = $form['datafile']['value'];
-    $content['type']      = $form['type']['value'];
+    $content['data']        = $form['data']['value'];
+    $content['datafile']    = $form['datafile']['value'];
+    $content['type']        = $form['type']['value'];
     $content['idCategory']  = $form['idCategory']['value'];
-    $content['filter']    = $form['filter']['value'];
+    $content['filter']      = $form['filter']['value'];
+    $content['url']         = $form['url']['value'];
+    $content['breadcrumb']  = $form['breadcrumb']['value'];
+    $content['parenttitle'] = $form['parenttitle']['value'];
+    $content['template']    = $form['template']['value'];
+    $content['published']   = $form['published']['value'];
     return $content->Save();
   }
   

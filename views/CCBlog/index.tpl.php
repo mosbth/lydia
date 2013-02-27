@@ -1,45 +1,46 @@
 <?php if($contents != null):?>
 
-<article class='blog list'>
+<section class='ly-blog'>
 
-<?php if(isset($category)): ?>
-<h1><?=esc($category['title'])?></h1>
-<p><?=esc($category['description'])?></p>
-<?php elseif(isset($intro)): ?>
-<?=$intro?>
-<?php endif; ?>
-
+<header class='ly-blog-header'>
+  <?php if(isset($category)): ?>
+  <h1><?=t('Category: @title', array('@title' => $category['title']))?></h1>
+  <p><?=esc($category['description'])?></p>
+  <?php elseif(isset($intro)): ?>
+  <h1><?=$intro['title']?></h1>
+  <p><?=$intro['content']?></p>
+  <?php endif; ?>
+</header>
 
 <?php foreach($contents as $val):?>
-<section class='post'>
+<article class='ly-blog-post'>
 
-  <?php if($order_by_updated): ?>
-  <span class='updated'><?=t('Last updated on !updated', array('!updated' => $val['updated']))?></span>
-  <?php else: ?>
-  <span class='published'><?=t('On !created by !owner', array('!created' => $val['created'], '!owner' => $val['owner']))?></span>
-  <?php endif; ?>
-  
-  <h2><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></h2>
+  <header class='ly-blog-post-header'>
+    <?php $date = $order_by_updated ? $val['updated'] : $val['created']; ?>
+    <span class='ly-blog-post-meta-header'><time datetime='<?=$date?>'><?=format_date($date)?></time></span>
+    <h2><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></h2>
+  </header>
 
   <?php if($post_format_short): ?>
   <?=$val['data_short_filtered']?>
     <?php if($val['data_has_more']): ?>  
-    <p class='readmore'><a href='<?=create_url(null, $val['key'])?>'><?=t('Read more »')?></a></p>
+    <p class='ly-blog-post-readmore'><a href='<?=create_url(null, $val['key'])?>'><?=t('Read more »')?></a></p>
     <?php endif; ?>
   <?php else: ?>
   <?=$val['data_filtered']?>
   <?php endif; ?>
 
-  <p class='footer'>
-    <a href='<?=create_url(null, 'category', $val['category_key'])?>'><?=t('Category: @category_name', array('@category_name' => $val['category_title']))?></a>
-    <?php if($user_is_admin_or_owner): ?>
-    | <a href='<?=create_url("content/edit/{$val['id']}")?>'><?=t('edit')?></a>
+  <footer class='ly-blog-post-footer'>
+    <p class='ly-blog-post-meta-footer'><a href='<?=create_url(null, 'category', $val['category_key'])?>'><?=t('Category: @category_name', array('@category_name' => $val['category_title']))?></a>
+    <?php if($user_is_admin || $contents->CurrentUserIsOwner()): ?>
+    | <a href='<?=create_url("content/edit/{$val['id']}")?>'><?=t('edit')?></a></p>
     <?php endif; ?>
-  </p>
+  </footer>
+
+</article>
+<?php endforeach; ?>
 
 </section>
-<?php endforeach; ?>
-</article>
 
 <?php else:?>
 <p><?=t('No posts exists.')?></p>

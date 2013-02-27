@@ -138,10 +138,19 @@ $ly->config['routing'] = array(
 
 
 /**
+ * Enable/disable pageloader, all urls that do not match controller or a routing entry will
+ * be managed by CPageLoader.
+ */
+$ly->config['pageloader'] = true;
+//$ly->config['pageloader_class'] = 'CMPageLoaderCustom';
+
+
+/**
  * Append site label after all titels, seo related, so it looks nice in the search engine
  * results.
  */
-$ly->config['title_append'] = '- lydia';
+$ly->config['title_append'] = 'lydia';
+$ly->config['title_separator'] = ' - ';
 
 
 /**

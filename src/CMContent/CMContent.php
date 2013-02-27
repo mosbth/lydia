@@ -65,8 +65,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
    *
    * @param $key string the string that is the key of the wanted SQL-entry in the array.
-   * @args $args array with arguments to make the SQL queri more flexible.
-   * @returns string.
+   * @param $args array with arguments to make the SQL queri more flexible.
+   * @return string.
    */
   public static function SQL($key=null, $args=null) {
     $order_order  = isset($args['order-order']) ? $args['order-order'] : 'ASC';
@@ -76,28 +76,34 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'table name category'       => "Category",
       'drop table content'        => "DROP TABLE IF EXISTS Content;",
       'drop table category'       => "DROP TABLE IF EXISTS Category;",
-      'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, idCategory INT default null, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id), FOREIGN KEY(idCategory) REFERENCES Category(id));",
+      'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, idCategory INT default null, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, url TEXT KEY, breadcrumb TEXT, parenttitle TEXT, template TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, published DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id), FOREIGN KEY(idCategory) REFERENCES Category(id));",
       'create table category'     => "CREATE TABLE IF NOT EXISTS Category (id INTEGER PRIMARY KEY, key TEXT KEY, title TEXT, description TEXT);",
       'export table content'      => 'SELECT * FROM Content;',
       'export table category'     => 'SELECT * FROM Category;',
       //'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
-      'insert content'            => 'INSERT INTO Content (key,type,idCategory,title,data,datafile,filter,idUser) VALUES (?,?,?,?,?,?,?,?);',
+      'insert content'            => 'INSERT INTO Content (key,type,idCategory,title,data,datafile,filter,url,breadcrumb,parenttitle,template,published,idUser) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);',
       'insert category'           => 'INSERT INTO Category (key,title) VALUES (?,?);',
-      'select * by id'            => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.id=? AND c.deleted IS NULL;',
-      'select * by key'           => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.key=? AND c.deleted IS NULL;',
-      'select * by type'          => "SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL ORDER BY {$order_by} {$order_order};",
-      'select *'                  => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL;',
+      'select * by id'            => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.id=? AND c.deleted IS NULL;',
+      'select * by key'           => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.key=? AND c.deleted IS NULL;',
+      'select * by type'          => "SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL ORDER BY {$order_by} {$order_order};",
+      'select * by url'           => "SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.url=? AND c.deleted IS NULL;",
+      'select id by url'          => "SELECT c.id FROM Content AS c WHERE url=? AND c.deleted IS NULL;",
+      'select parents by url'     => "SELECT c.id, c.title, c.url, c.breadcrumb, c.parenttitle FROM Content AS c WHERE url IN (?) AND c.deleted IS NULL;",
+      'select *'                  => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL;',
       'select categories by type' => "SELECT ca.*, count(ca.id) as items FROM Content as c LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL GROUP BY ca.title;",
       'select category by key'    => "SELECT ca.* FROM Category as ca WHERE ca.key=?;",
-      'flexible select *'         => 'SELECT c.*, u.acronym as owner, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
-      'update content'            => "UPDATE Content SET key=?, type=?, idCategory=?, title=?, data=?, datafile=?, filter=?, updated=datetime('now') WHERE id=?;",
+      'flexible select *'         => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
+      'update content'            => "UPDATE Content SET key=?, type=?, idCategory=?, title=?, data=?, datafile=?, filter=?, url=?, breadcrumb=?, parenttitle=?, template=?, published=?, updated=datetime('now') WHERE id=?;",
       'update content as deleted' => "UPDATE Content SET deleted=datetime('now') WHERE id=?;",
-     );
+    );
+
     if(!isset($queries[$key])) {
       throw new Exception("No such SQL query, key '$key' was not found.");
     }
+
     return $queries[$key];
   }
+
 
 
   /**
@@ -106,35 +112,41 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public function Manage($action=null) { require_once(__DIR__.'/CMContentModule.php'); $m = new CMContentModule(); return $m->Manage($action); }
 
  
+
   /**
    * Save content. If it has a id, use it to update current entry or else insert new entry.
    *
-   * @returns boolean true if success else false.
+   * @return boolean true if success else false.
    */
   public function Save() {
     $msg = null;
+
     if($this['id']) {
-      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['url'], $this['breadcrumb'], $this['parenttitle'], $this['template'], $this['published'], $this['id']));
       $msg = 'update';
     } else {
-      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this->user['id']));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['url'], $this['breadcrumb'], $this['parenttitle'], $this['template'], $this['published'], $this->user['id']));
       $this['id'] = $this->db->LastInsertId();
       $msg = 'created';
     }
+    
     $rowcount = $this->db->RowCount();
+    
     if($rowcount) {
       $this->AddMessage('success', "Successfully {$msg} content '" . htmlEnt($this['key']) . "'.");
     } else {
       $this->AddMessage('error', "Failed to {$msg} content '" . htmlEnt($this['key']) . "'.");
     }
+    
     return $rowcount === 1;
   }
     
 
+
   /**
    * Delete content. Set its deletion-date to enable wastebasket functionality.
    *
-   * @returns boolean true if success else false.
+   * @return boolean true if success else false.
    */
   public function Delete() {
     if($this['id']) {
@@ -150,18 +162,22 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   }
     
 
+
   /**
    * Load content by id.
    *
    * @param $id integer the id of the content.
-   * @returns boolean/Class $this if success else false.
+   * @return boolean/Class $this if success else false.
    */
   public function LoadById($id) {
+    
     $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by id'), array($id));
+    
     if(empty($res)) {
       $this->AddMessage('error', "Failed to load content by id.");
       return false;
     } 
+    
     $this->data = $res[0];
     $this->set = $this->data;
     $this->position = 0;
@@ -169,31 +185,157 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   }
   
   
+
   /**
    * Load content by key.
    *
    * @param string $key the key of the content.
-   * @returns boolean/Class $this if success else false.
+   * @return boolean/Class $this if success else false.
    */
   public function LoadByKey($key=null) {
+    
     if(!$key) return false;
+    
     $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by key'), array($key));
+    
     if(empty($res)) {
       $this->AddMessage('error', "Failed to load content by key.");
       return false;
     } 
+    
     $this->data = $res[0];
     $this->set = $this->data;
     $this->position = 0;
-    return true;
+    return $this;
   }
   
   
+
+  /**
+   * Check if url is associated with some content.
+   *
+   * @param string $url the url associated with the content.
+   * @return boolean true if success else false.
+   */
+  public function ContentHasUrl($url) {
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select id by url'), array($url));
+    return empty($res) ? false : true;
+  }
+  
+
+
+  /**
+   * Load content by url.
+   *
+   * @param string $url the url associated with the content.
+   * @param boolean $displayError display error message on failure or not.
+   * @return boolean/Class $this if success else false.
+   */
+  public function LoadByUrl($url, $displayError=true) {
+
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by url'), array($url));
+    
+    if(empty($res)) {
+
+      if($displayError) {
+        $this->AddMessage('error', "Failed to load content by url.");
+      }
+
+      return false;
+    } 
+    
+    $this->data = $res[0];
+    $this->set = $this->data;
+    $this->position = 0;
+    return $this;
+  }
+  
+
+
+  /**
+   * Load content parents (by content->url) of current content if it exists. Userful for creating breadcrumbs and parts of page title.
+   *
+   * @param string $url the url associated with the content.
+   * @return boolean/Class $this if success else false.
+   */
+  public function LoadParents() {
+
+    if(empty($this['url'])) {
+      return false;
+    }
+
+    $parts = explode('/', $this['url']);
+    array_pop($parts);
+    $base = null;
+    $urls = array();
+    foreach($parts as $val) {
+      $urls[] = $base .= "{$val}";
+      $base .= '/'; 
+    }
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select parents by url'), array($urls));
+    
+    if(empty($res)) {
+      return false;
+    } 
+    
+    $this['parents'] = $res;
+    return $this;
+  }
+
+
+
+  /**
+   * Create an array suitable for creating an breadcrumb.
+   *
+   * @return array with values for the breadcrumb.
+   */
+  public function CreateBreadcrumb() {
+
+    $breadcrumbs = array();
+    if(!empty($this['parents'])) {
+      foreach($this['parents'] as $val) {
+        $label  = empty($val['breadcrumb'])  ? $val['title'] : $val['breadcrumb'] ;
+        $breadcrumbs[] = array('label' => $label, 'url' => $val['url']);
+      }
+    }
+
+    $label  = empty($this['breadcrumb'])  ? $this['title'] : $this['breadcrumb'] ;
+    $url    = empty($this['url'])         ? $this->request->request : $this['url'];
+    $breadcrumbs[] = array('label' => $label, 'url' => $url);
+    return $breadcrumbs;
+  }
+
+
+
+  /**
+   * Adding parents titles to content title.
+   *
+   * @param string $title the title of the page.
+   * @return string the resulting title.
+   */
+  public function AddParentsTitle($title) {
+
+    if(empty($this['parents'])) {
+      return $title;
+    }
+
+    $sep = $this->config['title_separator'];
+    $parents = null;
+    foreach($this['parents'] as $val) {
+      $parent = empty($val['parenttitle']) ? $val['title'] : $val['parenttitle'];
+      $parents = $sep . $parent;
+    }
+    
+    return $title . $parents;
+  }
+
+
+
   /**
    * List all content.
    *
    * @param $args array with various settings for the request. Default is null.
-   * @returns array with listing or null if empty.
+   * @return array with listing or null if empty.
    */
   public function ListAll($args=null) {    
     try {
@@ -208,11 +350,13 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     }
   }
   
+
+
   /**
    * List all content as specified in array, build custom SQL-query.
    *
    * @param array $options with various settings for the request.
-   * @returns $this.
+   * @return $this.
    */
   public function GetEntries($options=array()) {
     $default = array(
@@ -257,7 +401,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Get category.
    *
    * @param array $options with various settings for the request.
-   * @returns array with listing or null if empty.
+   * @return array with listing or null if empty.
    */
   public function GetCategory($key=null) {
     if(!$key) return null;
@@ -270,7 +414,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Get categories.
    *
    * @param array $options with various settings for the request.
-   * @returns array with listing or null if empty.
+   * @return array with listing or null if empty.
    */
   public function GetCategories($options=array()) {
     $default = array(
@@ -284,7 +428,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   /**
    * Get a list of supported textfilters.
    *
-   * @returns array with list of supported filters.
+   * @return array with list of supported filters.
    */
   public static function SupportedFilters() {
     return array(
@@ -301,7 +445,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * Filter content according to a filter.
    *
    * @param $data string of text to filter and format according its filter settings.
-   * @returns string with the filtered data.
+   * @return string with the filtered data.
    */
   public static function Filter($data, $filter) {
     switch($filter) {
@@ -321,7 +465,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   /**
    * Get the filtered content.
    *
-   * @returns string with the filtered data.
+   * @return string with the filtered data.
    */
   public function GetFilteredData() {
     $data = null;
@@ -423,4 +567,49 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   }
   
   
+  /**
+   * Check if current user own this content.
+   *
+   * @return boolean true if current user is owner of content, else false.
+   */
+  public function CurrentUserIsOwner() {
+    return $this->user[id] === $this['uid'];
+  }
+
+
+
+  /**
+   * Get time when the content was last updated.
+   *
+   * @return string with the time.
+   */
+  public function PublishTime() {
+    if(!empty($this['published'])) {
+      return $this['published'];
+    } else if(isset($this['updated'])) {
+      return $this['updated'];
+    } else {
+      return $this['created'];
+    } 
+  }
+
+
+
+  /**
+   * Get the action for latest updated of the content.
+   *
+   * @return string with the time.
+   */
+  public function PublishAction() {
+    if(!empty($this['published'])) {
+      return t('Published');
+    } else if(isset($this['updated'])) {
+      return t('Updated');
+    } else {
+      return t('Created');
+    } 
+  }
+
+
+
 }
