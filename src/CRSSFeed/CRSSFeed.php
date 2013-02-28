@@ -23,7 +23,7 @@ class CRSSFeed implements IModule {
     $cache = LYDIA_SITE_PATH.'/data/crssfeed';
     switch($type) {
       case 'simplepie':
-        require_once(__DIR__."/simplepie/SimplePie.compiled.php");    
+        require_once(__DIR__."/simplepie/simplepie_1.3.1.mini.php");    
         $object = new SimplePie();
         $object->set_cache_location($cache);
         $object->set_cache_duration($cacheDuration);

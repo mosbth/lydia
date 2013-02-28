@@ -63,7 +63,7 @@ PHP SmartyPants and PHP Typographer by Michel Fortin for better typography. Base
 ### SimplePie
 SimplePie by Geoffrey, Ryan P., and Ryan M. to read RSS feeds.
 * Website: http://simplepie.org/
-* Version: 1.3 (2012-07-07)
+* Version: 1.3.1 (2012-10-30)
 * License: BSD license
 * Lydia path: `src/CRSSFeed/simplepie`
 * Used by: `CRSSFeed`
@@ -116,6 +116,8 @@ History
 
 v0.3.0x (latest)
 
+* Added `CPageLoader` and `CMBlock`.
+* Upgrader SimplePie to 1.3.1.
 * Added improved `CForm`.
 * Refactored `CCUser`.
 * New theme, base. To be the new base-theme and replace both `grid` and `core`.

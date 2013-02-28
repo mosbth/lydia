@@ -89,6 +89,27 @@ function htmlEnt($str, $flags = ENT_COMPAT) {
 
 
 /**
+ * Helper, unwrap html_entites with correct character encoding
+ */
+function htmlDent($str, $flags = ENT_COMPAT) {
+  return html_entity_decode($str, $flags, CLydia::Instance()->config['character_encoding']);
+}
+
+
+/**
+ * Format a date according the collate.
+ *
+ * @param string $date a date for format.
+ * @return string for the formatted date.
+ */
+function formatDate($date) {
+  $locale = CLydia::Instance()->config['language'];
+  $ftm = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+  return $ftm->format(strtotime($date));
+}
+
+
+/**
  * Helper, interval formatting of times. Needs PHP5.3. 
  *
  * All times in database is UTC so this function assumes the starttime to be in UTC, if not otherwise

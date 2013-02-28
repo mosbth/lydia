@@ -602,7 +602,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    */
   public function PublishAction() {
     if(!empty($this['published'])) {
-      return t('Published');
+      //return t('Published');
+      return t('Last updated');
     } else if(isset($this['updated'])) {
       return t('Updated');
     } else {
