@@ -289,7 +289,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    *
    * @return array with values for the breadcrumb.
    */
-  public function CreateBreadcrumb() {
+  public function CreateBreadcrumbFromParents() {
 
     $breadcrumbs = array();
     if(!empty($this['parents'])) {
@@ -470,7 +470,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public function GetFilteredData() {
     $data = null;
     if($this['datafile']) {
-      $data = "\n".file_get_contents(LYDIA_SITE_PATH.'/data/'.get_class().'/txt/'.$this['datafile']);
+      $data = "\n".file_get_contents(LYDIA_DATA_PATH.'/'.strtolower(get_class()).'/txt/'.$this['datafile']);
     }
     $this->data['data_filtered'] = $this->Filter($this['data'] . $data, $this['filter']);
     $pos = stripos($this->data['data_filtered'], '<!--more-->');

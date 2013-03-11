@@ -51,10 +51,14 @@
 </div>
 <?php endif; ?>
 
-<?php if(region_has_content('flash')): ?>
+<?php if(region_has_content('flash', 'flash1', 'flas2', 'flash3', 'flash4')): ?>
 <div id='outer-wrap-flash' role='complementary'>
-  <div id='inner-wrap-flash'>
-    <div id='flash'><?=render_views('flash')?></div>
+  <div id='inner-wrap-flash'<?=get_class_for_region('flash')?>>
+    <?php if(region_has_content('flash')): ?><div id='flash'><?=render_views('flash')?></div><?php endif; ?>
+    <?php if(region_has_content('flash1')): ?><div id='flash1'><?=render_views('flash1')?></div><?php endif; ?>
+    <?php if(region_has_content('flash2')): ?><div id='flash2'><?=render_views('flash2')?></div><?php endif; ?>
+    <?php if(region_has_content('flash3')): ?><div id='flash3'><?=render_views('flash3')?></div><?php endif; ?>
+    <?php if(region_has_content('flash4')): ?><div id='flash4'><?=render_views('flash4')?></div><?php endif; ?>
   </div>
 </div>
 <?php endif; ?>

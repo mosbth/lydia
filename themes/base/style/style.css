@@ -699,6 +699,15 @@ body {
   width: 950px;
   margin: 0 5px;
 }
+#flash1,
+#flash2,
+#flash3,
+#flash4 {
+  display: inline;
+  float: left;
+  width: 230px;
+  margin: 0 5px;
+}
 #inner-wrap-featured {
   width: 960px;
   margin: 0 auto;
@@ -1245,6 +1254,11 @@ body {
 }
 .footnotes > hr {
   display: none;
+}
+.box.no-list-img ul {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
 }
 html.dbwebb #inner-wrap-header {
   height: 66px;

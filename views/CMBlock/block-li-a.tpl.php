@@ -1,6 +1,10 @@
-<?php $nofollow = (isset($nofollow) && $nofollow) ? " rel='nofollow'" : null; ?>
+<?php 
+$nofollow = (isset($nofollow) && $nofollow) ? " rel='nofollow'" : null; 
+$class = isset($class) ? " {$class}" : null;
+$title = isset($title_href) ? "<a href='{$title_href}' title='{$title_href_title}'>{$title}</a> " : $title;
+?>
 
-<div class='box'>
+<div class='box <?=$class?>'>
 <h4><?=$title?></h4>
 <ul>
 <?php foreach($items as $val): ?>

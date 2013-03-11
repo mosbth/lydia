@@ -9,7 +9,7 @@ class CRSSFeed implements IModule {
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) { include(__DIR__.'/CRSSFeedModule.php'); return CRSSFeedModule::Manage($action); }
+  public function Manage($action=null) { include(__DIR__.'/CRSSFeedModule.php'); $m = new CRSSFeedModule; return $m->Manage($action); }
 
  
   /**

@@ -179,7 +179,7 @@ class CFormElement implements ArrayAccess{
 
     foreach($rules as $key => $val) {
       $rule = is_numeric($key) ? $val : $key;
-      if(!isset($tests[$rule])) throw new Exception('Validation of form element failed, no such validation rule exists: $rule');
+      if(!isset($tests[$rule])) throw new Exception("Validation of form element failed, no such validation rule exists: $rule");
       $arg = is_numeric($key) ? null : $val;
 
       $test = ($rule == 'custom_test') ? $arg : $tests[$rule];

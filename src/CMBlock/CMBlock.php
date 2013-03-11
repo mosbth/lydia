@@ -13,7 +13,7 @@ class CMBlock extends CObject implements IModule, ISingleton {
 
 
 
-  /**
+  /**s
    * Constructor
    */
   public function __construct() { parent::__construct(); }
@@ -23,7 +23,7 @@ class CMBlock extends CObject implements IModule, ISingleton {
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) { require_once(__DIR__.'/CMContentModule.php'); $m = new CMContentModule(); return $m->Manage($action); }
+  public function Manage($action=null) { /*require_once(__DIR__.'/CMBlockModule.php');  $m = new CMBlockModule(); return $m->Manage($action); */}
 
 
 

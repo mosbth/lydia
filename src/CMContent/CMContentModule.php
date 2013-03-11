@@ -42,7 +42,7 @@ class CMContentModule extends CMContent {
         $this->db->ExecuteQuery(self::SQL('insert content'), array('file', 'page', 1, 'Page from file', "This page includes data from a file.", 'hello_world/hello.txt', 'markdown', $this->user['id']));
         $ret1 = CMModules::CreateModuleDirectory(get_parent_class(), 'txt/hello_world');
         $text = "##Hello World\nThis a sample page included from file.";
-        $path = LYDIA_SITE_PATH."/data/".get_parent_class()."/txt/hello_world/hello.txt";
+        $path = LYDIA_DATA_PATH.'/'.get_parent_class()."/txt/hello_world/hello.txt";
         $ret2 = file_put_contents($path, $text);
         $status = ($ret1 === false || $ret2 === false) ? 'error' : 'success';
         $msg = ($ret1 === false || $ret2 === false) ? t('Failed to create file in site/data.') : t('Sample file created.');

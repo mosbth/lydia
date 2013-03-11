@@ -4,12 +4,12 @@
  * 
  * @package LydiaCMF
  */
-class CRSSFeedModule {
+class CRSSFeedModule extends CRSSFeed {
 
   /**
    * Manage install/update/deinstall and equal actions.
    */
-  public static function Manage($action=null) {
+  public function Manage($action=null) {
     switch($action) {
       case 'install':
         $ret = CMModules::CreateModuleDirectory(get_parent_class());

@@ -287,6 +287,31 @@ function teaser($str, $len=400) {
 
 
 /**
+ * Returns the excerpt of the text with at most the specified amount of characters.
+ * 
+ * @param string $excerpt the original string.
+ * @param int $chars the number of characters to return.
+ * @param boolean $hard do a hard break at exactly $chars characters or find closest space.
+ * @return string as the excerpt.
+ */
+function excerpt($excerpt, $chars=139, $hard=false) {
+  if(strlen($excerpt) > $chars) {
+    $excerpt   = substr($excerpt, 0, $chars-1);
+  } else {
+    return $excerpt;
+  }
+
+  if(!$hard) {
+    $lastSpace = strrpos($excerpt, ' ');
+    $excerpt   = substr($excerpt, 0, $lastSpace);
+  }
+
+  return $excerpt;
+}
+  
+
+
+/**
  * Dump a array or object for debug.
  *
  * @param array/object $a.

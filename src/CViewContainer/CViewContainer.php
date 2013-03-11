@@ -219,7 +219,7 @@ class CViewContainer {
         case 'string':    $this->AddStringToRegion($val);   break;
         case 'include':   $this->AddIncludeToRegion($val);  break;
         case 'function':  $this->AddFunctionToRegion($val); break;
-        default: throw new Exception(t('No such type for adding region to view container'));
+        default: throw new Exception(t("No such type for adding region to view container: '@type'.", array('@type'=>$val['type'])));
       }
     }
 

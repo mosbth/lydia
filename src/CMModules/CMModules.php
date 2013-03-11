@@ -301,7 +301,7 @@ class CMModules extends CObject {
    * @returns mixed null if directory exists, true if created false if failed.
    */
    public static function CreateModuleDirectory($module, $directory=null) {
-    $path = LYDIA_SITE_PATH.strtolower("/data/$module/$directory");
+    $path = LYDIA_DATA_PATH.strtolower("/$module/$directory");
     if(is_dir($path)) return null;
     if(mkdir($path, 0777, true)) return true;
     return false;

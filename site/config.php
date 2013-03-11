@@ -25,7 +25,7 @@ $ly->config['debug']['db-queries'] = true;
 /**
  * Set database(s).
  */
-$ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.ht.sqlite';
+$ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_DATA_PATH . '/.ht.sqlite';
 
 
 /**

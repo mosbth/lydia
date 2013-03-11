@@ -25,6 +25,7 @@ class CPageLoader extends CObject {
       'index_template'    => 'index',
       'sidebar_template'  => 'sidebar',
       'suffix_template'   => '.tpl.php',
+      'breadcrumb'        => true,
     );
     $this->options = array_merge($defaults, $options);
   }
@@ -66,29 +67,33 @@ class CPageLoader extends CObject {
    */
   public function DisplayContentByUrl($url) {
     $c = new CMContent();
+    $url = empty($url) ? 'home' : $url;
     if(!$c->LoadByUrl($url)) {
       $this->ShowErrorPage(404, t('Page is not found. No such content.'));
     }
     $o = &$this->options;
 
     $data = array(
+      'user_is_admin' => $this->user->IsAdmin(),
       'content' => $c->Prepare(),
     );
 
     $c->LoadParents();
     $this->page['title'] = $c->AddParentsTitle($c['title']);
 
-    $this->page['regions'][]  = array(
-      'region'  => 'breadcrumb', 
-      'type'    => 'string', 
-      'content' => $this->CreateBreadcrumb($c->CreateBreadcrumb()),
-    );
-
     // Call template method if exists.
     $template = isset($c['template']) ? $c['template'] : null;;
     $method = 'Template_' . $template;
     if($template && method_exists($this, $method)) {
       $this->$method();
+    }
+
+    if($o['breadcrumb']) {
+      $this->page['regions'][]  = array(
+        'region'  => 'breadcrumb', 
+        'type'    => 'string', 
+        'content' => $this->CreateBreadcrumb($c->CreateBreadcrumbFromParents()),
+      );
     }
 
     if($o['index_template']) {

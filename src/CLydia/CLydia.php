@@ -41,7 +41,25 @@ class CLydia implements ISingleton/*, IModule*/ {
     
     // include the site specific config.php and create a ref to $ly to be used by config.php
     $ly = &$this;
-    require(LYDIA_SITE_PATH.'/config.php');
+    // Checking for default value for backward compatibility, should be removed later on.
+    if(!defined('LYDIA_CONFIG_PATH')) {
+      define('LYDIA_CONFIG_PATH', LYDIA_SITE_PATH.'/config.php');
+    }
+
+    // Setup data path if not defined (backward compatibility, should be removed later on.
+    if(!defined('LYDIA_DATA_PATH')) {
+      define('LYDIA_DATA_PATH', LYDIA_SITE_PATH.'/data');
+    } 
+
+    if(is_readable(LYDIA_CONFIG_PATH)) {
+      require(LYDIA_CONFIG_PATH);
+    } else {
+      throw new Exception("Missing config-file: " . LYDIA_CONFIG_PATH);
+    }
+
+    if(!is_writable(LYDIA_DATA_PATH)) {
+      throw new Exception("Data-directory does not exists or is not writable: " . LYDIA_DATA_PATH);
+    }
 
     // Setup i18n, internationalization and multi-language support
     @putenv('LC_ALL='.$this->config['language']); // Will not work in safe_mode, ignore warning.
@@ -60,11 +78,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     
     // Create a database object.
     if(isset($this->config['database'][0]['dsn'])) {
-      try{
-        $this->db = new CDatabase($this->config['database'][0]['dsn']);
-      } catch(Exception $e) {
-        //die('<p>Lydia says: I could not read (or create) the default database. Ensure that the <code>site/data</code> directory is writable by the webserver.<p><p><code>cd lydia; chmod 777 site/data</code></p>');
-      }
+      $this->db = new CDatabase($this->config['database'][0]['dsn']);
     }
     
     // Create a container for all views and theme data
@@ -169,7 +183,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     // Use content associated url to load page
     else if($this->config['pageloader'] && CPageLoader::UrlHasContent($this->request->request)) { 
       //echo get_class(CPageLoader::Factory($this->config['pageloader_class']));
-      CPageLoader::Factory($this->config['pageloader_class'])->DisplayContentByUrl($this->request->request);
+     CPageLoader::Factory($this->config['pageloader_class'])->DisplayContentByUrl($this->request->request);
       //CPageLoader::Factory()->DisplayContentByUrl($this->request->request);
     }
 

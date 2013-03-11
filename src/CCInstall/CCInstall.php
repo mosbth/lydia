@@ -67,7 +67,7 @@ class CCInstall extends CObject implements IController {
         'label' => t('Email:'),
         'required' => true,
         'autofocus' => true,
-        'validation' => array('not_empty', 'mail_address'),
+        'validation' => array('not_empty', 'email_adress'),
       ),
       'username' => array(
         'type' => 'text',
