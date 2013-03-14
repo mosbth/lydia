@@ -55,7 +55,7 @@ class CObject {
    * Wrapper for same method in CLydia. See there for documentation.
    *
    */
-  public function RedirectToCurrent() {
+  protected function RedirectToCurrent() {
     $this->ly->RedirectToCurrent();
   }
 
@@ -73,6 +73,14 @@ class CObject {
 	 */
 	protected function RedirectToControllerMethod($controller=null, $method=null, $arguments=null) {
     $this->ly->RedirectToControllerMethod($controller, $method, $arguments);
+  }
+
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function RedirectToCurrentControllerMethod($arguments=null) {
+    $this->ly->RedirectToCurrentControllerMethod($arguments);
   }
 
 

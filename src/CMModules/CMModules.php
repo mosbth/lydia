@@ -19,6 +19,8 @@ class CMModules extends CObject {
     'install' => 'Do a fresh install, all data is removed and essentials is re-created.', 
     'sample' => 'Insert some sample data to make it look like sample website.',
     'crontab' => 'Perform crontab actions on regulare basis.',
+    'rebuild-index' => 'Rebuild the searchable index for each module.',
+    'prune-cache' => 'Remove all cached objects.',
 //    'backup' => 'Do a backup of this installation.',
 //    'export' => 'Export a zip-file with this installation.',
 //    'import' => 'Upload a zip-file and use it as base for this installation, remove all other content.',
@@ -293,6 +295,20 @@ class CMModules extends CObject {
   }
   
 
+
+  /**
+   * Get the name of the module directory.
+   *
+   * @param string $module, the classname of the module.
+   * @param string $directory, a subdirectory which defaults to null.
+   * @returns mixed null if directory exists, true if created false if failed.
+   */
+   public static function GetModuleDirectory($module, $directory=null) {
+    return LYDIA_DATA_PATH.strtolower("/$module/$directory");
+  }
+
+  
+
   /**
    * Create a directory in site/data for a specific module, using only lowercase letters.
    *
@@ -301,7 +317,7 @@ class CMModules extends CObject {
    * @returns mixed null if directory exists, true if created false if failed.
    */
    public static function CreateModuleDirectory($module, $directory=null) {
-    $path = LYDIA_DATA_PATH.strtolower("/$module/$directory");
+    $path = self::GetModuleDirectory($module, $directory);
     if(is_dir($path)) return null;
     if(mkdir($path, 0777, true)) return true;
     return false;

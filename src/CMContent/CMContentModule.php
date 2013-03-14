@@ -14,9 +14,10 @@ class CMContentModule extends CMContent {
       case 'install': 
         $this->db->ExecuteQuery(self::SQL('create table category'));
         $this->db->ExecuteQuery(self::SQL('create table content'));
+        //$this->db->ExecuteQuery(self::SQL('create table docs'));
         $ret = CMModules::CreateModuleDirectory(get_parent_class(), 'txt');
         $status = 'success';
-        $msg = t('Successfully created the database tables.');
+        $msg = t('Successfully created the database tables. Untouched if the already existed.');
         if($ret === null) {
           $msg .= ' '.t('Directory in site/data already exists.');
         } elseif($ret === false) {
@@ -25,6 +26,21 @@ class CMContentModule extends CMContent {
         } else {
           $msg .= ' '.t('Created directory in site/data.');
         }
+        return array($status, $msg);
+      break;
+      
+      case 'rebuild-index': 
+        //$this->db->ExecuteQuery(self::SQL('drop table docs'));
+        //$this->db->ExecuteQuery(self::SQL('create table docs'));
+        $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select id to index'));
+        $c = new CMContent();
+        foreach($res as $row) {
+          $c->LoadById($row['id']);
+          $this->db->ExecuteQuery(self::SQL('insert docs'), array($c['id'], $c['key'], $c['title'], $c->GetFilteredData()));
+        }
+        $this->db->ExecuteQuery(self::SQL('optimize docs'));
+        $status = 'success';
+        $msg = t('Successfully recreated the fulltext search index.');
         return array($status, $msg);
       break;
       
@@ -59,7 +75,7 @@ class CMContentModule extends CMContent {
       break;
       
       case 'supported-actions':
-        $actions = array('install', 'sample', 'export-db');
+        $actions = array('install', 'sample', 'export-db', 'rebuild-index');
         return array('success', t('Supporting the following actions: !actions.', array('!actions'=>implode(', ', $actions))), 'actions'=>$actions);
       break;
 

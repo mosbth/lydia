@@ -9,6 +9,8 @@ class CDatabase {
 	/**
 	 * Members
 	 */
+  private $dsn;
+  private $driver;
   private $db = null;
   private $stmt = null;
   private static $numQueries = 0;
@@ -21,6 +23,8 @@ class CDatabase {
   public function __construct($dsn, $username = null, $password = null, $driver_options = null) {
     $this->db = new PDO($dsn, $username, $password, $driver_options);
     $this->db->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+    $this->dsn = $dsn;
+    $this->driver = strtok($dsn, ':');
   }
   
   
@@ -39,13 +43,29 @@ class CDatabase {
   public function GetQueries() { return self::$queries; }
 
 
-	/**
-	 * Get meta information of the table.
-	 *
-	 * @return array with meta information for the latest statement.
-	 */
+  /**
+   * Get meta information of the table.
+   *
+   * @return array with meta information for the latest statement.
+   */
   public function GetColumnMeta(){
     return $this->stmt->GetColumnMeta();
+  }
+
+
+  /**
+   * Create an external PHP function to use in SQL query.
+   *
+   * @param string $functionName name of the function.
+   * @param callable $callback the function to call.
+   * @param int $numArgs hint to the compiler if there is a predefined number of arguments.
+   * @return boolean true if success else false.
+   */
+  public function CreateFunction($functionName, $callback, $numArgs=null) {
+    if($this->driver != 'sqlite') {
+      throw new Exception("Not supported to create database function with PDO extension: {$this->driver }"); 
+    }
+    return $this->db->sqliteCreateFunction ($functionName, $callback, $numArgs);
   }
 
 

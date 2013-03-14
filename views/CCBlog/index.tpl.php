@@ -6,9 +6,11 @@
   <?php if(isset($category)): ?>
   <h1><?=t('Category: @title', array('@title' => $category['title']))?></h1>
   <p><?=esc($category['description'])?></p>
+
   <?php elseif(isset($intro)): ?>
   <h1><?=$intro['title']?></h1>
   <p><?=$intro['content']?></p>
+  <?php if(isset($form)): ?><?=$form->GetHTML(array('use_fieldset'=>false))?><?php endif; ?>
   <?php endif; ?>
 </header>
 

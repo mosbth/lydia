@@ -1030,6 +1030,18 @@ textarea.nowrap {
   width: 40em;
   height: 15em;
 }
+fieldset {
+  padding-top: 22px;
+}
+.span10 {
+  width: 400px;
+}
+.span12 {
+  width: 480px;
+}
+.span14 {
+  width: 560px;
+}
 .geshi {
   overflow: scroll;
 }

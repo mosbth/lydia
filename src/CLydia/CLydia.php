@@ -344,17 +344,27 @@ class CLydia implements ISingleton/*, IModule*/ {
   }
 
 
-	/**
-	 * Redirect to a controller and method. Uses RedirectTo().
-	 *
-	 * @param string controller name the controller or null for current controller.
-	 * @param string method name the method, default is current method.
-	 * @param $arguments string the extra arguments to send to the method
-	 */
-	public function RedirectToControllerMethod($controller=null, $method=null, $arguments=null) {
-	  $controller = is_null($controller) ? $this->request->controller : null;
-	  $method = is_null($method) ? $this->request->method : null;	  
+  /**
+   * Redirect to a controller and method. Uses RedirectTo().
+   *
+   * @param string controller name the controller or null for current controller.
+   * @param string method name the method, default is current method.
+   * @param $arguments string the extra arguments to send to the method
+   */
+  public function RedirectToControllerMethod($controller=null, $method=null, $arguments=null) {
+    $controller = is_null($controller) ? $this->request->controller : null;
+    $method = is_null($method) ? $this->request->method : null;   
     $this->RedirectTo($this->request->CreateUrl($controller, $method, $arguments));
+  }
+
+
+  /**
+   * Redirect to current controller and method. Uses RedirectTo().
+   *
+   * @param $arguments string the extra arguments to send to the method
+   */
+  public function RedirectToCurrentControllerMethod($arguments=null) {
+    $this->RedirectTo($this->request->CreateUrl($this->request->controller, $this->request->method, $arguments));
   }
 
 

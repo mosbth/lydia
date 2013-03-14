@@ -74,12 +74,17 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     $queries = array(
       'table name content'        => "Content",
       'table name category'       => "Category",
+      'drop table docs'           => "DROP TABLE IF EXISTS Docs;",
       'drop table content'        => "DROP TABLE IF EXISTS Content;",
       'drop table category'       => "DROP TABLE IF EXISTS Category;",
+      'create table docs'         => "CREATE VIRTUAL TABLE Docs USING fts4(key, title, data);",
       'create table content'      => "CREATE TABLE IF NOT EXISTS Content (id INTEGER PRIMARY KEY, key TEXT KEY, type TEXT, idCategory INT default null, title TEXT, data TEXT, datafile TEXT default NULL, filter TEXT, url TEXT KEY, breadcrumb TEXT, parenttitle TEXT, template TEXT, idUser INT, created DATETIME default (datetime('now')), updated DATETIME default NULL, deleted DATETIME default NULL, published DATETIME default NULL, FOREIGN KEY(idUser) REFERENCES User(id), FOREIGN KEY(idCategory) REFERENCES Category(id));",
       'create table category'     => "CREATE TABLE IF NOT EXISTS Category (id INTEGER PRIMARY KEY, key TEXT KEY, title TEXT, description TEXT);",
       'export table content'      => 'SELECT * FROM Content;',
       'export table category'     => 'SELECT * FROM Category;',
+      'optimize docs'             => "INSERT INTO Docs(Docs) VALUES('optimize');",
+      'insert docs'               => "INSERT INTO Docs(rowid, key, title, data) VALUES(?,?,?,?);",
+      'select id to index'        => "SELECT id FROM Content WHERE type NOT IN ('block') AND type IS NOT NULL AND deleted IS NULL;",
       //'schema create table'       => "SELECT sql FROM sqlite_master WHERE tbl_name = 'Content' AND type = 'table';",
       'insert content'            => 'INSERT INTO Content (key,type,idCategory,title,data,datafile,filter,url,breadcrumb,parenttitle,template,published,idUser) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);',
       'insert category'           => 'INSERT INTO Category (key,title) VALUES (?,?);',
@@ -93,8 +98,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'select categories by type' => "SELECT ca.*, count(ca.id) as items FROM Content as c LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL GROUP BY ca.title;",
       'select category by key'    => "SELECT ca.* FROM Category as ca WHERE ca.key=?;",
       'flexible select *'         => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
+      'flexible select match'     => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
+      'update docs'               => "UPDATE Docs SET key=?, title=?, data=? WHERE rowid=?;",
       'update content'            => "UPDATE Content SET key=?, type=?, idCategory=?, title=?, data=?, datafile=?, filter=?, url=?, breadcrumb=?, parenttitle=?, template=?, published=?, updated=datetime('now') WHERE id=?;",
       'update content as deleted' => "UPDATE Content SET deleted=datetime('now') WHERE id=?;",
+      'delete docs'               => "DELETE FROM Docs WHERE rowid=?;",
     );
 
     if(!isset($queries[$key])) {
@@ -123,10 +131,12 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
 
     if($this['id']) {
       $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['url'], $this['breadcrumb'], $this['parenttitle'], $this['template'], $this['published'], $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update docs'), array($this['key'], $this['title'], $this->GetFilteredData(), $this['id']));
       $msg = 'update';
     } else {
       $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['url'], $this['breadcrumb'], $this['parenttitle'], $this['template'], $this['published'], $this->user['id']));
       $this['id'] = $this->db->LastInsertId();
+      $this->db->ExecuteQuery(self::SQL('insert docs'), array($this['id'], $this['key'], $this['title'], $this->GetFilteredData()));
       $msg = 'created';
     }
     
@@ -151,6 +161,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public function Delete() {
     if($this['id']) {
       $this->db->ExecuteQuery(self::SQL('update content as deleted'), array($this['id']));
+      $this->db->ExecuteQuery(self::SQL('delete docs'), array($this['id']));
     }
     $rowcount = $this->db->RowCount();
     if($rowcount) {
@@ -365,6 +376,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'order_by' => null,
       'order_order' => null,
       'limit' => 7,
+      'match' => false,
     );
     $options = array_merge($default, $options);
     $sqlArgs = array();
@@ -391,7 +403,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       }
     }
     $this->position = 0;
-    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit, $sqlArgs);
+    if($options['match']) {
+      $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select match').$type.$catKey.$order_by.$order_order.$limit, $sqlArgs);
+    } else {
+      $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit, $sqlArgs);
+    }
     $this->data = $this->set[$this->position];
     return $this;
   }
@@ -469,8 +485,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    */
   public function GetFilteredData() {
     $data = null;
+    $dir = CMModules::GetModuleDirectory(get_class(), 'txt');
     if($this['datafile']) {
-      $data = "\n".file_get_contents(LYDIA_DATA_PATH.'/'.strtolower(get_class()).'/txt/'.$this['datafile']);
+      //$data = "\n".file_get_contents(LYDIA_DATA_PATH.'/'.strtolower(get_class()).'/txt/'.$this['datafile']);
+      $data = "\n".file_get_contents("{$dir}/{$this['datafile']}");
     }
     $this->data['data_filtered'] = $this->Filter($this['data'] . $data, $this['filter']);
     $pos = stripos($this->data['data_filtered'], '<!--more-->');

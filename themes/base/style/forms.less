@@ -1,18 +1,56 @@
 /** --------------------------------------------------------------
  * Forms
  */
-input,textarea{font:inherit;}
-input[readonly]{color:#666;}
-label{font-size:smaller;}
-.validation-failed{border:2px solid red;}
-.validation-message{color:red;font-size:smaller;}
-.form-action-link{font-size:smaller;}
-textarea{width:100%;height:8em;}
-textarea.nowrap{white-space:nowrap;}
-
-.content-edit{
-  input[type=text]{width:30em;}
-  textarea{width:40em;height:15em;}
+input,
+textarea {
+  font: inherit;
 }
 
+input[readonly] {
+  color: #666;
+}
 
+label {
+  font-size: smaller;
+}
+
+.validation-failed {
+  border: 2px solid red;
+}
+
+.validation-message {
+  color: red;
+  font-size: smaller;
+}
+
+.form-action-link {
+  font-size: smaller;
+}
+
+textarea {
+  width: 100%;
+  height: 8em;
+}
+
+textarea.nowrap {
+  white-space: nowrap;
+}
+
+.content-edit {
+  input[type=text] {
+    width:30em;
+  }
+  
+  textarea {
+    width: 40em;
+    height: 15em;
+  }
+}
+
+fieldset {
+  padding-top: @magicNumber;
+}
+
+.span10 { width: 10px * (@column-width + @gutter-width); }
+.span12 { width: 12px * (@column-width + @gutter-width); }
+.span14 { width: 14px * (@column-width + @gutter-width); }

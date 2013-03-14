@@ -31,6 +31,10 @@ class CCBlog extends CObject implements IController {
       'content_order_by'      => 'created',  
       'content_order_order'   => 'DESC',
       'content_limit'         => 7,
+
+      // For RSS
+      'rss_limit'             => 10,
+
       'breadcrumb_first'      => t('Blog'),
       'breadcrumb_category'   => t('Category:'),
       'title_index'           => null, //t('Index'),
@@ -45,6 +49,7 @@ class CCBlog extends CObject implements IController {
       // What content should be displayed in the sidebar?
       'sidebar_default'       => array('intro', 'toc', 'latest', 'categories'),      
       'sidebar_main'          => array('latest', 'categories'),
+      'sidebar_search'        => array('latest', 'categories'),
       'sidebar_categories'    => array('intro', 'latest', 'categories'),
       'sidebar_post'          => array('intro', 'toc', 'latest', 'categories'),
     );
@@ -68,6 +73,7 @@ class CCBlog extends CObject implements IController {
       'order_by'    => $o['content_order_by'],
       'order_order' => $o['content_order_order'],
       'limit'       => $o['content_limit'],
+      'match'       => false,
     );
     $args = array_merge($default, $args);
     
@@ -139,11 +145,99 @@ class CCBlog extends CObject implements IController {
 
   
   /**
+   * Display all content of choosen type.
+   *
+   * @param string $str the string to search for. 
+   */
+  public function Search($str=null) {
+    $form = new CForm(array(), array(
+        'q' => array(
+          'type'        => 'search',
+          'class'       => 'span14',
+          'value'       => urldecode($str),
+          'placeholder' => t('Search by keywords'),
+          'required'    => true,
+          'validation'  => array('not_empty'),
+          'label'       => t('Search'),
+          'callback'  => function($f) {
+            return true;
+          }
+        ),
+      )
+    );
+
+    $status = $form->Check();
+    if($status === false) {
+      //echo "false"; 
+    }
+    else if ($status === true) {
+      $this->RedirectToCurrentControllerMethod(urlencode($form['q']['value']));
+    }
+
+    $this->Init(array('match'=>$str));
+    $this->data['form'] = $form;
+    $this->data['sidebar_contains'] = $this->options['sidebar_search'];
+    $this->Output();
+  }
+
+
+
+  /**
+   * Create a RSS for the entries.
+   *
+   */
+  public function Rss() {
+    $rss = new CMRSSFeedCreate();
+    $key = $this->request->controller . '-' . $this->request->method;
+
+    if(true or !$rss->HasValidCache($key)) {
+      $o = $this->options;
+      $c = $this->content = new CMContent();
+
+      $args = array(
+        'type'        => $o['content_type'], 
+        'order_by'    => $o['content_order_by'],
+        'order_order' => $o['content_order_order'],
+        'limit'       => $o['rss_limit'],
+      );
+          
+      $c->GetEntries($args);
+      $items = array();
+      foreach($c as $content) {
+        $item['title']        = $content['title'];
+        $item['description']  = $content->GetExcerpt(600);
+        $item['link']         = $this->CreateUrlToController($content['key']);
+        $item['guid']         = $item['link'];
+        $item['pubdate']      = date('r', $content->PublishTime());
+        $items[] = $item;
+      }
+      $rss->CreateFeed($key, $items);
+    }
+
+    $rss->ReadFeedAndExit($key);
+  }
+
+
+
+  /**
    * Display a particular blogpost based on its key.
    *
    * @param string key the key of the content to display. 
    */
   public function CatchAll($key=null) {
+    $lang = array(
+      'sok'       => 'Search',
+      'kategori'  => 'Category',      
+    );
+
+    if(isset($lang[$key])) {
+      $arg = null;
+      if(func_num_args() > 1) {
+        $arg = func_get_arg(1);
+      }
+      return $this->$lang[$key]($arg);
+    }
+
     $o = $this->options;
     $content = new CMContent();
     
