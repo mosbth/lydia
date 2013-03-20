@@ -254,6 +254,10 @@ ul.nb-dbwebb {
 
       &.selected a {
         color: @colorMenuItemsSelected;
+     
+        &:hover {
+          color: @colorMenuItemsHover;
+        }
       }    
     }
   }
@@ -272,4 +276,49 @@ ul.nb-dbwebb {
   }
 }
 
+
+/** --------------------------------------------------------------
+ * Pagination
+ *
+ */
+ul.pagination {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    margin-right: 0.5em;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Icons
+ *
+ */
+ul.icons {
+  float: right;
+  margin: 0;
+  margin-bottom: @magicNumber - 7;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+div.icons {
+  .clearfix();
+}
 

@@ -32,7 +32,7 @@ class CMRSSFeedCreateModule extends CMRSSFeedCreate {
         $files = glob("{$dir}/{$this->options['cache_pre']}*");
         $i = 0;
         foreach($files as $file) {
-          echo $file;
+          unlink($file);
           $i++;
         }
 

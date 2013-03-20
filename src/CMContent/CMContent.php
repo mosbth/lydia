@@ -61,6 +61,16 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   function valid() { return isset($this->set[$this->position]); }
   
 
+
+  /**
+   * Count number of items.
+   */
+  public function Count() {
+    return count($this->set);
+  }
+
+
+
   /**
    * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
    *
@@ -98,7 +108,9 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'select categories by type' => "SELECT ca.*, count(ca.id) as items FROM Content as c LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL GROUP BY ca.title;",
       'select category by key'    => "SELECT ca.* FROM Category as ca WHERE ca.key=?;",
       'flexible select *'         => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
-      'flexible select match'     => 'SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL',
+      'flexible match by type'    => "SELECT c.*, snippet(Docs, '<b>', '</b>', '…', -1, 48) as snippet FROM Docs AS d INNER JOIN Content AS c ON d.rowid=c.id WHERE Docs MATCH ? AND c.type=? ORDER BY c.updated DESC LIMIT ? OFFSET ?;",
+      'count match by type'       => "SELECT COUNT(d.rowid) as hits FROM Docs AS d INNER JOIN Content AS c ON d.rowid=c.id WHERE Docs MATCH ? AND c.type=?;",
+      'count flexible select'     => "SELECT COUNT(c.id) as hits FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL",
       'update docs'               => "UPDATE Docs SET key=?, title=?, data=? WHERE rowid=?;",
       'update content'            => "UPDATE Content SET key=?, type=?, idCategory=?, title=?, data=?, datafile=?, filter=?, url=?, breadcrumb=?, parenttitle=?, template=?, published=?, updated=datetime('now') WHERE id=?;",
       'update content as deleted' => "UPDATE Content SET deleted=datetime('now') WHERE id=?;",
@@ -131,12 +143,12 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
 
     if($this['id']) {
       $this->db->ExecuteQuery(self::SQL('update content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['url'], $this['breadcrumb'], $this['parenttitle'], $this['template'], $this['published'], $this['id']));
-      $this->db->ExecuteQuery(self::SQL('update docs'), array($this['key'], $this['title'], $this->GetFilteredData(), $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update docs'), array($this['key'], $this['title'], $this->GetPureText(), $this['id']));
       $msg = 'update';
     } else {
       $this->db->ExecuteQuery(self::SQL('insert content'), array($this['key'], $this['type'], $this['idCategory'], $this['title'], $this['data'], $this['datafile'], $this['filter'], $this['url'], $this['breadcrumb'], $this['parenttitle'], $this['template'], $this['published'], $this->user['id']));
       $this['id'] = $this->db->LastInsertId();
-      $this->db->ExecuteQuery(self::SQL('insert docs'), array($this['id'], $this['key'], $this['title'], $this->GetFilteredData()));
+      $this->db->ExecuteQuery(self::SQL('insert docs'), array($this['id'], $this['key'], $this['title'], $this->GetPureText()));
       $msg = 'created';
     }
     
@@ -376,21 +388,30 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'order_by' => null,
       'order_order' => null,
       'limit' => 7,
-      'match' => false,
+      'offset' => 0,
     );
     $options = array_merge($default, $options);
-    $sqlArgs = array();
+    $args = $argsc = array();
     
     $type = empty($options['type']) ? null : " AND type = ?";
-    if($type) $sqlArgs[] = $options['type'];
+    if($type) {
+      $args[] = $argsc[] = $options['type'];
+    } 
     
     if(isset($options['category_key'])) {
       $catKey = " AND ca.key = ?";
-      $sqlArgs[] = $options['category_key'];
+      $args[] = $argsc[] = $options['category_key'];
     }
 
     $limit = empty($options['limit']) ? null : " LIMIT ?";
-    if($limit) $sqlArgs[] = $options['limit'];
+    if($limit) {
+      $args[] = $options['limit'];
+    }
+    
+    $offset = empty($options['offset']) ? null : " OFFSET ?";
+    if($offset) {
+      $args[] = $options['offset'];
+    }
     
     $order_by = empty($options['order_by']) ? null : " ORDER BY {$options['order_by']}";
     
@@ -402,16 +423,60 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
         throw new Exception(t('Not valid group by order.'));
       }
     }
+
     $this->position = 0;
-    if($options['match']) {
-      $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select match').$type.$catKey.$order_by.$order_order.$limit, $sqlArgs);
-    } else {
-      $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit, $sqlArgs);
-    }
+    $res          = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('count flexible select').$type.$catKey, $argsc);
+    $this->hits   = $res[0]['hits'];
+    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit.$offset, $args);
     $this->data = $this->set[$this->position];
     return $this;
   }
   
+
+
+  /**
+   * Search content.
+   *
+   * @param array $options with various settings for the request.
+   * @return $this.
+   */
+  public function SearchEntries($options=array()) {
+    $default = array(
+      'order_by'    => 'updated',
+      'order_order' => 'ASC',
+      'type'    => null,
+      'limit'   => 10,
+      'offset'  => 0,
+      'match'   => null,
+    );
+    $options = array_merge($default, $options);
+    $args = $args1 = array();
+
+    // This is a fulltext search
+    if(empty($options['match'])) {
+      $this->position = 0;
+      $this->hits = 0;
+      $this->set = null;
+      $this->data = null;
+      return $this;
+    }
+
+    $args[] = $args1[] = $options['match'];
+    $args[] = $args1[] = $options['type'];    
+    //$args[] = $options['order_by'];
+    //$args[] = $options['order_order'];
+    $args[] = $options['limit'];
+    $args[] = $options['offset'];
+
+    $this->position = 0;
+    $res          = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('count match by type'), $args1);
+    $this->hits   = $res[0]['hits'];
+    $this->set    = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible match by type'), $args);
+    $this->data   = $this->set[$this->position];
+    return $this;
+  }
+  
+
 
   /**
    * Get category.
@@ -499,6 +564,16 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $this->data['data_short_filtered'] = $this->data['data_filtered'];
     }
     return $this->data['data_filtered'];
+  }
+  
+  
+  /**
+   * Get content as pure text.
+   *
+   * @return string with the pure text.
+   */
+  public function GetPureText() {
+    return preg_replace('/\s+/', ' ', strip_tags($this->GetFilteredData()));
   }
   
   

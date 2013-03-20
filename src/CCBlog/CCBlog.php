@@ -31,9 +31,12 @@ class CCBlog extends CObject implements IController {
       'content_order_by'      => 'created',  
       'content_order_order'   => 'DESC',
       'content_limit'         => 7,
+      'search_limit'          => 10,
 
-      // For RSS
-      'rss_limit'             => 10,
+      // For Feed
+      'feed_limit'            => 20,
+      'feed_title'            => t('Feed for blog'),
+      'feed_description'      => t('This is the feed of the latest posts to the blog.'),
 
       'breadcrumb_first'      => t('Blog'),
       'breadcrumb_category'   => t('Category:'),
@@ -47,14 +50,29 @@ class CCBlog extends CObject implements IController {
       'intro_content'          => t('This is a blog with blogposts.'),
 
       // What content should be displayed in the sidebar?
-      'sidebar_default'       => array('intro', 'toc', 'latest', 'categories'),      
-      'sidebar_main'          => array('latest', 'categories'),
-      'sidebar_search'        => array('latest', 'categories'),
-      'sidebar_categories'    => array('intro', 'latest', 'categories'),
-      'sidebar_post'          => array('intro', 'toc', 'latest', 'categories'),
+      'sidebar_default'       => array('intro', 'toc', 'current', 'categories'),      
+      'sidebar_main'          => array('current', 'categories'),
+      'sidebar_search'        => array('categories'),
+      'sidebar_categories'    => array('intro', 'current', 'categories'),
+      'sidebar_post'          => array('intro', 'toc', 'current', 'categories'),
+
+      // Icons to show
+      'icons_default'         => array('search', 'rss'),
+      'icons'                 => array(
+        'search' => array(
+          'href'  => $this->CreateUrlToController(m('search')),
+          'title' => t('Search among the blogsposts'),
+        ),
+        'rss' => array(
+          'href'  => $this->CreateUrlToController('rss'),
+          'title' => t('RSS feed for the latest blogsposts'),
+        ),
+      ),
     );
 
-    $this->options = array_merge($default, $options);
+    $this->options = array_merge_recursive_distinct($default, $options);
+    $this->views->SetVariable('alternate_feed', $this->CreateUrlToController('feed'));
+    $this->views->SetVariable('alternate_feed_title', $this->options['feed_title']);
   }
 
 
@@ -68,23 +86,40 @@ class CCBlog extends CObject implements IController {
     $o = $this->options;
     $c = $this->content = new CMContent();
 
+    // Get details for pagination (could gather this in function or class later on?)
+    $limit = $o['content_limit'];
+    $pageCurrent = isset($_GET['p']) && is_numeric($_GET['p']) ? $_GET['p'] : 1;
+    $offset = ($pageCurrent > 0 ? $pageCurrent - 1 : 0) * $limit;
+   
     $default = array(
       'type'        => $o['content_type'], 
       'order_by'    => $o['content_order_by'],
       'order_order' => $o['content_order_order'],
-      'limit'       => $o['content_limit'],
-      'match'       => false,
+      'limit'       => $limit,
+      'offset'      => $offset,
     );
     $args = array_merge($default, $args);
-    
+
+    $c->GetEntries($args);
+    $items = $c->Count();
+    $total = $c->hits;
+
     $this->data = array(
-      'contents'           => $c->GetEntries($args),
+      'contents'           => $c,
       'user_is_admin'      => $this->user->IsAdmin(),
       'post_format_short'  => $o['post_format_short'],
       'order_by_updated'   => $o['content_order_by'] === 'updated',
       'categories'         => $c->GetCategories(array('type'=>$o['content_type'])),
       'sidebar_contains'   => $o['sidebar_default'],
       'intro'              => array('title' => $o['intro_title'], 'content' =>  $o['intro_content']),
+      'hits'               => $items,
+      'first_hit'          => $offset + 1,
+      'last_hit'           => $offset + $items,
+      'total_hits'         => $total,
+      'first_page'         => 1,
+      'last_page'          => ceil($total / $limit),
+      'current_page'       => $pageCurrent, 
+      'pagination_url'     => $this->CreateUrlToControllerMethodArguments(),
     );
 
     $this->breadcrumb = array(
@@ -104,7 +139,10 @@ class CCBlog extends CObject implements IController {
     $o = $this->options;
     $this->title = isset($o['title_index']) ?  $o['title_index'] . $o['title_separator'] . $o['title_app'] : $o['title_app'];
 
+    $this->icons = $this->Icons($o['icons_default'], $o['icons']);
+
     $this->views->SetTitle($this->title)
+                ->AddStringToRegion('sidebar', $this->icons, null, -1)
                 ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
                 ->AddIncludeToRegion('primary', $this->LoadView($this->primary), $this->data)
                 ->AddIncludeToRegion('sidebar', $this->LoadView($this->sidebar), $this->data);
@@ -120,6 +158,7 @@ class CCBlog extends CObject implements IController {
     $this->data['sidebar_contains'] = $this->options['sidebar_main'];
     $this->Output();
   }
+
 
 
   /**
@@ -150,12 +189,13 @@ class CCBlog extends CObject implements IController {
    * @param string $str the string to search for. 
    */
   public function Search($str=null) {
+    $strDecode = urldecode($str);
     $form = new CForm(array(), array(
         'q' => array(
           'type'        => 'search',
           'class'       => 'span14',
-          'value'       => urldecode($str),
-          'placeholder' => t('Search by keywords'),
+          'value'       => $strDecode,
+          'placeholder' => t('Search by keywords using "" AND OR'),
           'required'    => true,
           'validation'  => array('not_empty'),
           'label'       => t('Search'),
@@ -167,48 +207,124 @@ class CCBlog extends CObject implements IController {
     );
 
     $status = $form->Check();
-    if($status === false) {
-      //echo "false"; 
-    }
-    else if ($status === true) {
+    if ($status === true) {
       $this->RedirectToCurrentControllerMethod(urlencode($form['q']['value']));
     }
+ 
+    $o = $this->options;
+    $c = $this->content = new CMContent();
 
-    $this->Init(array('match'=>$str));
-    $this->data['form'] = $form;
-    $this->data['sidebar_contains'] = $this->options['sidebar_search'];
+    // Get details for pagination (could gather this in function or class later on?)
+    $limit = $o['search_limit'];
+    $pageCurrent = isset($_GET['p']) && is_numeric($_GET['p']) ? $_GET['p'] : 1;
+    $offset = ($pageCurrent > 0 ? $pageCurrent - 1 : 0) * $limit;
+
+    $args = array(
+      'type'    => $o['content_type'], 
+      'limit'   => $limit,
+      'offset'  => $offset,
+      'match'   => $strDecode,
+    );
+    
+    $c->SearchEntries($args);
+    $items = $c->Count();
+    $total = $c->hits;
+
+    $this->data = array(
+      'contents'           => $c,
+      'categories'         => $c->GetCategories(array('type'=>$o['content_type'])),
+      'sidebar_contains'   => $o['sidebar_search'],
+      'intro'              => array('title' => $o['intro_title'], 'content' =>  $o['intro_content']),
+      'form'               => $form,
+      'did_search'         => !empty($str),
+      'hits'               => $items,
+      'first_hit'          => $offset + 1,
+      'last_hit'           => $offset + $items,
+      'total_hits'         => $total,
+      'first_page'         => 1,
+      'last_page'          => ceil($total / $limit),
+      'current_page'       => $pageCurrent, 
+      'pagination_url'     => $this->CreateUrlToControllerMethod($str),
+    );
+
+    // Create the breadcrumb
+    $this->breadcrumb[] = array('label' => $o['breadcrumb_first'], 'url' => $this->CreateUrlToController());
+    $this->breadcrumb[] = array('label' => t('Search'), 'url' => $this->CreateUrlToControllerMethod());
+
+    if(!empty($str)) {
+      $this->breadcrumb[] = array('label' => $strDecode, 'url' => $this->CreateUrlToControllerMethod($str));
+      $this->options['title_index'] = t('Search for "!str"', array('!str' => $strDecode));
+    } else {
+      $this->options['title_index'] = t('Search');
+    }
+
+    $this->primary = 'search.tpl.php';
+    $this->sidebar = 'index_sidebar.tpl.php';
     $this->Output();
   }
 
 
 
   /**
-   * Create a RSS for the entries.
+   * Add icons
+   *
+   * @param array $which icons.
+   * @param array $icons all the configuration for all of the icons.
+   * @return string html for icons.
+   */
+  protected function Icons($which, $icons) {
+    $default = array(
+      'path' => '/img/glyphicons/png/',
+      'icons' => array(
+        'search'  => 'glyphicons_027_search.png',
+        'rss'     => 'glyphicons_397_rss.png',
+      ),
+    );
+
+    $html = "<div class='icons'><ul class='icons'>\n";
+    foreach ($which as $val) {
+      $href   = $icons[$val]['href'];
+      $src    = $default['path'] . $default['icons'][$val];
+      $alt    = $val;
+      $title  = $icons[$val]['title'];
+      $html .= "\t<li><a href='{$href}'><img src='{$src}' alt='{$alt}' title='{$title}' width='24' height='24' /></a></li>\n";
+    }
+
+    return $html . "</ul></div>\n";
+  }
+
+
+
+  /**
+   * Create a feed (RSS) for the entries.
    *
    */
-  public function Rss() {
-    $rss = new CMRSSFeedCreate();
+  public function Feed() {
+    $o = $this->options;
+    $rss = new CMRSSFeedCreate(array(
+      'title'       => $o['feed_title'],
+      'description' => $o['feed_description'],
+    ));
     $key = $this->request->controller . '-' . $this->request->method;
 
-    if(true or !$rss->HasValidCache($key)) {
-      $o = $this->options;
+    if(!$rss->HasValidCache($key)) {
       $c = $this->content = new CMContent();
 
       $args = array(
         'type'        => $o['content_type'], 
         'order_by'    => $o['content_order_by'],
         'order_order' => $o['content_order_order'],
-        'limit'       => $o['rss_limit'],
+        'limit'       => $o['feed_limit'],
       );
           
       $c->GetEntries($args);
       $items = array();
       foreach($c as $content) {
-        $item['title']        = $content['title'];
-        $item['description']  = $content->GetExcerpt(600);
+        $item['title']        = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content['title'])));
+        $item['description']  = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content->GetExcerpt(800) . '…')));
         $item['link']         = $this->CreateUrlToController($content['key']);
         $item['guid']         = $item['link'];
-        $item['pubdate']      = date('r', $content->PublishTime());
+        $item['pubdate']      = date('r', strtotime($content->PublishTime()));
         $items[] = $item;
       }
       $rss->CreateFeed($key, $items);
@@ -225,19 +341,22 @@ class CCBlog extends CObject implements IController {
    * @param string key the key of the content to display. 
    */
   public function CatchAll($key=null) {
-    $lang = array(
-      'sok'       => 'Search',
-      'kategori'  => 'Category',      
-    );
 
-    if(isset($lang[$key])) {
+    // Manage localised method names
+    $method = checkMethodL10n($key);
+    if(method_exists($this, $method)) {
+      return $this->$method((func_num_args() > 1 ? func_get_arg(1) : null));
+    }
+
+    // Manage catch all by loading content by key
+ /*   if(isset($lang[$key])) {
       $arg = null;
       if(func_num_args() > 1) {
         $arg = func_get_arg(1);
       }
       return $this->$lang[$key]($arg);
     }
-
+*/
     $o = $this->options;
     $content = new CMContent();
     

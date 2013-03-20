@@ -1,5 +1,3 @@
-<?php if($contents != null):?>
-
 <section class='ly-blog'>
 
 <header class='ly-blog-header'>
@@ -10,10 +8,10 @@
   <?php elseif(isset($intro)): ?>
   <h1><?=$intro['title']?></h1>
   <p><?=$intro['content']?></p>
-  <?php if(isset($form)): ?><?=$form->GetHTML(array('use_fieldset'=>false))?><?php endif; ?>
   <?php endif; ?>
 </header>
 
+<?php if($contents != null):?>
 <?php foreach($contents as $val):?>
 <article class='ly-blog-post'>
 
@@ -42,9 +40,18 @@
 </article>
 <?php endforeach; ?>
 
-</section>
+<footer>
+<?php if($hits): ?>
+  <p><?=t('Displaying hits !first - !last from a total of !total.', array('!first' => $first_hit, '!last' => $last_hit, '!total' => $total_hits));?></p>
+  <?=pagination($first_page, $current_page, $last_page, $pagination_url)?>
+<?php endif; ?>
+</footer>
+
 
 <?php else:?>
 <p><?=t('No posts exists.')?></p>
 <?php endif;?>
+
+
+</section>
 

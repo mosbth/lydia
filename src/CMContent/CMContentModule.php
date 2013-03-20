@@ -30,13 +30,13 @@ class CMContentModule extends CMContent {
       break;
       
       case 'rebuild-index': 
-        //$this->db->ExecuteQuery(self::SQL('drop table docs'));
-        //$this->db->ExecuteQuery(self::SQL('create table docs'));
+        $this->db->ExecuteQuery(self::SQL('drop table docs'));
+        $this->db->ExecuteQuery(self::SQL('create table docs'));
         $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select id to index'));
         $c = new CMContent();
         foreach($res as $row) {
           $c->LoadById($row['id']);
-          $this->db->ExecuteQuery(self::SQL('insert docs'), array($c['id'], $c['key'], $c['title'], $c->GetFilteredData()));
+          $this->db->ExecuteQuery(self::SQL('insert docs'), array($c['id'], $c['key'], $c['title'], $c->GetPureText()));
         }
         $this->db->ExecuteQuery(self::SQL('optimize docs'));
         $status = 'success';

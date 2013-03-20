@@ -21,6 +21,7 @@ class CMRSSFeedCreate extends CObject implements IModule {
       'description' => t('This is an example RSS feed'),
       'language'    => $this->config['language'],
       'copyright'   => $this->config['feed']['copyright'],
+      'self'        => $this->CreateUrlToControllerMethod(),
 
       'cache_age'   => 60*5,
       'cache_pre'   => 'cache_',
@@ -61,13 +62,14 @@ EOD;
     $o = $this->options;
     $feed = <<< EOD
 <?xml version="1.0" encoding="{$o['encoding']}"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{$o['title']}</title>
     <link>{$o['link']}</link>
     <description>{$o['description']}</description>
     <language>{$o['language']}</language>
     <copyright>{$o['copyright']}</copyright>
+    <atom:link href="{$o['self']}" rel="self" type="application/rss+xml" />
 {$xml}
   </channel>
 </rss>\n
@@ -102,8 +104,8 @@ EOD;
     $modified = null;
     if(is_file($file)) {
       $modified = filemtime($file);
-    }
-    return ($modified + $this->options['cache_age'] < time());
+    } 
+    return ($modified + $this->options['cache_age'] > time());
   }
  
 
@@ -121,7 +123,7 @@ EOD;
     if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $time){  
       header("HTTP/1.0 304 Not Modified");  
     } else {  
-      header('Content-type: application/rss+xml');  
+      header('Content-type: application/rss+xml; charset=' . $this->options['encoding']);  
       header('Last-Modified: ' . gmdate("D, d M Y H:i:s", $time) . " GMT");  
       readfile($file);
     }

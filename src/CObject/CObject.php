@@ -116,6 +116,16 @@ class CObject {
   }
 
 
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateUrlToControllerMethodArguments() {
+    return $this->ly->CreateUrlToControllerMethodArguments();
+  }
+
+
+
   /**
    * Wrapper for same method in CLydia. See there for documentation.
    */

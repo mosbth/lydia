@@ -171,6 +171,20 @@ function get_meta($what) {
 
 
 /**
+ * Get the feed if it has one.
+ *
+ * @return string for the alternate link.
+ */
+function get_feed() {
+  global $ly;
+  $feed   = $ly->views->GetVariable('alternate_feed');
+  $title  = $ly->views->GetVariable('alternate_feed_title');
+  return isset($feed) ? "<link rel='alternate' type='application/rss+xml' href='{$feed}' title='{$title}'>\n" : null;
+}
+
+
+
+/**
  * Add classes to html element.
  *
  * @return string with classes.
@@ -210,6 +224,34 @@ function get_gravatar($size=null) {
  */
 function get_language() {
   return CLydia::Instance()->config['language'];
+}
+
+
+/**
+ * Get pagination sequence.
+ *
+ * @returns string with li as pagination items.
+ */
+function pagination($start, $current, $last, $url) {
+  if($start == $last) return null; 
+
+  $p = "<ul class='pagination'>\n";
+  
+  if($start + 2 < $current) $p .= "\t<li><a href='{$url}?p={$first}'>&lt;&lt;</a></li>\n";
+  if($start < $current)     $p .= "\t<li><a href='{$url}?p=".($current-1)."'>&lt;</a></li>\n";
+
+  for($i=$start; $i <= $last; $i++) {
+    if($i == $current) {
+      $p .= "\t<li>$i</li>\n";
+    } else {
+      $p .= "\t<li><a href='{$url}?p={$i}'>$i</a></li>\n";
+    }
+  }
+
+  if($current < $last)     $p .= "\t<li><a href='{$url}?p=".($current+1)."'>&gt;</a></li>\n";
+  if($current + 2 < $last) $p .= "\t<li><a href='{$url}?p={$last}'>&gt;&gt;</a></li>\n";
+
+  return $p . "\n</ul>";
 }
 
 

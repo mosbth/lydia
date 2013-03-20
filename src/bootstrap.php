@@ -40,7 +40,7 @@ set_exception_handler('exceptionHandler');
  *     sanitized.
  *   - @variable: Escaped to HTML using htmlEnt(). Use this for anything
  *     displayed on a page on the site.
- * @returns string the translated string.
+ * @return string the translated string.
  */
 function t($str, $args = array()) {
   if(CLydia::Instance()->config['i18n']) {  
@@ -62,12 +62,53 @@ function t($str, $args = array()) {
 }
 
 
+
+/**
+ * Check if the methodname is a localised one.
+ *
+ * @param string $key as the key for the method name to lookup.
+ * @return string/boolean with the method name to call or false.
+ */
+function checkMethodL10n($key) {
+  $cfg = CLydia::Instance()->config;
+  
+  if(!isset($cfg['method_L10n'][$cfg['language']])) {
+    return false;
+  }
+
+  $cfgL10n = array_flip($cfg['method_L10n'][$cfg['language']]);
+  return isset($cfgL10n[$key]) ? $cfgL10n[$key] : false;
+}
+
+
+
+/**
+ * Create a localised name for a method, if it can.
+ *
+ * @param string $key as the key for the method name to lookup.
+ * @return string/boolean with the method name to call or false.
+ */
+//function createMethodL10n($key) {
+function m($key) {
+  $cfg = CLydia::Instance()->config;
+  
+  if(!isset($cfg['method_L10n'][$cfg['language']])) {
+    return $key;
+  }
+
+  $cfgL10n = $cfg['method_L10n'][$cfg['language']];
+  return isset($cfgL10n[$key]) ? $cfgL10n[$key] : $key;
+}
+
+
+
+
 /**
  * Helper, include a file and store it in a string. Make $vars available to the included file.
  *
  * @param string $filename
  * @param array $vars a set of variables made available to process in the included file.
- * @returns string with content from file, processed using variables.
+ * @return string with content from file, processed using variables.
  */
 function getIncludeContents($filename, $vars=array()) {
   if(is_file($filename)) {
@@ -77,6 +118,14 @@ function getIncludeContents($filename, $vars=array()) {
     return ob_get_clean();
   }
   return false;
+}
+
+
+/**
+ * Helper, wrap htmlspecialchars with correct character encoding
+ */
+function htmlSpec($str, $flags = ENT_COMPAT) {
+  return htmlspecialchars($str, $flags, CLydia::Instance()->config['character_encoding']);
 }
 
 
@@ -319,5 +368,53 @@ function excerpt($excerpt, $chars=139, $hard=false) {
 function dump($a) {
   echo '<pre>', print_r($a, true), '</pre>';
 }
+
+
+
+/**
+ * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
+ * keys to arrays rather than overwriting the value in the first array with the duplicate
+ * value in the second array, as array_merge does. I.e., with array_merge_recursive,
+ * this happens (documented behavior):
+ *
+ * array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
+ *     => array('key' => array('org value', 'new value'));
+ *
+ * array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
+ * Matching keys' values in the second array overwrite those in the first array, as is the
+ * case with array_merge, i.e.:
+ *
+ * array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
+ *     => array('key' => array('new value'));
+ *
+ * Parameters are passed by reference, though only for performance reasons. They're not
+ * altered by this function.
+ *
+ * @param array $array1
+ * @param array $array2
+ * @return array
+ * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+ * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+ */
+function array_merge_recursive_distinct ( array &$array1, array &$array2 )
+{
+  $merged = $array1;
+
+  foreach ( $array2 as $key => &$value )
+  {
+    if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+    {
+      $merged [$key] = array_merge_recursive_distinct ( $merged [$key], $value );
+    }
+    else
+    {
+      $merged [$key] = $value;
+    }
+  }
+
+  return $merged;
+}
+
+
 
 

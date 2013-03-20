@@ -564,6 +564,9 @@ ul.nb-dbwebb ul li.selected {
 ul.nb-dbwebb ul li.selected a {
   color: #000;
 }
+ul.nb-dbwebb ul li.selected a:hover {
+  color: #33f;
+}
 ul.nb-dbwebb a {
   font-family: Times, 'Times New Roman', serif;
   letter-spacing: 1px;
@@ -572,8 +575,45 @@ ul.nb-dbwebb a {
   color: #444;
 }
 ul.nb-dbwebb a:hover {
-  color: #222;
+  color: #33f;
   text-decoration: underline;
+}
+ul.pagination {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul.pagination li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  margin-right: 0.5em;
+}
+ul.pagination li:last-child {
+  margin-right: 0;
+}
+ul.icons {
+  float: right;
+  margin: 0;
+  margin-bottom: 15px;
+  padding: 0;
+  list-style: none;
+}
+ul.icons li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+div.icons {
+  *zoom: 1;
+}
+div.icons:before,
+div.icons:after {
+  content: "";
+  display: table;
+}
+div.icons:after {
+  clear: both;
 }
 html {
   overflow: -moz-scrollbars-vertical;
@@ -699,10 +739,10 @@ body {
   width: 950px;
   margin: 0 5px;
 }
-#flash1,
-#flash2,
-#flash3,
-#flash4 {
+#flash-1,
+#flash-2,
+#flash-3,
+#flash-4 {
   display: inline;
   float: left;
   width: 230px;
@@ -1217,6 +1257,21 @@ body {
 }
 .ly-blog-post-meta-header {
   font-style: italic;
+}
+.ly-search-post {
+  margin-bottom: 22px;
+}
+.ly-search-post-header h2 {
+  font-size: 1.25em;
+  line-height: 1.1;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+.ly-search-post-header h2 a {
+  display: block;
+}
+.ly-search-url {
+  color: #009933;
 }
 .error,
 .alert,

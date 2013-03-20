@@ -59,7 +59,7 @@ class CCAllSeeingEye extends CObject implements IController, IModule /*, ArrayAc
   /**
    * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Manage($action=null) { require_once(__DIR__.'/CCAllSeeingEyeModule.php'); return CCAllSeeingEyeModule::Manage($action, $this['aggregator_options']); }
+  public function Manage($action=null) { require_once(__DIR__.'/CCAllSeeingEyeModule.php'); $m = new CCAllSeeingEyeModule; return $m->Manage($action, $this->options['aggregator_options']); }
 
  
   /**

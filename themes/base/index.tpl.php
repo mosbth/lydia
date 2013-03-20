@@ -8,6 +8,7 @@
 <?=get_meta('description')?>
 <?=get_meta('keywords')?>
 <?=get_meta('robots')?>
+<?=get_feed()?>
 <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
 <?=modernizr_include()?>
 </head>
@@ -35,7 +36,7 @@
 <div id='outer-wrap-navbar' role='navigation'>
   <div id='inner-wrap-navbar'>
     <div id='navbar'>
-      <navbar id='navbar2'><?=render_views('navbar2')?></navbar>
+      <nav id='navbar2'><?=render_views('navbar2')?></nav>
     </div>
   </div>
 </div>
@@ -51,14 +52,14 @@
 </div>
 <?php endif; ?>
 
-<?php if(region_has_content('flash', 'flash1', 'flas2', 'flash3', 'flash4')): ?>
+<?php if(region_has_content('flash', 'flash-1', 'flash-2', 'flash-3', 'flash-4')): ?>
 <div id='outer-wrap-flash' role='complementary'>
   <div id='inner-wrap-flash'<?=get_class_for_region('flash')?>>
     <?php if(region_has_content('flash')): ?><div id='flash'><?=render_views('flash')?></div><?php endif; ?>
-    <?php if(region_has_content('flash1')): ?><div id='flash1'><?=render_views('flash1')?></div><?php endif; ?>
-    <?php if(region_has_content('flash2')): ?><div id='flash2'><?=render_views('flash2')?></div><?php endif; ?>
-    <?php if(region_has_content('flash3')): ?><div id='flash3'><?=render_views('flash3')?></div><?php endif; ?>
-    <?php if(region_has_content('flash4')): ?><div id='flash4'><?=render_views('flash4')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-1')): ?><div id='flash-1'><?=render_views('flash-1')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-2')): ?><div id='flash-2'><?=render_views('flash-2')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-3')): ?><div id='flash-3'><?=render_views('flash-3')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-4')): ?><div id='flash-4'><?=render_views('flash-4')?></div><?php endif; ?>
   </div>
 </div>
 <?php endif; ?>

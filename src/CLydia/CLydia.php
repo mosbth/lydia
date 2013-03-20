@@ -424,6 +424,17 @@ class CLydia implements ISingleton/*, IModule*/ {
 
 
   /**
+   * Create an url to current controller, method with existing arguments, wrapper for CreateUrl().
+   *
+   * @return string as the url.
+   */
+  public function CreateUrlToControllerMethodArguments() {
+    return $this->request->CreateUrl($this->request->controller, $this->request->method, $this->request->arguments);
+  }
+
+
+
+  /**
    * Create a menu from an array or use a predefined array from $ly->config['menus'].
    * 'items' => array(
    *    array('label'=>'visible label', 'url'=>'url/to', 'title'=> 'display when hovering'),
