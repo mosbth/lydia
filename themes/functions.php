@@ -256,6 +256,29 @@ function pagination($start, $current, $last, $url) {
 
 
 /**
+ * Get pagination next and previous, a bit more slim than pagination().
+ *
+ * @returns string with li as pagination items.
+ */
+function pagination_next($start, $current, $last, $firstHit, $lastHit, $totalHits, $url) {
+  if($start == $last) return null; 
+
+  $default = array(
+    'text_previous' => t('&lt; Previous'),
+    'text_next'     => t('Next &gt;'),
+  );
+  $options = $default;
+
+  $p = "<ul class='pagination'>\n";
+  if($start < $current) $p .= "\t<li><a href='{$url}?p=".($current-1)."'>{$options['text_previous']}</a></li>\n";
+  //$p .= "\t<li>" . t('Display !firstHit-!lastHit (!totalHits)', array('!firstHit' => $firstHit, '!lastHit' => $lastHit, '!total_hits' => $totalHits)) . "</li>\n";
+  if($current < $last) $p .= "\t<li><a href='{$url}?p=".($current+1)."'>{$options['text_next']}</a></li>\n";
+
+  return $p . "\n</ul>";
+}
+
+
+/**
  * Escape data to make it safe to write in the browser.
  *
  * @param $str string to escape.

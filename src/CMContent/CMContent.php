@@ -325,6 +325,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     $label  = empty($this['breadcrumb'])  ? $this['title'] : $this['breadcrumb'] ;
     $url    = empty($this['url'])         ? $this->request->request : $this['url'];
     $breadcrumbs[] = array('label' => $label, 'url' => $url);
+
+    uasort($breadcrumbs, function($a, $b) {
+      return strcmp($a['url'], $b['url']);
+    });
+
     return $breadcrumbs;
   }
 
@@ -521,6 +526,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     );
   }
   
+
   
   /**
    * Filter content according to a filter.
@@ -532,10 +538,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     switch($filter) {
       /*case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
       case 'html': $data = nl2br(makeClickable($data)); break;*/
-      case 'markdownx': $data = CTextFilter::MakeClickable(CTextFilter::Typographer(CTextFilter::MarkdownExtra(CTextFilter::ShortTags($data)))); break;
-      case 'markdown': $data = CTextFilter::Typographer(CTextFilter::Markdown($data)); break;
-      case 'htmlpurify': $data = nl2br(CTextFilter::Purify($data)); break;
-      case 'bbcode': $data = nl2br(CTextFilter::Bbcode2HTML(htmlEnt($data))); break;
+      case 'markdownx':   $data = CTextFilter::MakeClickable(CTextFilter::Typographer(CTextFilter::MarkdownExtra(CTextFilter::ShortTags($data)))); break;
+      case 'markdown':    $data = CTextFilter::Typographer(CTextFilter::Markdown($data)); break;
+      case 'htmlpurify':  $data = nl2br(CTextFilter::Purify($data)); break;
+      case 'bbcode':      $data = nl2br(CTextFilter::Bbcode2HTML(htmlEnt($data))); break;
       case 'plain': 
       default: $data = nl2br(CTextFilter::MakeClickable(htmlEnt($data))); break;
     }
@@ -543,6 +549,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   }
   
   
+
   /**
    * Get the filtered content.
    *
@@ -567,6 +574,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   }
   
   
+
   /**
    * Get content as pure text.
    *
@@ -577,6 +585,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   }
   
   
+
   /**
    * Get the TOC of headings to a certain level.
    *

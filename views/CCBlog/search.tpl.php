@@ -14,7 +14,7 @@
     <h2><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></h2>
   </header>
 
-  <span class='ly-search-url'><?=create_url(null, $val['key'])?></span></br>
+  <span class='ly-search-url'><?=create_url(null, $val['key'])?></span><br/>
   <?=$val['snippet']?>
 
 </article>

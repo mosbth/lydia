@@ -54,7 +54,7 @@ class CCBlog extends CObject implements IController {
       'sidebar_main'          => array('current', 'categories'),
       'sidebar_search'        => array('categories'),
       'sidebar_categories'    => array('intro', 'current', 'categories'),
-      'sidebar_post'          => array('intro', 'toc', 'current', 'categories'),
+      'sidebar_post'          => array('intro', 'toc', 'categories'),
 
       // Icons to show
       'icons_default'         => array('search', 'rss'),
@@ -71,7 +71,7 @@ class CCBlog extends CObject implements IController {
     );
 
     $this->options = array_merge_recursive_distinct($default, $options);
-    $this->views->SetVariable('alternate_feed', $this->CreateUrlToController('feed'));
+    $this->views->SetVariable('alternate_feed', $this->CreateUrlToController('rss'));
     $this->views->SetVariable('alternate_feed_title', $this->options['feed_title']);
   }
 
@@ -272,16 +272,18 @@ class CCBlog extends CObject implements IController {
    * @param array $icons all the configuration for all of the icons.
    * @return string html for icons.
    */
-  protected function Icons($which, $icons) {
+  protected function Icons($which, $icons, $options=array()) {
     $default = array(
       'path' => '/img/glyphicons/png/',
       'icons' => array(
         'search'  => 'glyphicons_027_search.png',
         'rss'     => 'glyphicons_397_rss.png',
       ),
+      //'wrapper_element' => 'div', 
     );
+    //$options = array_merge($default, $options);
 
-    $html = "<div class='icons'><ul class='icons'>\n";
+    $html = "<div class='icons'><ul class='icons right'>\n";
     foreach ($which as $val) {
       $href   = $icons[$val]['href'];
       $src    = $default['path'] . $default['icons'][$val];
@@ -299,7 +301,7 @@ class CCBlog extends CObject implements IController {
    * Create a feed (RSS) for the entries.
    *
    */
-  public function Feed() {
+  public function Rss() {
     $o = $this->options;
     $rss = new CMRSSFeedCreate(array(
       'title'       => $o['feed_title'],

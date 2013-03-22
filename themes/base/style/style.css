@@ -593,7 +593,6 @@ ul.pagination li:last-child {
   margin-right: 0;
 }
 ul.icons {
-  float: right;
   margin: 0;
   margin-bottom: 15px;
   padding: 0;
@@ -627,7 +626,6 @@ body {
   width: 960px;
   margin: 0 auto;
   *zoom: 1;
-  height: 88px;
 }
 #inner-wrap-header:before,
 #inner-wrap-header:after {
@@ -643,6 +641,15 @@ body {
   width: 950px;
   margin: 0 5px;
   margin-top: 11px;
+  *zoom: 1;
+}
+#header:before,
+#header:after {
+  content: "";
+  display: table;
+}
+#header:after {
+  clear: both;
 }
 #site-title {
   color: #999;
@@ -1237,7 +1244,8 @@ body {
   color: #33f;
   text-decoration: underline;
 }
-.ly-blog-post-header h1 {
+.ly-blog-post-header h1,
+.ly-page-header h1 {
   margin-bottom: 11px;
 }
 .ly-blog-post-meta-header,
@@ -1327,12 +1335,16 @@ body {
   margin-left: 0;
   padding-left: 0;
 }
-html.dbwebb #inner-wrap-header {
-  height: 66px;
+.right {
+  float: right;
+}
+.left {
+  float: left;
 }
 html.dbwebb #header {
-  padding-bottom: 2px;
-  margin-top: 4px;
+  padding-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   border-bottom: 1px dotted #bbb;
 }
 html.dbwebb #site-title {
@@ -1371,12 +1383,10 @@ html.dbwebb #navbar1 {
 .irclog .time {
   color: #666;
 }
-.box,
-.box-frontpage {
+.box {
   margin-bottom: 44px;
 }
-.box h4,
-.box-frontpage h4 {
+.box h4 {
   background-color: #f3f3ff;
   background-color: #f8f8ff;
   background-image: -moz-linear-gradient(top,#f3f3ff,#fff);
@@ -1392,23 +1402,19 @@ html.dbwebb #navbar1 {
   margin-bottom: 11px;
   padding-left: 4px;
 }
-.box h4 a,
-.box-frontpage h4 a {
+.box h4 a {
   color: #333;
   text-decoration: none;
   display: block;
 }
-.box h4 a:visited,
-.box-frontpage h4 a:visited {
+.box h4 a:visited {
   color: inherit;
 }
-.box h4 a:hover,
-.box-frontpage h4 a:hover {
+.box h4 a:hover {
   color: #33f;
   text-decoration: underline;
 }
-.box ul,
-.box-frontpage ul {
+.box ul {
   list-style: circle;
 }
 .box-frontpage {

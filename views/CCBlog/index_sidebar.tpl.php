@@ -34,7 +34,7 @@ foreach($sidebar_contains as $val) {
 <li><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></li>
 <?php endforeach; ?>
 </ul>
-<?=pagination($first_page, $current_page, $last_page, $pagination_url)?>
+<?=pagination_next($first_page, $current_page, $last_page, $first_hit, $last_hit, $total_hits, $pagination_url)?>
 </div>
 <?php
     break;

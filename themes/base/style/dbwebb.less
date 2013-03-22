@@ -21,12 +21,13 @@ html.dbwebb {
    * Header 
    */
   #inner-wrap-header {
-    height: @magicNumber * 3;
+    //height: @magicNumber * 4;
   }
 
   #header{
-    padding-bottom: 2px;
-    margin-top: 4px;
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     border-bottom: 1px dotted @colorBorderBottomHeader;
   }
 
@@ -113,8 +114,7 @@ html.dbwebb {
  /** --------------------------------------------------------------
  * Frontpage
  */
- .box,
- .box-frontpage {
+ .box {
   margin-bottom: @magicNumber * 2;
 
   h4 {
@@ -124,12 +124,7 @@ html.dbwebb {
     border-top: 1px solid @colorBorderLight;
     border-bottom: 1px solid @colorBorderLight;
     margin-bottom: @magicNumber / 2;
-    //text-align: center;
     padding-left: 4px;
-  }
-
-  p {
-    //.font-size(@fontSizeSmall);
   }
 
   h4 a {
@@ -148,7 +143,6 @@ html.dbwebb {
   }
   
   ul {
-    /*padding-left: 0;*/
     list-style: circle;
   }
 }
