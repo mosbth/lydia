@@ -105,7 +105,6 @@ its more a memory management and wishlist for me when developing.
 * Create view-directory and perform alternative load between view and site/view.
 * Add tabs to module-manager and enable management of each module.
 * Add source.php and enable viewing sourceode of modules.
-* Add image.php to enable image-handling.
 * Add tab to module-manager to enable translation of each module, with connection to 
 external translation service, such as google translate.
 
@@ -114,8 +113,11 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.0x (latest)
+v0.3.91 (2013-03-22)
 
+* Preparing to release version 2 of dbwebb.se and including all modifications of Lydia.
+* Several enhancements com `CMContent`.
+* Added RSS feed and search to `CCBlog`.
 * Added `CPageLoader` and `CMBlock`.
 * Upgrader SimplePie to 1.3.1.
 * Added improved `CForm`.
