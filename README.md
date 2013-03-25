@@ -113,6 +113,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.92 (2013-03-25)
+
+* `CForm` to differ on empty values to get null instead of empty.
+* Translated to swedish.
+
 v0.3.91 (2013-03-22)
 
 * Preparing to release version 2 of dbwebb.se and including all modifications of Lydia.
