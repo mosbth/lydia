@@ -33,9 +33,6 @@ class CLydia implements ISingleton/*, IModule*/ {
     // time page generation
     $this->timer['first'] = microtime(true); 
 
-    // Set default date/time-zone
-    date_default_timezone_set('UTC');
-    
     // All internal character encoding to utf-8
     mb_internal_encoding('UTF-8');
     
@@ -61,6 +58,15 @@ class CLydia implements ISingleton/*, IModule*/ {
       throw new Exception("Data-directory does not exists or is not writable: " . LYDIA_DATA_PATH);
     }
 
+    // Set default date/time-zone, should I use UTC or local timezone?
+    $timezone = null;
+    if(isset($this->config['default_timezone'])) {
+      $timezone = $this->config['default_timezone'];
+    } else {
+      $timezone = date_default_timezone_get();
+    }
+    date_default_timezone_set($timezone);
+    
     // Setup i18n, internationalization and multi-language support
     @putenv('LC_ALL='.$this->config['language']); // Will not work in safe_mode, ignore warning.
     setlocale(LC_ALL, $this->config['language']);

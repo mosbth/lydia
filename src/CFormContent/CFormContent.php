@@ -52,15 +52,15 @@ class CFormContent extends CForm {
       $content['key'] = $form['key']['value'];
     }
     $content['data']        = $form['data']['value'];
-    $content['datafile']    = $form['datafile']['value'];
-    $content['type']        = $form['type']['value'];
-    $content['idCategory']  = $form['idCategory']['value'];
-    $content['filter']      = $form['filter']['value'];
-    $content['url']         = $form['url']['value'];
-    $content['breadcrumb']  = $form['breadcrumb']['value'];
-    $content['parenttitle'] = $form['parenttitle']['value'];
-    $content['template']    = $form['template']['value'];
-    $content['published']   = $form['published']['value'];
+    $content['datafile']    = $form['datafile']->GetValueNullIfEmpty();
+    $content['type']        = $form['type']->GetValueNullIfEmpty();
+    $content['idCategory']  = $form['idCategory']->GetValueNullIfEmpty();
+    $content['filter']      = $form['filter']->GetValueNullIfEmpty();
+    $content['url']         = $form['url']->GetValueNullIfEmpty();
+    $content['breadcrumb']  = $form['breadcrumb']->GetValueNullIfEmpty();
+    $content['parenttitle'] = $form['parenttitle']->GetValueNullIfEmpty();
+    $content['template']    = $form['template']->GetValueNullIfEmpty();
+    $content['published']   = $form['published']->GetValueNullIfEmpty();
     return $content->Save();
   }
   

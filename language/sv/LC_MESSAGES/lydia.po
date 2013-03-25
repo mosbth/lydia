@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CCAllSeeingEye\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-13 22:40+0100\n"
-"PO-Revision-Date: 2012-09-13 22:49+0100\n"
+"POT-Creation-Date: 2013-03-25 08:54+0100\n"
+"PO-Revision-Date: 2013-03-25 08:56+0100\n"
 "Last-Translator: Mikael Roos <mikael.t.h.roos@gmail.com>\n"
 "Language-Team: Mikael Roos <me@mikaelroos.se>\n"
 "MIME-Version: 1.0\n"
@@ -12,47 +12,759 @@ msgstr ""
 "X-Poedit-KeywordsList: t;_;gettext;gettext_noop\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-SearchPath-1: ../../../views/CCAllSeeingEye\n"
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:26
+#: ../lydia/site/config.php:211 ../lydia/src/CCUser/CCUser.php:47
+#: ../lydia/views/CCUser/index.tpl.php:3
+msgid "Overview"
+msgstr "Översikt"
+
+#: ../lydia/site/config.php:212 ../lydia/src/CCUser/CCUser.php:369
+#: ../lydia/views/CCUser/content.tpl.php:3
+msgid "Content"
+msgstr "Innehåll"
+
+#: ../lydia/site/config.php:213 ../lydia/src/CCUser/CCUser.php:177
+#: ../lydia2/src/CCUser/CCUser.php:93
+msgid "Profile"
+msgstr "Profil"
+
+#: ../lydia/site/config.php:214 ../lydia/src/CCUser/CCUser.php:344
+#: ../lydia/src/CCUser/CCUser.php:346 ../lydia/src/CCUser/CCUser.php:371
+#: ../lydia/views/CCUser/groups.tpl.php:3
+msgid "Groups"
+msgstr "Grupper"
+
+#: ../lydia/site/config.php:215
+msgid "Mail"
+msgstr "Email"
+
+#: ../lydia/site/config.php:216
+msgid "Password"
+msgstr "Lösenord"
+
+#: ../lydia/src/bootstrap.php:210
+msgid "year"
+msgstr "år"
+
+#: ../lydia/src/bootstrap.php:210
+msgid "years"
+msgstr "år"
+
+#: ../lydia/src/bootstrap.php:213
+msgid "month"
+msgstr "månad"
+
+#: ../lydia/src/bootstrap.php:213
+msgid "months"
+msgstr "månader"
+
+#: ../lydia/src/bootstrap.php:216
+msgid "day"
+msgstr "dag"
+
+#: ../lydia/src/bootstrap.php:216
+msgid "days"
+msgstr "dagar"
+
+#: ../lydia/src/bootstrap.php:219
+msgid "hour"
+msgstr "timme"
+
+#: ../lydia/src/bootstrap.php:219
+msgid "hours"
+msgstr "timmar"
+
+#: ../lydia/src/bootstrap.php:222
+msgid "minute"
+msgstr "minut"
+
+#: ../lydia/src/bootstrap.php:222
+msgid "minutes"
+msgstr "minuter"
+
+#: ../lydia/src/bootstrap.php:225 ../lydia/src/bootstrap.php:233
+msgid "less than a minute"
+msgstr "mindre än en minut"
+
+#: ../lydia/src/bootstrap.php:228 ../lydia/src/bootstrap.php:235
+msgid "second"
+msgstr "sekund"
+
+#: ../lydia/src/bootstrap.php:228 ../lydia/src/bootstrap.php:235
+msgid "seconds"
+msgstr "sekunder"
+
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:30
+#: ../lydia2/views/CCAllSeeingEye/index.tpl.php:4
+msgid "RSS aggregation though the All-Seeing-Eye"
+msgstr "RSS aggregering via All-Seeing-Eye"
+
 #: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:31
+#: ../lydia2/views/CCAllSeeingEye/index.tpl.php:5
+msgid ""
+"The module CCAllSeeingEye is a Lydia application which does RSS aggregation. "
+"Make an app-class who use this class, create a config.php-file to choose "
+"your feeds and customize the views to adapt it."
+msgstr ""
+"Modulen CCAllSeeingEye är en Lydia applikation som gör aggregering av RSS "
+"flöden. Gör en subklass av den, skapa en egen config-php-fil med dina RSS-"
+"flöden och anpassa vyerna för att ändra dess beteende."
+
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:36
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:43
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:28
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:33
 msgid "RSS aggregation"
 msgstr "RSS aggregering"
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:27
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:37
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:29
 msgid "@category (RSS aggregation)"
 msgstr "@category (RSS aggregering)"
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:28
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:38
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:30
 msgid "@feed (RSS aggregation)"
 msgstr "@feed (RSS aggregering)"
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:70
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:92
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:76
 msgid "The category is invalid."
 msgstr "Kategorin är ogiltig."
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:79
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:99
+#: ../lydia/src/CCBlog/CCBlog.php:173
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:83
 #: ../lydia2/src/CCBlog/CCBlog.php:83
 msgid "The category does not exists."
 msgstr "Kategorin finns ej."
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:98
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:127
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:102
 msgid "The feed is invalid."
 msgstr "RSS flödet är ej giltigt."
 
-#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:107
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEye.php:134
 #: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEye.php:109
 msgid "The feed does not exists."
 msgstr "RSS flödet finns ej."
+
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:19
+#: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:19
+msgid "Updated cache with new feeds where appropriate."
+msgstr "Uppdaterade cachen med nya feeds."
+
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:24
+#: ../lydia/src/CMBook/CMBookModule.php:33
+#: ../lydia/src/CMContent/CMContentModule.php:79
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreateModule.php:47
+#: ../lydia/src/CMUser/CMUserModule.php:61
+#: ../lydia/src/CRSSFeed/CRSSFeedModule.php:25
+#: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:24
+#: ../lydia2/src/CMBook/CMBookModule.php:35
+#: ../lydia2/src/CMContent/CMContentModule.php:65
+#: ../lydia2/src/CMUser/CMUserModule.php:50
+#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:29
+msgid "Supporting the following actions: !actions."
+msgstr "Stödjer följande åtgärder: !actions."
+
+#: ../lydia/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:28
+#: ../lydia/src/CMBook/CMBookModule.php:37
+#: ../lydia/src/CMContent/CMContentModule.php:83
+#: ../lydia/src/CMGuestbook/CMGuestbook.php:52
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreateModule.php:52
+#: ../lydia/src/CMUser/CMUserModule.php:65
+#: ../lydia/src/CRSSFeed/CRSSFeedModule.php:29
+#: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:28
+#: ../lydia2/src/CMBook/CMBookModule.php:39
+#: ../lydia2/src/CMContent/CMContentModule.php:69
+#: ../lydia2/src/CMGuestbook/CMGuestbook.php:52
+#: ../lydia2/src/CMUser/CMUserModule.php:54
+#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:33
+msgid "Action not supported by this module."
+msgstr "Händelsen stöds ej av modulen."
+
+#: ../lydia/src/CCBlog/CCBlog.php:38
+msgid "Feed for blog"
+msgstr "Flöde för bloggen"
+
+#: ../lydia/src/CCBlog/CCBlog.php:39
+msgid "This is the feed of the latest posts to the blog."
+msgstr "Detta är flödet av de senaste posterna på bloggen."
+
+#: ../lydia/src/CCBlog/CCBlog.php:41 ../lydia/src/CCBlog/CCBlog.php:49
+#: ../lydia2/src/CCBlog/CCBlog.php:27
+msgid "Blog"
+msgstr "Blogg"
+
+#: ../lydia/src/CCBlog/CCBlog.php:42
+#: ../lydia/views/CCAllSeeingEye/index.tpl.php:31
+#: ../lydia2/src/CCBlog/CCBlog.php:28
+#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:16
+#: ../lydia2/views/CCAllSeeingEye/index.tpl.php:13
+msgid "Category:"
+msgstr "Kategori:"
+
+#: ../lydia/src/CCBlog/CCBlog.php:44 ../lydia2/src/CCBlog/CCBlog.php:30
+msgid "blog"
+msgstr "blogg"
+
+#: ../lydia/src/CCBlog/CCBlog.php:50
+msgid "This is a blog with blogposts."
+msgstr "Detta är en blogg med bloggposter."
+
+#: ../lydia/src/CCBlog/CCBlog.php:64
+msgid "Search among the blogsposts"
+msgstr "Sök blan bloggposterna"
+
+#: ../lydia/src/CCBlog/CCBlog.php:68
+msgid "RSS feed for the latest blogsposts"
+msgstr "RSS flöde för senaste bloggposter"
+
+#: ../lydia/src/CCBlog/CCBlog.php:198
+msgid "Search by keywords using \"\" AND OR"
+msgstr "Sök via nyckelord kombinerat med \"\" AND OR"
+
+#: ../lydia/src/CCBlog/CCBlog.php:201 ../lydia/src/CCBlog/CCBlog.php:252
+#: ../lydia/src/CCBlog/CCBlog.php:258
+msgid "Search"
+msgstr "Sök"
+
+#: ../lydia/src/CCBlog/CCBlog.php:256
+msgid "Search for \"!str\""
+msgstr "Sök efter \"!str\""
+
+#: ../lydia/src/CCBlog/CCBlog.php:379 ../lydia2/src/CCBlog/CCBlog.php:127
+msgid "No such entry."
+msgstr "Det finns inget sådant inlägg."
+
+#: ../lydia/src/CCBook/CCBook.php:21 ../lydia2/src/CCBook/CCBook.php:21
+msgid "Books overview"
+msgstr "Bok översikt"
+
+#: ../lydia/src/CCBook/CCBook.php:36 ../lydia/src/CCBook/CCBook.php:94
+#: ../lydia2/src/CCBook/CCBook.php:36 ../lydia2/src/CCBook/CCBook.php:94
+msgid "The form could not be processed."
+msgstr "Formuläret kunde inte processas."
+
+#: ../lydia/src/CCBook/CCBook.php:42 ../lydia2/src/CCBook/CCBook.php:42
+msgid "Edit book: @title"
+msgstr "Ändra bok: @title"
+
+#: ../lydia/src/CCBook/CCBook.php:42 ../lydia2/src/CCBook/CCBook.php:42
+msgid "Create new book"
+msgstr "Skapa ny bok"
+
+#: ../lydia/src/CCBook/CCBook.php:64 ../lydia/src/CCBook/CCBook.php:80
+#: ../lydia2/src/CCBook/CCBook.php:64 ../lydia2/src/CCBook/CCBook.php:80
+msgid "No such book."
+msgstr "Det finns ingen sådan bok."
+
+#: ../lydia/src/CCBook/CCBook.php:79 ../lydia2/src/CCBook/CCBook.php:79
+msgid "No such action."
+msgstr "Det finns ingen sådan åtgärd."
+
+#: ../lydia/src/CCBook/CCBook.php:86 ../lydia/src/CCBook/CCBook.php:88
+#: ../lydia2/src/CCBook/CCBook.php:86 ../lydia2/src/CCBook/CCBook.php:88
+msgid "No such book chapter."
+msgstr "Det finns inget sådant bok kapitel."
+
+#: ../lydia/src/CCBook/CCBook.php:101
+#: ../lydia/views/CCBook/edit_chapter.tpl.php:2
+#: ../lydia2/src/CCBook/CCBook.php:101
+#: ../lydia2/views/CCBook/edit_chapter.tpl.php:2
+msgid "Edit book chapter"
+msgstr "Ändra book kapitel"
+
+#: ../lydia/src/CCBook/CCBook.php:101 ../lydia2/src/CCBook/CCBook.php:101
+msgid "Add new book chapter"
+msgstr "Lägg till nytt bok kapitel"
+
+#: ../lydia/src/CCContent/CCContent.php:29
+#: ../lydia2/src/CCContent/CCContent.php:26
+msgid "Content Controller"
+msgstr "Innehålls kontroller"
+
+#: ../lydia/src/CCIndex/CCIndex.php:19 ../lydia/src/CCIndex/CCIndex.php:33
+#: ../lydia2/src/CCIndex/CCIndex.php:19
+msgid "Home"
+msgstr "Hem"
+
+#: ../lydia/src/CCIndex/CCIndex.php:35 ../lydia/src/CLydia/CLydia.php:191
+msgid "Page is not found."
+msgstr "Sidan kan inte hittas."
+
+#: ../lydia/src/CCInstall/CCInstall.php:24
+msgid "Install Lydia"
+msgstr "Installera Lydia"
+
+#: ../lydia/src/CCInstall/CCInstall.php:33
+msgid "Verify the server environment"
+msgstr "Verifiera miljön på servern"
+
+#: ../lydia/src/CCInstall/CCInstall.php:42
+msgid "Verify writable site-directory"
+msgstr "Verifiera att site-katalogen är skrivbar"
+
+#: ../lydia/src/CCInstall/CCInstall.php:52
+msgid "Setting for default database is missing in site/config.php."
+msgstr "Inställningar för standard databas saknas i site/config.php."
+
+#: ../lydia/src/CCInstall/CCInstall.php:55
+msgid "Verify default database is enabled"
+msgstr "Verifiera att en standard databas är aktiverad."
+
+#: ../lydia/src/CCInstall/CCInstall.php:67
+msgid "Email:"
+msgstr "Email:"
+
+#: ../lydia/src/CCInstall/CCInstall.php:74
+msgid "Username:"
+msgstr "Användarnamn:"
+
+#: ../lydia/src/CCInstall/CCInstall.php:82
+#: ../lydia/src/CCInstall/CCInstall.php:140
+msgid "Password:"
+msgstr "Lösenord:"
+
+#: ../lydia/src/CCInstall/CCInstall.php:88
+msgid "Password again:"
+msgstr "Lösenord igen:"
+
+#: ../lydia/src/CCInstall/CCInstall.php:94
+msgid "Create"
+msgstr "Skapa"
+
+#: ../lydia/src/CCInstall/CCInstall.php:120
+msgid "Create the root user"
+msgstr "Skapa root-användaren"
+
+#: ../lydia/src/CCInstall/CCInstall.php:132
+msgid "Username or email:"
+msgstr "Användarnamn eller email:"
+
+#: ../lydia/src/CCInstall/CCInstall.php:146 ../lydia/src/CCUser/CCUser.php:81
+#: ../lydia/views/CCUser/login.tpl.php:1 ../lydia2/src/CCUser/CCUser.php:66
+#: ../lydia2/views/CCUser/login.tpl.php:1
+msgid "Login"
+msgstr "Login"
+
+#: ../lydia/src/CCInstall/CCInstall.php:152
+msgid "You have successfully logged in as the root user."
+msgstr "Du har loggat in som root-användaren."
+
+#: ../lydia/src/CCInstall/CCInstall.php:155
+msgid "The username or password did not match or you are not the root user."
+msgstr ""
+"Användarnamn eller lösenord matchade inte eller så är du inte root-"
+"användaren."
+
+#: ../lydia/src/CCInstall/CCInstall.php:162
+msgid "Logout"
+msgstr "Logga ut"
+
+#: ../lydia/src/CCInstall/CCInstall.php:164
+msgid "You have logged out."
+msgstr "Du har loggat ut."
+
+#: ../lydia/src/CCInstall/CCInstall.php:187
+msgid "Login as the root user"
+msgstr "Logga in som root användaren"
+
+#: ../lydia/src/CCInstall/CCInstall.php:198
+msgid "Install all modules"
+msgstr "Installera alla moduler"
+
+#: ../lydia/src/CCInstall/CCInstall.php:209
+msgid "Done - disable installation"
+msgstr "Klar - inaktivera installationen"
+
+#: ../lydia/src/CCModules/CCModules.php:21
+#: ../lydia2/src/CCModules/CCModules.php:21
+msgid "Module Manager"
+msgstr "Modulhanterare"
+
+#: ../lydia/src/CCModules/CCModules.php:34
+#: ../lydia/src/CCModules/CCModules.php:117
+#: ../lydia2/src/CCModules/CCModules.php:34
+#: ../lydia2/src/CCModules/CCModules.php:117
+msgid "Manage Modules"
+msgstr "Hantera moduler"
+
+#: ../lydia/src/CCModules/CCModules.php:59
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:86
+#: ../lydia2/src/CCModules/CCModules.php:59
+#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:55
+msgid "You need admin-privileges to access this page."
+msgstr "Du behöver administratörsrättigheter för att komma åt denna sidan."
+
+#: ../lydia/src/CCModules/CCModules.php:65
+#: ../lydia2/src/CCModules/CCModules.php:65
+msgid "Action: !action"
+msgstr "Händelse: !action"
+
+#: ../lydia/src/CCModules/CCModules.php:67
+#: ../lydia2/src/CCModules/CCModules.php:67
+msgid "!action - Results from action"
+msgstr "!action - Resultat från händelse"
+
+#: ../lydia/src/CCModules/CCModules.php:83
+#: ../lydia2/src/CCModules/CCModules.php:83 ../lydia2/src/CCUser/CCUser.php:86
+msgid "Some fields did not validate and the form could not be processed."
+msgstr "Något fält validerade inte och formuläret kunde därför inte processas."
+
+#: ../lydia/src/CCModules/CCModules.php:86
+#: ../lydia2/src/CCModules/CCModules.php:86
+msgid "SQL was executed."
+msgstr "SQL-satser kördes."
+
+#: ../lydia/src/CCModules/CCModules.php:94
+#: ../lydia/src/CCModules/CCModules.php:96
+#: ../lydia/views/CCModules/execute_sql.tpl.php:1
+#: ../lydia2/src/CCModules/CCModules.php:94
+#: ../lydia2/src/CCModules/CCModules.php:96
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:1
+msgid "Execute SQL"
+msgstr "Exekvera SQL"
+
+#: ../lydia/src/CCModules/CCModules.php:109
+#: ../lydia2/src/CCModules/CCModules.php:109
+msgid "Invalid characters in module name."
+msgstr "Felaktiga tecken i modulens namn"
+
+#: ../lydia/src/CCModules/CCModules.php:115
+#: ../lydia2/src/CCModules/CCModules.php:115
+msgid "Module: @module"
+msgstr "Modul: @module"
+
+#: ../lydia/src/CCUser/CCUser.php:21 ../lydia/src/CCUser/CCUser.php:49
+#: ../lydia2/src/CCUser/CCUser.php:21 ../lydia2/src/CCUser/CCUser.php:35
+#: ../lydia2/views/CCUser/index.tpl.php:1
+msgid "User Control Panel"
+msgstr "Kontrollpanelen"
+
+#: ../lydia/src/CCUser/CCUser.php:64 ../lydia2/src/CCUser/CCUser.php:49
+msgid "Failed to login, user or password does not match."
+msgstr "Kunde inte logga in, användaren eller lösenordet stämde inte."
+
+#: ../lydia/src/CCUser/CCUser.php:110 ../lydia2/src/CCUser/CCUser.php:147
+msgid "The account could not be created."
+msgstr "Kontot kunde inte skapas."
+
+#: ../lydia/src/CCUser/CCUser.php:113 ../lydia2/src/CCUser/CCUser.php:150
+msgid "Your have successfully created a new account."
+msgstr "Du har skapat ett nytt konto."
+
+#: ../lydia/src/CCUser/CCUser.php:136
+msgid "Acronym:"
+msgstr "Akronym:"
+
+#: ../lydia/src/CCUser/CCUser.php:144
+msgid "Name:"
+msgstr "Namn:"
+
+#: ../lydia/src/CCUser/CCUser.php:152 ../lydia/src/CCUser/CCUser.php:297
+msgid "Save"
+msgstr "Spara"
+
+#: ../lydia/src/CCUser/CCUser.php:162
+msgid "The profile could not be saved."
+msgstr "Profilen kunde inte sparas."
+
+#: ../lydia/src/CCUser/CCUser.php:166
+msgid "Saved profile."
+msgstr "Sparade profilen."
+
+#: ../lydia/src/CCUser/CCUser.php:179
+msgid "Edit profile"
+msgstr "Ändra profil"
+
+#: ../lydia/src/CCUser/CCUser.php:221
+msgid "Current password:"
+msgstr "Nuvarande lösenord:"
+
+#: ../lydia/src/CCUser/CCUser.php:228
+msgid "New password:"
+msgstr "Nytt lösenord:"
+
+#: ../lydia/src/CCUser/CCUser.php:234
+msgid "New password again:"
+msgstr "Nytt lösenord igen:"
+
+#: ../lydia/src/CCUser/CCUser.php:240 ../lydia/src/CCUser/CCUser.php:265
+#: ../lydia/src/CCUser/CCUser.php:267 ../lydia/src/CCUser/CCUser.php:322
+#: ../lydia/src/CCUser/CCUser.php:324
+#: ../lydia/views/CCUser/change_password.tpl.php:3
+#: ../lydia2/src/CCUser/CCUser.php:119
+#: ../lydia2/views/CCUser/change_password.tpl.php:1
+#: ../lydia2/views/CCUser/index.tpl.php:5
+msgid "Change password"
+msgstr "Ändra lösenord"
+
+#: ../lydia/src/CCUser/CCUser.php:250
+msgid ""
+"The password could not be changed, ensure that all fields match and the "
+"current password is correct."
+msgstr "Lösenordet kunde inte ändras. Kontrollera att fälten stämde överens."
+
+#: ../lydia/src/CCUser/CCUser.php:254 ../lydia2/src/CCUser/CCUser.php:115
+msgid "Saved new password."
+msgstr "Sparade nytt lösenord."
+
+#: ../lydia/src/CCUser/CCUser.php:289
+msgid "Current email adress:"
+msgstr "Nuvarande email address:"
+
+#: ../lydia/src/CCUser/CCUser.php:307
+msgid "The email adress could not be saved."
+msgstr "Email-addressen kunde inte sparas."
+
+#: ../lydia/src/CCUser/CCUser.php:311
+msgid "Saved email adress."
+msgstr "Sparade email adressen."
+
+#: ../lydia/src/CFormContent/CFormContent.php:27
+#: ../lydia2/src/CFormContent/CFormContent.php:27
+msgid "Category id:"
+msgstr "Kategori id:"
+
+#: ../lydia/src/CFormContent/CFormContent.php:30
+msgid "Breadcrumb parent title:"
+msgstr "Breadcrumb förälder titel:"
+
+#: ../lydia/src/CFormContent/CFormContent.php:31
+msgid "Parent title:"
+msgstr "Förälder titel:"
+
+#: ../lydia/src/CFormContent/CFormContent.php:32
+msgid "Template:"
+msgstr "Mall:"
+
+#: ../lydia/src/CFormContent/CFormContent.php:33
+msgid "Published:"
+msgstr "Publiserad: "
+
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:54
+#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:38
+msgid "You need admin-privileges to access this content."
+msgstr ""
+"Du behöver administratörsrättigheter för att komma åt detta innehållet."
+
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:72
+msgid "You do not have privileges to access this content."
+msgstr "Du har inte rättigheter för att komma åt detta innehåll."
+
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:103
+#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:72
+msgid "User conflict between value and session."
+msgstr "Informationen om användaren stämmer inte mellan värde och sessionen."
+
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:115
+#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:84
+msgid "Create new user is disabled by site owner."
+msgstr "Att skapa ny användare är avstängt av webbplatsens administratör."
+
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:128
+#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:97
+msgid "You are just visiting this site and have no profile."
+msgstr "Du är besökare på denna webbplats och har ingen profil."
+
+#: ../lydia/src/CInterceptionFilter/CInterceptionFilter.php:141
+#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:110
+msgid "You need to login to access this content."
+msgstr "Du behöver logga in för att komma åt detta innehåll."
+
+#: ../lydia/src/CLydia/CLydia.php:204 ../lydia2/src/CLydia/CLydia.php:172
+msgid "Theme not enabled."
+msgstr "Temat är inte tillgängligt."
+
+#: ../lydia/src/CLydia/CLydia.php:272 ../lydia2/src/CLydia/CLydia.php:239
+msgid "No such template file."
+msgstr "Template-filen finns inte."
+
+#: ../lydia/src/CLydia/CLydia.php:285 ../lydia2/src/CLydia/CLydia.php:252
+msgid "403, restricted content"
+msgstr "403, begränsad tillgänglighet till detta innehåll"
+
+#: ../lydia/src/CLydia/CLydia.php:286 ../lydia2/src/CLydia/CLydia.php:253
+msgid "404, page not found"
+msgstr "404, sidan kunde inte hittas"
+
+#: ../lydia/src/CLydia/CLydia.php:288 ../lydia2/src/CLydia/CLydia.php:255
+msgid "Header code is not valid."
+msgstr "Header koden är ej giltigt."
+
+#: ../lydia/src/CMBook/CMBook.php:65 ../lydia2/src/CMBook/CMBook.php:65
+msgid "No such SQL query."
+msgstr "SQL-frågan finns ej."
+
+#: ../lydia/src/CMBook/CMBook.php:94 ../lydia2/src/CMBook/CMBook.php:94
+msgid "Success to !action book."
+msgstr "Lyckades att !action bok."
+
+#: ../lydia/src/CMBook/CMBook.php:96 ../lydia2/src/CMBook/CMBook.php:96
+msgid "Failed to !action book."
+msgstr "Misslyckades att !action bok."
+
+#: ../lydia/src/CMBook/CMBook.php:113 ../lydia2/src/CMBook/CMBook.php:113
+msgid "Successfully deleted book."
+msgstr "Boken raderades."
+
+#: ../lydia/src/CMBook/CMBook.php:115 ../lydia2/src/CMBook/CMBook.php:115
+msgid "Failed to delete book"
+msgstr "Kunde inte radera boken."
+
+#: ../lydia/src/CMBook/CMBook.php:130 ../lydia2/src/CMBook/CMBook.php:130
+msgid "Failed to load book."
+msgstr "Kunde inte ladda boken."
+
+#: ../lydia/src/CMBook/CMBook.php:168 ../lydia/src/CMContent/CMContent.php:428
+#: ../lydia2/src/CMBook/CMBook.php:168
+#: ../lydia2/src/CMContent/CMContent.php:246
+msgid "Not valid group by order."
+msgstr "Inte giltig grupp att sortera."
+
+#: ../lydia/src/CMBook/CMBook.php:201 ../lydia2/src/CMBook/CMBook.php:201
+msgid "No such chapter id."
+msgstr "Det finns inget sådant kapitel id."
+
+#: ../lydia/src/CMBook/CMBook.php:231 ../lydia2/src/CMBook/CMBook.php:231
+msgid "Success to !action chapter."
+msgstr "Lyckades att !action kapitel."
+
+#: ../lydia/src/CMBook/CMBook.php:233 ../lydia2/src/CMBook/CMBook.php:233
+msgid "Failed to !action chapter."
+msgstr "Misslyckades att !action kapitel."
+
+#: ../lydia/src/CMBook/CMBookModule.php:17
+#: ../lydia2/src/CMContent/CMContentModule.php:21
+msgid "Successfully created the database tables."
+msgstr "Skapade databastabeller."
+
+#: ../lydia/src/CMBook/CMBookModule.php:25
+#: ../lydia/src/CMContent/CMContentModule.php:74
+#: ../lydia/src/CMUser/CMUserModule.php:56
+#: ../lydia2/src/CMBook/CMBookModule.php:27
+#: ../lydia2/src/CMContent/CMContentModule.php:60
+#: ../lydia2/src/CMUser/CMUserModule.php:45
+msgid "Successfully exported data as SQL INSERT commands."
+msgstr "Exporterade data som kommandon för SQL INSERT."
+
+#: ../lydia/src/CMBook/CMBookModule.php:28
+#: ../lydia2/src/CMBook/CMBookModule.php:19
+#: ../lydia2/src/CMBook/CMBookModule.php:30
+msgid "Successfully dropped and created the database tables."
+msgstr "Raderade och skapade om databastabellerna."
+
+#: ../lydia/src/CMContent/CMContent.php:521
+#: ../lydia2/src/CMContent/CMContent.php:291
+msgid "Convert http://webb.com/ to clickable links. Convert newline to <br />."
+msgstr ""
+"Konvertera http://webbplats.se/ till klickbara länkar. Konvertera "
+"radbrytningar till <br/>."
+
+#: ../lydia/src/CMContent/CMContent.php:522
+#: ../lydia2/src/CMContent/CMContent.php:292
+msgid "Support bbcode. Convert newline to <br />."
+msgstr "Stödjer bbcode. Konvertera radbrytningar till <br/>."
+
+#: ../lydia/src/CMContent/CMContent.php:523
+#: ../lydia2/src/CMContent/CMContent.php:293
+msgid ""
+"Treat data as HTML and use HTMLPurify to filter content. Convert newline to "
+"<br />."
+msgstr ""
+"Behandla data som HTML och använd HTMLPurify för att filtrera innehållet. "
+"Konvertera radbrytningar till <br/>."
+
+#: ../lydia/src/CMContent/CMContent.php:524
+#: ../lydia2/src/CMContent/CMContent.php:294
+msgid "Support Markdown-syntax together with Typographer (SmartyPants)."
+msgstr "Stödj Markdown-syntax tillsammans med Typographer (SmartyPants)."
+
+#: ../lydia/src/CMContent/CMContent.php:525
+#: ../lydia2/src/CMContent/CMContent.php:295
+msgid ""
+"Support extended Markdown-syntax together with Typographer (SmartyPants). "
+"Converts links, shorttags"
+msgstr ""
+"Stöd utökad Markdown-syntax tillsammans med Typographer (SmartyPants). "
+"Konvertera länkar och kort-taggar."
+
+#: ../lydia/src/CMContent/CMContent.php:708
+msgid "Last updated"
+msgstr "Senast uppdaterad"
+
+#: ../lydia/src/CMContent/CMContent.php:710
+#: ../lydia/views/CCBlog/post.tpl.php:9
+msgid "Updated"
+msgstr "Uppdaterad"
+
+#: ../lydia/src/CMContent/CMContent.php:712
+msgid "Created"
+msgstr "Skapad"
+
+#: ../lydia/src/CMContent/CMContentModule.php:20
+msgid ""
+"Successfully created the database tables. Untouched if the already existed."
+msgstr "Skapade databastabeller om de inte redan fanns."
+
+#: ../lydia/src/CMContent/CMContentModule.php:22
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreateModule.php:19
+#: ../lydia2/src/CMContent/CMContentModule.php:23
+msgid "Directory in site/data already exists."
+msgstr "Katalog i site/data finns redan."
+
+#: ../lydia/src/CMContent/CMContentModule.php:25
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreateModule.php:22
+#: ../lydia2/src/CMContent/CMContentModule.php:26
+msgid "Failed to create directory in site/data."
+msgstr "Kunde inte skapa katalogen i site/data."
+
+#: ../lydia/src/CMContent/CMContentModule.php:27
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreateModule.php:24
+#: ../lydia2/src/CMContent/CMContentModule.php:28
+msgid "Created directory in site/data."
+msgstr "Skapade katalog i site/data."
+
+#: ../lydia/src/CMContent/CMContentModule.php:43
+msgid "Successfully recreated the fulltext search index."
+msgstr "Skapade om indexet för fulltext-sökning."
+
+#: ../lydia/src/CMContent/CMContentModule.php:64
+#: ../lydia2/src/CMContent/CMContentModule.php:50
+msgid "Failed to create file in site/data."
+msgstr "Kunde inte skapa fil i site/data."
+
+#: ../lydia/src/CMContent/CMContentModule.php:64
+#: ../lydia2/src/CMContent/CMContentModule.php:50
+msgid "Sample file created."
+msgstr "Exempel fil skapades."
+
+#: ../lydia/src/CMContent/CMContentModule.php:65
+#: ../lydia2/src/CMContent/CMContentModule.php:51
+msgid "Successfully inserted sample content into database."
+msgstr "Skapade exempel data och stoppade in i databasen."
+
+#: ../lydia/src/CMModules/CMModules.php:82
+#: ../lydia/src/CMModules/CMModules.php:93
+#: ../lydia2/src/CMModules/CMModules.php:80
+#: ../lydia2/src/CMModules/CMModules.php:91
+msgid "Could not open the directory."
+msgstr "Kan inte öppna katalogen."
+
+#: ../lydia/src/CMModules/CMModules.php:186
+#: ../lydia2/src/CMModules/CMModules.php:184
+msgid "Not a valid action."
+msgstr "Åtgärden är inte gilig."
+
+#: ../lydia/src/CMModules/CMModules.php:292
+#: ../lydia2/src/CMModules/CMModules.php:290
+msgid "(rows affected: !rows)"
+msgstr "(rader påverkade: !rows)"
 
 #: ../lydia/src/CMRSSAggregator/config.php:8
 #: ../lydia2/src/CMRSSAggregator/config.php:8
@@ -78,272 +790,516 @@ msgstr "dbwebb blogg"
 msgid "dbwebb forum"
 msgstr "dbwebb forum"
 
-#: ../lydia/views/CCAllSeeingEye/category_sidebar.tpl.php:1
-#: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:1
-#: ../lydia/views/CCAllSeeingEye/index_sidebar.tpl.php:1
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreate.php:19
+#: ../lydia/views/CCAllSeeingEye/index.tpl.php:11
+#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:8
+msgid "RSS feed"
+msgstr "RSS flöde"
+
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreate.php:21
+msgid "This is an example RSS feed"
+msgstr "Detta är ett exempel på RSS flöde"
+
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreate.php:79
+msgid "Failed to write cache object: !file"
+msgstr "Kunde inte skriva cache-objekt: !file"
+
+#: ../lydia/src/CMRSSFeedCreate/CMRSSFeedCreateModule.php:40
+msgid "Removed !num objects from cache"
+msgstr "Tog bort !num objekt från cachen"
+
+#: ../lydia/src/CMUser/CMUserModule.php:19
+msgid "CMUserModule::Manage() says - Missing arguments to create the root user"
+msgstr ""
+"CMUserModule::Manage() säger - Saknar argument för att skapa root-användaren."
+
+#: ../lydia/src/CMUser/CMUserModule.php:34
+msgid ""
+"You can not create a root user since there is already a root-user with id=1."
+msgstr ""
+"Du kan inte skapa root-användaren. Det finns redan en root-användare med "
+"id=1."
+
+#: ../lydia/src/CMUser/CMUserModule.php:46
+msgid ""
+"Database tables for users and groups are ready, as is the the root user."
+msgstr ""
+"Databas-tabeller för användare och grupper är klara, liksom root-användaren."
+
+#: ../lydia/src/CObject/CObject.php:155
+msgid "No such view @viewname."
+msgstr "Det finns ingen sådan vy: '@viewname'."
+
+#: ../lydia/src/CPageLoader/CPageLoader.php:72
+msgid "Page is not found. No such content."
+msgstr "Sidan kan inte hittas. Det finns inget sådant innehåll."
+
+#: ../lydia/src/CRSSFeed/CRSSFeedModule.php:17
+msgid "Cache-directory is already existing and is left untouched."
+msgstr "Cache-katalogen finns redan och rörs ej."
+
+#: ../lydia/src/CRSSFeed/CRSSFeedModule.php:18
+#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:18
+msgid "Could not create cache-directory."
+msgstr "Kunde inte skapa cache-katalogen."
+
+#: ../lydia/src/CRSSFeed/CRSSFeedModule.php:19
+#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:20
+msgid "Created cache-directory."
+msgstr "Skapade cache-katalogen."
+
+#: ../lydia/src/CTextFilter/CTextFilter.php:167
+#: ../lydia/src/CTextFilter/CTextFilter.php:204
+#: ../lydia2/src/CTextFilter/CTextFilter.php:167
+#: ../lydia2/src/CTextFilter/CTextFilter.php:196
+msgid "Figure: "
+msgstr "Figur: "
+
+#: ../lydia/src/CTextFilter/CTextFilter.php:181
+msgid "By @NAME (@EMAIL)"
+msgstr "Av @NAME (@EMAIL)"
+
+#: ../lydia/src/CViewContainer/CViewContainer.php:129
+#: ../lydia2/src/CViewContainer/CViewContainer.php:94
+msgid "View filename is empty."
+msgstr "View filnamn saknas."
+
+#: ../lydia/src/CViewContainer/CViewContainer.php:222
+msgid "No such type for adding region to view container: '@type'."
+msgstr "Typen finns inte för att lägga till region till vy-listan: '@type'."
+
+#: ../lydia/themes/functions.php:267
+msgid "&lt; Previous"
+msgstr "&lt; Föregående"
+
+#: ../lydia/themes/functions.php:268
+msgid "Next &gt;"
+msgstr "Nästa &gt;"
+
+#: ../lydia/views/404.tpl.php:1 ../lydia2/views/404.tpl.php:1
+msgid "404, Page not found"
+msgstr "404, sidan kan inte hittas."
+
+#: ../lydia/views/404.tpl.php:3 ../lydia2/views/404.tpl.php:3
+msgid "The page you are looking for is not here."
+msgstr "Sidan du söker finns inte här."
+
+#: ../lydia/views/404.tpl.php:5 ../lydia2/views/404.tpl.php:5
+msgid "Detailed message: @message"
+msgstr "Detaljerad meddelande: @message"
+
+#: ../lydia/views/CCAllSeeingEye/category_sidebar.tpl.php:2
+#: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:2
+#: ../lydia/views/CCAllSeeingEye/index_sidebar.tpl.php:2
+#: ../lydia/views/CCBlog/index_sidebar.tpl.php:46
 #: ../lydia2/views/CCAllSeeingEye/category_sidebar.tpl.php:2
 #: ../lydia2/views/CCAllSeeingEye/feed_sidebar.tpl.php:2
 #: ../lydia2/views/CCAllSeeingEye/index_sidebar.tpl.php:2
 msgid "Categories"
 msgstr "Kategorier"
 
-#: ../lydia/views/CCAllSeeingEye/category_sidebar.tpl.php:8
+#: ../lydia/views/CCAllSeeingEye/category_sidebar.tpl.php:11
 #: ../lydia2/views/CCAllSeeingEye/category_sidebar.tpl.php:11
 msgid "In this category"
 msgstr "I denna kategori"
 
-#: ../lydia/views/CCAllSeeingEye/feed.tpl.php:5
-#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:8
-msgid "Details for !site:"
-msgstr "Detaljer för !site:"
-
-#: ../lydia/views/CCAllSeeingEye/feed.tpl.php:6
-#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:8
-msgid "Website"
-msgstr "Webbplats"
-
-#: ../lydia/views/CCAllSeeingEye/feed.tpl.php:7
-#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:8
-msgid "RSS feed"
-msgstr "RSS flöde"
-
-#: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:8
+#: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:11
 #: ../lydia2/views/CCAllSeeingEye/feed_sidebar.tpl.php:11
 msgid "Related"
 msgstr "Relaterat"
 
-#: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:16
+#: ../lydia/views/CCAllSeeingEye/feed_sidebar.tpl.php:21
 #: ../lydia2/views/CCAllSeeingEye/feed_sidebar.tpl.php:21
 msgid "Latest"
 msgstr "Senaste"
 
-#: ../lydia/views/CCAllSeeingEye/index.tpl.php:2
-#: ../lydia2/views/CCAllSeeingEye/index.tpl.php:4
-msgid "RSS aggregation though the All-Seeing-Eye"
-msgstr "RSS aggregering via All-Seeing-Eye"
-
-#: ../lydia/views/CCAllSeeingEye/index.tpl.php:3
-msgid ""
-"The module CCAllSeeingEye is a Lydia application which does RSS aggregation. "
-"Subclass it, create a config.php-file to choose your feeds and customize the "
-"views to adapt it."
-msgstr ""
-"Modulen CCAllSeeingEye är en Lydia applikation som gör aggregering av RSS "
-"flöden. Gör en subklass av den, skapa en egen config-php-fil med dina RSS-"
-"flöden och anpassa vyerna för att ändra dess beteende."
+#: ../lydia/views/CCAllSeeingEye/index.tpl.php:11
+#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:8
+msgid "Details for !site:"
+msgstr "Detaljer för !site:"
 
 #: ../lydia/views/CCAllSeeingEye/index.tpl.php:11
-#: ../lydia2/src/CCBlog/CCBlog.php:28
-#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:16
-#: ../lydia2/views/CCAllSeeingEye/index.tpl.php:13
-msgid "Category:"
-msgstr "Kategori:"
+#: ../lydia2/views/CCAllSeeingEye/feed.tpl.php:8
+msgid "Website"
+msgstr "Webbplats"
+
+#: ../lydia/views/CCBlog/index.tpl.php:5
+msgid "Category: @title"
+msgstr "Kategori: @title"
+
+#: ../lydia/views/CCBlog/index.tpl.php:27
+#: ../lydia/views/CMBlock/bloglist.tpl.php:21
+#: ../lydia2/views/CCBlog/index.tpl.php:27
+msgid "Read more »"
+msgstr "Läs mer »"
+
+#: ../lydia/views/CCBlog/index.tpl.php:34
+#: ../lydia/views/CCBlog/post.tpl.php:18
+#: ../lydia/views/CMBlock/bloglist.tpl.php:24
+#: ../lydia2/views/CCBlog/index.tpl.php:34
+#: ../lydia2/views/CCBlog/post.tpl.php:9
+msgid "Category: @category_name"
+msgstr "Kategori: @category_name"
+
+#: ../lydia/views/CCBlog/index.tpl.php:36
+#: ../lydia/views/CCBlog/post.tpl.php:20
+#: ../lydia/views/CMBlock/bloglist.tpl.php:26
+#: ../lydia/views/CPageLoader/index.tpl.php:8
+#: ../lydia/views/CPageLoader/index.tpl.php:17
+#: ../lydia/views/CPageLoader/index_sidebar.tpl.php:6
+#: ../lydia/views/CPageLoader/kmom_index.tpl.php:8
+#: ../lydia/views/CPageLoader/kmom_index.tpl.php:17
+#: ../lydia2/views/CCBlog/index.tpl.php:36
+#: ../lydia2/views/CCBlog/post.tpl.php:11
+msgid "edit"
+msgstr "ändra"
+
+#: ../lydia/views/CCBlog/index.tpl.php:45
+#: ../lydia/views/CCBlog/search.tpl.php:26
+msgid "Displaying hits !first - !last from a total of !total."
+msgstr "Visar träffar !first - !last av totalt !total."
+
+#: ../lydia/views/CCBlog/index.tpl.php:52
+#: ../lydia/views/CMBlock/block-contents-li-a.tpl.php:13
+#: ../lydia2/views/CCBlog/index.tpl.php:45
+#: ../lydia2/views/CCBlog/index_sidebar.tpl.php:39
+#: ../lydia2/views/CCBlog/post_sidebar.tpl.php:24
+msgid "No posts exists."
+msgstr "Det finns inga inlägg."
+
+#: ../lydia/views/CCBlog/index_sidebar.tpl.php:20
+#: ../lydia/views/CPageLoader/kmom_sidebar.tpl.php:3
+#: ../lydia/views/CPageLoader/sidebar.tpl.php:3
+msgid "Table of content"
+msgstr "Innehållsförteckning"
+
+#: ../lydia/views/CCBlog/index_sidebar.tpl.php:31
+msgid "Now displaying"
+msgstr "Nu visas"
+
+#: ../lydia/views/CCBlog/post.tpl.php:9
+msgid "Published"
+msgstr "Publiserad"
+
+#: ../lydia/views/CCBlog/post.tpl.php:12
+#: ../lydia/views/CPageLoader/index.tpl.php:6
+#: ../lydia/views/CPageLoader/kmom_index.tpl.php:6
+msgid "by !owner"
+msgstr "av !owner"
+
+#: ../lydia/views/CCBlog/post.tpl.php:27
+#: ../lydia2/views/CCBlog/post.tpl.php:18
+msgid "No such post."
+msgstr "Det finns inga poster."
+
+#: ../lydia/views/CCBlog/search.tpl.php:29
+msgid "This search gave no hits. Try another search condition."
+msgstr "Din sökning gav inga träffar. Ändra din sökning och försök igen."
+
+#: ../lydia/views/CCBlog/search.tpl.php:31
+msgid ""
+"Search by combining keywords, you may mix AND OR and \"\" to enhance your "
+"search query."
+msgstr ""
+"Sök genom att kombinera nyckelord och mixa med AND OR och \"\" för att hitta "
+"vad du söker."
+
+#: ../lydia/views/CCBook/add_chapter.tpl.php:1
+#: ../lydia2/views/CCBook/add_chapter.tpl.php:1
+msgid "Add book chapter"
+msgstr "Lägg till bok kapitel"
+
+#: ../lydia/views/CCBook/add_chapter.tpl.php:2
+#: ../lydia2/views/CCBook/add_chapter.tpl.php:2
+msgid "Add new book chapter."
+msgstr "Läss till nytt bok kapitel."
+
+#: ../lydia/views/CCBook/edit.tpl.php:2 ../lydia2/views/CCBook/edit.tpl.php:2
+msgid "Edit book"
+msgstr "Ändra bok"
+
+#: ../lydia/views/CCBook/edit.tpl.php:3 ../lydia2/views/CCBook/edit.tpl.php:3
+msgid "You can edit and save this book."
+msgstr "Du kan ändra och spara denna bok."
+
+#: ../lydia/views/CCBook/edit.tpl.php:5 ../lydia2/views/CCBook/edit.tpl.php:5
+msgid "Create Book"
+msgstr "Skapa bok"
+
+#: ../lydia/views/CCBook/edit.tpl.php:6 ../lydia2/views/CCBook/edit.tpl.php:6
+msgid "Create new book."
+msgstr "Skapa ny bok."
+
+#: ../lydia/views/CCBook/edit.tpl.php:14 ../lydia/views/CCBook/view.tpl.php:6
+#: ../lydia2/views/CCBook/edit.tpl.php:14
+#: ../lydia2/views/CCBook/view.tpl.php:6
+msgid "This book were created by !owner !time ago."
+msgstr "Denna bok skapades av !owner för !time sedan."
+
+#: ../lydia/views/CCBook/edit_chapter.tpl.php:3
+#: ../lydia2/views/CCBook/edit_chapter.tpl.php:3
+msgid "You can edit and save this book chapter."
+msgstr "Du kan ändra och spara detta bok kapitel."
+
+#: ../lydia/views/CCBook/edit_chapter.tpl.php:5
+#: ../lydia2/views/CCBook/edit_chapter.tpl.php:5
+msgid "Create book chapter"
+msgstr "Skapa bok kapitel"
+
+#: ../lydia/views/CCBook/edit_chapter.tpl.php:6
+#: ../lydia2/views/CCBook/edit_chapter.tpl.php:6
+msgid "Create new book chapter."
+msgstr "Skapa nytt bok kapitel."
+
+#: ../lydia/views/CCBook/index.tpl.php:1
+#: ../lydia2/views/CCBook/index.tpl.php:1
+msgid "Books"
+msgstr "Böcker"
+
+#: ../lydia/views/CCBook/index.tpl.php:2
+#: ../lydia2/views/CCBook/index.tpl.php:2
+msgid "Create, edit and view books."
+msgstr "Skapa, ändra och se böcker."
+
+#: ../lydia/views/CCBook/view.tpl.php:1 ../lydia2/views/CCBook/view.tpl.php:1
+msgid "Book overview"
+msgstr "Bok översikt"
+
+#: ../lydia/views/CCBook/view.tpl.php:12
+#: ../lydia2/views/CCBook/view.tpl.php:12
+msgid "Key: !key"
+msgstr "Nyckel: !key"
+
+#: ../lydia/views/CCBook/view.tpl.php:15
+#: ../lydia2/views/CCBook/view.tpl.php:15
+msgid "Edit book details."
+msgstr "Ändra detaljer för bok."
+
+#: ../lydia/views/CCBook/view.tpl.php:19
+#: ../lydia2/views/CCBook/view.tpl.php:19
+msgid "Chapters"
+msgstr "Kapitel"
+
+#: ../lydia/views/CCIndex/index.tpl.php:1
+msgid "Welcome"
+msgstr "Välkommen"
+
+#: ../lydia/views/CCIndex/index.tpl.php:2
+msgid "This is Lydia, ready to be used."
+msgstr "Detta är Lydia, färdig att använda."
+
+#: ../lydia/views/CCIndex/installed.tpl.php:1
+msgid "Welcome to Lydia"
+msgstr "Välkommen till Lydia"
+
+#: ../lydia/views/CCIndex/installed.tpl.php:2
+msgid "Lydia is installed and ready to be used."
+msgstr "Lydia är installerad och färdig att använda."
+
+#: ../lydia/views/CCIndex/installed.tpl.php:3
+msgid "Visit the index-page"
+msgstr "Besök index-sidan"
+
+#: ../lydia/views/CCInstall/install_6.tpl.php:6
+#: ../lydia/views/CCModules/action.tpl.php:7
+#: ../lydia2/views/CCModules/action.tpl.php:7
+msgid "Results from each module affected."
+msgstr "Resultat från varje modul som påverkades."
+
+#: ../lydia/views/CCInstall/install_6.tpl.php:8
+#: ../lydia/views/CCModules/action.tpl.php:9
+#: ../lydia2/views/CCModules/action.tpl.php:9
+msgid "Module"
+msgstr "Modul"
+
+#: ../lydia/views/CCInstall/install_6.tpl.php:8
+#: ../lydia/views/CCModules/action.tpl.php:9
+#: ../lydia2/views/CCModules/action.tpl.php:9
+msgid "Result"
+msgstr "Resultat"
+
+#: ../lydia/views/CCModules/action.tpl.php:1
+#: ../lydia2/views/CCModules/action.tpl.php:1
+msgid "Results from action"
+msgstr "Resultat från händelse"
+
+#: ../lydia/views/CCModules/action.tpl.php:3
+#: ../lydia2/views/CCModules/action.tpl.php:3
+msgid "The action was <strong>!action</strong>."
+msgstr "Händelsen var <strong>!action</strong>."
+
+#: ../lydia/views/CCModules/action.tpl.php:4
+#: ../lydia2/views/CCModules/action.tpl.php:4
+msgid "The following modules were affected."
+msgstr "Följande modul påverkades."
+
+#: ../lydia/views/CCModules/action.tpl.php:21
+#: ../lydia2/views/CCModules/action.tpl.php:21
+msgid "Output from action"
+msgstr "Resultat från händelse."
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:4
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:4
+msgid "Enter SQL commands to DROP/CREATE/ALTER tables and INSERT/UPDATE rows."
+msgstr ""
+"Skriv in SQL kommandon för att DROP/CREATE/ALTER tabeller och INSERT/UPDATE "
+"rader."
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:5
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:5
+msgid "Use the same format as you got as a result from exporting the database."
+msgstr ""
+"Använd samma format som du fick som resultat från att exportera databasen."
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:11
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:11
+msgid "Press to execute SQL batch."
+msgstr "Tryck för att köra SQL batch."
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:14
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:14
+msgid "Results from SQL batch"
+msgstr "Resultat från SQL batch"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:16
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:16
+msgid "Results from SQL batch."
+msgstr "Resultat från SQL batch."
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:18
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:18
+msgid "Detail"
+msgstr "Detalj"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:18
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:18
+msgid "Value"
+msgstr "Värde"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:21
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:21
+msgid "Total rows"
+msgstr "Totalt antal rader"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:22
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:22
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:23
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:23
+msgid "DROP"
+msgstr "DROP"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:24
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:24
+msgid "CREATE"
+msgstr "CREATE"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:25
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:25
+msgid "ALTER"
+msgstr "ALTER"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:26
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:26
+msgid "INSERT"
+msgstr "INSERT"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:27
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:27
+msgid "UPDATE"
+msgstr "UPDATE"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:28
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:28
+msgid "Unknown"
+msgstr "Okänd"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:29
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:29
+msgid "Success"
+msgstr "Lyckades"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:30
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:30
+msgid "Failed"
+msgstr "Misslyckades"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:31
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:31
+msgid "Rows affected"
+msgstr "Rader påverkade"
+
+#: ../lydia/views/CCModules/execute_sql.tpl.php:33
+#: ../lydia2/views/CCModules/execute_sql.tpl.php:33
+msgid "Failed query"
+msgstr "Frågan misslyckades"
+
+#: ../lydia/views/CCUser/create.tpl.php:1
+#: ../lydia2/views/CCUser/create.tpl.php:1
+msgid "Create user account"
+msgstr "Skapa användarkonto"
+
+#: ../lydia/views/CCUser/create.tpl.php:2
+#: ../lydia2/views/CCUser/create.tpl.php:2
+msgid "Create a new user by filling in below values."
+msgstr "Skapa en ny användare genom att fylla i värden nedan."
+
+#: ../lydia/views/CCUser/email.tpl.php:3
+msgid "Email adress"
+msgstr "Email-address"
+
+#: ../lydia/views/CCUser/groups.tpl.php:5
+#: ../lydia2/views/CCUser/index.tpl.php:12
+msgid "You are member of !number group(s)."
+msgstr "Du är medlem i !number group(s)."
+
+#: ../lydia/views/CCUser/index.tpl.php:9
+#: ../lydia2/views/CCUser/index.tpl.php:8
+msgid "Created !time ago."
+msgstr "Skapad !time sedan."
+
+#: ../lydia/views/CCUser/index.tpl.php:11
+#: ../lydia2/views/CCUser/index.tpl.php:10
+msgid "Last updated !time ago."
+msgstr "Senast uppdaterad sedan !time."
+
+#: ../lydia/views/CCUser/index.tpl.php:17
+msgid "Admin Control Panel"
+msgstr "Admin kontrollpanel"
+
+#: ../lydia/views/CCUser/login.tpl.php:2
+#: ../lydia2/views/CCUser/login.tpl.php:2
+msgid "Login using your acronym or email."
+msgstr "Logga in med din användare eller epost."
+
+#: ../lydia/views/CCUser/profile.tpl.php:3
+msgid "User details"
+msgstr "Användar-detaljer"
 
 #: ../lydia/views/themes-grid/footer_column_five.tpl.php:2
-msgid "Get inspired from a world of opensource"
-msgstr "Bli inspirerad av en värld av öppen källkod"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:3
-msgid "Philosofy:"
-msgstr "Filosofi:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:9
-msgid "Unix & Linux:"
-msgstr "Unix & Linux:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:15
-msgid "Web servers:"
-msgstr "Webbservrar:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:22
-msgid "Terminal, sftp & irc:"
-msgstr "Terminal, sftp & irc:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:30
-msgid "Texteditors:"
-msgstr "Texteditorer:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:35
-msgid "Development tools:"
-msgstr "Utvecklingsverktyg:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:42
-msgid "MVC & CMS:"
-msgstr "MVC & CMS:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:49
-msgid "PHP libraries:"
-msgstr "PHP-libb:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:53
-msgid "CSS frameworks:"
-msgstr "CSS-ramverk:"
-
-#: ../lydia/views/themes-grid/footer_column_five.tpl.php:61
-msgid "JavaScript:"
-msgstr "JavaScript:"
-
-#: ../lydia/views/themes-grid/footer_column_one.tpl.php:2
 #: ../lydia2/views/themes-grid/footer_column_one.tpl.php:2
 msgid "Validators"
 msgstr "Validatorer"
 
-#: ../lydia/views/themes-grid/footer_column_three.tpl.php:2
+#: ../lydia/views/themes-grid/footer_column_seven.tpl.php:2
 #: ../lydia2/views/themes-grid/footer_column_three.tpl.php:2
 msgid "Resources"
 msgstr "Resurser"
 
-#: ../lydia/views/themes-grid/footer_column_two.tpl.php:2
+#: ../lydia/views/themes-grid/footer_column_six.tpl.php:2
 #: ../lydia2/views/themes-grid/footer_column_two.tpl.php:2
 msgid "Manuals"
 msgstr "Manualer"
-
-#: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:19
-msgid "Updated cache with new feeds where appropriate."
-msgstr "Uppdaterade cachen med nya feeds."
-
-#: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:24
-#: ../lydia2/src/CMBook/CMBookModule.php:35
-#: ../lydia2/src/CMContent/CMContentModule.php:65
-#: ../lydia2/src/CMUser/CMUserModule.php:50
-#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:29
-msgid "Supporting the following actions: !actions."
-msgstr "Stödjer följande åtgärder: !actions."
-
-#: ../lydia2/src/CCAllSeeingEye/CCAllSeeingEyeModule.php:28
-#: ../lydia2/src/CMBook/CMBookModule.php:39
-#: ../lydia2/src/CMContent/CMContentModule.php:69
-#: ../lydia2/src/CMGuestbook/CMGuestbook.php:52
-#: ../lydia2/src/CMUser/CMUserModule.php:54
-#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:33
-msgid "Action not supported by this module."
-msgstr "Händelsen stöds ej av modulen."
-
-#: ../lydia2/src/CCBlog/CCBlog.php:27
-msgid "Blog"
-msgstr "Blogg"
 
 #: ../lydia2/src/CCBlog/CCBlog.php:29
 msgid "Index"
 msgstr "Index"
 
-#: ../lydia2/src/CCBlog/CCBlog.php:30
-msgid "blog"
-msgstr "blogg"
-
-#: ../lydia2/src/CCBlog/CCBlog.php:127
-msgid "No such entry."
-msgstr "Det finns inget sådant inlägg."
-
-#: ../lydia2/src/CCBook/CCBook.php:21
-msgid "Books overview"
-msgstr "Bok översikt"
-
-#: ../lydia2/src/CCBook/CCBook.php:36 ../lydia2/src/CCBook/CCBook.php:94
-msgid "The form could not be processed."
-msgstr "Formuläret kunde inte processas."
-
-#: ../lydia2/src/CCBook/CCBook.php:42
-msgid "Edit book: @title"
-msgstr "Ändra bok: @title"
-
-#: ../lydia2/src/CCBook/CCBook.php:42
-msgid "Create new book"
-msgstr "Skapa ny bok"
-
-#: ../lydia2/src/CCBook/CCBook.php:64 ../lydia2/src/CCBook/CCBook.php:80
-msgid "No such book."
-msgstr "Det finns ingen sådan bok."
-
-#: ../lydia2/src/CCBook/CCBook.php:79
-msgid "No such action."
-msgstr "Det finns ingen sådan åtgärd."
-
-#: ../lydia2/src/CCBook/CCBook.php:86 ../lydia2/src/CCBook/CCBook.php:88
-msgid "No such book chapter."
-msgstr "Det finns inget sådant bok kapitel."
-
-#: ../lydia2/src/CCBook/CCBook.php:101
-#: ../lydia2/views/CCBook/edit_chapter.tpl.php:2
-msgid "Edit book chapter"
-msgstr "Ändra book kapitel"
-
-#: ../lydia2/src/CCBook/CCBook.php:101
-msgid "Add new book chapter"
-msgstr "Lägg till nytt bok kapitel"
-
-#: ../lydia2/src/CCContent/CCContent.php:26
-msgid "Content Controller"
-msgstr "Innehålls kontroller"
-
-#: ../lydia2/src/CCIndex/CCIndex.php:19
-msgid "Home"
-msgstr "Hem"
-
-#: ../lydia2/src/CCModules/CCModules.php:21
-msgid "Module Manager"
-msgstr "Modulhanterare"
-
-#: ../lydia2/src/CCModules/CCModules.php:34
-#: ../lydia2/src/CCModules/CCModules.php:117
-msgid "Manage Modules"
-msgstr "Hantera moduler"
-
-#: ../lydia2/src/CCModules/CCModules.php:59
-#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:55
-msgid "You need admin-privileges to access this page."
-msgstr "Du behöver administratörsrättigheter för att komma åt denna sidan."
-
-#: ../lydia2/src/CCModules/CCModules.php:65
-msgid "Action: !action"
-msgstr "Händelse: !action"
-
-#: ../lydia2/src/CCModules/CCModules.php:67
-msgid "!action - Results from action"
-msgstr "!action - Resultat från händelse"
-
-#: ../lydia2/src/CCModules/CCModules.php:83 ../lydia2/src/CCUser/CCUser.php:86
-msgid "Some fields did not validate and the form could not be processed."
-msgstr "Något fält validerade inte och formuläret kunde därför inte processas."
-
-#: ../lydia2/src/CCModules/CCModules.php:86
-msgid "SQL was executed."
-msgstr "SQL-satser kördes."
-
-#: ../lydia2/src/CCModules/CCModules.php:94
-#: ../lydia2/src/CCModules/CCModules.php:96
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:1
-msgid "Execute SQL"
-msgstr "Exekvera SQL"
-
-#: ../lydia2/src/CCModules/CCModules.php:109
-msgid "Invalid characters in module name."
-msgstr "Felaktiga tecken i modulens namn"
-
-#: ../lydia2/src/CCModules/CCModules.php:115
-msgid "Module: @module"
-msgstr "Modul: @module"
-
-#: ../lydia2/src/CCUser/CCUser.php:21 ../lydia2/src/CCUser/CCUser.php:35
-#: ../lydia2/views/CCUser/index.tpl.php:1
-msgid "User Control Panel"
-msgstr "Kontrollpanelen"
-
-#: ../lydia2/src/CCUser/CCUser.php:49
-msgid "Failed to login, user or password does not match."
-msgstr "Kunde inte logga in, användaren eller lösenordet stämde inte."
-
-#: ../lydia2/src/CCUser/CCUser.php:66 ../lydia2/views/CCUser/login.tpl.php:1
-msgid "Login"
-msgstr "Login"
-
 #: ../lydia2/src/CCUser/CCUser.php:89
 msgid "Updated profile."
 msgstr "Uppdaterade profilen."
-
-#: ../lydia2/src/CCUser/CCUser.php:93
-msgid "Profile"
-msgstr "Profil"
 
 #: ../lydia2/src/CCUser/CCUser.php:95 ../lydia2/views/CCUser/index.tpl.php:4
 msgid "User profile"
@@ -353,195 +1309,9 @@ msgstr "Användarens profil"
 msgid "The password could not be changed, ensure that all fields match."
 msgstr "Lösenordet kunde inte ändras. Kontrollera att fälten stämde överens."
 
-#: ../lydia2/src/CCUser/CCUser.php:115
-msgid "Saved new password."
-msgstr "Sparade nytt lösenord."
-
-#: ../lydia2/src/CCUser/CCUser.php:119
-#: ../lydia2/views/CCUser/change_password.tpl.php:1
-#: ../lydia2/views/CCUser/index.tpl.php:5
-msgid "Change password"
-msgstr "Ändra lösenord"
-
 #: ../lydia2/src/CCUser/CCUser.php:121
 msgid "User change password"
 msgstr "Användare ändra lösenord"
-
-#: ../lydia2/src/CCUser/CCUser.php:147
-msgid "The account could not be created."
-msgstr "Kontot kunde inte skapas."
-
-#: ../lydia2/src/CCUser/CCUser.php:150
-msgid "Your have successfully created a new account."
-msgstr "Du har skapat ett nytt konto."
-
-#: ../lydia2/src/CFormContent/CFormContent.php:27
-msgid "Category id:"
-msgstr "Kategori id:"
-
-#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:38
-msgid "You need admin-privileges to access this content."
-msgstr ""
-"Du behöver administratörsrättigheter för att komma åt detta innehållet."
-
-#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:72
-msgid "User conflict between value and session."
-msgstr "Informationen om användaren stämmer inte mellan värde och sessionen."
-
-#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:84
-msgid "Create new user is disabled by site owner."
-msgstr "Att skapa ny användare är avstängt av webbplatsens administratör."
-
-#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:97
-msgid "You are just visiting this site and have no profile."
-msgstr "Du är besökare på denna webbplats och har ingen profil."
-
-#: ../lydia2/src/CInterceptionFilter/CInterceptionFilter.php:110
-msgid "You need to login to access this content."
-msgstr "Du behöver logga in för att komma åt detta innehåll."
-
-#: ../lydia2/src/CLydia/CLydia.php:172
-msgid "Theme not enabled."
-msgstr "Temat är inte tillgängligt."
-
-#: ../lydia2/src/CLydia/CLydia.php:239
-msgid "No such template file."
-msgstr "Template-filen finns inte."
-
-#: ../lydia2/src/CLydia/CLydia.php:252
-msgid "403, restricted content"
-msgstr "403, begränsad tillgänglighet till detta innehåll"
-
-#: ../lydia2/src/CLydia/CLydia.php:253
-msgid "404, page not found"
-msgstr "404, sidan kunde inte hittas"
-
-#: ../lydia2/src/CLydia/CLydia.php:255
-msgid "Header code is not valid."
-msgstr "Header koden är ej giltigt."
-
-#: ../lydia2/src/CMBook/CMBook.php:65
-msgid "No such SQL query."
-msgstr "SQL-frågan finns ej."
-
-#: ../lydia2/src/CMBook/CMBook.php:94
-msgid "Success to !action book."
-msgstr "Lyckades att !action bok."
-
-#: ../lydia2/src/CMBook/CMBook.php:96
-msgid "Failed to !action book."
-msgstr "Misslyckades att !action bok."
-
-#: ../lydia2/src/CMBook/CMBook.php:113
-msgid "Successfully deleted book."
-msgstr "Boken raderades."
-
-#: ../lydia2/src/CMBook/CMBook.php:115
-msgid "Failed to delete book"
-msgstr "Kunde inte radera boken."
-
-#: ../lydia2/src/CMBook/CMBook.php:130
-msgid "Failed to load book."
-msgstr "Kunde inte ladda boken."
-
-#: ../lydia2/src/CMBook/CMBook.php:168
-#: ../lydia2/src/CMContent/CMContent.php:246
-msgid "Not valid group by order."
-msgstr "Inte giltig grupp att sortera."
-
-#: ../lydia2/src/CMBook/CMBook.php:201
-msgid "No such chapter id."
-msgstr "Det finns inget sådant kapitel id."
-
-#: ../lydia2/src/CMBook/CMBook.php:231
-msgid "Success to !action chapter."
-msgstr "Lyckades att !action kapitel."
-
-#: ../lydia2/src/CMBook/CMBook.php:233
-msgid "Failed to !action chapter."
-msgstr "Misslyckades att !action kapitel."
-
-#: ../lydia2/src/CMBook/CMBookModule.php:19
-#: ../lydia2/src/CMBook/CMBookModule.php:30
-msgid "Successfully dropped and created the database tables."
-msgstr "Raderade och skapade om databastabellerna."
-
-#: ../lydia2/src/CMBook/CMBookModule.php:27
-#: ../lydia2/src/CMContent/CMContentModule.php:60
-#: ../lydia2/src/CMUser/CMUserModule.php:45
-msgid "Successfully exported data as SQL INSERT commands."
-msgstr "Exporterade data som kommandon för SQL INSERT."
-
-#: ../lydia2/src/CMContent/CMContent.php:291
-msgid "Convert http://webb.com/ to clickable links. Convert newline to <br />."
-msgstr ""
-"Konvertera http://webbplats.se/ till klickbara länkar. Konvertera "
-"radbrytningar till <br/>."
-
-#: ../lydia2/src/CMContent/CMContent.php:292
-msgid "Support bbcode. Convert newline to <br />."
-msgstr "Stödjer bbcode. Konvertera radbrytningar till <br/>."
-
-#: ../lydia2/src/CMContent/CMContent.php:293
-msgid ""
-"Treat data as HTML and use HTMLPurify to filter content. Convert newline to "
-"<br />."
-msgstr ""
-"Behandla data som HTML och använd HTMLPurify för att filtrera innehållet. "
-"Konvertera radbrytningar till <br/>."
-
-#: ../lydia2/src/CMContent/CMContent.php:294
-msgid "Support Markdown-syntax together with Typographer (SmartyPants)."
-msgstr "Stödj Markdown-syntax tillsammans med Typographer (SmartyPants)."
-
-#: ../lydia2/src/CMContent/CMContent.php:295
-msgid ""
-"Support extended Markdown-syntax together with Typographer (SmartyPants). "
-"Converts links, shorttags"
-msgstr ""
-"Stöd utökad Markdown-syntax tillsammans med Typographer (SmartyPants). "
-"Konvertera länkar och kort-taggar."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:21
-msgid "Successfully created the database tables."
-msgstr "Skapade databastabeller."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:23
-msgid "Directory in site/data already exists."
-msgstr "Katalog i site/data finns redan."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:26
-msgid "Failed to create directory in site/data."
-msgstr "Kunde inte skapa katalogen i site/data."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:28
-msgid "Created directory in site/data."
-msgstr "Skapade katalog i site/data."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:50
-msgid "Failed to create file in site/data."
-msgstr "Kunde inte skapa fil i site/data."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:50
-msgid "Sample file created."
-msgstr "Exempel fil skapades."
-
-#: ../lydia2/src/CMContent/CMContentModule.php:51
-msgid "Successfully inserted sample content into database."
-msgstr "Skapade exempel data och stoppade in i databasen."
-
-#: ../lydia2/src/CMModules/CMModules.php:80
-#: ../lydia2/src/CMModules/CMModules.php:91
-msgid "Could not open the directory."
-msgstr "Kan inte öppna katalogen."
-
-#: ../lydia2/src/CMModules/CMModules.php:184
-msgid "Not a valid action."
-msgstr "Åtgärden är inte gilig."
-
-#: ../lydia2/src/CMModules/CMModules.php:290
-msgid "(rows affected: !rows)"
-msgstr "(rader påverkade: !rows)"
 
 #: ../lydia2/src/CMUser/CMUserModule.php:35
 msgid ""
@@ -551,48 +1321,9 @@ msgstr ""
 "Skapade databastabeller och skapade en admin-användare som root:root och en "
 "vanlig användare som doe:doe."
 
-#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:18
-msgid "Could not create cache-directory."
-msgstr "Kunde inte skapa cache-katalogen."
-
-#: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:20
-msgid "Created cache-directory."
-msgstr "Skapade cache-katalogen."
-
 #: ../lydia2/src/CRSSFeed/CRSSFeedModule.php:23
 msgid "Cache-directory is already existing."
 msgstr "Cache-katalogen finns redan."
-
-#: ../lydia2/src/CTextFilter/CTextFilter.php:167
-#: ../lydia2/src/CTextFilter/CTextFilter.php:196
-msgid "Figure: "
-msgstr "Figur: "
-
-#: ../lydia2/src/CViewContainer/CViewContainer.php:94
-msgid "View filename is empty."
-msgstr "View filnamn saknas."
-
-#: ../lydia2/views/404.tpl.php:1
-msgid "404, Page not found"
-msgstr "404, sidan kan inte hittas."
-
-#: ../lydia2/views/404.tpl.php:3
-msgid "The page you are looking for is not here."
-msgstr "Sidan du söker finns inte här."
-
-#: ../lydia2/views/404.tpl.php:5
-msgid "Detailed message: @message"
-msgstr "Detaljerad meddelande: @message"
-
-#: ../lydia2/views/CCAllSeeingEye/index.tpl.php:5
-msgid ""
-"The module CCAllSeeingEye is a Lydia application which does RSS aggregation. "
-"Make an app-class who use this class, create a config.php-file to choose "
-"your feeds and customize the views to adapt it."
-msgstr ""
-"Modulen CCAllSeeingEye är en Lydia applikation som gör aggregering av RSS "
-"flöden. Gör en subklass av den, skapa en egen config-php-fil med dina RSS-"
-"flöden och anpassa vyerna för att ändra dess beteende."
 
 #: ../lydia2/views/CCBlog/index.tpl.php:17
 msgid "Last updated on !updated"
@@ -603,233 +1334,13 @@ msgstr "Senast uppdaterad !updated"
 msgid "On !created by !owner"
 msgstr "Skapad !created av !owner"
 
-#: ../lydia2/views/CCBlog/index.tpl.php:27
-msgid "Read more »"
-msgstr "Läs mer »"
-
-#: ../lydia2/views/CCBlog/index.tpl.php:34
-#: ../lydia2/views/CCBlog/post.tpl.php:9
-msgid "Category: @category_name"
-msgstr "Kategori: @category_name"
-
-#: ../lydia2/views/CCBlog/index.tpl.php:36
-#: ../lydia2/views/CCBlog/post.tpl.php:11
-msgid "edit"
-msgstr "ändra"
-
-#: ../lydia2/views/CCBlog/index.tpl.php:45
-#: ../lydia2/views/CCBlog/index_sidebar.tpl.php:39
-#: ../lydia2/views/CCBlog/post_sidebar.tpl.php:24
-msgid "No posts exists."
-msgstr "Det finns inga inlägg."
-
-#: ../lydia2/views/CCBlog/post.tpl.php:18
-msgid "No such post."
-msgstr "Det finns inga poster."
-
-#: ../lydia2/views/CCBook/add_chapter.tpl.php:1
-msgid "Add book chapter"
-msgstr "Lägg till bok kapitel"
-
-#: ../lydia2/views/CCBook/add_chapter.tpl.php:2
-msgid "Add new book chapter."
-msgstr "Läss till nytt bok kapitel."
-
-#: ../lydia2/views/CCBook/edit.tpl.php:2
-msgid "Edit book"
-msgstr "Ändra bok"
-
-#: ../lydia2/views/CCBook/edit.tpl.php:3
-msgid "You can edit and save this book."
-msgstr "Du kan ändra och spara denna bok."
-
-#: ../lydia2/views/CCBook/edit.tpl.php:5
-msgid "Create Book"
-msgstr "Skapa bok"
-
-#: ../lydia2/views/CCBook/edit.tpl.php:6
-msgid "Create new book."
-msgstr "Skapa ny bok."
-
-#: ../lydia2/views/CCBook/edit.tpl.php:14
-#: ../lydia2/views/CCBook/view.tpl.php:6
-msgid "This book were created by !owner !time ago."
-msgstr "Denna bok skapades av !owner för !time sedan."
-
-#: ../lydia2/views/CCBook/edit_chapter.tpl.php:3
-msgid "You can edit and save this book chapter."
-msgstr "Du kan ändra och spara detta bok kapitel."
-
-#: ../lydia2/views/CCBook/edit_chapter.tpl.php:5
-msgid "Create book chapter"
-msgstr "Skapa bok kapitel"
-
-#: ../lydia2/views/CCBook/edit_chapter.tpl.php:6
-msgid "Create new book chapter."
-msgstr "Skapa nytt bok kapitel."
-
-#: ../lydia2/views/CCBook/index.tpl.php:1
-msgid "Books"
-msgstr "Böcker"
-
-#: ../lydia2/views/CCBook/index.tpl.php:2
-msgid "Create, edit and view books."
-msgstr "Skapa, ändra och se böcker."
-
-#: ../lydia2/views/CCBook/view.tpl.php:1
-msgid "Book overview"
-msgstr "Bok översikt"
-
-#: ../lydia2/views/CCBook/view.tpl.php:12
-msgid "Key: !key"
-msgstr "Nyckel: !key"
-
-#: ../lydia2/views/CCBook/view.tpl.php:15
-msgid "Edit book details."
-msgstr "Ändra detaljer för bok."
-
-#: ../lydia2/views/CCBook/view.tpl.php:19
-msgid "Chapters"
-msgstr "Kapitel"
-
-#: ../lydia2/views/CCModules/action.tpl.php:1
-msgid "Results from action"
-msgstr "Resultat från händelse"
-
-#: ../lydia2/views/CCModules/action.tpl.php:3
-msgid "The action was <strong>!action</strong>."
-msgstr "Händelsen var <strong>!action</strong>."
-
-#: ../lydia2/views/CCModules/action.tpl.php:4
-msgid "The following modules were affected."
-msgstr "Följande modul påverkades."
-
-#: ../lydia2/views/CCModules/action.tpl.php:7
-msgid "Results from each module affected."
-msgstr "Resultat från varje modul som påverkades."
-
-#: ../lydia2/views/CCModules/action.tpl.php:9
-msgid "Module"
-msgstr "Modul"
-
-#: ../lydia2/views/CCModules/action.tpl.php:9
-msgid "Result"
-msgstr "Resultat"
-
-#: ../lydia2/views/CCModules/action.tpl.php:21
-msgid "Output from action"
-msgstr "Resultat från händelse."
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:4
-msgid "Enter SQL commands to DROP/CREATE/ALTER tables and INSERT/UPDATE rows."
-msgstr ""
-"Skriv in SQL kommandon för att DROP/CREATE/ALTER tabeller och INSERT/UPDATE "
-"rader."
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:5
-msgid "Use the same format as you got as a result from exporting the database."
-msgstr ""
-"Använd samma format som du fick som resultat från att exportera databasen."
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:11
-msgid "Press to execute SQL batch."
-msgstr "Tryck för att köra SQL batch."
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:14
-msgid "Results from SQL batch"
-msgstr "Resultat från SQL batch"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:16
-msgid "Results from SQL batch."
-msgstr "Resultat från SQL batch."
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:18
-msgid "Detail"
-msgstr "Detalj"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:18
-msgid "Value"
-msgstr "Värde"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:21
-msgid "Total rows"
-msgstr "Totalt antal rader"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:22
-msgid "Comments"
-msgstr "Kommentarer"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:23
-msgid "DROP"
-msgstr "DROP"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:24
-msgid "CREATE"
-msgstr "CREATE"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:25
-msgid "ALTER"
-msgstr "ALTER"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:26
-msgid "INSERT"
-msgstr "INSERT"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:27
-msgid "UPDATE"
-msgstr "UPDATE"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:28
-msgid "Unknown"
-msgstr "Okänd"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:29
-msgid "Success"
-msgstr "Lyckades"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:30
-msgid "Failed"
-msgstr "Misslyckades"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:31
-msgid "Rows affected"
-msgstr "Rader påverkade"
-
-#: ../lydia2/views/CCModules/execute_sql.tpl.php:33
-msgid "Failed query"
-msgstr "Frågan misslyckades"
-
 #: ../lydia2/views/CCUser/change_password.tpl.php:2
 msgid "Change your current password."
 msgstr "Ändra ditt nuvarande lösenord."
 
-#: ../lydia2/views/CCUser/create.tpl.php:1
-msgid "Create user account"
-msgstr "Skapa användarkonto"
-
-#: ../lydia2/views/CCUser/create.tpl.php:2
-msgid "Create a new user by filling in below values."
-msgstr "Skapa en ny användare genom att fylla i värden nedan."
-
 #: ../lydia2/views/CCUser/index.tpl.php:2
 msgid "Manage your account."
 msgstr "Hantera ditt konto."
-
-#: ../lydia2/views/CCUser/index.tpl.php:8
-msgid "Created !time ago."
-msgstr "Skapad !time sedan."
-
-#: ../lydia2/views/CCUser/index.tpl.php:10
-msgid "Last updated !time ago."
-msgstr "Senast uppdaterad sedan !time."
-
-#: ../lydia2/views/CCUser/index.tpl.php:12
-msgid "You are member of !number group(s)."
-msgstr "Du är medlem i !number group(s)."
-
-#: ../lydia2/views/CCUser/login.tpl.php:2
-msgid "Login using your acronym or email."
-msgstr "Logga in med din användare eller epost."
 
 #: ../lydia2/views/CCUser/profile.tpl.php:1
 msgid "User Profile"
@@ -838,6 +1349,48 @@ msgstr "Användarprofil"
 #: ../lydia2/views/CCUser/profile.tpl.php:2
 msgid "View and update your profile information."
 msgstr "Se och uppdatera din profilinformation."
+
+#~ msgid ""
+#~ "The module CCAllSeeingEye is a Lydia application which does RSS "
+#~ "aggregation. Subclass it, create a config.php-file to choose your feeds "
+#~ "and customize the views to adapt it."
+#~ msgstr ""
+#~ "Modulen CCAllSeeingEye är en Lydia applikation som gör aggregering av RSS "
+#~ "flöden. Gör en subklass av den, skapa en egen config-php-fil med dina RSS-"
+#~ "flöden och anpassa vyerna för att ändra dess beteende."
+
+#~ msgid "Get inspired from a world of opensource"
+#~ msgstr "Bli inspirerad av en värld av öppen källkod"
+
+#~ msgid "Philosofy:"
+#~ msgstr "Filosofi:"
+
+#~ msgid "Unix & Linux:"
+#~ msgstr "Unix & Linux:"
+
+#~ msgid "Web servers:"
+#~ msgstr "Webbservrar:"
+
+#~ msgid "Terminal, sftp & irc:"
+#~ msgstr "Terminal, sftp & irc:"
+
+#~ msgid "Texteditors:"
+#~ msgstr "Texteditorer:"
+
+#~ msgid "Development tools:"
+#~ msgstr "Utvecklingsverktyg:"
+
+#~ msgid "MVC & CMS:"
+#~ msgstr "MVC & CMS:"
+
+#~ msgid "PHP libraries:"
+#~ msgstr "PHP-libb:"
+
+#~ msgid "CSS frameworks:"
+#~ msgstr "CSS-ramverk:"
+
+#~ msgid "JavaScript:"
+#~ msgstr "JavaScript:"
 
 #~ msgid "RSS"
 #~ msgstr "RSS"

@@ -405,6 +405,10 @@ a[href$=".pdf"] {
   padding-right: 13px;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAZ0lEQVR4nGNgIAmknfmPjGXLL/2v3/T0P1aFyIAh7cx/49ZrWBSnnfn/8O3//2ceQDBD2pn/zz78/6/biK447cz/pSf//09bDMHozsBpIgw/fAvVhMtEGF56EotC6puIC2AoxItJAQBnweOKFBvqdQAAAABJRU5ErkJggg==') no-repeat scroll right center transparent;
 }
+.geshi a {
+  padding-right: 0;
+  background: none;
+}
 ul.breadcrumb {
   list-style-type: none;
   padding: 0;

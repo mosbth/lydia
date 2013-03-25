@@ -230,6 +230,27 @@ class CFormElement implements ArrayAccess{
   }
 
 
+
+  /**
+   * Get the value of the form element.
+   *
+   * @return mixed the value of the form element.
+   */
+  public function GetValue() {
+    return $this['value'];
+  }
+
+
+  /**
+   * Get the value of the form element, if value is empty return null.
+   *
+   * @return mixed the value of the form element. Null if the value is empty.
+   */
+  public function GetValueNullIfEmpty() {
+    return empty($this['value']) ? null : $this['value'];
+  }
+
+
 }
 
 
