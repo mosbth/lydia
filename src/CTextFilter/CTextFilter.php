@@ -164,16 +164,30 @@ class CTextFilter {
     $callback = function($matches) {
       switch($matches[1]) {
         case 'IMG':
-          $caption = t('Figure: ');
+          $caption = t('Image: ');
           $pos = strpos($matches[2], '?');
           $href = $pos ? substr($matches[2], 0, $pos) : $matches[2];
+          $src = htmlspecialchars($matches[2]);
           return <<<EOD
 <figure>
-  <a href='{$href}'><img src='{$matches[2]}' alt='{$matches[3]}' /></a>
+  <a href='{$href}'><img src='{$src}' alt='{$matches[3]}' /></a>
   <figcaption markdown=1>{$caption}{$matches[3]}</figcaption>
 </figure>
 EOD;
-        case 'AUTHOR':
+
+        case 'IMG2':
+          $caption = t('Image: ');
+          $pos = strpos($matches[2], '?');
+          $href = $pos ? substr($matches[2], 0, $pos) : $matches[2];
+          $src = htmlspecialchars($matches[2]);
+          return <<<EOD
+<figure class="{$matches[4]}">
+  <a href='{$href}'><img src='{$src}' alt='{$matches[3]}' /></a>
+  <figcaption markdown=1>{$caption}{$matches[3]}</figcaption>
+</figure>
+EOD;
+
+/*        case 'AUTHOR':
           $name   = $matches[2];
           $email  = $matches[3];
           // Should use ALTERNATE URL from config.php
@@ -181,7 +195,7 @@ EOD;
           $text   = t('By @NAME (@EMAIL)', array('@NAME' => $name, '@EMAIL' => $email));
           return "<span class='author-inline'><a{$href}>{$text}</a></span>\n";
         break;
-
+*/
         case 'BOOK':
           $isbn = $matches[2];
           $stores = array(
@@ -222,8 +236,9 @@ EOD;
     };
     $patterns = array(
       '#\[(BASEURL)\]#',
-      '/\[(AUTHOR) name=(.+) email=(.+) url=(.+)\]/',
+      //'/\[(AUTHOR) name=(.+) email=(.+) url=(.+)\]/',
       '/\[(IMG) src=(.+) alt=(.+)\]/',
+      '/\[(IMG2) src=(.+) alt="(.+)" class="(.+)"\]/',
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
       '/~~~(syntax=)(php|html|css|sql|javascript)\n([^~]+)\n~~~/s',
