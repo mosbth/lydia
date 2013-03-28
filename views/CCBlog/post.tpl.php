@@ -1,6 +1,6 @@
 <?php if($content != null):?>
 
-<article 'ly-blog'>
+<article class='ly-blog'>
 
   <header class='ly-blog-post-header'>
     <h1><?=esc($content['title'])?></h1>
