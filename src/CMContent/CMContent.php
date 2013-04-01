@@ -538,6 +538,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     switch($filter) {
       /*case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
       case 'html': $data = nl2br(makeClickable($data)); break;*/
+      case 'markdowny':   $data = CTextFilter::Typographer(CTextFilter::MarkdownExtra(CTextFilter::ShortTags($data))); break;
       case 'markdownx':   $data = CTextFilter::MakeClickable(CTextFilter::Typographer(CTextFilter::MarkdownExtra(CTextFilter::ShortTags($data)))); break;
       case 'markdown':    $data = CTextFilter::Typographer(CTextFilter::Markdown($data)); break;
       case 'htmlpurify':  $data = nl2br(CTextFilter::Purify($data)); break;

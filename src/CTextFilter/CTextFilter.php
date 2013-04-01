@@ -216,7 +216,7 @@ EOD;
 
         case 'YOUTUBE':
           $caption = t('Figure: ');
-          $height = $matches[3] / (16/9);
+          $height = ceil($matches[3] / (16/9));
           return <<<EOD
 <figure>
   <iframe width='{$matches[3]}' height='{$height}' src="http://www.youtube.com/embed/{$matches[2]}" frameborder="0" allowfullscreen></iframe>
@@ -228,7 +228,7 @@ EOD;
         case 'syntax=': return CTextFilter::SyntaxHighlightGeSHi($matches[3], $matches[2]); break;
         //case 'syntax=': return "<pre>" . highlight_string($matches[3], true) . "</pre>"; break;
         //case 'INCL':  include($matches[2]); break;
-        case 'INFO':  return "<div class='info'markdown=1>"; break;
+        case 'INFO':  return "<div class='info' markdown=1>"; break;
         case '/INFO': return "</div>"; break;
         case 'BASEURL': return CLydia::Instance()->request->base_url; break;
         default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
