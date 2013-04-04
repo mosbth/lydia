@@ -360,6 +360,17 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
 
 
   /**
+   * Get the page title, use parenttitle if set, else use title. 
+   *
+   * @return string the resulting title.
+   */
+  public function GetPageTitle() {
+    return empty($this['parenttitle']) ? $this['title'] : $this['parenttitle'];
+  }
+
+
+
+  /**
    * List all content.
    *
    * @param $args array with various settings for the request. Default is null.

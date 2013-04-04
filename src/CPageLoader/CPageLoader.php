@@ -66,7 +66,8 @@ class CPageLoader extends CObject {
    * @param string $url the url to check.
    */
   public function DisplayContentByUrl($url) {
-    $c = new CMContent();
+    $this->content = new CMContent();
+    $c = &$this->content;
     $url = empty($url) ? 'home' : $url;
     if(!$c->LoadByUrl($url)) {
       $this->ShowErrorPage(404, t('Page is not found. No such content.'));
