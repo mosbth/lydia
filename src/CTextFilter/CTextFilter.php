@@ -98,6 +98,7 @@ class CTextFilter {
       //self::$geshi->set_line_style('color: red; font-weight: bold;', 'color: green;');
       //CLydia::Instance()->views->AddStyle($geshi->get_stylesheet());
     }
+    $language = ($language === 'html') ? 'html4strict' : $language;
     self::$geshi = new GeSHi($text, $language);
     self::$geshi->set_overall_class('geshi');
     self::$geshi->enable_classes('geshi');
@@ -241,7 +242,7 @@ EOD;
       '/\[(IMG2) src=(.+) alt="(.+)" class="(.+)"\]/',
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
-      '/~~~(syntax=)(php|html|css|sql|javascript)\n([^~]+)\n~~~/s',
+      '/~~~(syntax=)(php|html|html5|css|sql|javascript|bash)\n([^~]+)\n~~~/s',
       //'/\[(INCL)/s*([^\]+)/',
       '#\[(INFO)\]#', '#\[(/INFO)\]#',
     );

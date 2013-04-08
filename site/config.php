@@ -108,7 +108,7 @@ $ly->config['i18n'] = function_exists('gettext');
  * which is called in the frontcontroller phase from index.php.
  */
 $ly->config['controllers'] = array(
-  //'install'   => array('enabled' => true,'class' => 'CCInstall'),
+  'install'   => array('enabled' => true,'class' => 'CCInstall'),
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
   'theme'     => array('enabled' => true,'class' => 'CCTheme'),
