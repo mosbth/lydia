@@ -84,7 +84,16 @@ class CLydia implements ISingleton/*, IModule*/ {
     
     // Create a database object.
     if(isset($this->config['database'][0]['dsn'])) {
-      $this->db = new CDatabase($this->config['database'][0]['dsn']);
+      try{
+        $this->db = new CDatabase($this->config['database'][0]['dsn']);
+      }
+      catch($e) {
+        if($this->config['controllers']['install']['enabled']) {
+          echo 'install';
+        } else {
+          throw $e;
+        }
+      }
     }
     
     // Create a container for all views and theme data
