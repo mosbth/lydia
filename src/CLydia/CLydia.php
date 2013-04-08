@@ -144,7 +144,7 @@ class CLydia implements ISingleton/*, IModule*/ {
 	 */
   public function FrontControllerRoute() {
     // Take current url and divide it in controller, method and parameters
-    $this->request = new CRequest($this->config['url_type']);
+    $this->request = new CRequest(isset($this->config['url_type']) ? $this->config['url_type'] : null);
     $this->request->Init($this->config['base_url'], $this->config['routing']);
     $controller = $this->request->controller;
     $method     = $this->request->method;
@@ -218,7 +218,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     
     // Get the paths and settings for the theme
     $themePath 	= $this->config['theme']['path'];
-    $themeUrl		= $this->CreateUrl($this->config['theme']['url']);
+    $themeUrl		= $this->CreateCleanUrl($this->config['theme']['url']);
 
     // Is there a parent theme?
     $parentPath = null;
@@ -399,16 +399,29 @@ class CLydia implements ISingleton/*, IModule*/ {
   }
 
 
-	/**
-	 * Create an url, wrapper and shorter method for $this->request->CreateUrl()
-	 *
-	 * @param $urlOrController string the relative url or the controller
-	 * @param $method string the method to use, $url is then the controller or empty for current
-	 * @param $arguments string the extra arguments to send to the method
+  /**
+   * Create an url, wrapper and shorter method for $this->request->CreateUrl()
+   *
+   * @param $urlOrController string the relative url or the controller
+   * @param $method string the method to use, $url is then the controller or empty for current
+   * @param $arguments string the extra arguments to send to the method
    * @return string as the url.
-	 */
-	public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
+   */
+  public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
     return $this->request->CreateUrl($urlOrController, $method, $arguments);
+  }
+
+
+  /**
+   * Create a clean url, wrapper and shorter method for $this->request->CreateCleanUrl()
+   *
+   * @param $urlOrController string the relative url or the controller
+   * @param $method string the method to use, $url is then the controller or empty for current
+   * @param $arguments string the extra arguments to send to the method
+   * @return string as the url.
+   */
+  public function CreateCleanUrl($urlOrController=null, $method=null, $arguments=null) {
+    return $this->request->CreateCleanUrl($urlOrController, $method, $arguments);
   }
 
 

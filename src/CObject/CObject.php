@@ -92,11 +92,19 @@ class CObject {
   }
 
 
-	/**
-	 * Wrapper for same method in CLydia. See there for documentation.
-	 */
-	protected function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
     return $this->ly->CreateUrl($urlOrController, $method, $arguments);
+  }
+
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function CreateCleanUrl($urlOrController=null, $method=null, $arguments=null) {
+    return $this->ly->CreateCleanUrl($urlOrController, $method, $arguments);
   }
 
 

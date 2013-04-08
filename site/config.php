@@ -35,7 +35,7 @@ $ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_DATA_PATH . '/.ht.sqlite';
  * clean        = 1      => controller/method/arg1/arg2/arg3
  * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
  */
-$ly->config['url_type'] = 0;
+//$ly->config['url_type'] = 1;
 
 
 /**

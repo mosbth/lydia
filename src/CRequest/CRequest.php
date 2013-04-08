@@ -22,9 +22,28 @@ class CRequest {
 	 * @param boolean $querystring generate clean url's of type index.php?q=controller/method/arg1/arg2/arg2
 	 */
 	public function __construct($urlType=0) {
-    $this->cleanUrl       = $urlType= 1 ? true : false;
-    $this->querystringUrl = $urlType= 2 ? true : false;
+    $this->cleanUrl       = ($urlType === 1) ? true : false;
+    $this->querystringUrl = ($urlType === 2) ? true : false;
 	}
+
+
+  
+  /**
+   * Create a url in the way it should be created.
+   *
+   * @param $url string the relative url or the controller
+   * @param $method string the method to use, $url is then the controller or empty for current controller.
+   * @param $arguments string/array the extra arguments to send to the method
+   * @returns string the url
+   */
+  public function CreateCleanUrl($url=null, $method=null, $arguments=null) {
+    $cleanUrl = $this->cleanUrl;
+    $this->cleanUrl = 1;
+    $url = $this->CreateUrl($url, $method, $arguments);
+    $this->cleanUrl = $cleanUrl;
+    return $url;
+  }
+
 
 
 	/**
