@@ -84,10 +84,10 @@ class CLydia implements ISingleton/*, IModule*/ {
     
     // Create a database object.
     if(isset($this->config['database'][0]['dsn'])) {
-      try{
+      try {
         $this->db = new CDatabase($this->config['database'][0]['dsn']);
       }
-      catch($e) {
+      catch(Exception $e) {
         if($this->config['controllers']['install']['enabled']) {
           echo 'install';
         } else {
