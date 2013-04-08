@@ -113,6 +113,10 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.93 (2013-04-09)
+
+* Fixed installation phase and corrected some errors inline with that.
+
 v0.3.92 (2013-03-25)
 
 * `CForm` to differ on empty values to get null instead of empty.
