@@ -99,6 +99,25 @@ $ly->config['i18n'] = function_exists('gettext');
 
 
 /**
+ * Localise L10n method names to make search become sok (or sök) in Sweden.
+ */
+$ly->config['method_L10n'] = array(
+  'sv' => array(
+    'search'    => 'sok',
+    'category'  => 'kategori',
+  ),
+);
+
+
+
+/**
+ * RSS feed settings. Change this to your own copyright notice for the RSS feeds.
+ */
+$ly->config['feed']['copyright'] = 'Copyright (C) Lydia';
+
+
+
+/**
  * Define the controllers, their classname and enable/disable them.
  *
  * The array-key is matched against the url, for example: 
