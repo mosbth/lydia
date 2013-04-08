@@ -54,8 +54,8 @@ class CLydia implements ISingleton/*, IModule*/ {
       throw new Exception("Missing config-file: " . LYDIA_CONFIG_PATH);
     }
 
-    if(!is_writable(LYDIA_DATA_PATH)) {
-      throw new Exception("Data-directory does not exists or is not writable: " . LYDIA_DATA_PATH . ". Have you <a href='index.php/install'>installed lydia</a>?");
+    if(!is_dir(LYDIA_DATA_PATH)) {
+      throw new Exception("Data-directory does not exists: " . LYDIA_DATA_PATH);
     }
 
     // Set default date/time-zone, should I use UTC or local timezone?
