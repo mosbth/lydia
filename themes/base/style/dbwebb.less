@@ -54,6 +54,19 @@ html.dbwebb {
   }
 
 
+  /** --------------------------------------------------------------
+   * External links
+   */
+  a[href^="http"] {
+    padding-right: 13px;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=") no-repeat scroll right center transparent;
+  }
+
+  a[href^="http://dbwebb.se"] {
+    padding-right: 0;
+    background: none;
+  }
+
 }
 
 
@@ -112,7 +125,7 @@ html.dbwebb {
 
 
  /** --------------------------------------------------------------
- * Frontpage
+ * Frontpage (NOT PART OF DBWEBB, PART OF LYDIA?)
  */
  .box {
   margin-bottom: @magicNumber * 2;
@@ -147,10 +160,11 @@ html.dbwebb {
   }
 }
 
+/* OBSOLETE
 .box-frontpage {
   margin-bottom: 0;
 }
-
+*/
 
 ul.article-list {
   list-style: none;
@@ -193,7 +207,7 @@ ul.article-list {
 
 
 /** --------------------------------------------------------------
-* Misc.
+* Misc. (NOT PART OF DBWEBB, PART OF LYDIA?)
 */
 a.button {
   display: block;

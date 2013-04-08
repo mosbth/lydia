@@ -246,7 +246,7 @@ $ly->config['menus'] = array(
  * available to the template files.
  */
 $ly->config['theme'] = array(
-  'html_class'    => null,
+  'html_class'    => 'lydia',
   'name'          => 'base',
   'path'          => LYDIA_INSTALL_PATH . '/themes/base',
   'url'           => 'themes/base',

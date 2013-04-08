@@ -69,6 +69,7 @@ $ly->config['menus'] = array(
  */
 $ly->config['theme'] = null;
 $ly->config['theme'] = array(
+  'html_class'    => 'lydia',
   'path'          => LYDIA_INSTALL_PATH . '/themes/base',
   'url'           => 'themes/base',
   //'parent'        => LYDIA_INSTALL_PATH . '/themes/grid', 
