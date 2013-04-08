@@ -11,7 +11,9 @@
 // PHASE: BOOTSTRAP
 //
 define('LYDIA_INSTALL_PATH', __DIR__);
-define('LYDIA_SITE_PATH', LYDIA_INSTALL_PATH . '/site');
+define('LYDIA_SITE_PATH',   LYDIA_INSTALL_PATH . '/site');
+define('LYDIA_CONFIG_PATH', LYDIA_SITE_PATH . '/config.php');
+define('LYDIA_DATA_PATH',   LYDIA_SITE_PATH . '/data');
 
 require(LYDIA_INSTALL_PATH.'/src/bootstrap.php');
 
