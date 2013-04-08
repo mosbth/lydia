@@ -127,7 +127,7 @@ $ly->config['feed']['copyright'] = 'Copyright (C) Lydia';
  * which is called in the frontcontroller phase from index.php.
  */
 $ly->config['controllers'] = array(
-  'install'   => array('enabled' => true,'class' => 'CCInstall'),
+  //'install'   => array('enabled' => true,'class' => 'CCInstall'),
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
   'theme'     => array('enabled' => true,'class' => 'CCTheme'),
@@ -150,7 +150,7 @@ $ly->config['controllers'] = array(
  * Route custom urls to a defined controller/method/arguments
  */
 $ly->config['routing'] = array(
-  'home' => array('enabled' => true, 'url' => 'index/index'),
+  //'home' => array('enabled' => true, 'url' => 'index/index'),
   'user' => array('enabled' => true, 'url' => 'user/overview'),
   //'#^kurser/(.+)$#' => array('preg' => true, 'enabled' => true, 'url' => 'index/courses'),
 );
@@ -215,7 +215,7 @@ $ly->config['menus'] = array(
     'id'    => 'navbar-default',
     'class' => 'nb-anna',
     'items' => array(
-      'home'      => array('label'=>'Home', 'url'=>'home'),
+      'home'      => array('label'=>'Home', 'url'=>''),
       'blog'      => array('label'=>'Blog', 'url'=>'blog'),
       'content'   => array('label'=>'Content', 'url'=>'content'),
       'rss'       => array('label'=>'RSS', 'url'=>'rss'),
