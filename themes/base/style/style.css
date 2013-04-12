@@ -1799,6 +1799,10 @@ html.dbwebb a[href^="http://dbwebb.se"] {
   padding-right: 0;
   background: none;
 }
+html.dbwebb .geshi a {
+  padding-right: 0;
+  background: none;
+}
 #inner-wrap-footer-column {
   padding-top: 2em;
   margin-bottom: 22px;

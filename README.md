@@ -113,9 +113,15 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.9x (latest)
+
+* Work in progress...
+
 v0.3.93 (2013-04-09)
 
-* Fixed installation phase and corrected some errors inline with that.
+* Fixed installation phase.
+* Corrected errors with configuration of clean urls.
+* Separated style between lydia and dbwebb in base theme.
 
 v0.3.92 (2013-03-25)
 
