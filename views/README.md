@@ -55,7 +55,7 @@ $this->views->SetTitle(t('User Control Panel'))
 
 The views are then loaded in the theme-regions, `main` and `sidebar` in this example, through the theme template file, usually `themes/base/index.tpl.php` when using the theme *base*.
 
-**`themes/base/index.tpl.php` loads views for specific regions.**
+**Loads views for specific regions in `themes/base/index.tpl.php`:**
 
 ```html
 <div id='outer-wrap-main'>
