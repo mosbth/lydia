@@ -43,7 +43,7 @@ Working with views in controllers
 
 The controllers prepares the views and stores them in the `CViewContainer` which is input to the theme rendering phase.
 
-**Loading vies in a controller, storing in `CViewContainer`:**
+**Preparing views in a controller, storing in `CViewContainer`:**
 
 ```php
 $data = array('user' => $this->user);
