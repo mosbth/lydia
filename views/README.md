@@ -57,7 +57,7 @@ The views are then loaded in the theme-regions, `main` and `sidebar` in this exa
 
 **Loads views for specific regions in `themes/base/index.tpl.php`:**
 
-```php
+```html
 <div id='outer-wrap-main'>
   <div id='inner-wrap-main'>
     <?php if(region_has_content('primary')): ?><div id='primary' role='main'><?=render_views('primary')?></div><?php endif; ?>
