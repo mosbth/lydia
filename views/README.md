@@ -49,15 +49,15 @@ The controllers prepares the views and stores them in the `CViewContainer` which
 $data = array('user' => $this->user);
 
 $this->views->SetTitle(t('User Control Panel'))
-            ->AddIncludeToRegion('main', $this->loadView('index.tpl.php'), $data);
-            ->AddIncludeToRegion('sidebar', $this->loadView('sidebar.tpl.php'), $data);
+            ->AddIncludeToRegion('main', $this->LoadView('index.tpl.php'), $data);
+            ->AddIncludeToRegion('sidebar', $this->LoadView('sidebar.tpl.php'), $data);
 ```
 
 The views are then loaded in the theme-regions, `main` and `sidebar` in this example, through the theme template file, usually `themes/base/index.tpl.php` when using the theme *base*.
 
 **Loads views for specific regions in `themes/base/index.tpl.php`:**
 
-```html
+```php
 <div id='outer-wrap-main'>
   <div id='inner-wrap-main'>
     <?php if(region_has_content('primary')): ?><div id='primary' role='main'><?=render_views('primary')?></div><?php endif; ?>
