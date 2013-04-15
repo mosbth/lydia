@@ -1089,7 +1089,7 @@ fieldset {
   width: 560px;
 }
 .geshi {
-  overflow: scroll;
+  overflow: auto;
 }
 .javascript.geshi .de1,
 .javascript.geshi .de2 {
@@ -1603,6 +1603,73 @@ fieldset {
 .html4strict span.xtra {
   display: block;
 }
+.sql.geshi .de1,
+.sql.geshi .de2 {
+  font: normal normal 1em/1.2em monospace;
+  margin: 0;
+  padding: 0;
+  background: none;
+  vertical-align: top;
+}
+.sql.geshi {
+  font-family: monospace;
+}
+.sql.geshi .imp {
+  font-weight: bold;
+  color: red;
+}
+.sql.geshi li,
+.sql.geshi .li1 {
+  font-weight: normal;
+  vertical-align: top;
+}
+.sql.geshi .ln {
+  width: 1px;
+  text-align: right;
+  margin: 0;
+  padding: 0 2px;
+  vertical-align: top;
+}
+.sql.geshi .li2 {
+  font-weight: bold;
+  vertical-align: top;
+}
+.sql.geshi .kw1 {
+  color: #993333;
+  font-weight: bold;
+}
+.sql.geshi .co1 {
+  color: #808080;
+  font-style: italic;
+}
+.sql.geshi .coMULTI {
+  color: #808080;
+  font-style: italic;
+}
+.sql.geshi .es0 {
+  color: #000099;
+  font-weight: bold;
+}
+.sql.geshi .br0 {
+  color: #66cc66;
+}
+.sql.geshi .sy0 {
+  color: #66cc66;
+}
+.sql.geshi .st0 {
+  color: #ff0000;
+}
+.sql.geshi .nu0 {
+  color: #cc66cc;
+}
+.sql.geshi .ln-xtra,
+.sql.geshi li.ln-xtra,
+.sql.geshi div.ln-xtra {
+  background-color: #ffc;
+}
+.sql.geshi span.xtra {
+  display: block;
+}
 html.lydia #inner-wrap-header {
   height: 88px;
 }
@@ -1798,6 +1865,10 @@ html.dbwebb a[href^="http"] {
 html.dbwebb a[href^="http://dbwebb.se"] {
   padding-right: 0;
   background: none;
+}
+html.dbwebb a[href$=".pdf"] {
+  padding-right: 13px;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAZ0lEQVR4nGNgIAmknfmPjGXLL/2v3/T0P1aFyIAh7cx/49ZrWBSnnfn/8O3//2ceQDBD2pn/zz78/6/biK447cz/pSf//09bDMHozsBpIgw/fAvVhMtEGF56EotC6puIC2AoxItJAQBnweOKFBvqdQAAAABJRU5ErkJggg==') no-repeat scroll right center transparent;
 }
 html.dbwebb .geshi a {
   padding-right: 0;

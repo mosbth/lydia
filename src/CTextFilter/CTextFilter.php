@@ -227,6 +227,7 @@ EOD;
         break;
         
         case 'syntax=': return CTextFilter::SyntaxHighlightGeSHi($matches[3], $matches[2]); break;
+        case '```': return CTextFilter::SyntaxHighlightGeSHi($matches[3], $matches[2]); break;
         //case 'syntax=': return "<pre>" . highlight_string($matches[3], true) . "</pre>"; break;
         //case 'INCL':  include($matches[2]); break;
         case 'INFO':  return "<div class='info' markdown=1>"; break;
@@ -243,6 +244,7 @@ EOD;
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
       '/~~~(syntax=)(php|html|html5|css|sql|javascript|bash)\n([^~]+)\n~~~/s',
+      '/(```)(php|html|html5|css|sql|javascript|bash)\n([^`]+)\n```/s',
       //'/\[(INCL)/s*([^\]+)/',
       '#\[(INFO)\]#', '#\[(/INFO)\]#',
     );
