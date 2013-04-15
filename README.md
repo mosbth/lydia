@@ -115,7 +115,8 @@ History
 
 v0.3.9x (latest)
 
-* Work in progress...
+* Updated `CTextFilter` with tags to be more like GitHub markdown.
+* Added style to geshi sourcecode.
 
 v0.3.93 (2013-04-09)
 
