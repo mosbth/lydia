@@ -14,7 +14,7 @@ class CMContentModule extends CMContent {
       case 'install': 
         $this->db->ExecuteQuery(self::SQL('create table category'));
         $this->db->ExecuteQuery(self::SQL('create table content'));
-        //$this->db->ExecuteQuery(self::SQL('create table docs'));
+        $this->db->ExecuteQuery(self::SQL('create table docs'));
         $ret = CMModules::CreateModuleDirectory(get_parent_class(), 'txt');
         $status = 'success';
         $msg = t('Successfully created the database tables. Untouched if the already existed.');
