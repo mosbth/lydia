@@ -1204,11 +1204,10 @@ fieldset {
   vertical-align: top;
 }
 .php.geshi .kw1 {
-  color: #b1b100;
+  color: #007700;
 }
 .php.geshi .kw2 {
-  color: #000000;
-  font-weight: bold;
+  color: #0000BB;
 }
 .php.geshi .kw3 {
   color: #990000;
@@ -1277,11 +1276,10 @@ fieldset {
   color: #339933;
 }
 .php.geshi .sy1 {
-  color: #000000;
-  font-weight: bold;
+  color: #0000BB;
 }
 .php.geshi .st0 {
-  color: #0000ff;
+  color: #DD0000;
 }
 .php.geshi .st_h {
   color: #0000ff;
@@ -1990,4 +1988,7 @@ a.button:hover {
   text-decoration: underline;
   background-color: #c0c0ff;
   border-color: #b3b3b3;
+}
+html.mroos #inner-wrap-header {
+  height: 88px;
 }
