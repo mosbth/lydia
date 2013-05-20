@@ -1,13 +1,8 @@
-CForm a form creator and validator
+CForm a PHP class for creating, rendering and validating HTML forms.
 ==================================
 
-This class can be used outside this framework to aid in the process of creating and validating
-forms. There is an example on how to do this (only swedish) at:
-
-* http://dbwebb.se/kunskap/anvand-lydias-formularklass-cform-for-formularhantering
-
-There are some example code here: 
-* http://dbwebb.se/kod-exempel/cform/
+There is an article written on CForm, in swedish though. 
+* http://dbwebb.se/kunskap/cform-en-php-klass-for-att-skapa-presentera-och-validera-html-formular
 
 
 By Mikael Roos (me@mikaelroos.se)
@@ -16,7 +11,8 @@ By Mikael Roos (me@mikaelroos.se)
 License
 ----------------------------------
 
-`CForm` class has dual license, MIT LICENSE and GPL VERSION 3
+This software has dual license, MIT LICENSE and GPL VERSION 3.
+
 
 
 Form elements
@@ -33,6 +29,7 @@ The following form elements are supported:
     class CFormElementCheckbox extends CFormElement {
     class CFormElementCheckboxMultiple extends CFormElement {
     class CFormElementSubmit extends CFormElement {
+
 
 
 Validation rules
@@ -52,6 +49,7 @@ The validation rule for 'match' is useful when changing password and one field s
 The validation rule for 'must_accept' is useful when the user must accept a license agreement by clicking a checkbox.
 
 
+
 Todo
 ----------------------------------
 
@@ -61,7 +59,7 @@ Todo
 * Make page displaying how all form elements look like in different styles.
 * Support more validation rules.
 * Make example on how you use the validation rules.
-* Integrate/supprot with client side validation through js/ajax.
+* Integrate/support with client side validation through js/ajax.
 * Support saving partial data of form through js/ajax.
 * Check that the form is valid by storing key in session and hidden field and match those.
 
@@ -69,26 +67,25 @@ Todo
 History
 ----------------------------------
 
-2012-11-26:
+2013-04-22 v0.9.0
+* First tag as baseline when moving CForm from Lydia to own repository.
 
+2012-11-26:
 * Added validation rule for email address `email_address`. Rewrote `CFormElement::Validate()` to accept anonomous function as validation rule.
 
 2012-11-14:
-
 * Added `CFormElementCheckboxMultiple`.
 * Added code example for checkbox-multiple:  
     http://dbwebb.se/kod-exempel/cform/test_checkbox_multiple.php
     http://dbwebb.se/kod-exempel/cform/test_checkbox1.php (same example but not true multiple choice)
 
 2012-11-13:
-
 * Added `CFormElementCheckbox` and validation rule `must_accept`.
 * Added code example for checkboxes:  
     http://dbwebb.se/kod-exempel/cform/test_checkbox.php
 
 
 2012-10-05: 
-
 * Updated this readme-file and reworked the tutorial at  
   http://dbwebb.se/kunskap/anvand-lydias-formularklass-cform-for-formularhantering
 
@@ -97,4 +94,4 @@ History
 
 
  .   
-..:  Copyright 2012 by Mikael Roos (me@mikaelroos.se)
+..:  Copyright 2012-2013 by Mikael Roos (me@mikaelroos.se)

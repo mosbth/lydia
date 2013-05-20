@@ -4,7 +4,7 @@
  * 
  * @package LydiaCore
  */
-class CFormElement implements ArrayAccess{
+class CFormElement implements ArrayAccess {
 
   /**
    * Properties
@@ -394,6 +394,7 @@ class CForm implements ArrayAccess {
    */
   public $form;     // array with settings for the form
   public $elements; // array with all form elements
+  public $output;   // array with messages to display together with the form
   
 
   /**
@@ -406,6 +407,7 @@ class CForm implements ArrayAccess {
         $this->elements[$key] = CFormElement::Create($key, $element);
       }
     }
+    $this->output = array();
   }
 
 
@@ -455,6 +457,25 @@ class CForm implements ArrayAccess {
   }
   
 
+
+  /**
+   * Add output to display to the user what happened whith the form.
+   *
+   * @param string $str the string to add as output.
+   * @return $this CForm.
+   */
+  public function AddOutput($str) {
+    if(isset($_SESSION['form-output'])) {
+      $_SESSION['form-output'] .= " $str";
+    }
+    else {
+      $_SESSION['form-output'] = $str;
+   }
+    return $this;
+  }
+
+
+
   /**
    * Get value of a form element
    *
@@ -500,12 +521,14 @@ class CForm implements ArrayAccess {
     
     $elementsArray  = $this->GetHTMLForElements($options);
     $elements       = $this->GetHTMLLayoutForElements($elementsArray, $options);
+    $output         = $this->GetOutput();
     $html = <<< EOD
 \n<form{$id}{$class}{$name}{$action}{$method}>
 {$fieldsetStart}
 {$elements}
+{$output}
 {$fieldsetEnd}
-</form>
+</form>\n
 EOD;
     return $html;
   }
@@ -625,13 +648,73 @@ EOD;
 
 
   /**
+   * Get output messages as <output>.
+   *
+   * @return string/null with the complete <output> element or null if no output.
+   */
+  public function GetOutput() {
+    if(!empty($this->output)) {
+      return "<output>{$this->output}</output>";
+    }
+    return null;
+  }
+
+
+
+  /**
+   * Init all element with values from session, clear all and fill in with values from the session.
+   *
+   */
+  protected function InitElements($values) {
+    // First clear all
+    foreach($this->elements as $key => $val) {
+      // Do not reset value for buttons
+      if($this[$key]['type'] == 'submit') {
+        continue;
+      }
+
+      // Reset the value
+      $this[$key]['value'] = null;
+
+      // Checkboxes must be cleared
+      if(isset($this[$key]['checked'])) {
+        $this[$key]['checked'] = false;
+      }
+    }
+
+    // Now build up all values from $values (session)
+    foreach($values as $key => $val) {
+
+      // Take care of arrays as values (multiple-checkbox)
+      if(isset($val['values'])) {
+        $this[$key]['checked'] = $val['values'];
+      } else {
+        $this[$key]['value'] = $val['value'];
+      }
+
+      // Is this a checkbox?
+      if($this[$key]['type'] === 'checkbox') {
+        $this[$key]['checked'] = true;
+      }
+
+      // Keep track on validation messages if set
+      if(isset($val['validation-messages'])) {
+        $this[$key]['validation-messages'] = $val['validation-messages'];
+        $this[$key]['validation-pass'] = false;
+      }
+  }
+  }
+
+
+
+  /**
    * Check if a form was submitted and perform validation and call callbacks.
    * The form is stored in the session if validation or callback fails. The page should then be redirected
    * to the original form page, the form will populate from the session and should be rendered again.
    * Form elements may remember their value if 'remember' is set and true.
    *
    * @return mixed, $callbackStatus if submitted&validates, false if not validate, null if not submitted. 
-   *         If submitted the callback functino will return the actual value which should be true or false.
+   *         If submitted the callback function will return the actual value which should be true or false.
    */
   public function Check() {
     $remember = null;
@@ -639,6 +722,12 @@ EOD;
     $callbackStatus = null;
     $values = array();
     
+    // Remember output messages in session
+    if(isset($_SESSION['form-output'])) {
+      $this->output = $_SESSION['form-output'];
+      unset($_SESSION['form-output']);
+    }
+
     $request = null;
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $request = $_POST;
@@ -677,6 +766,7 @@ EOD;
             }
           }
 
+          // Hmmm.... Why did I need this remember thing?
           if(isset($element['remember']) && $element['remember']) {
             $values[$element['name']] = array('value'=>$element['value']);
             $remember = true;
@@ -711,32 +801,56 @@ EOD;
               $validates = false;
             }
           }
-
-
         }
       }
-    } elseif(isset($_SESSION['form-failed'])) {
-      foreach($_SESSION['form-failed'] as $key => $val) {
+    } 
+
+    // Read form data from session if the previous post failed during validation.
+    elseif(isset($_SESSION['form-failed'])) {
+      $this->InitElements($_SESSION['form-failed']);
+      /*foreach($_SESSION['form-failed'] as $key => $val) {
         $this[$key]['value'] = $val['value'];
         if(isset($val['validation-messages'])) {
           $this[$key]['validation-messages'] = $val['validation-messages'];
           $this[$key]['validation-pass'] = false;
         }
-      }
+      }*/
       unset($_SESSION['form-failed']);
-    } elseif(isset($_SESSION['form-remember'])) {
+    } 
+
+    // Read form data from session if some form elements should be remembered
+    elseif(isset($_SESSION['form-remember'])) {
       foreach($_SESSION['form-remember'] as $key => $val) {
         $this[$key]['value'] = $val['value'];
       }
       unset($_SESSION['form-remember']);
     }
-        
+
+    // Read form data from session, 
+    // useful during test where the original form is displayed with its posted values
+    elseif(isset($_SESSION['form-save'])) {
+      $this->InitElements($_SESSION['form-save']);
+      unset($_SESSION['form-save']);
+    }
+    
+    
+    // Prepare if data should be stored in the session during redirects
+    // Did form validation or the callback fail?
     if($validates === false || $callbackStatus === false) {
       $_SESSION['form-failed'] = $values;
-    } elseif($remember) {
+    }
+
+    // Hmmm, why do I want to use this
+    elseif($remember) {
       $_SESSION['form-remember'] = $values;
     }
     
+    // Remember all posted values
+    if(isset($this->saveInSession) && $this->saveInSession) {
+      $_SESSION['form-save'] = $values;
+    }
+
+
     return ($validates) ? $callbackStatus : $validates;
   }
   
