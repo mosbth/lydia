@@ -113,10 +113,11 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.9x (latest)
+v0.3.94 (2013-07-01)
 
 * Updated `CTextFilter` with tags to be more like GitHub markdown.
 * Added style to geshi sourcecode.
+* Corrected performance issues with `CTextFilter` by introducing caching in `CMContent` using `CCache`.
 
 v0.3.93 (2013-04-09)
 
