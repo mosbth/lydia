@@ -49,9 +49,7 @@ class CTextFilter {
    * @return string as formatted HTML.
    */
    public static function MarkdownExtra($text) {   
-    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
     require_once(__DIR__.'/php_markdown_extra_1.2.5/markdown.php');
-
     $ret = Markdown($text);
     return $ret;
   }
@@ -76,9 +74,7 @@ class CTextFilter {
    * @return string the formatted text.
    */
    public static function Typographer($text) {   
-    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
     require_once(__DIR__.'/php_smartypants_typographer_1.0/smartypants.php');
-
     $ret = SmartyPants($text);
     return $ret;
   }
@@ -92,8 +88,6 @@ class CTextFilter {
    * @return string the formatted text.
    */
    public static function SyntaxHighlightGeSHi($text, $language) {   
-    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
-
     if(!self::$geshi) {
       require_once(__DIR__.'/geshi_1.0.8.10/geshi.php');
       //$path = 'geshi/geshi';
@@ -172,8 +166,6 @@ class CTextFilter {
    * @return string the formatted text.
    */
   public static function ShortTags($text) {
-    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
-
     $callback = function($matches) {
       switch($matches[1]) {
         case 'IMG':
