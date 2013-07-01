@@ -9,8 +9,10 @@
  * Print debuginformation from the framework.
  */
 function get_debug() {
-  // Only if debug is wanted.
   $ly = CLydia::Instance();  
+  $ly->log->Timestamp('theme/functions.php', __FUNCTION__, 'End of template file'); 
+
+  // Only if debug is wanted.
   if(empty($ly->config['debug'])) {
     return;
   }
@@ -20,9 +22,9 @@ function get_debug() {
   if(isset($ly->config['debug']['timer']) && $ly->config['debug']['timer']) {
     $now = microtime(true);
     $flash = $ly->session->GetFlash('timer');
-    $redirect = $flash ? round($flash['redirect'] - $flash['first'], 5)*1000 . ' msecs + x + ' : null;
-    $total = $flash ? round($now - $flash['first'], 5)*1000 . ' msecs. Per page: ' : null;
-    $html .= "<p>Page was loaded in {$total}{$redirect}" . round($now - $ly->timer['first'], 5)*1000 . " msecs.</p>";
+    $redirect = $flash ? round($flash['redirect'] - $flash['first'], 3) . ' secs + x + ' : null;
+    $total = $flash ? round($now - $flash['first'], 3) . ' secs. Per page: ' : null;
+    $html .= "<p>Page was loaded in {$total}{$redirect}" . round($now - $ly->timer['first'], 3) . " secs.</p>";
   }    
   if(isset($ly->config['debug']['memory']) && $ly->config['debug']['memory']) {
     $flash = $ly->session->GetFlash('memory');
@@ -50,7 +52,12 @@ function get_debug() {
   if(isset($ly->config['debug']['session']) && $ly->config['debug']['session']) {
     $html .= "<hr><h3>SESSION</h3><p>The content of CLydia->session:</p><pre>" . htmlent(print_r($ly->session, true)) . "</pre>";
     $html .= "<p>The content of \$_SESSION:</p><pre>" . htmlent(print_r($_SESSION, true)) . "</pre>";
-  }    
+  }
+  if(isset($ly->config['debug']['timestamp']) && $ly->config['debug']['timestamp']) {
+    $html .= $ly->log->TimestampAsTable();
+    $html .= $ly->log->PageLoadTime();
+    $html .= $ly->log->MemoryPeak();
+  }       
   return "<div class='debug'>$html</div>";
 }
 

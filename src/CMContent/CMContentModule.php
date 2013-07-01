@@ -14,7 +14,12 @@ class CMContentModule extends CMContent {
       case 'install': 
         $this->db->ExecuteQuery(self::SQL('create table category'));
         $this->db->ExecuteQuery(self::SQL('create table content'));
-        $this->db->ExecuteQuery(self::SQL('create table docs'));
+        try {
+          $this->db->ExecuteQuery(self::SQL('create table docs'));
+        }
+        catch(Exception $e) {
+          ; // Ignore since the table may already be there. No way to check IF EXISTS for virtual table
+        }
         $ret = CMModules::CreateModuleDirectory(get_parent_class(), 'txt');
         $status = 'success';
         $msg = t('Successfully created the database tables. Untouched if the already existed.');

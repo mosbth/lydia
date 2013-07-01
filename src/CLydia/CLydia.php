@@ -17,7 +17,8 @@ class CLydia implements ISingleton/*, IModule*/ {
 	public $views;
 	public $session;
 	public $user;
-	public $timer = array();
+	public $timer = array(); // OBSOLETE by CLog 130701
+  public $log;
 	
 	
   /**
@@ -31,7 +32,8 @@ class CLydia implements ISingleton/*, IModule*/ {
    */
   public function Init() {
     // time page generation
-    $this->timer['first'] = microtime(true); 
+    $this->log = new CLog();
+    $this->log->Timestamp(__CLASS__, __METHOD__, 'Init Lydia'); 
 
     // All internal character encoding to utf-8
     mb_internal_encoding('UTF-8');
@@ -143,6 +145,8 @@ class CLydia implements ISingleton/*, IModule*/ {
 	 * Frontcontroller, check url and route to controllers.
 	 */
   public function FrontControllerRoute() {
+    $this->log->Timestamp(__CLASS__, __METHOD__, 'Frontcontroller phase starts'); 
+
     // Take current url and divide it in controller, method and parameters
     $this->request = new CRequest(isset($this->config['url_type']) ? $this->config['url_type'] : null);
     $this->request->Init($this->config['base_url'], $this->config['routing']);
@@ -173,6 +177,7 @@ class CLydia implements ISingleton/*, IModule*/ {
           $controllerObj = $rc->newInstance();
           $methodObj = $rc->getMethod($formattedMethod);
           if($methodObj->isPublic()) {
+            $this->log->Timestamp(__CLASS__, __METHOD__, 'To Controller'); 
             $methodObj->invokeArgs($controllerObj, $arguments);
           } else {
             $this->ShowErrorPage(404, 'Controller method not public.');          
@@ -181,6 +186,7 @@ class CLydia implements ISingleton/*, IModule*/ {
           $controllerObj = $rc->newInstance();
           $methodObj = $rc->getMethod('CatchAll');
           if($methodObj->isPublic()) {
+            $this->log->Timestamp(__CLASS__, __METHOD__, 'To Controller CatchAll'); 
             $methodObj->invokeArgs($controllerObj, array_merge(array($method), $arguments));
           } else {
             $this->ShowErrorPage(404, 'Controller default method not public.');          
@@ -195,9 +201,8 @@ class CLydia implements ISingleton/*, IModule*/ {
 
     // Use content associated url to load page
     else if($this->config['pageloader'] && CPageLoader::UrlHasContent($this->request->request)) { 
-      //echo get_class(CPageLoader::Factory($this->config['pageloader_class']));
-     CPageLoader::Factory($this->config['pageloader_class'])->DisplayContentByUrl($this->request->request);
-      //CPageLoader::Factory()->DisplayContentByUrl($this->request->request);
+      $this->log->Timestamp(__CLASS__, __METHOD__, 'To Controller PageLoader'); 
+      CPageLoader::Factory($this->config['pageloader_class'])->DisplayContentByUrl($this->request->request);
     }
 
     else { 
@@ -210,6 +215,8 @@ class CLydia implements ISingleton/*, IModule*/ {
    * ThemeEngineRender, renders the reply of the request to HTML or whatever.
    */
   public function ThemeEngineRender() {
+    $this->log->Timestamp(__CLASS__, __METHOD__, 'Theme rendering phase starts'); 
+
     // Save to session before output anything
     $this->session->StoreInSession();
   
@@ -276,6 +283,7 @@ class CLydia implements ISingleton/*, IModule*/ {
     }
 
     // Execute the template file
+    $this->log->Timestamp(__CLASS__, __METHOD__, 'Including template file'); 
     $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'index.tpl.php';
     if(is_file("{$themePath}/{$templateFile}")) {
       include("{$themePath}/{$templateFile}");
@@ -285,6 +293,7 @@ class CLydia implements ISingleton/*, IModule*/ {
       throw new Exception(t('No such template file.'));
     }
   }
+
 
 
 	/**
@@ -304,6 +313,7 @@ class CLydia implements ISingleton/*, IModule*/ {
                 ->AddIncludeToRegion('primary', $this->LoadView(null, "{$code}.tpl.php"), array('message'=>$message))
                 ->AddIncludeToRegion('sidebar', $this->LoadView(null, "{$code}_sidebar.tpl.php"), array('message'=>$message));
 
+    $this->log->Timestamp(__CLASS__, __METHOD__); 
     header($errors[$code]['header']);
     $this->ThemeEngineRender();
     exit();

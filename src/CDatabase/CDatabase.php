@@ -111,12 +111,15 @@ class CDatabase {
    */
   public function ExecuteSelectQueryAndFetchAll($query, $params=array(), $debug=false) {
     list($query, $params) = $this->ExpandParamArray($query, $params);
+
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $query); 
     self::$queries[] = $query; 
     self::$numQueries++;
     if($debug) {
       $n = self::$numQueries;
       echo "<p>Query = <br/><pre>{$query}</pre></p><p>Num query = {$n}</p><p><pre>".print_r($params, 1)."</pre></p>";
     }
+
     $this->stmt = $this->db->prepare($query);
     $this->stmt->execute($params);
     return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -128,9 +131,12 @@ class CDatabase {
    */
   public function ExecuteQuery($query, $params = array()) {
     list($query, $params) = $this->ExpandParamArray($query, $params);
-    $this->stmt = $this->db->prepare($query);
+
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $query); 
     self::$queries[] = $query; 
     self::$numQueries++;
+
+    $this->stmt = $this->db->prepare($query);
     return $this->stmt->execute($params);
   }
 

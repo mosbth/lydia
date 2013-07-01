@@ -17,7 +17,7 @@ class CTextFilter {
    * Clean your HTML with HTMLPurifier, create an instance of HTMLPurifier if it does not exists. 
    *
    * @param $text string the dirty HTML.
-   * @returns string as the clean HTML.
+   * @return string as the clean HTML.
    */
    public static function Purify($text) {   
     if(!self::$purify) {
@@ -34,7 +34,7 @@ class CTextFilter {
    * Support Markdown syntax with PHP Markdown. 
    *
    * @param $text string with Markdown text.
-   * @returns string as formatted HTML.
+   * @return string as formatted HTML.
    */
    public static function Markdown($text) {   
     require_once(__DIR__.'/php-markdown/markdown.php');
@@ -46,11 +46,14 @@ class CTextFilter {
    * Support Markdown syntax with PHP Markdown Extra. 
    *
    * @param $text string with Markdown text.
-   * @returns string as formatted HTML.
+   * @return string as formatted HTML.
    */
    public static function MarkdownExtra($text) {   
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
     require_once(__DIR__.'/php_markdown_extra_1.2.5/markdown.php');
-    return Markdown($text);
+
+    $ret = Markdown($text);
+    return $ret;
   }
   
 
@@ -58,7 +61,7 @@ class CTextFilter {
    * Support SmartyPants for better typography. 
    *
    * @param string text text to be converted.
-   * @returns string the formatted text.
+   * @return string the formatted text.
    */
    public static function SmartyPants($text) {   
     require_once(__DIR__.'/php_smartypants_1.5.1e/smartypants.php');
@@ -70,11 +73,14 @@ class CTextFilter {
    * Support enhanced SmartyPants/Typographer for better typography. 
    *
    * @param string text text to be converted.
-   * @returns string the formatted text.
+   * @return string the formatted text.
    */
    public static function Typographer($text) {   
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
     require_once(__DIR__.'/php_smartypants_typographer_1.0/smartypants.php');
-    return SmartyPants($text);
+
+    $ret = SmartyPants($text);
+    return $ret;
   }
   
 
@@ -83,9 +89,11 @@ class CTextFilter {
    *
    * @param string $text text to be converted.
    * @param string $language which language to use for highlighting syntax.
-   * @returns string the formatted text.
+   * @return string the formatted text.
    */
    public static function SyntaxHighlightGeSHi($text, $language) {   
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
+
     if(!self::$geshi) {
       require_once(__DIR__.'/geshi_1.0.8.10/geshi.php');
       //$path = 'geshi/geshi';
@@ -105,7 +113,9 @@ class CTextFilter {
     //self::$geshi->set_header_type(GESHI_HEADER_PRE_VALID);
     //self::$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
     //echo "<pre>", self::$geshi->get_stylesheet(false) , "</pre>";
-    return self::$geshi->parse_code();
+
+    $ret = self::$geshi->parse_code();
+    return $ret;
   }
   
 
@@ -113,7 +123,7 @@ class CTextFilter {
    * BBCode formatting converting to HTML.
    *
    * @param string text text to be converted.
-   * @returns string the formatted text.
+   * @return string the formatted text.
    */
   public static function Bbcode2HTML($text) {
     $search = array( 
@@ -140,7 +150,7 @@ class CTextFilter {
    * Make clickable links from URLs in text.
    *
    * @param string text text to be converted.
-   * @returns string the formatted text.
+   * @return string the formatted text.
    */
   public static function MakeClickable($text) {
     return preg_replace_callback(
@@ -159,9 +169,11 @@ class CTextFilter {
    * Shorttags to to quicker format text as HTML.
    *
    * @param string text text to be converted.
-   * @returns string the formatted text.
+   * @return string the formatted text.
    */
   public static function ShortTags($text) {
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__);
+
     $callback = function($matches) {
       switch($matches[1]) {
         case 'IMG':
@@ -248,7 +260,9 @@ EOD;
       //'/\[(INCL)/s*([^\]+)/',
       '#\[(INFO)\]#', '#\[(/INFO)\]#',
     );
-    return preg_replace_callback($patterns, $callback, $text);
+
+    $ret = preg_replace_callback($patterns, $callback, $text);
+    return $ret;
   }
 
 

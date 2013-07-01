@@ -12,6 +12,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public $data;
   public $set;
   public $position;
+  public $cache;
 
 
   /**
@@ -26,6 +27,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $this->set = $this->data;
       $this->position = 0;
     }
+
+    $this->cache = new CCache();
   }
 
 
@@ -546,6 +549,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * @return string with the filtered data.
    */
   public static function Filter($data, $filter) {
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $filter);
+
     switch($filter) {
       /*case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
       case 'html': $data = nl2br(makeClickable($data)); break;*/
@@ -568,6 +573,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * @return string with the filtered data.
    */
   public function GetFilteredData() {
+    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $this->data['title']);
+
     $data = null;
     $dir = CMModules::GetModuleDirectory(get_class(), 'txt');
     if($this['datafile']) {
@@ -605,6 +612,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * @return array with entries to generate a TOC.
    */
   public function GetTableOfContent($level=4) {
+    //CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $this->data['title']);
+
   	$pattern = '/<(h[2-'.$level.'])([^>]*)>(.*)<\/h[2-'.$level.']>/';
   	preg_match_all($pattern, $this->data['data_filtered'], $matches, PREG_SET_ORDER);
     $this->data['toc'] = array();
@@ -631,8 +640,13 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * @return $this.
    */
   public function Prepare() {
-    $this->GetFilteredData();
-    $this->GetTableOfContent();
+    if($data = $this->cache->Get(__CLASS__.$this->data['id'])) {
+      $this->data = $data;
+    } else {
+      $this->GetFilteredData();
+      $this->GetTableOfContent();
+      $this->cache->Put(__CLASS__.$this->data['id'], $this->data);
+    }
     return $this;
   }
   
