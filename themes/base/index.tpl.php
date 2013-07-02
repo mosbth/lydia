@@ -12,7 +12,7 @@
 <?php if(isset($inline_style)): ?><style><?=$inline_style?></style><?php endif; ?>
 <?=modernizr_include()?>
 </head>
-<body>
+<body class='<?=body_classes()?>'>
 
 <header id='outer-wrap-header' role='banner'>
   <div id='inner-wrap-header'>

@@ -166,5 +166,14 @@ class CObject {
   }
 
 
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  protected function AddBodyClass($class) {
+    return $this->ly->AddBodyClass($class);
+  }
+
+
 }
   

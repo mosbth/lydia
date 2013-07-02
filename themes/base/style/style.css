@@ -1992,3 +1992,45 @@ a.button:hover {
 html.mroos #inner-wrap-header {
   height: 88px;
 }
+body.print {
+  background: white !important;
+  color: black;
+  font-size: 12pt;
+}
+body.print #outer-wrap-header,
+body.print #outer-wrap-footer {
+  display: none !important;
+}
+body.print #inner-wrap-main {
+  width: auto;
+}
+body.print #primary {
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+body.print table,
+body.print tr,
+body.print img,
+body.print figure {
+  page-break-inside: avoid;
+}
+body.print ul,
+body.print ol,
+body.print li {
+  page-break-inside: avoid;
+}
+body.print h1,
+body.print h2,
+body.print h3,
+body.print h4,
+body.print h5,
+body.print h6 {
+  page-break-after: avoid;
+}
+@media print {
+  @page {
+    size: auto;
+    margin: 0.5cm;
+  }
+}

@@ -46,7 +46,7 @@ foreach($sidebar_contains as $val) {
 <h4><?=t('Categories')?></h4>
 <ul>
 <?php foreach($categories as $val):?>
-<li><a href='<?=create_url(null, 'category', $val['key'])?>'><?=esc($val['title'])?></a> (<?=$val['items']?>)</li>
+<li><a href='<?=create_url(null, m('category'), $val['key'])?>'><?=esc($val['title'])?></a> (<?=$val['items']?>)</li>
 <?php endforeach; ?>
 </ul>
 </div>

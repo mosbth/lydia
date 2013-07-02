@@ -16,6 +16,8 @@ class CCBlog extends CObject implements IController {
   private $data;
   private $primary;
   private $sidebar;
+  private $iconSet;
+  private $pageKey;
   
   
   /**
@@ -58,6 +60,7 @@ class CCBlog extends CObject implements IController {
 
       // Icons to show
       'icons_default'         => array('search', 'rss'),
+      'icons_post'            => array('search', 'print', 'rss'),
       'icons'                 => array(
         'search' => array(
           'href'  => $this->CreateUrlToController(m('search')),
@@ -66,6 +69,10 @@ class CCBlog extends CObject implements IController {
         'rss' => array(
           'href'  => $this->CreateUrlToController('rss'),
           'title' => t('RSS feed for the latest blogsposts'),
+        ),
+        'print' => array(
+          'href'  => $this->CreateUrlToController(m('printable')),
+          'title' => t('Display a printable version of the text.'),
         ),
       ),
     );
@@ -128,6 +135,7 @@ class CCBlog extends CObject implements IController {
 
     $this->primary = 'index.tpl.php';
     $this->sidebar = 'index_sidebar.tpl.php';
+    $this->iconSet = 'icons_default';
   }
 
 
@@ -139,13 +147,21 @@ class CCBlog extends CObject implements IController {
     $o = $this->options;
     $this->title = isset($o['title_index']) ?  $o['title_index'] . $o['title_separator'] . $o['title_app'] : $o['title_app'];
 
-    $this->icons = $this->Icons($o['icons_default'], $o['icons']);
+    if($this->iconSet) {
+      $this->icons = $this->Icons($o[$this->iconSet], $o['icons']);
+    }
 
     $this->views->SetTitle($this->title)
                 ->AddStringToRegion('sidebar', $this->icons, null, -1)
-                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
-                ->AddIncludeToRegion('primary', $this->LoadView($this->primary), $this->data)
-                ->AddIncludeToRegion('sidebar', $this->LoadView($this->sidebar), $this->data);
+                ->AddIncludeToRegion('primary', $this->LoadView($this->primary), $this->data);
+
+    if($this->breadcrumb) {
+      $this->views->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb));
+    }
+
+    if($this->sidebar) {
+      $this->views->AddIncludeToRegion('sidebar', $this->LoadView($this->sidebar), $this->data);      
+    }
   }
 
 
@@ -278,6 +294,7 @@ class CCBlog extends CObject implements IController {
       'icons' => array(
         'search'  => 'glyphicons_027_search.png',
         'rss'     => 'glyphicons_397_rss.png',
+        'print'   => 'glyphicons_015_print.png',
       ),
       //'wrapper_element' => 'div', 
     );
@@ -285,7 +302,12 @@ class CCBlog extends CObject implements IController {
 
     $html = "<div class='icons'><ul class='icons right'>\n";
     foreach ($which as $val) {
-      $href   = $icons[$val]['href'];
+      if($val == 'print') {
+        $href   = $icons[$val]['href'] . '/' . $this->pageKey;
+      }
+      else {
+        $href   = $icons[$val]['href'];
+      }
       $src    = $default['path'] . $default['icons'][$val];
       $alt    = $val;
       $title  = $icons[$val]['title'];
@@ -324,6 +346,7 @@ class CCBlog extends CObject implements IController {
       foreach($c as $content) {
         $item['title']        = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content['title'])));
         $item['description']  = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content->GetExcerpt(800) . '…')));
+        //$item['description']  = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content['data_filtered'])));
         $item['link']         = $this->CreateUrlToController($content['key']);
         $item['guid']         = $item['link'];
         $item['pubdate']      = date('r', strtotime($content->PublishTime()));
@@ -333,6 +356,36 @@ class CCBlog extends CObject implements IController {
     }
 
     $rss->ReadFeedAndExit($key);
+  }
+
+
+
+  /**
+   * Display a printable version of a particular blogpost based on its key.
+   *
+   * @param string key the key of the content to display. 
+   */
+  public function Printable($key=null) {
+    $o = $this->options;
+    $content = new CMContent();
+    
+    if($content->LoadByKey($key) && $content['type'] == $o['content_type']) {
+      $this->Init();
+
+      $this->data['content'] = $content->Prepare();
+
+      $title = htmlEnt($content['title']);
+      $this->options['title_index'] = $title;
+      $this->breadcrumb = null;
+      $this->primary = 'post.tpl.php';
+      $this->sidebar = null;
+      $this->iconSet = null;
+      $this->AddBodyClass('print');
+
+      $this->Output();
+    } else {
+      $this->ShowErrorPage(404, t('No such entry.'));
+    }
   }
 
 
@@ -350,20 +403,12 @@ class CCBlog extends CObject implements IController {
       return $this->$method((func_num_args() > 1 ? func_get_arg(1) : null));
     }
 
-    // Manage catch all by loading content by key
- /*   if(isset($lang[$key])) {
-      $arg = null;
-      if(func_num_args() > 1) {
-        $arg = func_get_arg(1);
-      }
-      return $this->$lang[$key]($arg);
-    }
-*/
     $o = $this->options;
     $content = new CMContent();
     
     if($content->LoadByKey($key) && $content['type'] == $o['content_type']) {
       $this->Init();
+      $this->pageKey = $key;
 
       $this->data['content'] = $content->Prepare();
       $this->data['sidebar_contains'] = $this->options['sidebar_post'];
@@ -373,6 +418,7 @@ class CCBlog extends CObject implements IController {
       $this->breadcrumb[] = array('label' => $title, 'url' => $this->CreateUrlToController($key));
 
       $this->primary = 'post.tpl.php';
+      $this->iconSet = 'icons_post';
 
       $this->Output();
     } else {

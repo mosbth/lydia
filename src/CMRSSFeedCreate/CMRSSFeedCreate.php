@@ -23,7 +23,7 @@ class CMRSSFeedCreate extends CObject implements IModule {
       'copyright'   => $this->config['feed']['copyright'],
       'self'        => $this->CreateUrlToControllerMethod(),
 
-      'cache_age'   => 60*5,
+      'cache_age'   => 60*60,
       'cache_pre'   => 'cache_',
       'cache_post'  => '.xml',
     );

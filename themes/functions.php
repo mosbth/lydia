@@ -206,6 +206,20 @@ function html_classes() {
 
 
 /**
+ * Add classes to body element.
+ *
+ * @return string with classes.
+ */
+function body_classes() {
+  global $ly;
+  if(isset($ly->bodyClass)) {
+    return $ly->bodyClass;
+  }
+  return null;
+}
+
+
+/**
  * Create menu.
  *
  * @param array $menu array with details to generate menu.

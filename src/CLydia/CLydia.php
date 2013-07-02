@@ -19,6 +19,7 @@ class CLydia implements ISingleton/*, IModule*/ {
 	public $user;
 	public $timer = array(); // OBSOLETE by CLog 130701
   public $log;
+  public $bodyClass = null;
 	
 	
   /**
@@ -589,6 +590,19 @@ class CLydia implements ISingleton/*, IModule*/ {
     }
     return false;
   }
+
+
+
+  /**
+   * Add a body class.
+   *
+   * @param string $class the class to add.
+   */
+  public function AddBodyClass($class) {
+    $this->bodyClass .= " $class";
+  }
+
+
 
 
 }

@@ -113,6 +113,11 @@ external translation service, such as google translate.
 History
 -------
 
+v0.3.x (latest)
+
+* Updated `CBlog` to make localised version for category and search work.
+* Added printable version and print stylesheet for blog articles.
+
 v0.3.94 (2013-07-01)
 
 * Updated `CTextFilter` with tags to be more like GitHub markdown.
