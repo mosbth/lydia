@@ -73,6 +73,17 @@ class CCache implements IModule {
 
 
  /**
+   * Prune a item from cache. 
+   *
+   * @param string $key to the cached object.
+   */
+   public function Prune($key) {
+    @unlink($this->options['dir'] . '/' . strtolower($key));
+  }
+
+
+
+ /**
    * Prune all items from cache. 
    *
    * @return int number of items removed.

@@ -155,6 +155,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $msg = 'created';
     }
     
+    $this->cache->Prune(__CLASS__.$this->data['id']);
+
     $rowcount = $this->db->RowCount();
     
     if($rowcount) {

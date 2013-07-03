@@ -69,6 +69,13 @@ $ly->config['secret_key'] = false;
 
 
 /**
+ * Use gzip output handler to reduce size of resulting page.
+ */
+$ly->config['themerender_buffer'] = true;
+$ly->config['themerender_gzip'] = true;
+
+
+/**
  * Define session name
  */
 $ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);

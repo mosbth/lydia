@@ -283,6 +283,13 @@ class CLydia implements ISingleton/*, IModule*/ {
       extract($this->config['theme']['data']);
     }
 
+    // Buffer and compress output if set
+    if($this->config['themerender_gzip']) {
+      ob_start("ob_gzhandler");
+    } else if($this->config['themerender_buffer']) {
+      ob_start();
+    }
+
     // Execute the template file
     $this->log->Timestamp(__CLASS__, __METHOD__, 'Including template file'); 
     $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'index.tpl.php';

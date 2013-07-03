@@ -117,6 +117,9 @@ v0.3.x (latest)
 
 * Updated `CBlog` to make localised version for category and search work.
 * Added printable version and print stylesheet for blog articles.
+* Prune cached content when saving content.
+* Enabled gzip and output buffering to speed up theme engine rendering phase.
+
 
 v0.3.94 (2013-07-01)
 
@@ -124,16 +127,19 @@ v0.3.94 (2013-07-01)
 * Added style to geshi sourcecode.
 * Corrected performance issues with `CTextFilter` by introducing caching in `CMContent` using `CCache`.
 
+
 v0.3.93 (2013-04-09)
 
 * Fixed installation phase.
 * Corrected errors with configuration of clean urls.
 * Separated style between lydia and dbwebb in base theme.
 
+
 v0.3.92 (2013-03-25)
 
 * `CForm` to differ on empty values to get null instead of empty.
 * Translated to swedish.
+
 
 v0.3.91 (2013-03-22)
 
@@ -150,6 +156,7 @@ v0.3.91 (2013-03-22)
 * Clean up by removing dependencies to dbwebb.se.
 * Corrected bugs in `CCAllSeeingEye` and `CMRSSAggregation` when feed is empty.
 * Translated to swedish. Not all strings are yet being translated though.
+
 
 v0.3.07 (2012-09-04)
 
