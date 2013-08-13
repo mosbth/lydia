@@ -75,6 +75,15 @@ $ly->config['themerender_buffer'] = true;
 $ly->config['themerender_gzip'] = true;
 
 
+
+/**
+ * Settings for caching.
+ */
+//$ly->config['cache']['age_default'] = 60*60*7;  // Default age for all cachable objects
+//$ly->config['cache']['age_override'] = 60*60*7; // Give all cachable objects this age, use 0 to skip cache.
+
+
+
 /**
  * Define session name
  */

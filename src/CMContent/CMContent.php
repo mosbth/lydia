@@ -108,7 +108,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       'select id by url'          => "SELECT c.id FROM Content AS c WHERE url=? AND c.deleted IS NULL;",
       'select parents by url'     => "SELECT c.id, c.title, c.url, c.breadcrumb, c.parenttitle FROM Content AS c WHERE url IN (?) AND c.deleted IS NULL;",
       'select *'                  => "SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL;",
-      'select categories by type' => "SELECT ca.*, count(ca.id) as items FROM Content as c LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type=? AND c.deleted IS NULL GROUP BY ca.title;",
+      'select categories by type' => "SELECT ca.*, count(ca.id) as items FROM Content as c LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.type IN (?) AND c.deleted IS NULL GROUP BY ca.title;",
       'select category by key'    => "SELECT ca.* FROM Category as ca WHERE ca.key=?;",
       'flexible select *'         => "SELECT c.*, u.id as uid, u.acronym as owner, u.name as owner_name, ca.title as category_title, ca.key as category_key FROM Content AS c INNER JOIN User as u ON c.idUser=u.id LEFT OUTER JOIN Category as ca ON ca.id=c.idCategory WHERE c.deleted IS NULL",
       'flexible match by type'    => "SELECT c.*, snippet(Docs, '<b>', '</b>', '…', -1, 48) as snippet FROM Docs AS d INNER JOIN Content AS c ON d.rowid=c.id WHERE Docs MATCH ? AND c.type=? ORDER BY c.updated DESC LIMIT ? OFFSET ?;",
@@ -414,7 +414,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     $options = array_merge($default, $options);
     $args = $argsc = array();
     
-    $type = empty($options['type']) ? null : " AND type = ?";
+    //$type = empty($options['type']) ? null : " AND type = ?";
+    $type = empty($options['type']) ? null : " AND type IN (?)";
     if($type) {
       $args[] = $argsc[] = $options['type'];
     } 
@@ -446,8 +447,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     }
 
     $this->position = 0;
-    $res          = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('count flexible select').$type.$catKey, $argsc);
-    $this->hits   = $res[0]['hits'];
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('count flexible select').$type.$catKey, $argsc);
+    $this->hits = $res[0]['hits'];
     $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit.$offset, $args);
     $this->data = $this->set[$this->position];
     return $this;
@@ -589,7 +590,8 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     if($pos) {
       $this->data['data_short_filtered'] = substr($this->data['data_filtered'], 0, $pos);
     } else {
-      $this->data['data_short_filtered'] = $this->data['data_filtered'];
+      $this->data['data_short_filtered'] = '<p>' . $this->GetExcerpt() . ' &hellip;</p>'; //$this->data['data_filtered'];
+      $this->data['data_has_more'] = true;
     }
     return $this->data['data_filtered'];
   }

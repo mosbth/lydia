@@ -25,7 +25,18 @@ class CCache implements IModule {
       'age' => 7 * 24 * 60 * 60,
       'dir' => CMModules::GetModuleDirectory(__CLASS__),
     );
+
+    $this->config = CLydia::Instance()->config;
+
+    if(isset($this->config['cache']['age_default'])) {
+      $default['age'] = $this->config['cache']['age_default'];
+    }
+
     $this->options = array_merge($default, $options);
+
+    if(isset($this->config['cache']['age_override'])) {
+      $this->options['age'] = $this->config['cache']['age_override'];
+    }
   }
   
 
