@@ -576,23 +576,30 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * @return string with the filtered data.
    */
   public function GetFilteredData() {
-    CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $this->data['title']);
-
     $data = null;
     $dir = CMModules::GetModuleDirectory(get_class(), 'txt');
     if($this['datafile']) {
-      //$data = "\n".file_get_contents(LYDIA_DATA_PATH.'/'.strtolower(get_class()).'/txt/'.$this['datafile']);
       $data = "\n".file_get_contents("{$dir}/{$this['datafile']}");
     }
     $this->data['data_filtered'] = $this->Filter($this['data'] . $data, $this['filter']);
+
+    // Check for <!--stop-->
+    $pos = stripos($this->data['data_filtered'], '<!--stop-->');
+    if($pos) {
+      $this->data['data_filtered'] = substr($this->data['data_filtered'], 0, $pos);
+    }
+
+    // Check for <!--more-->
     $pos = stripos($this->data['data_filtered'], '<!--more-->');
     $this->data['data_has_more'] = $pos;
     if($pos) {
       $this->data['data_short_filtered'] = substr($this->data['data_filtered'], 0, $pos);
     } else {
-      $this->data['data_short_filtered'] = '<p>' . $this->GetExcerpt() . ' &hellip;</p>'; //$this->data['data_filtered'];
-      $this->data['data_has_more'] = true;
+      $this->data['data_short_filtered'] = $this->data['data_filtered'];
+      //$this->data['data_short_filtered'] = '<p>' . $this->GetExcerpt() . ' &hellip;</p>'; //$this->data['data_filtered'];
+      //$this->data['data_has_more'] = true;
     }
+
     return $this->data['data_filtered'];
   }
   
@@ -616,8 +623,6 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
    * @return array with entries to generate a TOC.
    */
   public function GetTableOfContent($level=4) {
-    //CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $this->data['title']);
-
   	$pattern = '/<(h[2-'.$level.'])([^>]*)>(.*)<\/h[2-'.$level.']>/';
   	preg_match_all($pattern, $this->data['data_filtered'], $matches, PREG_SET_ORDER);
     $this->data['toc'] = array();
