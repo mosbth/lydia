@@ -119,6 +119,8 @@ v0.3.x (latest)
 * Added printable version and print stylesheet for blog articles.
 * Prune cached content when saving content.
 * Enabled gzip and output buffering to speed up theme engine rendering phase.
+* Adding <!--stop--> as filter for content.
+* Enabling to configuring cache through `config.php`.
 
 
 v0.3.94 (2013-07-01)
