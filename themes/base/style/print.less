@@ -1,0 +1,57 @@
+/** --------------------------------------------------------------
+ * Make it printable 
+ *
+ */
+body.print { 
+
+  background: white !important;
+  color: black;
+  font-size: 12pt;
+
+  #outer-wrap-header,
+  #outer-wrap-footer {
+    display: none !important; 
+  } 
+
+  #inner-wrap-main {
+    width: auto;
+  }
+
+  #primary {
+    width: auto;
+    margin: 0;
+    padding: 0;
+ }
+
+  table,
+  tr, 
+  img,
+  figure { 
+    page-break-inside: avoid; 
+  }
+
+  ul, 
+  ol, 
+  li {
+    page-break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+      page-break-after: avoid; 
+  }
+
+}
+
+
+@media print {
+
+  @page { 
+    size: auto;
+    margin: 0.5cm; 
+  }
+}
