@@ -1828,6 +1828,19 @@ body {
 .footnotes > hr {
   display: none;
 }
+.author-byline {
+  *zoom: 1;
+  padding: 1em;
+  border: 1px solid #ccc;
+}
+.author-byline:before,
+.author-byline:after {
+  content: "";
+  display: table;
+}
+.author-byline:after {
+  clear: both;
+}
 .box.no-list-img ul {
   list-style-type: none;
   margin-left: 0;

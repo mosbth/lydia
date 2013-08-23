@@ -411,6 +411,7 @@ class CCBlog extends CObject implements IController {
       $this->pageKey = $key;
 
       $this->data['content'] = $content->Prepare();
+      $this->data['author'] = $this->user->GetUserById($content['uid']);
       $this->data['sidebar_contains'] = $this->options['sidebar_post'];
 
       $title = htmlEnt($content['title']);

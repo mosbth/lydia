@@ -203,6 +203,61 @@ class CCUser extends CObject implements IController {
 */  }
   
 
+
+  /**
+   * View and edit user meta informatino.
+   */
+  public function Meta() {    
+    $if = new CInterceptionFilter();
+    $if->IsRegularUserOrForbidden();
+
+    $form = new CForm(array(), array(
+        'acronym' => array(
+          'type'  => 'hidden',
+          'value' => $this->user['acronym'],
+        ),
+        'byline' => array(
+          'type'        => 'textarea',
+          'label'       => t('Byline:'),
+          'value'       => $this->user->Meta('byline'),
+        ),        
+        'doSave' => array(
+          'type'      => 'submit',
+          'value'     => t('Save'),
+          'callback'  => function($f) {
+            return Clydia::Instance()->user->ChangeOwnMeta($f->Value('acronym'), array('byline' => $f->Value('byline')));
+          }
+        ),
+      )
+    );
+
+    $status = $form->Check();
+    if($status === false) {
+      $this->AddMessage('notice', t('The information could not be saved.'));
+      $this->RedirectToControllerMethod();
+    }
+    else if ($status === true) {
+      $this->AddMessage('success', t('Saved information.'));
+      $this->RedirectToControllerMethod();
+    }
+
+    $data = array(
+      'header'   => $this->LoadView('header.tpl.php'),
+      'user'     => $this->user,
+      'navbar'   => $this->CreateMenu('navbar-ucp'),
+      'form'     => $form->GetHTML(),
+    );
+
+    $this->breadcrumb[] = array('label' => t('Meta information'), 'url' => $this->CreateUrlToControllerMethod());
+
+    $this->views->SetTitle(t('Edit meta information'))
+                ->AddStringToRegion('breadcrumb', $this->CreateBreadcrumb($this->breadcrumb))
+                ->AddClassToRegion('custom', 'ucp')
+                ->AddIncludeToRegion('custom', $this->loadView('meta.tpl.php'), $data);
+  }
+  
+
+
   /**
    * Give a form to the user so the user can change the password.
    *

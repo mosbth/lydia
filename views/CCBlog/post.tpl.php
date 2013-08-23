@@ -1,15 +1,18 @@
 <?php if($content != null):?>
 
-<article class='ly-blog'>
+<article class='ly-blog' itemscope itemtype='http://schema.org/Article'>
 
   <header class='ly-blog-post-header'>
-    <h1><?=esc($content['title'])?></h1>
+    <h1 itemprop='name headline'><?=esc($content['title'])?></h1>
     <?php 
       $date = $order_by_updated ? $content['updated'] : $content['created']; 
       $what = $order_by_updated ? t('Updated') : t('Published'); 
     ?>
-    <p class='ly-blog-post-meta-header'><?=$what?> <time datetime='<?=$date?>'><?=format_date($date)?></time>
-    <?=t('by !owner', array('!owner' => $content['owner_name']))?></p>
+    <p class='ly-blog-post-meta-header'>
+      <?=t('By')?> <span class="vcard author"><span class="fn" itemprop='author' itemscope itemtype='http://schema.org/Person'><span itemprop='name'><!--<a href='http://dbwebb.se/v2/author/mos' rel='author'>--><?=$content['owner_name']?><!--</a>--></span></span></span>.
+        <?=$what?> <time itemprop='datePublished' datetime='<?=$date?>'><?=format_date($date)?></time>
+      </p>
+    </span>
   </header>
 
   <?=$content['data_filtered']?>
@@ -20,6 +23,8 @@
     | <a href='<?=create_url("content/edit/{$content['id']}")?>'><?=t('edit')?></a></p>
     <?php endif; ?>
   </footer>
+
+  <?=get_author_byline($author)?>
 
 </article>
 

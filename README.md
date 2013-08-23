@@ -115,6 +115,7 @@ History
 
 v0.3.x (latest)
 
+* Including information about author through a byline.
 * Updated `CBlog` to make localised version for category and search work.
 * Added printable version and print stylesheet for blog articles.
 * Prune cached content when saving content.

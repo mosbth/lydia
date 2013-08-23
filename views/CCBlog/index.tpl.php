@@ -26,6 +26,11 @@
     <?php if($val['data_has_more']): ?>  
     <p class='ly-blog-post-readmore'><a href='<?=create_url(null, $val['key'])?>'><?=t('Read more »')?></a></p>
     <?php endif; ?>
+
+  <?php elseif($post_format_first_pragraph): ?>
+  <?=$val->GetFirstParagraph()?>
+  <p class='ly-blog-post-readmore'><a href='<?=create_url(null, $val['key'])?>'><?=t('Read more »')?></a></p>
+
   <?php else: ?>
   <?=$val['data_filtered']?>
   <?php endif; ?>

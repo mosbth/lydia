@@ -249,6 +249,7 @@ $ly->config['menus'] = array(
       'overview'  => array('label'=>t('Overview'),  'url'=>'user/overview'),
       'content'   => array('label'=>t('Content'),   'url'=>'user/content'),
       'profile'   => array('label'=>t('Profile'),   'url'=>'user/profile'),
+      'meta'      => array('label'=>t('Meta'),      'url'=>'user/meta'),
       'mail'      => array('label'=>t('Groups'),    'url'=>'user/groups'),
       'groups'    => array('label'=>t('Mail'),      'url'=>'user/email'),
       'password'  => array('label'=>t('Password'),  'url'=>'user/change-password'),

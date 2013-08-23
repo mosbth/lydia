@@ -405,6 +405,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public function GetEntries($options=array()) {
     $default = array(
       'type' => null,
+      'author'  => null,
       'category_key' => null,
       'order_by' => null,
       'order_order' => null,
@@ -423,6 +424,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     if(isset($options['category_key'])) {
       $catKey = " AND ca.key = ?";
       $args[] = $argsc[] = $options['category_key'];
+    }
+
+    if(isset($options['author'])) {
+      $catKey = " AND u.id = ?";
+      $args[] = $argsc[] = $options['author'];
     }
 
     $limit = empty($options['limit']) ? null : " LIMIT ?";

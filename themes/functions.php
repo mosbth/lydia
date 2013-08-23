@@ -104,7 +104,7 @@ function login_menu() {
     //$items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
   } else {
     $item = $menu['items']['login'];
-    $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a>";
+    $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}' rel='nofollow'>{$item['label']}</a>";
   }
 
   $id    = isset($menu['id'])    ? " id='{$menu['id']}'" : null;
@@ -232,9 +232,32 @@ function create_menu($menu) {
 
 /**
  * Get a gravatar based on the user's email.
+ *
+ * @param int $size as the size of the image.
+ * @param string $email as the users email or use the current authenticated user as default.
+ * @return string as the url to the users gravatar.
  */
-function get_gravatar($size=null) {
-  return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(CLydia::Instance()->user['email']))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
+function get_gravatar($size=null, $email=null) {
+  $email = isset($email) ? $email : CLydia::Instance()->user['email'];
+  return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($email))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
+}
+
+
+/**
+ * Get author byline.
+ *
+ * @param string $author array with details on the author.
+ */
+function get_author_byline($author) {
+  $data = array(
+    'name' => $author['name'],
+    'image' => get_gravatar(80, $author['email']),
+    'byline' => $author['meta']['byline'],
+  );
+
+  $view = CLydia::Instance()->LoadView('CCAuthor', 'author-byline.tpl.php');
+  extract($data);
+  include($view);
 }
 
 

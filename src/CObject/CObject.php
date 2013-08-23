@@ -151,7 +151,7 @@ class CObject {
 
 
   /**
-	 * Wrapper for same method in CLydia. See there for documentation. Trys to find view 
+	 * Wrapper for same method in CLydia. See there for documentation. Tries to find view 
 	 * related to class, if it fails it tries to find view related to parent class.
    */
   protected function LoadView($view) {
