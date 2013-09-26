@@ -34,9 +34,9 @@ class CMUserModule extends CMUser {
           return array('error', t('You can not create a root user since there is already a root-user with id=1.'));
         }
 
-        $this->db->ExecuteQuery(self::SQL('insert into user'), array($rootUserName, 'The Root User', $rootEmail, $password['algorithm'], $password['salt'], $password['password']));
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array($rootUserName, 'The Root User', null, $rootEmail, $password['algorithm'], $password['salt'], $password['password']));
         $idRootUser = $this->db->LastInsertId();
-        $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonymous', 'Anonymous user', null, 'plain', null, null));
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonymous', 'Anonymous user', null, null, 'plain', null, null));
         $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
         $idAdminGroup = $this->db->LastInsertId();
         $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));

@@ -122,6 +122,7 @@ v0.3.x (latest)
 * Enabled gzip and output buffering to speed up theme engine rendering phase.
 * Adding <!--stop--> as filter for content.
 * Enabling to configuring cache through `config.php`.
+* Adding column meta for authoring information to table User.
 
 
 v0.3.94 (2013-07-01)
