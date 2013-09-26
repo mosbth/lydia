@@ -62,7 +62,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
       'create table user'       => "CREATE TABLE IF NOT EXISTS User (id INTEGER PRIMARY KEY, acronym TEXT KEY, name TEXT, email TEXT, meta TEXT, algorithm TEXT, salt TEXT, password TEXT, created DATETIME default (datetime('now')), updated DATETIME default NULL);",
       'create table group'      => "CREATE TABLE IF NOT EXISTS Groups (id INTEGER PRIMARY KEY, acronym TEXT KEY, name TEXT, created DATETIME default (datetime('now')), updated DATETIME default NULL);",
       'create table user2group' => "CREATE TABLE IF NOT EXISTS User2Groups (idUser INTEGER, idGroups INTEGER, created DATETIME default (datetime('now')), PRIMARY KEY(idUser, idGroups));",
-      'insert into user'        => 'INSERT INTO User (acronym,name,meta,email,algorithm,salt,password) VALUES (?,?,?,?,?,?);',
+      'insert into user'        => 'INSERT INTO User (acronym,name,meta,email,algorithm,salt,password) VALUES (?,?,?,?,?,?,?);',
       'insert into group'       => 'INSERT INTO Groups (acronym,name) VALUES (?,?);',
       'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups) VALUES (?,?);',
       'check user password'     => 'SELECT * FROM User WHERE (acronym=? OR email=?);',
