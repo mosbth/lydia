@@ -124,7 +124,7 @@ v0.3.x (latest)
 * Enabling to configuring cache through `config.php`.
 * Adding column meta for authoring information to table User.
 * Adding childtheme base in site/theme.
-
+* Adding shortcode and shortcode [FIGURE].
 
 v0.3.94 (2013-07-01)
 

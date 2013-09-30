@@ -160,6 +160,82 @@ class CTextFilter {
 
 
   /**
+   * Init shortcode handling by preparing the option list to an array.
+   *
+   * @param string $code the code to process.
+   * @param string $options for the shortcode.
+   * @return array with all the options.
+   */
+  public static function ShortCodeInit($options) {
+    preg_match_all('/[a-zA-Z0-9]+="[^"]+"|\S+/', $options, $matches);
+
+    $res = array();
+    foreach($matches[0] as $match) {
+      $pos = strpos($match, '=');
+      if($pos == false) {
+        $res[$match] = true;
+      }
+      else {
+        $key = substr($match, 0, $pos);
+        $val = trim(substr($match, $pos+1), '"');
+        $res[$key] = $val;
+      }
+    }
+
+    return $res;
+  }
+
+
+  /**
+   * Shortcode for <figure>.
+   *
+   * @param string $code the code to process.
+   * @param string $options for the shortcode.
+   * @return array with all the options.
+   */
+  public static function ShortCodeFigure($options) {
+    extract(array_merge(array(
+      'id' => null,
+      'class' => null,
+      'src' => null,
+      'title' => null,
+      'alt' => null,
+      'caption' => null,
+      'href' => null,
+      'nolink' => false,
+    ), CTextFilter::ShortCodeInit($options)), EXTR_SKIP);
+
+    $id = $id ? " id='$id'" : null;
+    //$class = $class ? " class='$class'" : null;
+    $class = $class ? " class='figure $class'" : " class='figure'";
+    $title = $title ? " title='$title'" : null;
+    
+    if(!$alt && $caption) {
+      $alt = $caption;
+    }
+
+    if(!$href) {
+      $pos = strpos($src, '?');
+      $href = $pos ? substr($src, 0, $pos) : $src;
+    }
+
+    if(!$nolink) {
+      $a_start = "<a href='{$href}'>";
+      $a_end = "</a>";
+    }
+
+    $html = <<<EOD
+<figure{$id}{$class}>
+  {$a_start}<img src='{$src}' alt='{$alt}'{$title}/>{$a_end}
+  <figcaption markdown=1>{$caption}</figcaption>
+</figure>
+EOD;
+
+    return $html;
+  }
+
+
+  /**
    * Shorttags to to quicker format text as HTML.
    *
    * @param string text text to be converted.
@@ -181,7 +257,7 @@ class CTextFilter {
 EOD;
 
         case 'IMG2':
-          $caption = t('Image: ');
+          $caption = null; //t('Image: ');
           $pos = strpos($matches[2], '?');
           $href = $pos ? substr($matches[2], 0, $pos) : $matches[2];
           $src = htmlspecialchars($matches[2]);
@@ -237,12 +313,14 @@ EOD;
         case 'INFO':  return "<div class='info' markdown=1>"; break;
         case '/INFO': return "</div>"; break;
         case 'BASEURL': return CLydia::Instance()->request->base_url; break;
+        case 'FIGURE': return CTextFilter::ShortCodeFigure($matches[2]); break;
         default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
       }
     };
     $patterns = array(
       '#\[(BASEURL)\]#',
       //'/\[(AUTHOR) name=(.+) email=(.+) url=(.+)\]/',
+      '/\[(FIGURE)[\s+](.+)\]/',
       '/\[(IMG) src=(.+) alt=(.+)\]/',
       '/\[(IMG2) src=(.+) alt="(.+)" class="(.+)"\]/',
       '/\[(BOOK) isbn=(.+)\]/',

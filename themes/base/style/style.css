@@ -884,6 +884,49 @@ body {
   margin: 0 5px;
   padding-top: 11px;
 }
+figure {
+  margin-bottom: 22px;
+}
+figure img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+figure figcaption {
+  font-style: italic;
+  padding-top: 1em;
+}
+figure figcaption p {
+  margin-bottom: 0;
+}
+figure.figure {
+  display: table;
+  padding: 0;
+}
+figure.figure figcaption {
+  display: table-caption;
+  caption-side: bottom;
+  padding: 0;
+}
+figure.left {
+  float: left;
+  margin-right: 1em;
+  font-size: 0.875em;
+}
+figure.right {
+  float: right;
+  margin-left: 1em;
+  font-size: 0.875em;
+}
+figure.center {
+  clear: both;
+}
+figure.center img {
+  margin: 0 auto;
+}
+figure.center figcaption {
+  text-align: center;
+}
 #banner {
   position: relative;
 }
@@ -986,46 +1029,6 @@ body {
 }
 #toc ul li.h6 {
   padding-left: 2em;
-}
-figure {
-  margin-bottom: 22px;
-}
-figure a {
-  *zoom: 1;
-}
-figure a:before,
-figure a:after {
-  content: "";
-  display: table;
-}
-figure a:after {
-  clear: both;
-}
-figure img {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-}
-figure figcaption {
-  font-style: italic;
-  padding-top: 1em;
-}
-figure.left {
-  float: left;
-  margin-right: 1em;
-}
-figure.right {
-  float: right;
-  margin-left: 1em;
-}
-figure.center {
-  clear: both;
-}
-figure.center img {
-  margin: 0 auto;
-}
-figure.center figcaption {
-  text-align: center;
 }
 .revision-history,
 .edit {
