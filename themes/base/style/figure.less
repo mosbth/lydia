@@ -1,0 +1,75 @@
+/** --------------------------------------------------------------
+ * Figure
+ */
+figure {
+  margin-bottom: @magicNumber;
+  
+  /*a {
+    .clearfix();
+  }*/
+  
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+  
+  figcaption {
+    font-style: italic;
+    padding-top: 1em;
+  }
+
+  figcaption p {
+    margin-bottom: 0;
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * New style to manage sizes
+ */
+figure.figure {
+  display: table;
+  padding: 0;
+  //font-size: 0.875em;
+  
+  a { }
+  
+  img { }
+  
+  figcaption {
+    display: table-caption;
+    caption-side: bottom;
+    padding: 0;
+  }
+}
+
+
+
+/** --------------------------------------------------------------
+ * Position figure on the article
+ */
+figure.left {
+  float: left;
+  margin-right: 1em;
+  font-size: 0.875em;
+}
+
+figure.right {
+  float: right;
+  margin-left: 1em;
+  font-size: 0.875em;
+}
+
+figure.center {
+  clear: both;
+  
+  img {
+    margin: 0 auto;
+  }
+  
+  figcaption {
+    text-align: center;
+  }
+}
