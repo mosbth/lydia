@@ -71,6 +71,8 @@ class CLydia implements ISingleton/*, IModule*/ {
     date_default_timezone_set($timezone);
     
     // Setup i18n, internationalization and multi-language support
+    $this->SetLocale();
+    /*
     @putenv('LC_ALL='.$this->config['language']); // Will not work in safe_mode, ignore warning.
     setlocale(LC_ALL, $this->config['language']);
     if($this->config['i18n']) {
@@ -78,6 +80,7 @@ class CLydia implements ISingleton/*, IModule*/ {
       bind_textdomain_codeset('lydia', 'UTF-8'); 
       textdomain('lydia');
     }
+    */
     
     // Start a named session
     session_name($this->config['session_name']);
@@ -116,6 +119,24 @@ class CLydia implements ISingleton/*, IModule*/ {
 		return is_null(self::$instance) ? self::$instance = new static : self::$instance;
 	}
 	
+
+
+  /**
+   * Set up i18n.
+   * 
+   * @return CLydia The instance of this class.
+   */
+  public function SetLocale() {
+    // Setup i18n, internationalization and multi-language support
+    @putenv('LC_ALL='.$this->config['language']); // Will not work in safe_mode, ignore warning.
+    setlocale(LC_ALL, $this->config['language']);
+    if($this->config['i18n']) {
+      bindtextdomain('lydia', LYDIA_INSTALL_PATH.'/language');
+      bind_textdomain_codeset('lydia', 'UTF-8'); 
+      textdomain('lydia');
+    }
+  }
+
 
 
   /**

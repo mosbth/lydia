@@ -125,6 +125,7 @@ v0.3.x (latest)
 * Adding column meta for authoring information to table User.
 * Adding childtheme base in site/theme.
 * Adding shortcode and shortcode [FIGURE].
+* Updating `CBlog` to use url and work in two languages.
 
 v0.3.94 (2013-07-01)
 

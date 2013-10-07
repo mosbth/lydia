@@ -34,7 +34,7 @@ class CRequest {
    * @param $url string the relative url or the controller
    * @param $method string the method to use, $url is then the controller or empty for current controller.
    * @param $arguments string/array the extra arguments to send to the method
-   * @returns string the url
+   * @return string the url
    */
   public function CreateCleanUrl($url=null, $method=null, $arguments=null) {
     $cleanUrl = $this->cleanUrl;
@@ -52,7 +52,7 @@ class CRequest {
 	 * @param $url string the relative url or the controller
 	 * @param $method string the method to use, $url is then the controller or empty for current controller.
 	 * @param $arguments string/array the extra arguments to send to the method
-	 * @returns string the url
+	 * @return string the url
 	 */
 	public function CreateUrl($url=null, $method=null, $arguments=null) {
     // If fully qualified just leave it.
@@ -190,6 +190,16 @@ class CRequest {
     $this->method	      = $method;
     $this->arguments    = $arguments;
   }
+
+
+
+  /**
+   * Create the request to current page, without the method, useful to find out url in print method. 
+   */
+  public function RequestWithoutMethod() {
+    return $this->controller . '/' . implode('/', $this->arguments);
+  }
+
 
 
 	/**

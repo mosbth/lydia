@@ -2007,9 +2007,6 @@ a.button:hover {
   background-color: #c0c0ff;
   border-color: #b3b3b3;
 }
-html.mroos #inner-wrap-header {
-  height: 88px;
-}
 body.print {
   background: white !important;
   color: black;

@@ -71,7 +71,12 @@ function autoCompileLess($inputFile, $outputFile) {
 // Compile and output the resulting css-file, use caching whenever suitable.
 $less = 'style.less';
 $css  = 'style.css';
+
+//define('LYDIA_INIT_ONLY', true);
+//include('../../../index.php');
+//$lessc->setImportDir(LYDIA_SITE_PATH . '/themes/base/style/');
 $changed = autoCompileLess($less, $css);
+
 $time = filemtime($css);
 
 // Write it out and leave a response

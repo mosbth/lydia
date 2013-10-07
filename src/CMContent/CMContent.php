@@ -227,7 +227,7 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * by key'), array($key));
     
     if(empty($res)) {
-      $this->AddMessage('error', "Failed to load content by key.");
+      //$this->AddMessage('error', "Failed to load content by key.");
       return false;
     } 
     

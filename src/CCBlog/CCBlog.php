@@ -136,6 +136,8 @@ class CCBlog extends CObject implements IController {
     $this->primary = 'index.tpl.php';
     $this->sidebar = 'index_sidebar.tpl.php';
     $this->iconSet = 'icons_default';
+
+    $this->AddBodyClass($o['content_type']);
   }
 
 
@@ -345,7 +347,7 @@ class CCBlog extends CObject implements IController {
       $items = array();
       foreach($c as $content) {
         $item['title']        = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content['title'])));
-        $item['description']  = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content->GetExcerpt(800) . '…')));
+        $item['description']  = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content->GetExcerpt(3000) . '…')));
         //$item['description']  = preg_replace('/\s+/', ' ', htmlSpec(htmlDent($content['data_filtered'])));
         $item['link']         = $this->CreateUrlToController($content['key']);
         $item['guid']         = $item['link'];
@@ -361,7 +363,7 @@ class CCBlog extends CObject implements IController {
 
 
   /**
-   * Display a printable version of a particular blogpost based on its key.
+   * Display a printable version of a particular blog post based on its key.
    *
    * @param string key the key of the content to display. 
    */
@@ -369,7 +371,11 @@ class CCBlog extends CObject implements IController {
     $o = $this->options;
     $content = new CMContent();
     
-    if($content->LoadByKey($key) && $content['type'] == $o['content_type']) {
+    $url = $this->request->RequestWithoutMethod();
+
+    if($content->LoadByKey($key) && $content['type'] == $o['content_type'] ||
+       $content->LoadByUrl($url) && $content['type'] == $o['content_type']) {
+
       $this->Init();
 
       $this->data['content'] = $content->Prepare();
@@ -381,6 +387,7 @@ class CCBlog extends CObject implements IController {
       $this->sidebar = null;
       $this->iconSet = null;
       $this->AddBodyClass('print');
+      $this->config['meta_robots'] = 'noindex, nofollow';
 
       $this->Output();
     } else {
@@ -405,8 +412,11 @@ class CCBlog extends CObject implements IController {
 
     $o = $this->options;
     $content = new CMContent();
-    
-    if($content->LoadByKey($key) && $content['type'] == $o['content_type']) {
+
+    $url = $this->request->request;
+    if(($content->LoadByKey($key) && $content['type'] == $o['content_type']) || 
+       ($content->LoadByUrl($url) && $content['type'] == $o['content_type'])) {
+
       $this->Init();
       $this->pageKey = $key;
 
@@ -420,6 +430,9 @@ class CCBlog extends CObject implements IController {
 
       $this->primary = 'post.tpl.php';
       $this->iconSet = 'icons_post';
+
+      $this->AddBodyClass('id-' . $content['id']);
+      $this->config['link_canonical'] = $this->CreateUrlToControllerMethodArguments();
 
       $this->Output();
     } else {

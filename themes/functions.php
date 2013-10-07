@@ -161,7 +161,7 @@ function get_title() {
 
 
 /**
- * Return the meta content the page, if it exists, either as a theme variable or from the config.
+ * Return the meta content for the page, if it exists, either as a theme variable or from the config.
  *
  * @param string for meta element.
  * @return string for meta element.
@@ -173,6 +173,21 @@ function get_meta($what) {
   $meta2 = isset($ly->config[$variable]) ? $ly->config[$variable] : null;
   $meta = isset($meta1) ? $meta1 : (isset($meta2) ? $meta2 : null);
   return isset($meta) ? "<meta name='{$what}' content='{$meta}'/>\n" : null;
+}
+
+
+
+/**
+ * Return the link content of the page, if it exists, from the config.
+ *
+ * @param string for link element.
+ * @return string for link element.
+ */
+function get_link($what) {
+  global $ly;
+  $variable = "link_{$what}";
+  $href = isset($ly->config[$variable]) ? $ly->config[$variable] : null;
+  return isset($href) ? "<link rel='{$what}' href='{$href}'/>\n" : null;
 }
 
 
@@ -213,7 +228,7 @@ function html_classes() {
 function body_classes() {
   global $ly;
   if(isset($ly->bodyClass)) {
-    return $ly->bodyClass;
+    return trim($ly->bodyClass);
   }
   return null;
 }

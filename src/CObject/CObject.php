@@ -175,5 +175,14 @@ class CObject {
   }
 
 
+
+  /**
+   * Wrapper for same method in CLydia. See there for documentation.
+   */
+  /*protected function SetLocale() {
+    return $this->ly->SetLocale();
+  }*/
+
+
 }
   

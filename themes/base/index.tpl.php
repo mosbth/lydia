@@ -5,6 +5,7 @@
 <title><?=get_title()?></title>
 <link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
 <link rel='stylesheet' type='text/css' href='<?=theme_url($stylesheet)?>'/>
+<?=get_link('canonical')?>
 <?=get_meta('description')?>
 <?=get_meta('keywords')?>
 <?=get_meta('robots')?>
