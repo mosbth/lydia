@@ -657,7 +657,7 @@ class CLydia implements ISingleton/*, IModule*/ {
         break;
 
       case 'static_url':
-        $static = isset($this->config['static_url']) ? $this->config['static_url'] : ( $isAbsolute ? $this->request->site_url : $this->request->site_url );
+        $static = isset($this->config['static_url']) ? $this->config['static_url'] : ( $isAbsolute ? $this->request->site_url : $this->request->base_url );
         return rtrim($static, '/') . '/' . ltrim($url, '/');
         break;
 
