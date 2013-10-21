@@ -138,6 +138,18 @@ function htmlEnt($str, $flags = ENT_COMPAT) {
 
 
 /**
+ * Escape data to make it safe to write in the browser.
+ *
+ * @param $str string to escape.
+ * @return string the escaped string.
+ */
+function e($str) {
+  return htmlEnt($str);
+}
+
+
+
+/**
  * Helper, unwrap html_entites with correct character encoding
  */
 function htmlDent($str, $flags = ENT_COMPAT) {
