@@ -1,6 +1,6 @@
 <?php
 /**
- * Parse the request and identify controller, method and arguments.
+ * Manage and parse the request and identify controller, method and arguments.
  *
  * @package LydiaCore
  */
@@ -179,7 +179,7 @@ class CRequest {
     
     // Store it
     $this->site_url     = $siteUrl;
-    $this->base_url 	  = $baseUrl;
+    $this->base_url     = $baseUrl;
     $this->current_url  = $currentUrl;
     $this->request_uri  = $requestUri;
     $this->script_name  = $scriptName;

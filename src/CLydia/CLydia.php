@@ -632,5 +632,41 @@ class CLydia implements ISingleton/*, IModule*/ {
 
 
 
+  /**
+   * Prepend a base url to the url to make it absolute. 
+   *
+   * @param string $what should be prepended.
+   * @param string $url to prepend information to.
+   * @return string with the absolute url.
+   */
+  public function PrependUrl($what, $url) {
+    $isAbsolute = !empty($url) && $url[0] == '/';
+
+    switch($what) {
+      
+      case 'base_url': 
+        return $this->request->base_url . ltrim($url, '/'); 
+        break;
+
+      case 'theme_url':
+        return $this->CreateUrl( $isAbsolute ? $this->request->site_url . $url : $this->themeUrl . "/$url" );
+        break;
+
+      case 'theme_parent_url':
+        return $this->CreateUrl( $isAbsolute ? $this->request->site_url . $url : $this->themeParentUrl . "/$url" );
+        break;
+
+      case 'static_url':
+        $static = isset($this->config['static_url']) ? $this->config['static_url'] : ( $isAbsolute ? $this->request->site_url : $this->request->site_url );
+        return rtrim($static, '/') . '/' . ltrim($url, '/');
+        break;
+
+      default:
+        throw new Exception("No such base url to prepend.");
+        break;
+    }
+  }
+
+
 
 }

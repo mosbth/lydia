@@ -40,9 +40,13 @@ $ly->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_DATA_PATH . '/.ht.sqlite';
 
 
 /**
- * Set a base_url to use another than the default calculated
+ * Set a base urls to use another than the default calculated.
+ *
+ * base_url   = The base url to this installation.
+ * static_url = Base url for cookie-less domain for all static assets, like images, css and js files.
  */
-$ly->config['base_url'] = null;
+$ly->config['base_url']   = null;
+$ly->config['static_url'] = null;
 
 
 /**

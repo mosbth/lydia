@@ -340,6 +340,7 @@ function pagination_next($start, $current, $last, $firstHit, $lastHit, $totalHit
 /**
  * Escape data to make it safe to write in the browser.
  *
+ * @deprecated since v0.3.95, replaced by e().
  * @param $str string to escape.
  * @return string the escaped string.
  */
@@ -415,6 +416,19 @@ function theme_parent_url($url) {
   if(!empty($url) && $url[0] == '/') 
     return create_url(CLydia::Instance()->request->site_url . "{$url}");
   return create_url(CLydia::Instance()->themeParentUrl . "/{$url}");
+}
+
+
+
+/**
+ * Prepend the static_url to url, static_url is the url to a cookie-less domain for assets like 
+ * img, css and js-files.
+ *
+ * @param $url string the url-part to prepend.
+ * @return string the absolute url.
+ */
+function static_url($url) {
+  return CLydia::Instance()->PrependUrl('static_url', $url);
 }
 
 
@@ -505,7 +519,8 @@ EOD;
  */
 function modernizr_include() {
   global $ly;
-  return isset($ly->config['javascript']['modernizr']) ? "<script src='{$ly->config['javascript']['modernizr']}'></script>" : null;
+  return isset($ly->config['javascript']['modernizr']) ? "<script src='" . static_url($ly->config['javascript']['modernizr']) . "'></script>" : null;
+  //return isset($ly->config['javascript']['modernizr']) ? "<script src='" . $ly->config['javascript']['modernizr'] . "'></script>" : null;
 }
 
 
