@@ -24,7 +24,7 @@ class CCContent extends CObject implements IController {
   public function Index() {
     $content = new CMContent();
 
-    CInterceptionFilter::OwnerAdminOrForbidden($content);
+    CInterceptionFilter::Instance()->OwnerAdminOrForbidden($content);
 
     $this->views->SetTitle(t('Content Controller'))
                 ->AddIncludeToRegion('primary', $this->LoadView('index.tpl.php'), array(
@@ -42,7 +42,7 @@ class CCContent extends CObject implements IController {
     $content = new CMContent($id);
 
     //CInterceptionFilter::OwnerAdminOrForbidden($content);
-    CInterceptionFilter::IsRegularUserOrForbidden();
+    CInterceptionFilter::Instance()->IsRegularUserOrForbidden();
 
     $form = new CFormContent($content);
     $status = $form->Check();

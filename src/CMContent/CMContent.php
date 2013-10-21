@@ -421,13 +421,15 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
       $args[] = $argsc[] = $options['type'];
     } 
     
+    $catKey = null;
     if(isset($options['category_key'])) {
       $catKey = " AND ca.key = ?";
       $args[] = $argsc[] = $options['category_key'];
     }
 
+    $author = null;
     if(isset($options['author'])) {
-      $catKey = " AND u.id = ?";
+      $author = " AND u.id = ?";
       $args[] = $argsc[] = $options['author'];
     }
 
@@ -453,10 +455,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
     }
 
     $this->position = 0;
-    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('count flexible select').$type.$catKey, $argsc);
+    $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('count flexible select').$type.$catKey.$author, $argsc);
     $this->hits = $res[0]['hits'];
-    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$order_by.$order_order.$limit.$offset, $args);
-    $this->data = $this->set[$this->position];
+    $this->set = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('flexible select *').$type.$catKey.$author.$order_by.$order_order.$limit.$offset, $args);
+    $this->data = isset($this->set[$this->position]) ? $this->set[$this->position] : null;
     return $this;
   }
   

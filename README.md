@@ -113,7 +113,7 @@ external translation service, such as google translate.
 History
 -------
 
-v0.3.x (latest)
+v0.3.95 (2013-10-21)
 
 * Including information about author through a byline.
 * Updated `CBlog` to make localised version for category and search work.
@@ -127,6 +127,7 @@ v0.3.x (latest)
 * Updating `CBlog` to use url and work in two languages.
 * Added support for static_url for a cookie-less domain.
 * Disable gzip & buffer as default for delivering the resulting page.
+* Corrected errors in plain installation with empty content.
 
 
 v0.3.94 (2013-07-01)
