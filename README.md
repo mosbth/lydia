@@ -126,6 +126,7 @@ v0.3.x (latest)
 * Adding shortcode and shortcode [FIGURE].
 * Updating `CBlog` to use url and work in two languages.
 * Added support for static_url for a cookie-less domain.
+* Disable gzip & buffer as default for delivering the resulting page.
 
 
 v0.3.94 (2013-07-01)

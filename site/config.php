@@ -75,8 +75,8 @@ $ly->config['secret_key'] = false;
 /**
  * Use gzip output handler to reduce size of resulting page.
  */
-$ly->config['themerender_buffer'] = true;
-$ly->config['themerender_gzip'] = true;
+$ly->config['themerender_buffer'] = false;
+$ly->config['themerender_gzip'] = false;
 
 
 
