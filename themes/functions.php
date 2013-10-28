@@ -373,14 +373,6 @@ function time_diff($start) {
 
 
 /**
- * Prepend the base_url.
- */
-function base_url($url=null) {
-  return CLydia::Instance()->request->base_url . trim($url, '/');
-}
-
-
-/**
  * Create a url to an internal resource.
  *
  * @param string the whole url or the controller. Leave empty for current controller.
@@ -393,15 +385,25 @@ function create_url($urlOrController=null, $method=null, $arguments=null) {
 
 
 /**
+ * Prepend the base_url.
+ */
+function base_url($url=null) {
+  return CLydia::Instance()->PrependUrl('base_url', $url);
+  //return CLydia::Instance()->request->base_url . trim($url, '/');
+}
+
+
+/**
  * Prepend the theme_url to non-absolute urls, theme_url is the url to the current theme directory.
  *
  * @param $url string the url-part to prepend.
  * @return string the absolute url.
  */
 function theme_url($url) {
-  if(!empty($url) && $url[0] == '/') 
+  return CLydia::Instance()->PrependUrl('theme_url', $url);
+/*  if(!empty($url) && $url[0] == '/') 
     return create_url(CLydia::Instance()->request->site_url . "{$url}");
-  return create_url(CLydia::Instance()->themeUrl . "/{$url}");
+  return create_url(CLydia::Instance()->themeUrl . "/{$url}");*/
 }
 
 
@@ -413,9 +415,10 @@ function theme_url($url) {
  * @return string the absolute url.
  */
 function theme_parent_url($url) {
-  if(!empty($url) && $url[0] == '/') 
+  return CLydia::Instance()->PrependUrl('theme_parent_url', $url);
+/*  if(!empty($url) && $url[0] == '/') 
     return create_url(CLydia::Instance()->request->site_url . "{$url}");
-  return create_url(CLydia::Instance()->themeParentUrl . "/{$url}");
+  return create_url(CLydia::Instance()->themeParentUrl . "/{$url}");*/
 }
 
 

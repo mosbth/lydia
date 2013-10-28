@@ -79,6 +79,8 @@ class CPageLoader extends CObject {
       'content' => $c->Prepare(),
     );
 
+    $this->AddBodyClass(slugify("url-$url"));
+
     $c->LoadParents();
     $this->page['title'] = $c->AddParentsTitle($c['title']);
 

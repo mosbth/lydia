@@ -104,6 +104,28 @@ function m($key) {
 
 
 /**
+ * Load a view, looks for the file in LYDIA_SITE_PATH/views/$module and then in 
+ * LYDIA_INSTALL_PATH/views/$module.
+ *
+ * @param string $module name of the module owning the view.
+ * @param string $view filename of the view.
+ * @param boolean $original set to true to override the site-version of the view, default is false.
+ * @return string with the absolute filename or false if no filename exists.
+ */
+function loadView($module, $view, $original=false) {
+  $path1 = LYDIA_SITE_PATH . "/views/$module/$view";
+  $path2 = LYDIA_INSTALL_PATH . "/views/$module/$view";
+  if(!$original && is_file($path1)) {
+    return $path1;
+  } else if(is_file($path2)) {
+    return $path2;
+  }
+  return false;
+}
+
+
+
+/**
  * Helper, include a file and store it in a string. Make $vars available to the included file.
  *
  * @param string $filename

@@ -272,14 +272,9 @@ class CLydia implements ISingleton/*, IModule*/ {
       }
     }
 
-    // Map data to region if defined
+    // Load all theme views
     if(is_array($this->config['theme']['view_to_region'])) {
-      foreach($this->config['theme']['view_to_region'] as $val) {
-        switch($val['type']) {
-          case 'string': $this->views->AddStringToRegion($val['region'], $val['content']); break;
-          case 'include': $this->views->AddIncludeToRegion($val['region'], $this->LoadView(null, $val['content'])); break;
-        }
-      }
+      $this->views->Add(array('regions' => $this->config['theme']['view_to_region']));
     }
 
     // Include the global functions.php and the functions.php that are part of the theme
@@ -306,7 +301,7 @@ class CLydia implements ISingleton/*, IModule*/ {
 
     // Buffer and compress output if set
     if($this->config['themerender_gzip']) {
-      ob_start("ob_gzhandler");
+      ob_start("ob_gzhandler") or ob_start();
     } else if($this->config['themerender_buffer']) {
       ob_start();
     }
@@ -609,14 +604,7 @@ class CLydia implements ISingleton/*, IModule*/ {
    * @return string with the absolute filename or false if no filename exists.
    */
   public function LoadView($module, $view, $original=false) {
-    $path1 = LYDIA_SITE_PATH . "/views/$module/$view";
-    $path2 = LYDIA_INSTALL_PATH . "/views/$module/$view";
-    if(!$original && is_file($path1)) {
-      return $path1;
-    } else if(is_file($path2)) {
-      return $path2;
-    }
-    return false;
+    return loadView($module, $view, $original);
   }
 
 

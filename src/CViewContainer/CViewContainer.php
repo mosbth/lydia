@@ -205,9 +205,9 @@ class CViewContainer {
    * @return $this.
    */
   public function Add($args=array()) {
-    // Assume the args is just one regions
+    // Assume that args is just one regions
     if(!isset($args['regions'])) {
-      $args['regions'] = $args;
+      $args['regions'] = array($args);
     }
 
     if(isset($args['title'])) {
@@ -219,7 +219,7 @@ class CViewContainer {
         case 'string':    $this->AddStringToRegion($val);   break;
         case 'include':   $this->AddIncludeToRegion($val);  break;
         case 'function':  $this->AddFunctionToRegion($val); break;
-        default: throw new Exception(t("No such type for adding region to view container: '@type'.", array('@type'=>$val['type'])));
+        default: throw new Exception("No such type '{$val['type']}' for adding region to view container.");
       }
     }
 

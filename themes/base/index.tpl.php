@@ -18,6 +18,7 @@
 <header id='outer-wrap-header' role='banner'>
   <div id='inner-wrap-header'>
     <div id='header'>
+      <?php if(region_has_content('header')): ?><?=render_views('header')?><?php endif; ?>
       <div id='user-menu'><?=login_menu()?></div>
       <div id='banner'>
 <?php if(isset($custom_banner)): ?>

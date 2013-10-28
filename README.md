@@ -72,10 +72,10 @@ SimplePie by Geoffrey, Ryan P., and Ryan M. to read RSS feeds.
 ### lessphp
 lessphp by leaf to compile LESS.
 * Website: http://leafo.net/lessphp
-* Version: 0.3.8 (2012-08-18)
+* Version: 0.4.0 (2013-08-09)
 * License: Dual license, MIT LICENSE and GPL VERSION 3
-* Lydia path: `themes/grid/lessphp`
-* Used by: `themes/grid/style.php`
+* Lydia path: `themes/base/lessphp`
+* Used by: `themes/base/style.php`
 
 
 ### The Semantic Grid System
@@ -83,8 +83,8 @@ by Tyler Tate/TwigKit to get grid layout through LESS.
 * Website: http://semantic.gs/
 * Version: 1.2 (2012-01-11)
 * License: Apache License
-* Lydia path: `themes/grid/semantic.gs`
-* Used by: `themes/grid/style.less`, `themes/base/style/semanticgs.less`
+* Lydia path: `themes/base/semantic.gs`
+* Used by: `themes/base/style.less`, `themes/base/style/semanticgs.less`
 
 
 ### GeSHi - Generic Syntax Highlighter
@@ -112,6 +112,17 @@ external translation service, such as google translate.
 
 History
 -------
+
+v0.3.x (latest)
+
+* Updated lessphp to 0.4.0.
+* Separated dbwebb theme from `theme/base`, moved to `site/theme/dbwebb` as child theme.
+* Cleaned up base theme, removing filse not used.
+* Correcting missing less variables in base theme.
+* Included new version of `style.php` to support child themes using lessphp.
+* Correcting `$config['static_url']`.
+* Moved `loadView()` to `src/bootstrap.php`.
+
 
 v0.3.95 (2013-10-21)
 
