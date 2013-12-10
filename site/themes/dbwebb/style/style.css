@@ -2012,6 +2012,7 @@ body.print {
   color: black;
   font-size: 12pt;
 }
+body.print .no-print,
 body.print #outer-wrap-header,
 body.print #outer-wrap-footer {
   display: none !important;

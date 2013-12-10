@@ -326,7 +326,7 @@ EOD;
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
       '/~~~(syntax=)(php|html|html5|css|sql|javascript|bash)\n([^~]+)\n~~~/s',
-      '/(```)(php|html|html5|css|sql|javascript|bash)\n([^`]+)\n```/s',
+      '/(```)(php|html|html5|css|sql|javascript|bash|text|txt)\n([^`]+)\n```/s',
       //'/\[(INCL)/s*([^\]+)/',
       '#\[(INFO)\]#', '#\[(/INFO)\]#',
     );

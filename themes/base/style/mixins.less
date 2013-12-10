@@ -20,8 +20,8 @@
 /** ------------------------------------------------------------------ 
  * Wrap elements to site width in grid layout
  */
-.wrap() {
-  width: @total-width;
+.wrap(@extra-width: 0) {
+  width: @total-width + @extra-width;
   margin: 0 auto;
   .clearfix();
 }
