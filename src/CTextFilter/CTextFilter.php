@@ -11,6 +11,7 @@ class CTextFilter {
    */
   public static $purify = null;
   public static $geshi = null;
+  public static $dir = null;
 
 
   /**
@@ -186,6 +187,7 @@ class CTextFilter {
   }
 
 
+
   /**
    * Shortcode for <figure>.
    *
@@ -235,6 +237,71 @@ EOD;
   }
 
 
+
+  /**
+   * Shortcode for including a SVG-image inside a <figure>.
+   *
+   * @param string $code the code to process.
+   * @param string $options for the shortcode.
+   * @return array with all the options.
+   */
+  public static function ShortCodeSVGFigure($options) {
+    extract(array_merge(array(
+      'id' => null,
+      'class' => null,
+      'src' => null,
+      'path' => null,
+      'title' => null,
+      'alt' => null,
+      'caption' => null,
+      'href' => null,
+      'nolink' => false,
+    ), CTextFilter::ShortCodeInit($options)), EXTR_SKIP);
+
+    $id = $id ? " id='$id'" : null;
+    //$class = $class ? " class='$class'" : null;
+    $class = $class ? " class='figure $class'" : " class='figure'";
+    $title = $title ? " title='$title'" : null;
+    
+    if(!$alt && $caption) {
+      $alt = $caption;
+    }
+
+    if(!$href) {
+      $pos = strpos($src, '?');
+      $href = $pos ? substr($src, 0, $pos) : $src;
+    }
+
+    if(!$nolink) {
+      $a_start = "<a href='{$href}'>";
+      $a_end = "</a>";
+    }
+
+    // Import the file containing the svg-image
+    $svg = null;
+    
+    if($path[0] != '/') {
+      $path = self::$dir . '/' . $path;
+    }
+
+    if(is_file($path)) {
+      $svg = file_get_contents($path);
+    }
+    else {
+      $svg = "No such file: $path";
+    }
+    $html = <<<EOD
+<figure{$id}{$class}>
+  {$svg}
+  <figcaption markdown=1>{$caption}</figcaption>
+</figure>
+EOD;
+
+    return $html;
+  }
+
+
+
   /**
    * Shorttags to to quicker format text as HTML.
    *
@@ -280,7 +347,7 @@ EOD;
         case 'BOOK':
           $isbn = $matches[2];
           $stores = array(
-            'BTH' => "http://bth.summon.serialssolutions.com/search/results?spellcheck=true&q={$isbn}",
+            'BTH' => "http://bth.summon.serialssolutions.com/?#!/search?ho=t&amp;q={$isbn}",
             'Libris' => "http://libris.kb.se/hitlist?q={$isbn}",
             'Google Books' => "http://books.google.com/books?q={$isbn}",
             'Bokus' => "http://www.bokus.com/bok/{$isbn}",
@@ -314,6 +381,7 @@ EOD;
         case '/INFO': return "</div>"; break;
         case 'BASEURL': return CLydia::Instance()->request->base_url; break;
         case 'FIGURE': return CTextFilter::ShortCodeFigure($matches[2]); break;
+        case 'FIGURE-SVG': return CTextFilter::ShortCodeSVGFigure($matches[2]); break;
         default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
       }
     };
@@ -321,6 +389,7 @@ EOD;
       '#\[(BASEURL)\]#',
       //'/\[(AUTHOR) name=(.+) email=(.+) url=(.+)\]/',
       '/\[(FIGURE)[\s+](.+)\]/',
+      '/\[(FIGURE-SVG)[\s+](.+)\]/',
       '/\[(IMG) src=(.+) alt=(.+)\]/',
       '/\[(IMG2) src=(.+) alt="(.+)" class="(.+)"\]/',
       '/\[(BOOK) isbn=(.+)\]/',

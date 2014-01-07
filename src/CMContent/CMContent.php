@@ -562,6 +562,9 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule, Iterat
   public static function Filter($data, $filter) {
     CLydia::Instance()->log->Timestamp(__CLASS__, __METHOD__, $filter);
 
+    // Consider another structure for CTextFilter than this static approach
+    CTextFilter::$dir = CMModules::GetModuleDirectory(get_class(), 'txt');
+
     switch($filter) {
       /*case 'php': $data = nl2br(makeClickable(eval('?>'.$data))); break;
       case 'html': $data = nl2br(makeClickable($data)); break;*/
