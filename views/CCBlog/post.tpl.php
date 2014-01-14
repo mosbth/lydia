@@ -11,8 +11,8 @@
     <p class='ly-blog-post-meta-header'>
       <?=t('By')?> <span class="vcard author"><span class="fn" itemprop='author' itemscope itemtype='http://schema.org/Person'><span itemprop='name'><!--<a href='http://dbwebb.se/v2/author/mos' rel='author'>--><?=$content['owner_name']?><!--</a>--></span></span></span>.
         <?=$what?> <time itemprop='datePublished' datetime='<?=$date?>'><?=format_date($date)?></time>
-      </p>
-    </span>
+      </span>
+    </p>
   </header>
 
   <?=$content['data_filtered']?>
