@@ -560,3 +560,52 @@ function slogan() {
   return $ly->config['theme']['data']['site-slogan'];
 }
 
+
+
+/**
+ * Get link to share on Facebook.
+ */
+function get_facebook_share_link($permalink, $text) {
+  $link = "http://www.facebook.com/sharer.php?u=$permalink&amp;t=text";
+  return $link;
+}
+
+
+/**
+ * Get link to share on Twitter.
+ */
+function get_twitter_share_link($permalink, $text) {
+  $link = "http://twitter.com/share?text=$text&amp;url=$permalink";
+  return $link;
+}
+
+
+/**
+ * Get link to share on Google+.
+ */
+function get_googleplus_share_link($permalink, $text) {
+  $link = "https://plus.google.com/share?url=$permalink";
+  return $link;
+}
+
+
+/**
+ * Get link to share on LinkedIn.
+ */
+function get_linkedin_share_link($permalink, $text) {
+  $link = "https://www.linkedin.com/cws/share?url=$permalink&amp;title=$text";
+  return $link;
+}
+
+
+
+/**
+ * Get permalink to current page.
+ */
+function get_permalink() {
+  global $ly;
+  $link = $ly->request->GetCurrentUrl();
+  return $link;
+}
+
+

@@ -34,7 +34,8 @@ a[href$=".pdf"] {
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAZ0lEQVR4nGNgIAmknfmPjGXLL/2v3/T0P1aFyIAh7cx/49ZrWBSnnfn/8O3//2ceQDBD2pn/zz78/6/biK447cz/pSf//09bDMHozsBpIgw/fAvVhMtEGF56EotC6puIC2AoxItJAQBnweOKFBvqdQAAAABJRU5ErkJggg==') no-repeat scroll right center transparent;
 }
 
-.geshi a {
+.geshi a,
+.share-icons a {
   padding-right: 0;
   background: none;
 }
@@ -321,6 +322,18 @@ ul.icons {
     display: inline-block;
     padding: 0;
     margin: 0;
+  }
+
+  a img {
+    opacity: 0.6;
+  }
+
+  a:hover img {
+    opacity: 0.8;
+  }
+
+  a:active img {
+    opacity: 1;
   }
 }
 

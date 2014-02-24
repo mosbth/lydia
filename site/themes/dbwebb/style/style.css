@@ -929,6 +929,9 @@ figure.center img {
 figure.center figcaption {
   text-align: center;
 }
+figure.border {
+  border: 1px solid #ccc;
+}
 #banner {
   position: relative;
 }
@@ -1879,6 +1882,8 @@ html.dbwebb a[href^="http"] {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=") no-repeat scroll right center transparent;
 }
 html.dbwebb a[href^="http://dbwebb.se"],
+html.dbwebb a[href^="http://www2.dbwebb.se"],
+html.dbwebb a[href^="http://www5.dbwebb.se"],
 html.dbwebb figure a[href^="http"] {
   padding-right: 0;
   background: none;

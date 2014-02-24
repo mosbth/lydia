@@ -122,7 +122,8 @@ v0.3.x (latest)
 * Included new version of `style.php` to support child themes using lessphp.
 * Correcting `$config['static_url']`.
 * Moved `loadView()` to `src/bootstrap.php`.
-* Changed formatting of CTextFilter [book] (should reengineer to remove from base).
+* Changed formatting of CTextFilter [book](should reengineer to remove from base).
+* Added sharelinks to linkedin, twitter, facbook, google+ for articles.
 
 
 v0.3.95 (2013-10-21)
