@@ -115,6 +115,15 @@ sub{bottom:-0.25em;}
 pre{margin-bottom:1.375em;white-space:pre;}
 pre,code,kbd,samp,.code{font:1em/1.375 @fontFamilyMonospace;}
 
+p code,
+td > code {
+  white-space: nowrap;
+  border: 1px solid #ccc;
+  background-color: #f6f6f6;
+  padding: 0.1em 0.2em 0.1em 0.2em;
+  .border-radius(2px);
+}
+
 div.code{white-space:pre;}
 div.code, pre code{display:block;overflow:auto;}
 div.code, pre code, .geshi{border-top:1px solid #ccc;border-bottom:1px solid #ccc; padding-top:@magicNumber * 0.5;

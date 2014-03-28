@@ -236,6 +236,16 @@ samp,
 .code {
   font: 1em/1.375 monospace;
 }
+p code,
+td > code {
+  white-space: nowrap;
+  border: 1px solid #ccc;
+  background-color: #f6f6f6;
+  padding: 0.1em 0.2em 0.1em 0.2em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
 div.code {
   white-space: pre;
 }
@@ -400,7 +410,8 @@ a[href$=".pdf"] {
   padding-right: 13px;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAZ0lEQVR4nGNgIAmknfmPjGXLL/2v3/T0P1aFyIAh7cx/49ZrWBSnnfn/8O3//2ceQDBD2pn/zz78/6/biK447cz/pSf//09bDMHozsBpIgw/fAvVhMtEGF56EotC6puIC2AoxItJAQBnweOKFBvqdQAAAABJRU5ErkJggg==') no-repeat scroll right center transparent;
 }
-.geshi a {
+.geshi a,
+.share-icons a {
   padding-right: 0;
   background: none;
 }
@@ -558,7 +569,7 @@ ul.nb-dbwebb ul li {
 ul.nb-dbwebb ul li:hover,
 ul.nb-dbwebb ul li:focus,
 ul.nb-dbwebb ul li.selected {
-  list-style-type: square;
+  list-style-type: disc;
 }
 ul.nb-dbwebb ul li.selected a {
   color: #000;
@@ -601,6 +612,15 @@ ul.icons li {
   display: inline-block;
   padding: 0;
   margin: 0;
+}
+ul.icons a img {
+  opacity: 0.6;
+}
+ul.icons a:hover img {
+  opacity: 0.8;
+}
+ul.icons a:active img {
+  opacity: 1;
 }
 div.icons {
   *zoom: 1;
@@ -1840,6 +1860,7 @@ body {
   *zoom: 1;
   padding: 1em;
   border: 1px solid #ccc;
+  margin-bottom: 44px;
 }
 .author-byline:before,
 .author-byline:after {
@@ -1859,6 +1880,10 @@ body {
 }
 .left {
   float: left;
+}
+html.dbwebb {
+  position: relative;
+  z-index: -20;
 }
 html.dbwebb #header {
   padding-bottom: 8px;
@@ -1892,7 +1917,8 @@ html.dbwebb a[href$=".pdf"] {
   padding-right: 13px;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAZ0lEQVR4nGNgIAmknfmPjGXLL/2v3/T0P1aFyIAh7cx/49ZrWBSnnfn/8O3//2ceQDBD2pn/zz78/6/biK447cz/pSf//09bDMHozsBpIgw/fAvVhMtEGF56EotC6puIC2AoxItJAQBnweOKFBvqdQAAAABJRU5ErkJggg==') no-repeat scroll right center transparent;
 }
-html.dbwebb .geshi a {
+html.dbwebb .geshi a,
+html.dbwebb .share-icons a {
   padding-right: 0;
   background: none;
 }

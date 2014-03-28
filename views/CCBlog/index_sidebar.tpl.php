@@ -40,6 +40,20 @@ foreach($sidebar_contains as $val) {
     break;
 
 
+    case 'latest':
+?>
+<div class='box'>
+<h4><?=t('Latest')?></h4>
+<ul>
+<?php foreach($contents as $val):?>
+<li><a href='<?=create_url(null, $val['key'])?>'><?=esc($val['title'])?></a></li>
+<?php endforeach; ?>
+</ul>
+</div>
+<?php
+    break;
+
+
     case 'categories':
 ?>
 <div class='box'>
