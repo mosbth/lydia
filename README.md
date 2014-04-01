@@ -124,6 +124,7 @@ v0.3.x (latest)
 * Moved `loadView()` to `src/bootstrap.php`.
 * Changed formatting of CTextFilter [book](should reengineer to remove from base).
 * Added sharelinks to linkedin, twitter, facbook, google+ for articles.
+* Added custom box in `CBlog` sidebar.
 
 
 v0.3.95 (2013-10-21)

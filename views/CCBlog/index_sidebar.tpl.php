@@ -67,5 +67,16 @@ foreach($sidebar_contains as $val) {
 <?php
     break;
 
+
+    case 'custom':
+?>
+<div class='box'>
+<h4><?=$sb_custom_title?></h4>
+<?=$sb_custom_content?>
+</div>
+<?php
+    break;
+
+
   }
 }

@@ -51,12 +51,16 @@ class CCBlog extends CObject implements IController {
       'intro_title'            => t('Blog'),      
       'intro_content'          => t('This is a blog with blogposts.'),
 
-      // What content should be displayed in the sidebar?
+      // What content should be displayed in the sidebar? 'custom'
       'sidebar_default'       => array('intro', 'toc', 'current', 'categories'),      
       'sidebar_main'          => array('current', 'categories'),
       'sidebar_search'        => array('categories'),
       'sidebar_categories'    => array('intro', 'current', 'categories'),
       'sidebar_post'          => array('intro', 'toc', 'categories'),
+
+      // When sidebar block custom is used
+      'sidebar_custom_title'       => null,
+      'sidebar_custom_content'     => null,
 
       // Icons to show
       'icons_default'         => array('search', 'rss'),
@@ -118,6 +122,8 @@ class CCBlog extends CObject implements IController {
       'order_by_updated'   => $o['content_order_by'] === 'updated',
       'categories'         => $c->GetCategories(array('type'=>$o['content_type'])),
       'sidebar_contains'   => $o['sidebar_default'],
+      'sb_custom_title'    => $o['sidebar_custom_title'],
+      'sb_custom_content'  => $o['sidebar_custom_content'],
       'intro'              => array('title' => $o['intro_title'], 'content' =>  $o['intro_content']),
       'hits'               => $items,
       'first_hit'          => $offset + 1,
@@ -252,6 +258,8 @@ class CCBlog extends CObject implements IController {
       'contents'           => $c,
       'categories'         => $c->GetCategories(array('type'=>$o['content_type'])),
       'sidebar_contains'   => $o['sidebar_search'],
+      'sb_custom_title'    => $o['sidebar_custom_title'],
+      'sb_custom_content'  => $o['sidebar_custom_content'],
       'intro'              => array('title' => $o['intro_title'], 'content' =>  $o['intro_content']),
       'form'               => $form,
       'did_search'         => !empty($str),
