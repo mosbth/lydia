@@ -6,9 +6,16 @@ $title = isset($title_href) ? "<a href='{$title_href}' title='{$title_href_title
 
 <div class='box <?=$class?>'>
 <h4><?=$title?></h4>
+
+<?php if (isset($text)) : ?>
+<p><?=$text?>
+<?php endif; ?>
+
+<?php if (isset($items)) : ?>
 <ul>
 <?php foreach($items as $val): ?>
   <li><a href='<?=create_url($val['href'])?>' title='<?=esc($val['title'])?>'<?=$nofollow?>><?=esc($val['text'])?></a></li>
 <?php endforeach; ?>
 </ul>
+<?php endif; ?>
 </div>

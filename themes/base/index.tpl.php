@@ -54,14 +54,28 @@
 </div>
 <?php endif; ?>
 
-<?php if(region_has_content('flash', 'flash-1', 'flash-2', 'flash-3', 'flash-4')): ?>
+<?php if(region_has_content('flash', 'flash-1', 'flash-2', 'flash-3', 'flash-4', 'flash-5', 'flash-6', 'flash-7', 'flash-8')): ?>
 <div id='outer-wrap-flash' role='complementary'>
   <div id='inner-wrap-flash'<?=get_class_for_region('flash')?>>
     <?php if(region_has_content('flash')): ?><div id='flash'><?=render_views('flash')?></div><?php endif; ?>
+
+    <?php if(region_has_content('flash-1', 'flash-2', 'flash-3', 'flash-4')): ?>
+    <div class=wrap>
     <?php if(region_has_content('flash-1')): ?><div id='flash-1'><?=render_views('flash-1')?></div><?php endif; ?>
     <?php if(region_has_content('flash-2')): ?><div id='flash-2'><?=render_views('flash-2')?></div><?php endif; ?>
     <?php if(region_has_content('flash-3')): ?><div id='flash-3'><?=render_views('flash-3')?></div><?php endif; ?>
     <?php if(region_has_content('flash-4')): ?><div id='flash-4'><?=render_views('flash-4')?></div><?php endif; ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if(region_has_content('flash-5', 'flash-6', 'flash-7', 'flash-8')): ?>
+    <div class=wrap>
+    <?php if(region_has_content('flash-5')): ?><div id='flash-5'><?=render_views('flash-5')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-6')): ?><div id='flash-6'><?=render_views('flash-6')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-7')): ?><div id='flash-7'><?=render_views('flash-7')?></div><?php endif; ?>
+    <?php if(region_has_content('flash-8')): ?><div id='flash-8'><?=render_views('flash-8')?></div><?php endif; ?>
+    </div>
+    <?php endif; ?>
   </div>
 </div>
 <?php endif; ?>

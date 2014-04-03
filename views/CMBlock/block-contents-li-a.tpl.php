@@ -2,6 +2,10 @@
 
 <h4><a href='<?=create_url(isset($title_url) ? $title_url : $base_url)?>'><?=$title?></a></h4>
 
+<?php if (isset($text)) : ?>
+<p><?=$text?>
+<?php endif; ?>
+
 <?php if($contents != null):?>
 <ul>
 <?php foreach($contents as $val):?>
