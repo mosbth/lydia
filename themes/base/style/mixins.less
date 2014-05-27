@@ -48,7 +48,7 @@
   font-size: @fontSize;
 }
 
-.font-size(@fontSize) when (@fontSize > 1) and (@fontSize*@fontSizeBody < @magicNumber) {
+.font-size(@fontSize) when (@fontSize > 1) and (@fontSize*@fontSizeBody =< @magicNumber) {
   line-height: unit(@magicNumber/(@fontSize*@fontSizeBody)); 
 }
 
