@@ -566,7 +566,8 @@ function slogan() {
  * Get link to share on Facebook.
  */
 function get_facebook_share_link($permalink, $text) {
-  $link = "http://www.facebook.com/sharer.php?u=$permalink&amp;t=text";
+  $text = urlencode($text);
+  $link = "http://www.facebook.com/sharer.php?u=$permalink&amp;t=$text";
   return $link;
 }
 
@@ -575,6 +576,7 @@ function get_facebook_share_link($permalink, $text) {
  * Get link to share on Twitter.
  */
 function get_twitter_share_link($permalink, $text) {
+  $text = urlencode($text);
   $link = "http://twitter.com/share?text=$text&amp;url=$permalink";
   return $link;
 }
@@ -593,6 +595,7 @@ function get_googleplus_share_link($permalink, $text) {
  * Get link to share on LinkedIn.
  */
 function get_linkedin_share_link($permalink, $text) {
+  $text = urlencode($text);
   $link = "https://www.linkedin.com/cws/share?url=$permalink&amp;title=$text";
   return $link;
 }
