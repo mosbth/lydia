@@ -107,7 +107,7 @@ class CTextFilter {
     self::$geshi->enable_classes('geshi');
     //self::$geshi->set_header_type(GESHI_HEADER_PRE_VALID);
     //self::$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
-    //echo "<pre>", self::$geshi->get_stylesheet(false) , "</pre>";
+    //echo "<pre>", self::$geshi->get_stylesheet(false) , "</pre>"; exit;
 
     $ret = self::$geshi->parse_code();
     return $ret;
@@ -395,7 +395,7 @@ EOD;
       '/\[(BOOK) isbn=(.+)\]/',
       '/\[(YOUTUBE) src=(.+) width=(.+) caption=(.+)\]/',
       '/~~~(syntax=)(php|html|html5|css|sql|javascript|bash)\n([^~]+)\n~~~/s',
-      '/(```)(php|html|html5|css|sql|javascript|bash|text|txt)\n([^`]+)\n```/s',
+      '/(```)(php|html|html5|css|sql|javascript|bash|text|txt|python)\n([^`]+)\n```/s',
       //'/\[(INCL)/s*([^\]+)/',
       '#\[(INFO)\]#', '#\[(/INFO)\]#',
     );
