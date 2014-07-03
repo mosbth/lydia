@@ -367,7 +367,7 @@ EOD;
           $height = ceil($matches[3] / (16/9));
           return <<<EOD
 <figure>
-  <iframe width='{$matches[3]}' height='{$height}' src="http://www.youtube.com/embed/{$matches[2]}" frameborder="0" allowfullscreen></iframe>
+  <iframe width='{$matches[3]}' height='{$height}' src="http://www.youtube.com/embed/{$matches[2]}"  allowfullscreen></iframe>
   <figcaption>{$caption}{$matches[4]}</figcaption>
 </figure>
 EOD;
