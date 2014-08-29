@@ -189,6 +189,45 @@ class CTextFilter {
 
 
   /**
+   * Shortcode for <asciinema>.
+   *
+   * @param string $code the code to process.
+   * @param string $options for the shortcode.
+   * @return array with all the options.
+   */
+  public static function ShortCodeAsciinema($options) {
+    extract(array_merge(array(
+      'id' => null,
+      'class' => null,
+      'src' => null,
+      'title' => null,
+      'alt' => null,
+      'caption' => null,
+    ), CTextFilter::ShortCodeInit($options)), EXTR_SKIP);
+
+    $id = $id ? " id='$id'" : null;
+    $class = $class ? " class='figure $class'" : " class='figure'";
+    $title = $title ? " title='$title'" : null;
+    
+    if(!$alt && $caption) {
+      $alt = $caption;
+    }
+
+    if(!$href) {
+      $pos = strpos($src, '?');
+      $href = $pos ? substr($src, 0, $pos) : $src;
+    }
+
+    $html = <<<EOD
+<script type="text/javascript" src="https://asciinema.org/a/{$src}.js" id="asciicast-{$src}" async></script>
+EOD;
+
+    return $html;
+  }
+
+
+
+  /**
    * Shortcode for <figure>.
    *
    * @param string $code the code to process.
@@ -382,6 +421,7 @@ EOD;
         case 'BASEURL': return CLydia::Instance()->request->base_url; break;
         case 'FIGURE': return CTextFilter::ShortCodeFigure($matches[2]); break;
         case 'FIGURE-SVG': return CTextFilter::ShortCodeSVGFigure($matches[2]); break;
+        case 'ASCIINEMA': return CTextFilter::ShortCodeAsciinema($matches[2]); break;
         default: return "{$matches[1]} IS UNKNOWN SHORTTAG."; break;
       }
     };
@@ -390,6 +430,7 @@ EOD;
       //'/\[(AUTHOR) name=(.+) email=(.+) url=(.+)\]/',
       '/\[(FIGURE)[\s+](.+)\]/',
       '/\[(FIGURE-SVG)[\s+](.+)\]/',
+      '/\[(ASCIINEMA)[\s+](.+)\]/',
       '/\[(IMG) src=(.+) alt=(.+)\]/',
       '/\[(IMG2) src=(.+) alt="(.+)" class="(.+)"\]/',
       '/\[(BOOK) isbn=(.+)\]/',
